@@ -1,8 +1,10 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
 import { Check } from "lucide-react";
 import MaterialCategoriesSidebar from "@/components/MaterialCategoriesSidebar";
 import PageBanner from "@/components/PageBanner";
+import ImageFocusZoom from "@/components/motion/ImageFocusZoom";
 import MotionCard from "@/components/motion/MotionCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { materialCategoryBanner, type MaterialCategoryDetail } from "@/lib/materials";
@@ -11,6 +13,7 @@ export type MaterialProduct = {
   title: string;
   image: string;
   href?: string;
+  focus?: string;
 };
 
 type MaterialsLayoutProps = {
@@ -22,32 +25,31 @@ type MaterialsLayoutProps = {
 };
 
 function ProductCard({ product }: { product: MaterialProduct }) {
-  const body = (
-    <>
-      <div className="relative flex h-[190px] items-center justify-center overflow-hidden border border-border-soft bg-white p-4">
-        <Image
-          src={product.image}
-          alt={product.title}
-          width={280}
-          height={190}
-          className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
-        />
+  return (
+    <MotionCard>
+      <div className="group">
+        <div className="relative h-[190px] overflow-hidden border border-border-soft bg-white">
+          <ImageFocusZoom
+            src={product.image}
+            alt={product.title}
+            sizes="(max-width: 768px) 50vw, 280px"
+          />
+        </div>
+
+        {product.href ? (
+          <Link href={product.href} className="mt-4 block text-center">
+            <span className="font-display text-[13px] font-bold tracking-wide text-ink uppercase transition hover:text-accent-dark">
+              {product.title}
+            </span>
+          </Link>
+        ) : (
+          <p className="mt-4 text-center font-display text-[13px] font-bold tracking-wide text-ink uppercase">
+            {product.title}
+          </p>
+        )}
       </div>
-      <p className="mt-4 text-center font-display text-[13px] font-bold tracking-wide text-ink uppercase transition group-hover:text-accent-dark">
-        {product.title}
-      </p>
-    </>
+    </MotionCard>
   );
-
-  const inner = product.href ? (
-    <Link href={product.href} className="group block">
-      {body}
-    </Link>
-  ) : (
-    <div className="group">{body}</div>
-  );
-
-  return <MotionCard>{inner}</MotionCard>;
 }
 
 export default function MaterialsLayout({
@@ -150,13 +152,11 @@ export function MaterialCategoryLayout({ category }: MaterialCategoryLayoutProps
                 <RevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                   {category.gallery.map((image) => (
                     <RevealItem key={image}>
-                      <MotionCard className="group relative flex h-[190px] items-center justify-center overflow-hidden border border-border-soft bg-white p-4">
-                        <Image
+                      <MotionCard className="relative h-[190px] overflow-hidden border border-border-soft bg-white">
+                        <ImageFocusZoom
                           src={image}
-                          alt=""
-                          width={280}
-                          height={190}
-                          className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
+                          alt={category.sectionTitle}
+                          sizes="(max-width: 768px) 50vw, 220px"
                         />
                       </MotionCard>
                     </RevealItem>
