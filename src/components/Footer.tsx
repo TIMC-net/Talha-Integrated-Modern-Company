@@ -29,6 +29,45 @@ const certifications = [
   { src: "/images/iso9001.png", alt: "ISO 9001:2015" },
 ];
 
+const socialLinks = [
+  {
+    label: "Facebook",
+    href: "#",
+    icon: (
+      <svg viewBox="0 0 320 512" className="h-[14px] w-[14px] fill-current" aria-hidden>
+        <path d="M279.1 288l14.2-92.7h-88.9v-60.1c0-25.4 12.4-50.1 52.2-50.1h40.4V6.3S260.4 0 225.4 0c-73.2 0-121.1 44.4-121.1 124.7v70.6H22.9V288h81.4v224h100.2V288z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Twitter",
+    href: "#",
+    icon: (
+      <svg viewBox="0 0 512 512" className="h-[14px] w-[14px] fill-current" aria-hidden>
+        <path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4.9 16.5 1.3 25.2 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5.9 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14.1 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53 51.7 63.7 129.3 105.3 216.4 109.8-1.6-7.8-2.6-15.9-2.6-24 0-57.8 46.8-104.9 104.9-104.9 30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.2-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Google+",
+    href: "#",
+    icon: (
+      <svg viewBox="0 0 640 512" className="h-[14px] w-[14px] fill-current" aria-hidden>
+        <path d="M386.1 228.5c1.8 9.7 3.1 19.4 3.1 31.9 0 108.2-73.1 185.1-182.6 185.1-104.9 0-190.1-85.3-190.1-190.1S101.6 65.3 206.5 65.3c51.4 0 95.1 18.8 128.3 50.1l-52 50c-14-13.4-38.3-29.1-76.3-29.1-65.4 0-118.7 54.2-118.7 120.9s53.3 120.9 118.7 120.9c75.8 0 104.2-54.5 108.6-82.6H206.5v-65.9h179.6zM586 212.7V166h-45.3v46.7h-46.7v45.3H540.7v46.7H586V258h46.7V212.7H586z" />
+      </svg>
+    ),
+  },
+  {
+    label: "LinkedIn",
+    href: "#",
+    icon: (
+      <svg viewBox="0 0 448 512" className="h-[14px] w-[14px] fill-current" aria-hidden>
+        <path d="M100.3 448H7.4V148.9h92.9V448zM53.8 108.1C24.1 108.1 0 83.5 0 53.8S24.1 0 53.8 0s53.8 24.1 53.8 53.8-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z" />
+      </svg>
+    ),
+  },
+];
+
 function FooterHeading({ children }: { children: ReactNode }) {
   return (
     <h4 className="mb-5 font-display text-[16px] leading-[22px] font-bold tracking-[1.5px] text-accent uppercase">
@@ -95,6 +134,24 @@ export default function Footer() {
                   />
                 </motion.div>
               ))}
+            </div>
+
+            <div className="mt-8">
+              <p className="mb-3 font-display text-[14px] leading-[18px] font-normal text-white">
+                Follow Us On
+              </p>
+              <div className="flex items-center gap-[10px] text-[#9aa0a4]">
+                {socialLinks.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    aria-label={item.label}
+                    className="transition hover:text-[#de6536]"
+                  >
+                    {item.icon}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
