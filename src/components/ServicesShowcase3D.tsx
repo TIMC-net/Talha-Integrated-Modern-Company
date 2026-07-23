@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, useCursor } from "@react-three/drei";
+import { Edges, Html, useCursor } from "@react-three/drei";
 import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,10 @@ import * as THREE from "three";
 const ACCENT = "#f2740b";
 const NAVY_BASE = "#34383b";
 const NAVY_EDGE = "#202226";
+const BROWN = "#b98d5e";
+const BROWN_DARK = "#8a5a34";
+const BROWN_LIGHT = "#d9b48a";
+const EDGE_LINE = "#6b4226";
 
 type DivisionKey =
   | "scaffolding"
@@ -138,24 +142,45 @@ function ManpowerShape() {
 }
 
 function CivilShape() {
-  const tiers: [number, number, number][] = [
-    [0.9, 0.32, 0.9],
-    [0.68, 0.32, 0.68],
-    [0.5, 0.32, 0.5],
-    [0.32, 0.32, 0.32],
+  const windowGrid: [number, number][] = [
+    [-0.2, 0],
+    [0.2, 0],
+    [-0.2, 1],
+    [0.2, 1],
+    [-0.2, 2],
+    [0.2, 2],
   ];
 
   return (
-    <group position={[0, -0.5, 0]}>
-      {tiers.map(([w, h, d], i) => (
-        <mesh key={i} position={[0, h * (i + 0.5), 0]}>
-          <boxGeometry args={[w, h, d]} />
+    <group position={[0, -0.55, 0]}>
+      {/* foundation slab */}
+      <mesh position={[0, 0.06, 0]}>
+        <boxGeometry args={[1.1, 0.12, 0.85]} />
+        <meshStandardMaterial color={BROWN_DARK} metalness={0.2} roughness={0.7} />
+        <Edges color={EDGE_LINE} threshold={15} />
+      </mesh>
+      {/* building body */}
+      <mesh position={[0, 0.68, 0]}>
+        <boxGeometry args={[0.8, 1, 0.6]} />
+        <meshStandardMaterial color={BROWN} metalness={0.2} roughness={0.6} />
+        <Edges color={EDGE_LINE} threshold={15} />
+      </mesh>
+      {/* roof cap */}
+      <mesh position={[0, 1.24, 0]}>
+        <boxGeometry args={[0.9, 0.1, 0.7]} />
+        <meshStandardMaterial color={BROWN_DARK} metalness={0.2} roughness={0.7} />
+        <Edges color={EDGE_LINE} threshold={15} />
+      </mesh>
+      {/* glowing window grid — reads instantly as "building" */}
+      {windowGrid.map(([x, row]) => (
+        <mesh key={`${x}-${row}`} position={[x, 0.32 + row * 0.3, 0.31]}>
+          <boxGeometry args={[0.15, 0.17, 0.02]} />
           <meshStandardMaterial
-            color={i % 2 === 0 ? NAVY_BASE : NAVY_EDGE}
+            color={ACCENT}
             emissive={ACCENT}
-            emissiveIntensity={0.06}
-            metalness={0.5}
-            roughness={0.4}
+            emissiveIntensity={0.5}
+            metalness={0.3}
+            roughness={0.2}
           />
         </mesh>
       ))}
@@ -191,27 +216,41 @@ function MechanicalShape() {
 }
 
 function MaterialsShape() {
-  const crates: [number, number, number][] = [
-    [-0.28, -0.45, 0.1],
-    [0.3, -0.45, -0.1],
-    [0, -0.05, 0],
-    [-0.05, 0.4, 0.05],
-  ];
-
   return (
-    <group>
-      {crates.map((pos, i) => (
-        <mesh key={i} position={pos} rotation={[0, i * 0.3, 0]}>
-          <boxGeometry args={[0.62, 0.34, 0.62]} />
-          <meshStandardMaterial
-            color={i % 2 === 0 ? NAVY_BASE : NAVY_EDGE}
-            emissive={ACCENT}
-            emissiveIntensity={0.08}
-            metalness={0.3}
-            roughness={0.6}
-          />
-        </mesh>
-      ))}
+    <group position={[0, -0.5, 0]}>
+      {/* pallet base */}
+      <mesh position={[0, 0.05, 0]}>
+        <boxGeometry args={[1.3, 0.1, 0.7]} />
+        <meshStandardMaterial color={BROWN_DARK} metalness={0.1} roughness={0.8} />
+        <Edges color={EDGE_LINE} threshold={15} />
+      </mesh>
+      {/* crate */}
+      <mesh position={[-0.32, 0.38, 0]}>
+        <boxGeometry args={[0.55, 0.55, 0.55]} />
+        <meshStandardMaterial color={BROWN} metalness={0.15} roughness={0.7} />
+        <Edges color={EDGE_LINE} threshold={15} />
+      </mesh>
+      {/* crate strap band — reads instantly as "packaged crate" */}
+      <mesh position={[-0.32, 0.38, 0.28]}>
+        <boxGeometry args={[0.58, 0.08, 0.02]} />
+        <meshStandardMaterial
+          color={ACCENT}
+          emissive={ACCENT}
+          emissiveIntensity={0.4}
+          metalness={0.5}
+          roughness={0.3}
+        />
+      </mesh>
+      {/* barrel/drum — reads instantly as "materials/warehouse" */}
+      <mesh position={[0.38, 0.42, 0]}>
+        <cylinderGeometry args={[0.26, 0.26, 0.75, 20]} />
+        <meshStandardMaterial color={BROWN_LIGHT} metalness={0.2} roughness={0.6} />
+        <Edges color={EDGE_LINE} threshold={15} />
+      </mesh>
+      <mesh position={[0.38, 0.68, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.27, 0.02, 8, 16]} />
+        <meshStandardMaterial color={BROWN_DARK} metalness={0.3} roughness={0.5} />
+      </mesh>
     </group>
   );
 }
