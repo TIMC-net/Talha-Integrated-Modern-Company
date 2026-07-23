@@ -1,26 +1,358 @@
 @import "tailwindcss";
 
 :root {
+  /* Charcoal scale — sampled directly from the TIMC logo's dark ribbon (#3a3e41) */
+  --navy-950: #131416;
+  --navy-900: #202226;
+  --navy-800: #34383b;
+  --navy-700: #454a4d;
+  --navy-600: #5c6165;
+
+  --steel-300: #cfd3d5;
+  --steel-400: #9aa0a4;
+  --steel-500: #6c7276;
+  --steel-600: #4c5155;
+
+  /* Accent — the logo's signature orange (#ff7f04 range) */
+  --accent: #f2740b;
+  --accent-dark: #c25a07;
+  --accent-light: #ff9c3d;
+
+  --paper: #f6f5f3;
+  --border-soft: #e7e4e1;
+
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: var(--navy-900);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-brand: var(--accent);
+  --color-brand-dark: var(--accent-dark);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-light: var(--accent-light);
+
+  --color-ink: var(--navy-900);
+  --color-ink-2: var(--navy-950);
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-navy-600: var(--navy-600);
+
+  --color-slate: var(--steel-500);
+  --color-muted: var(--steel-400);
+  --color-paper: var(--paper);
+  --color-border-soft: var(--border-soft);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+a {
+  transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+
+/*
+  Everything below lives in the "components" layer so that Tailwind's
+  utility classes (hidden, lg:flex, lg:inline-flex, etc.) always win when
+  combined with these classes on the same element, regardless of source
+  order in this file.
+*/
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+
+  /* Buttons */
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: var(--navy-950);
+    padding: 14px 30px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-light);
+    color: var(--navy-950);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -10px rgba(232, 165, 61, 0.55);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: #fff;
+    padding: 13px 28px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .btn-outline {
+    position: relative;
+    display: inline-block;
+    color: var(--navy-900);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-bottom: 3px;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    transition: color 0.25s ease, background-size 0.25s ease;
+  }
+
+  .btn-outline:hover {
+    color: var(--accent-dark);
+  }
+
+  .btn-profile {
+    display: inline-block;
+    background: var(--navy-900);
+    color: #fff;
+    padding: 11px 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background-color 0.25s ease;
+  }
+
+  .btn-profile:hover {
+    background: var(--accent);
+    color: var(--navy-950);
+  }
+
+  /* Section heading system */
+
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-space-grotesk), sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+  }
+
+  .section-eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .section-heading {
+    font-family: var(--font-space-grotesk), sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--navy-900);
+    text-transform: uppercase;
+  }
+
+  .section-heading--on-dark {
+    color: #fff;
+  }
+
+  /* Cards */
+
+  .surface-card {
+    background: #fff;
+    border: 1px solid var(--border-soft);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .surface-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 18px 40px -20px rgba(14, 21, 32, 0.35);
+  }
+
+  /* Breadcrumb (used inside PageBanner) */
+
+  .breadcrumb {
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+  }
+
+  .breadcrumb a {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--accent-light);
+  }
+
+  /* Projects table fallback (legacy — kept minimal in case referenced) */
+
+  .table-projects {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .table-projects th {
+    background: var(--navy-900);
+    color: #fff;
+    padding: 12px 10px;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .table-projects td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--steel-600);
+    vertical-align: top;
+  }
+
+  .table-projects tr:nth-child(even) td {
+    background: var(--paper);
+  }
+
+  /*
+    Border-line spotlight: a ring that only lights up white right where the
+    cursor touches the button's edge, tracked via --x/--y set on mousemove.
+  */
+  .border-glow {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .border-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: radial-gradient(
+      70px circle at var(--x, -999px) var(--y, -999px),
+      #fff,
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.95;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+}
+
+/* Motion keyframes — disabled entirely under reduced-motion preference */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeSlide {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-slide {
+    animation: fadeSlide 0.7s ease both;
+  }
+
+  @keyframes captionIn {
+    from {
+      opacity: 0;
+      transform: translateX(-32px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .caption-in {
+    opacity: 0;
+    animation: captionIn 0.75s ease forwards;
+  }
+
+  .caption-in-delay-1 {
+    animation-delay: 0.15s;
+  }
+
+  .caption-in-delay-2 {
+    animation-delay: 0.35s;
+  }
+
+  .caption-in-delay-3 {
+    animation-delay: 0.55s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-slide,
+  .caption-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
