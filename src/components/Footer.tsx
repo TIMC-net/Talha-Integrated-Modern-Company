@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Globe, Mail, MapPin, Phone } from "lucide-react";
-import type { ReactNode } from "react";
+import { ChevronDown, ChevronRight, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { useState, type ReactNode } from "react";
 import { company } from "@/lib/company";
 
 const quickLinks = [
@@ -90,6 +90,34 @@ function FooterLink({ href, label }: { href: string; label: string }) {
   );
 }
 
+function FooterCollapsible({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="mb-5 flex w-full items-center justify-between font-display text-[16px] leading-[22px] font-bold tracking-[1.5px] text-accent uppercase sm:pointer-events-none sm:cursor-default"
+      >
+        {title}
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 transition-transform duration-300 sm:hidden ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+      <div className={`${open ? "block" : "hidden"} sm:block`}>{children}</div>
+    </div>
+  );
+}
+
 function FooterContact({
   icon,
   children,
@@ -112,8 +140,8 @@ export default function Footer() {
 
   return (
     <footer data-dark-surface className="mt-auto bg-[#171f2b]">
-      <div className="container-site py-12 md:py-14">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      <div className="container-site py-8 md:py-14">
+        <div className="grid gap-6 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 lg:gap-8">
           <div>
             <FooterHeading>Certifications</FooterHeading>
             <div className="mb-2.5 h-px bg-[#262728]" />
@@ -136,7 +164,7 @@ export default function Footer() {
               ))}
             </div>
 
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <p className="mb-3 font-display text-[14px] leading-[18px] font-normal text-white">
                 Follow Us On
               </p>
@@ -155,25 +183,27 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <FooterHeading>Quick Links</FooterHeading>
-            <ul>
-              {quickLinks.map((link) => (
-                <FooterLink key={link.href} href={link.href} label={link.label} />
-              ))}
-            </ul>
+          <div className="border-t border-[#2c2c2e] pt-4 sm:border-t-0 sm:pt-0">
+            <FooterCollapsible title="Quick Links">
+              <ul>
+                {quickLinks.map((link) => (
+                  <FooterLink key={link.href} href={link.href} label={link.label} />
+                ))}
+              </ul>
+            </FooterCollapsible>
           </div>
 
-          <div>
-            <FooterHeading>Our Services</FooterHeading>
-            <ul>
-              {serviceLinks.map((link) => (
-                <FooterLink key={link.href} href={link.href} label={link.label} />
-              ))}
-            </ul>
+          <div className="border-t border-[#2c2c2e] pt-4 sm:border-t-0 sm:pt-0">
+            <FooterCollapsible title="Our Services">
+              <ul>
+                {serviceLinks.map((link) => (
+                  <FooterLink key={link.href} href={link.href} label={link.label} />
+                ))}
+              </ul>
+            </FooterCollapsible>
           </div>
 
-          <div>
+          <div className="border-t border-[#2c2c2e] pt-4 sm:border-t-0 sm:pt-0">
             <FooterHeading>Get In Touch</FooterHeading>
             <FooterContact icon={<MapPin className="h-5 w-5" />}>
               {company.location}
@@ -208,7 +238,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="bg-[#0f0f0f] py-7">
+      <div className="bg-[#0f0f0f] py-5 sm:py-7">
         <div className="container-site flex flex-col gap-2 text-[14px] leading-[18px] tracking-[0.5px] sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[#c0c0c0]">
             Copyright &copy; {company.shortName} {year}. All rights are reserved.

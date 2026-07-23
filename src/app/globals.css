@@ -13,10 +13,10 @@
   --steel-500: #6c7276;
   --steel-600: #4c5155;
 
-  /* Accent — the logo's signature orange (#ff7f04 range) */
-  --accent: #f2740b;
+  /* Accent — sampled directly from the TIMC logo mark's dominant orange */
+  --accent: #ff7f04;
   --accent-dark: #c25a07;
-  --accent-light: #ff9c3d;
+  --accent-light: #ffa64d;
 
   --paper: #f6f5f3;
   --border-soft: #e7e4e1;

@@ -27,7 +27,7 @@ import {
 } from "react";
 import * as THREE from "three";
 
-const ACCENT = "#f2740b";
+const ACCENT = "#ff7f04";
 const NAVY_BASE = "#34383b";
 const NAVY_EDGE = "#202226";
 const BROWN = "#b98d5e";
@@ -71,12 +71,43 @@ const MOBILE_SCALE: Partial<Record<DivisionKey, number>> = {
 /* ---------------------------------------------------------------- */
 
 function ScaffoldingShape() {
+  const couplers: [number, number, number][] = [
+    [-0.65, 0, -0.65],
+    [0.65, 0, -0.65],
+    [-0.65, 0, 0.65],
+    [0.65, 0, 0.65],
+  ];
+
   return (
     <group>
       <mesh>
         <boxGeometry args={[1.3, 1.6, 1.3]} />
         <meshStandardMaterial color={NAVY_EDGE} wireframe />
       </mesh>
+      {/* horizontal cross-brace */}
+      <mesh rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.02, 0.02, 1.3, 6]} />
+        <meshStandardMaterial
+          color={ACCENT}
+          emissive={ACCENT}
+          emissiveIntensity={0.3}
+          metalness={0.6}
+          roughness={0.25}
+        />
+      </mesh>
+      {/* coupler clamps at the mid-height joints */}
+      {couplers.map((p, i) => (
+        <mesh key={i} position={p}>
+          <sphereGeometry args={[0.045, 8, 8]} />
+          <meshStandardMaterial
+            color={ACCENT}
+            emissive={ACCENT}
+            emissiveIntensity={0.3}
+            metalness={0.6}
+            roughness={0.3}
+          />
+        </mesh>
+      ))}
       {[
         [-0.5, 0, 0, Math.PI / 4],
         [0.5, 0, 0, -Math.PI / 4],
@@ -117,7 +148,7 @@ function ManpowerShape() {
     <group>
       {nodes.map((p, i) => (
         <mesh key={i} position={p}>
-          <icosahedronGeometry args={[0.14, 0]} />
+          <icosahedronGeometry args={[0.14, 1]} />
           <meshStandardMaterial
             color={ACCENT}
             emissive={ACCENT}
@@ -191,11 +222,29 @@ function CivilShape() {
           />
         </mesh>
       ))}
+      {/* entrance door + frame */}
+      <mesh position={[0, 0.335, 0.315]}>
+        <boxGeometry args={[0.2, 0.33, 0.015]} />
+        <meshStandardMaterial color={EDGE_LINE} metalness={0.3} roughness={0.6} />
+      </mesh>
+      <mesh position={[0, 0.335, 0.318]}>
+        <boxGeometry args={[0.03, 0.06, 0.01]} />
+        <meshStandardMaterial
+          color={ACCENT}
+          emissive={ACCENT}
+          emissiveIntensity={0.4}
+          metalness={0.5}
+          roughness={0.25}
+        />
+      </mesh>
     </group>
   );
 }
 
 function MechanicalShape() {
+  const boltCount = 6;
+  const boltRadius = 0.55;
+
   return (
     <group>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
@@ -207,6 +256,29 @@ function MechanicalShape() {
           metalness={0.65}
           roughness={0.22}
         />
+      </mesh>
+      {/* bolt heads ringing the flange */}
+      {Array.from({ length: boltCount }).map((_, i) => {
+        const angle = (i / boltCount) * Math.PI * 2;
+        return (
+          <mesh
+            key={i}
+            rotation={[Math.PI / 2, 0, 0]}
+            position={[
+              Math.cos(angle) * boltRadius,
+              Math.sin(angle) * boltRadius,
+              0,
+            ]}
+          >
+            <cylinderGeometry args={[0.035, 0.035, 0.05, 6]} />
+            <meshStandardMaterial color={EDGE_LINE} metalness={0.7} roughness={0.3} />
+          </mesh>
+        );
+      })}
+      {/* center shaft/axle running through both rings */}
+      <mesh rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.045, 0.045, 1.2, 10]} />
+        <meshStandardMaterial color={NAVY_EDGE} metalness={0.7} roughness={0.25} />
       </mesh>
       <mesh rotation={[0, Math.PI / 2, 0]} position={[0.35, 0, 0]}>
         <torusGeometry args={[0.35, 0.09, 8, 20]} />
@@ -237,7 +309,7 @@ function MaterialsShape() {
         <meshStandardMaterial color={BROWN} metalness={0.15} roughness={0.7} />
         <Edges color={EDGE_LINE} threshold={15} />
       </mesh>
-      {/* crate strap band — reads instantly as "packaged crate" */}
+      {/* crate strap bands — a wrapped "+" pattern reads as "packaged crate" */}
       <mesh position={[-0.32, 0.38, 0.28]}>
         <boxGeometry args={[0.58, 0.08, 0.02]} />
         <meshStandardMaterial
@@ -247,6 +319,21 @@ function MaterialsShape() {
           metalness={0.5}
           roughness={0.3}
         />
+      </mesh>
+      <mesh position={[-0.595, 0.38, 0]}>
+        <boxGeometry args={[0.02, 0.08, 0.58]} />
+        <meshStandardMaterial
+          color={ACCENT}
+          emissive={ACCENT}
+          emissiveIntensity={0.4}
+          metalness={0.5}
+          roughness={0.3}
+        />
+      </mesh>
+      {/* shipping tag */}
+      <mesh position={[-0.1, 0.55, 0.285]} rotation={[0, 0, -0.15]}>
+        <boxGeometry args={[0.12, 0.09, 0.008]} />
+        <meshStandardMaterial color={BROWN_LIGHT} metalness={0.1} roughness={0.8} />
       </mesh>
       {/* barrel/drum — reads instantly as "materials/warehouse" */}
       <mesh position={[0.38, 0.42, 0]}>
@@ -258,6 +345,10 @@ function MaterialsShape() {
         <torusGeometry args={[0.27, 0.02, 8, 16]} />
         <meshStandardMaterial color={BROWN_DARK} metalness={0.3} roughness={0.5} />
       </mesh>
+      <mesh position={[0.38, 0.16, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.27, 0.02, 8, 16]} />
+        <meshStandardMaterial color={BROWN_DARK} metalness={0.3} roughness={0.5} />
+      </mesh>
     </group>
   );
 }
@@ -265,11 +356,23 @@ function MaterialsShape() {
 function EquipmentShape() {
   return (
     <group position={[0, -0.3, 0]}>
+      {/* base plate */}
+      <mesh position={[0, -0.56, 0]}>
+        <boxGeometry args={[0.32, 0.06, 0.32]} />
+        <meshStandardMaterial color={NAVY_EDGE} metalness={0.5} roughness={0.4} />
+      </mesh>
       {/* mast */}
       <mesh position={[0, 0.2, 0]}>
         <boxGeometry args={[0.12, 1.5, 0.12]} />
         <meshStandardMaterial color={NAVY_BASE} metalness={0.6} roughness={0.3} />
       </mesh>
+      {/* mast cross-bracing */}
+      {[0.55, 0.15, -0.25].map((y, i) => (
+        <mesh key={i} position={[0, y, 0]} rotation={[0, 0, Math.PI / 4]}>
+          <boxGeometry args={[0.16, 0.02, 0.02]} />
+          <meshStandardMaterial color={NAVY_EDGE} metalness={0.5} roughness={0.4} />
+        </mesh>
+      ))}
       {/* jib arm */}
       <mesh position={[0.55, 0.9, 0]}>
         <boxGeometry args={[1.3, 0.08, 0.08]} />
@@ -280,6 +383,11 @@ function EquipmentShape() {
           metalness={0.55}
           roughness={0.25}
         />
+      </mesh>
+      {/* pulley wheel at the jib tip */}
+      <mesh position={[1.05, 0.9, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.055, 0.015, 6, 12]} />
+        <meshStandardMaterial color={NAVY_EDGE} metalness={0.7} roughness={0.25} />
       </mesh>
       {/* counterweight */}
       <mesh position={[-0.35, 0.85, 0]}>
