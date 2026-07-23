@@ -28,7 +28,7 @@ function ProductCard({ product }: { product: EquipmentProduct }) {
           <ImageFocusZoom
             src={product.image}
             alt={product.title}
-            sizes="(max-width: 768px) 50vw, 280px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
           />
         </div>
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Mail, Menu, Phone, X } from "lucide-react";
+import { ChevronDown, FileText, Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import Logo from "@/components/Logo";
 import Pressable from "@/components/motion/Pressable";
@@ -214,6 +214,14 @@ function MobileMenu({
         <a href={`mailto:${company.email}`} className="flex items-center gap-3 text-[14px] text-white/80">
           <Mail className="h-4 w-4 text-accent" /> {company.email}
         </a>
+        <a
+          href="/company-profile.pdf"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-3 text-[14px] text-white/80"
+        >
+          <FileText className="h-4 w-4 text-accent" /> Company Profile
+        </a>
         <Pressable className="w-full">
           <Link href="/contact" onClick={onClose} className="btn-primary mt-2 w-full justify-center">
             Get A Quote
@@ -226,7 +234,6 @@ function MobileMenu({
 
 export default function Header() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -242,12 +249,6 @@ export default function Header() {
   }, [mobileOpen]);
 
   useEffect(() => {
-    if (!isHome) {
-      setScrolled(true);
-      return;
-    }
-    setScrolled(false);
-
     let ticking = false;
     const update = () => {
       setScrolled(window.scrollY > 40);
@@ -259,12 +260,12 @@ export default function Header() {
       requestAnimationFrame(update);
     };
 
-    onScroll();
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome]);
+  }, [pathname]);
 
-  const solid = !isHome || scrolled;
+  const solid = scrolled;
 
   return (
     <header
@@ -309,7 +310,7 @@ export default function Header() {
             href="/company-profile.pdf"
             target="_blank"
             rel="noreferrer"
-            className={`hidden font-display text-[12px] font-bold tracking-wide uppercase transition xl:inline-block ${
+            className={`hidden font-display text-[12px] font-bold tracking-wide uppercase transition lg:inline-block ${
               solid ? "text-ink hover:text-accent-dark" : "text-white hover:text-accent-light"
             }`}
           >

@@ -24,7 +24,7 @@ export default function PageBanner({
   return (
     <section
       data-dark-surface
-      className="relative flex min-h-[260px] items-end overflow-hidden bg-ink-2 py-16 md:min-h-[320px] md:py-20"
+      className="relative -mt-[84px] flex min-h-[320px] items-end overflow-hidden bg-ink-2 pt-[140px] pb-16 md:min-h-[380px] md:pt-[150px] md:pb-20 lg:-mt-[132px] lg:min-h-[400px] lg:pt-[180px]"
     >
       <Image
         src={backgroundImage}

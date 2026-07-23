@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Edges, Html, useCursor } from "@react-three/drei";
 import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
@@ -58,6 +58,13 @@ const divisions: Division[] = [
   { key: "materials", label: "Materials Supply", href: "/services/materials", Icon: Package },
   { key: "equipment", label: "Equipment Rental", href: "/services/equipment", Icon: Truck },
 ];
+
+// The crane's mast is much taller than every other shape. In the mobile
+// 2-column x 3-row grid that extra height pokes into the row above it, so it
+// gets scaled down further than its neighbors specifically on mobile.
+const MOBILE_SCALE: Partial<Record<DivisionKey, number>> = {
+  equipment: 0.55,
+};
 
 /* ---------------------------------------------------------------- */
 /* Shape geometry per division — built from primitives, no assets    */
@@ -319,6 +326,7 @@ function DivisionInstance({
   reduceMotion,
   baseScale = 1,
   interaction,
+  labelOffset = -1.15,
 }: {
   division: Division;
   position: [number, number, number];
@@ -327,6 +335,7 @@ function DivisionInstance({
   reduceMotion: boolean;
   baseScale?: number;
   interaction: RefObject<InteractionState>;
+  labelOffset?: number;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
@@ -362,10 +371,10 @@ function DivisionInstance({
       }}
     >
       <Shape />
-      <Html center position={[0, -1.15, 0]} occlude={false} style={{ pointerEvents: "auto" }}>
+      <Html center position={[0, labelOffset, 0]} occlude={false} style={{ pointerEvents: "auto" }}>
         <Link
           href={division.href}
-          className={`block w-max font-display text-[11px] font-bold tracking-[1.5px] whitespace-nowrap uppercase transition-colors ${
+          className={`block w-max max-w-[42vw] text-center font-display text-[10px] font-bold tracking-[1.2px] uppercase transition-colors sm:text-[11px] sm:tracking-[1.5px] md:max-w-none ${
             hovered ? "text-accent" : "text-ink/70"
           }`}
         >
@@ -433,12 +442,30 @@ function DustField({ reduceMotion }: { reduceMotion: boolean }) {
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < 768);
+    const update = () => setIsMobile(window.innerWidth < 1024);
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
   return isMobile;
+}
+
+function ResponsiveCamera({ isMobile }: { isMobile: boolean }) {
+  const { camera } = useThree();
+
+  useEffect(() => {
+    const perspective = camera as THREE.PerspectiveCamera;
+    if (isMobile) {
+      perspective.position.set(0, 0.05, 12.2);
+      perspective.fov = 44;
+    } else {
+      perspective.position.set(0, 0.4, 9.5);
+      perspective.fov = 38;
+    }
+    perspective.updateProjectionMatrix();
+  }, [camera, isMobile]);
+
+  return null;
 }
 
 function SceneContents({
@@ -453,8 +480,9 @@ function SceneContents({
 
   const positions = useMemo<[number, number, number][]>(() => {
     if (isMobile) {
-      const xs = [-1.6, 1.6];
-      const ys = [1.9, 0, -1.9];
+      // 2 columns × 3 rows — spaced for a taller mobile viewport
+      const xs = [-1.55, 1.55];
+      const ys = [2.1, 0, -2.1];
       return divisions.map((_, i) => [xs[i % 2], ys[Math.floor(i / 2)], 0]);
     }
     const spacing = 2.5;
@@ -481,6 +509,7 @@ function SceneContents({
 
   return (
     <>
+      <ResponsiveCamera isMobile={isMobile} />
       <DustField reduceMotion={reduceMotion} />
       <group ref={rootRef}>
         <ambientLight intensity={0.5} />
@@ -496,8 +525,9 @@ function SceneContents({
             spinSpeed={0.25 + (i % 3) * 0.08}
             floatPhase={i * 1.1}
             reduceMotion={reduceMotion}
-            baseScale={isMobile ? 0.78 : 1}
+            baseScale={isMobile ? MOBILE_SCALE[division.key] ?? 0.82 : 1}
             interaction={interaction}
+            labelOffset={isMobile ? -1.05 : -1.15}
           />
         ))}
       </group>
@@ -511,17 +541,17 @@ function SceneContents({
 
 function StaticFallbackGrid() {
   return (
-    <div className="grid grid-cols-2 gap-6 py-16 sm:grid-cols-3 md:grid-cols-6">
+    <div className="grid grid-cols-2 gap-8 px-4 py-10 sm:grid-cols-3 sm:gap-6 md:grid-cols-6 md:py-16">
       {divisions.map(({ key, label, href, Icon }) => (
         <Link
           key={key}
           href={href}
           className="group flex flex-col items-center gap-3 text-center"
         >
-          <span className="flex h-14 w-14 items-center justify-center border border-border-soft text-accent transition group-hover:border-accent">
-            <Icon className="h-6 w-6" />
+          <span className="flex h-14 w-14 items-center justify-center border border-border-soft text-accent transition group-hover:border-accent sm:h-16 sm:w-16">
+            <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
           </span>
-          <span className="font-display text-[11px] font-bold tracking-[1.5px] text-ink/70 uppercase transition group-hover:text-accent">
+          <span className="font-display text-[10px] font-bold tracking-[1.2px] text-ink/70 uppercase transition group-hover:text-accent sm:text-[11px] sm:tracking-[1.5px]">
             {label}
           </span>
         </Link>
@@ -562,6 +592,7 @@ const DRAG_THRESHOLD = 4;
 
 export default function ServicesShowcase3D() {
   const reduceMotion = Boolean(useReducedMotion());
+  const isMobile = useIsMobile();
   const interaction = useRef<InteractionState>({
     dragRotation: { x: 0, y: 0 },
     wasDragged: false,
@@ -616,9 +647,17 @@ export default function ServicesShowcase3D() {
   };
 
   return (
-    <div className="relative h-[300px] w-full overflow-hidden bg-white md:h-[340px]">
+    <div
+      className={`relative w-full overflow-hidden bg-white ${
+        isMobile ? "h-[500px] sm:h-[540px]" : "h-[340px]"
+      }`}
+    >
       <div
-        className="absolute inset-x-0 top-1/2 h-[420px] -translate-y-1/2 touch-none select-none active:cursor-grabbing md:h-[480px]"
+        className={
+          isMobile
+            ? "absolute inset-0 touch-pan-y select-none active:cursor-grabbing"
+            : "absolute inset-x-0 top-1/2 h-[480px] -translate-y-1/2 touch-pan-y select-none active:cursor-grabbing"
+        }
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={endDrag}

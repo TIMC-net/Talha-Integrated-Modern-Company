@@ -25,7 +25,7 @@ export default function ImageFocusZoom({
   src,
   alt,
   className = "",
-  sizes = "(max-width: 768px) 50vw, 280px",
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px",
   zoomScale = 1.85,
 }: ImageFocusZoomProps) {
   const [active, setActive] = useState(false);

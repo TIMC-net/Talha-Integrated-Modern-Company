@@ -32,7 +32,7 @@ function ProductCard({ product }: { product: MaterialProduct }) {
           <ImageFocusZoom
             src={product.image}
             alt={product.title}
-            sizes="(max-width: 768px) 50vw, 280px"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
           />
         </div>
 
@@ -156,7 +156,7 @@ export function MaterialCategoryLayout({ category }: MaterialCategoryLayoutProps
                         <ImageFocusZoom
                           src={image}
                           alt={category.sectionTitle}
-                          sizes="(max-width: 768px) 50vw, 220px"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 220px"
                         />
                       </MotionCard>
                     </RevealItem>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Open_Sans, Raleway } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   title: `${company.name} | Saudi Arabia`,
   description:
     "Equipment rental, scaffolding, civil works, mechanical erection, materials supply and manpower services in Kingdom of Saudi Arabia.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

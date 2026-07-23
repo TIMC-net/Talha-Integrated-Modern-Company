@@ -28,7 +28,7 @@ export default function HeroSlider() {
   return (
     <section
       id="home-hero"
-      className="relative -mt-[84px] h-[560px] overflow-hidden md:h-[650px] lg:-mt-[132px] lg:h-[760px]"
+      className="relative -mt-[84px] min-h-[560px] overflow-hidden md:min-h-[650px] lg:-mt-[132px] lg:min-h-[760px]"
     >
       <AnimatePresence mode="sync">
         <motion.div
@@ -58,7 +58,7 @@ export default function HeroSlider() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative z-10 flex h-full items-center pt-20 lg:pt-28">
+      <div className="relative z-10 flex min-h-[560px] items-center pt-36 pb-36 md:min-h-[650px] md:pt-40 md:pb-40 lg:min-h-[760px] lg:pt-44 lg:pb-48">
         <div className="container-site">
           <AnimatePresence mode="wait">
             <motion.div

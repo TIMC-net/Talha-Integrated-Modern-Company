@@ -106,7 +106,7 @@ function FeatureCard({
 export default function FeatureServices() {
   return (
     <section className="relative z-10">
-      <div className="container-site -mt-20 md:-mt-24">
+      <div className="container-site mt-10 md:mt-12 lg:-mt-16">
         <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
             <RevealItem key={feature.title}>

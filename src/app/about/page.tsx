@@ -85,7 +85,7 @@ export default function AboutPage() {
             </Reveal>
           </div>
 
-          <RevealGroup className="mt-16 grid grid-cols-2 gap-6 border-t border-border-soft pt-12 md:grid-cols-4">
+          <RevealGroup className="mt-16 grid grid-cols-1 gap-6 border-t border-border-soft pt-12 sm:grid-cols-2 md:grid-cols-4">
             {stats.map(({ icon: Icon, value, suffix, label }) => (
               <RevealItem key={label} className="text-center">
                 <Icon className="mx-auto mb-3 h-6 w-6 text-accent" />

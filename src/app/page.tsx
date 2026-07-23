@@ -61,7 +61,7 @@ export default function HomePage() {
       </section>
 
       {/* Interactive 3D services showcase */}
-      <section className="bg-white pt-4 pb-10 md:pt-6 md:pb-12">
+      <section className="bg-white pt-4 pb-6 md:pt-6 md:pb-12">
         <div className="container-site">
           <Reveal className="mb-3 text-center md:mb-4">
             <span className="section-eyebrow justify-center">
