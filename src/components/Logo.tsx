@@ -13,34 +13,32 @@ export default function Logo({ className = "", variant = "dark" }: LogoProps) {
   return (
     <Link
       href="/"
-      className={`inline-flex shrink-0 items-center gap-3 no-underline ${className}`}
+      className={`inline-flex max-w-[11rem] shrink-0 items-center gap-2 no-underline sm:max-w-none sm:gap-2.5 ${className}`}
       aria-label={company.name}
     >
       <Image
         src="/images/logo-mark.png"
         alt=""
-        width={807}
-        height={697}
+        width={40}
+        height={35}
         priority
-        className="h-11 w-auto object-contain sm:h-12 lg:h-14"
+        className="h-7 w-auto max-h-7 shrink-0 object-contain sm:h-9 sm:max-h-9 lg:h-11 lg:max-h-11"
       />
-      <span className="flex min-w-0 flex-col justify-center leading-tight">
+      <span className="flex min-w-0 flex-col justify-center leading-none">
         <span
-          className={`font-display text-lg font-bold tracking-wide uppercase sm:text-xl lg:text-[22px] ${
+          className={`font-display text-[12px] font-bold tracking-wide uppercase sm:text-base lg:text-lg ${
             light ? "text-white" : "text-ink"
           }`}
         >
           TALHA
         </span>
         <span
-          className={`whitespace-nowrap text-[9px] font-semibold tracking-[0.14em] uppercase sm:text-[10px] ${
-            light ? "text-white/70" : "text-slate"
+          className={`mt-0.5 text-[7px] font-semibold tracking-[0.14em] uppercase sm:text-[8px] sm:tracking-[0.12em] lg:text-[9px] ${
+            light ? "text-white/65" : "text-slate"
           }`}
         >
-          Integrated Modern Company
-        </span>
-        <span className="mt-0.5 text-[9px] font-bold tracking-[0.2em] text-accent-dark sm:text-[10px]">
-          (TIMC)
+          <span className="sm:hidden">(TIMC)</span>
+          <span className="hidden sm:inline">Integrated Modern Co. (TIMC)</span>
         </span>
       </span>
     </Link>

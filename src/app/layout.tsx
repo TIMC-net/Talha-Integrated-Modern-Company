@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Open_Sans, Raleway } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Footer from "@/components/common/Footer";
+import Header from "@/components/common/Header";
+import LenisWrapper from "@/components/LenisWrapper";
 import FloatingActions from "@/components/motion/FloatingActions";
 import { company } from "@/lib/company";
 import "./globals.css";
@@ -18,9 +19,9 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: `${company.name} | Saudi Arabia`,
+  title: `${company.name} | Contractor in Saudi Arabia`,
   description:
-    "Equipment rental, scaffolding, civil works, mechanical erection, materials supply and manpower services in Kingdom of Saudi Arabia.",
+    "TIMC is a leading contractor in Saudi Arabia specializing in civil infrastructure, foundation engineering, energy infrastructure, and integrated equipment rental.",
 };
 
 export const viewport: Viewport = {
@@ -36,10 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${openSans.variable} ${raleway.variable} h-full`}>
       <body className="flex min-h-full flex-col antialiased">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <FloatingActions />
+        <LenisWrapper>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <FloatingActions />
+        </LenisWrapper>
       </body>
     </html>
   );

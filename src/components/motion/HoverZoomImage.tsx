@@ -1,9 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 type HoverZoomImageProps = {
   src: string;
@@ -11,6 +10,7 @@ type HoverZoomImageProps = {
   className?: string;
   sizes?: string;
   children?: ReactNode;
+  priority?: boolean;
 };
 
 export default function HoverZoomImage({
@@ -19,22 +19,34 @@ export default function HoverZoomImage({
   className = "",
   sizes,
   children,
+  priority = false,
 }: HoverZoomImageProps) {
   const [loaded, setLoaded] = useState(false);
+  const [canHover, setCanHover] = useState(false);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setCanHover(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   return (
-    <div className={`group relative overflow-hidden bg-paper ${className}`}>
+    <div className={`img-zoom group relative w-full max-w-full overflow-hidden ${className}`}>
       <motion.div
         className="absolute inset-0 h-full w-full"
         initial={{ scale: 1 }}
-        whileHover={{ scale: 1.08 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        whileHover={reduce || !canHover ? undefined : { scale: 1.1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <Image
           src={src}
           alt={alt}
           fill
-          className={`object-cover transition-opacity duration-700 ease-out ${
+          priority={priority}
+          className={`object-cover object-center transition-opacity duration-700 ease-out ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
           sizes={sizes}

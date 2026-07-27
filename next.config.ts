@@ -4,6 +4,50 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [70, 75, 90],
   },
+  async redirects() {
+    return [
+      {
+        source: "/services/scaffolding",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/services/manpower",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/services/civil",
+        destination: "/services/civil-infrastructure",
+        permanent: true,
+      },
+      {
+        source: "/services/mechanical",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/services/materials",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/services/materials/:slug",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/services/equipment",
+        destination: "/services/equipment-rental",
+        permanent: true,
+      },
+      {
+        source: "/services/equipment/:slug",
+        destination: "/services/equipment-rental",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

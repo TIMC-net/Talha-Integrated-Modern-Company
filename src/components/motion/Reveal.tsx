@@ -10,18 +10,39 @@ type RevealProps = {
   className?: string;
   delay?: number;
   y?: number;
+  /** Play on mount instead of waiting for scroll into view */
+  immediate?: boolean;
 };
 
-export function Reveal({ children, className, delay = 0, y = 24 }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  y = 24,
+  immediate = false,
+}: RevealProps) {
   const reduce = useReducedMotion();
+
+  if (immediate) {
+    return (
+      <motion.div
+        className={className}
+        initial={reduce ? false : { opacity: 0, y }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, delay, ease: EASE }}
+      >
+        {children}
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
       className={className}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay, ease: EASE }}
+      viewport={{ once: true, amount: 0.15, margin: "0px 0px -40px 0px" }}
+      transition={{ duration: 0.65, delay, ease: EASE }}
     >
       {children}
     </motion.div>
@@ -43,9 +64,11 @@ const itemVariants: Variants = {
 export function RevealGroup({
   children,
   className,
+  immediate = false,
 }: {
   children: ReactNode;
   className?: string;
+  immediate?: boolean;
 }) {
   const reduce = useReducedMotion();
 
@@ -53,8 +76,12 @@ export function RevealGroup({
     <motion.div
       className={className}
       initial={reduce ? false : "hidden"}
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
+      {...(immediate
+        ? { animate: "show" as const }
+        : {
+            whileInView: "show" as const,
+            viewport: { once: true, amount: 0.12, margin: "0px 0px -40px 0px" },
+          })}
       variants={containerVariants}
     >
       {children}

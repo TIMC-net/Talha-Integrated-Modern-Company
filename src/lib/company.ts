@@ -1,33 +1,24 @@
 export const company = {
   name: "TALHA INTEGRATED MODERN COMPANY",
-  shortName: "TALHA",
-  tagline: "ALL WORKS UNDER ONE ROOF",
+  shortName: "TIMC",
+  tagline: "General Contractor — Civil, Foundation & Energy",
   phone: "+966 13 000 0000",
   mobile: "+966 50 000 0000",
   email: "info@talhaimc.com",
   website: "https://www.talhaimc.com",
   location: "Kingdom of Saudi Arabia",
   established: "2010",
+  /** Marked until TIMC confirms official contact details */
+  contactPending: true,
 };
 
 export const navLinks = [
   { label: "HOME", href: "/" },
   { label: "ABOUT US", href: "/about" },
-  {
-    label: "SERVICES",
-    href: "#",
-    children: [
-      { label: "Scaffolding", href: "/services/scaffolding" },
-      { label: "Manpower Supply", href: "/services/manpower" },
-      { label: "Civil Division", href: "/services/civil" },
-      { label: "Mechanical Division", href: "/services/mechanical" },
-      { label: "Materials Supply", href: "/services/materials" },
-      { label: "Equipment Rental", href: "/services/equipment" },
-    ],
-  },
+  { label: "SERVICES", href: "/services" },
   {
     label: "PROJECTS",
-    href: "#",
+    href: "/projects/ongoing",
     children: [
       { label: "Ongoing Projects", href: "/projects/ongoing" },
       { label: "Completed Projects", href: "/projects/completed" },
@@ -37,198 +28,72 @@ export const navLinks = [
   { label: "CONTACT US", href: "/contact" },
 ];
 
-export const featureCards = [
-  {
-    title: "CIVIL & MECHANICAL WORKS",
-    text: "All services are precisely and professionally executed utilizing the suitable resources and applying latest technologies.",
-    href: "/services/civil",
-    icon: "/images/civil.svg",
-  },
-  {
-    title: "EQUIPMENT RENTAL",
-    text: "Looking for Equipment and heavy equipment rental in Saudi? Talha offers a large choice of high-quality, robust, and efficient heavy equipment.",
-    href: "/services/equipment",
-    icon: "/images/equipment.svg",
-  },
-  {
-    title: "SCAFFOLDING SERVICES",
-    text: "TALHA INTEGRATED MODERN COMPANY provides scaffolding solutions with skilled teams for industrial and construction projects across Saudi Arabia.",
-    href: "/services/scaffolding",
-    icon: "/images/scaffolding.svg",
-  },
-  {
-    title: "MANPOWER SUPPLY",
-    text: "We provide recruitment solutions and manpower supply to the oil & gas industry and construction industry. We are also engaged in skilled workforce solutions.",
-    href: "/services/manpower",
-    icon: "/images/manpower.svg",
-  },
-];
-
-export const slides = [
-  {
-    title: "TALHA INTEGRATED MODERN COMPANY",
-    text: "A fast growing equipment rental, heavy lifting, material supply, trading, scaffolding, civil works and support service company based in Kingdom of Saudi Arabia.",
-    href: "/about",
-    image: "/images/header-scrap.jpg",
-  },
-  {
-    title: "HEAVY EQUIPMENT RENTAL",
-    text: "Looking for Equipment and heavy equipment rental in Saudi? Talha offers a large choice of high-quality, robust, and efficient heavy equipment for rental.",
-    href: "/services/equipment",
-    image: "/images/civil-construction.jpg",
-  },
-  {
-    title: "SCAFFOLDING",
-    text: "At TALHA, we are one of the leading providers of scaffolding solutions in the region.",
-    href: "/services/scaffolding",
-    image: "/images/header-scaffolding.jpg",
-  },
-  {
-    title: "CIVIL DIVISION",
-    text: "The Civil Construction division of Talha has dedicated, professional & experienced engineers, who are committed to convert ideas into action.",
-    href: "/services/civil",
-    image: "/images/header-contracting.jpg",
-  },
-];
-
+/** Placeholder — replace with TIMC-approved Mission / Vision / Values copy */
 export const whoWeAre = [
   {
     id: "mission",
-    title: "OUR MISSION",
+    title: "Our Mission",
     content: [
-      "To provide our clients with timely, cost effective and comprehensive Industrial solutions by integrating the latest in techniques, tools and qualified personnel for global competitiveness. To be a dynamic and world class technology leader in providing Innovative solutions to the global market.",
-      "To maintain a strong economic platform through sound financial practices in support of these goals. To build strategic partnerships with our customers through a variety of service options. Offer our employees opportunities for growth through participation, achievement, recognition and reward.",
+      "To deliver disciplined general contracting across civil infrastructure, foundation engineering, and energy infrastructure — with integrated equipment support that keeps every project phase on schedule.",
+      "Content pending from TIMC — final mission statement will replace this placeholder.",
     ],
   },
   {
-    id: "safety",
-    title: "SAFETY POLICY",
+    id: "vision",
+    title: "Our Vision",
     content: [
-      "Safety, Health and Wellbeing of people, accident prevention and the protection of the environment are fundamental principles of Talha Integrated Modern Company. Our staff are committed to communicate and implement all regulation and instruction to enable work to be carried out safely.",
-      "All of our workers are required to report to our safety in-charge the existence of any conditions or situation which may become a hazard in special or unusual circumstances.",
-      "The company has a health and safety program in order to eliminate accidents at job sites. This program is implemented by arranging safety awareness meetings weekly and monthly.",
+      "To be a trusted Saudi contractor partner known for safe execution, technical clarity, and reliable delivery across the Kingdom.",
+      "Content pending from TIMC — final vision statement will replace this placeholder.",
     ],
   },
   {
-    id: "quality",
-    title: "QUALITY POLICY",
+    id: "values",
+    title: "Core Values",
     content: [
-      "The quality policy is defined with the objective to achieve customer satisfaction. The policy is communicated to all levels of employees in the organization to ensure their commitment to quality. It is our quality policy to develop and implement Quality system standards to improve product quality performance and overall effectiveness of the system.",
-      "To develop the skills of our employees, great emphasis is placed on structured training programs and utilizing only qualified personnel in order to improve overall performance.",
-      "We are a multidisciplinary team of professionals that work in coordination to position, consolidate and maintain our corporate image and prestige. We add value for our customers by anticipating and identifying their needs and providing cost-effective solutions and services.",
-    ],
-  },
-  {
-    id: "maintenance",
-    title: "GENERAL & FACILITY MAINTENANCE",
-    content: [
-      "Handling all types of short-form or long-form plant maintenance works related to Civil, Electrical, and Mechanical disciplines. Removal of ground weeds and waste disposal from plant facilities. Executing routine cleaning of office, sanitary and other facilities including material supply.",
+      "Safety first. Quality without compromise. Integrity in every commitment. Partnership with clients and crews. Continuous improvement on every site.",
+      "Content pending from TIMC — final core values will replace this placeholder.",
     ],
   },
 ];
 
-export const servicesContent: Record<
-  string,
+/** Placeholder company history — replace when TIMC provides official timeline */
+export const companyHistory = [
   {
-    title: string;
-    breadcrumb: string;
-    intro: string;
-    bannerImage?: string;
-    bannerTitle?: string;
-    image?: string;
-    body: string[];
-    listItems?: string[];
-  }
-> = {
-  scaffolding: {
-    title: "Scaffolding Works",
-    breadcrumb: "SCAFFOLDING WORKS",
-    intro: "Scaffolding Works",
-    bannerImage: "/images/header-scaffolding.jpg",
-    image: "/images/scaffolding.jpg",
-    body: [
-      "At TALHA, we are one of the leading providers of scaffolding solutions in the region. Our experience and expertise in the design, engineering, delivery and maintenance of our systems has set the highest industry standards for quality and safety. Our innovative approach and skilled qualified scaffolding personnel develop the right solution for every project and ensures production efficiency, cost effectiveness and on-time completion.",
-    ],
+    year: "Est.",
+    title: "Company Foundation",
+    text: "TIMC established operations in the Kingdom of Saudi Arabia. Full founding story pending from TIMC.",
   },
-  manpower: {
-    title: "Manpower Supply",
-    breadcrumb: "MANPOWER SUPPLY",
-    intro: "Manpower Supply",
-    bannerImage: "/images/header-manpower.jpg",
-    image: "/images/manpower-supply.jpg",
-    body: [
-      "We successfully supply manpower and labor services to various industries. Our manpower supply services always help in recruiting the right candidates for the prescribed jobs in various companies. This helps in saving time, energy and our client's money. Our manpower and labor supply services cater to the requirements of industries such as Engineering, Automobile and Pharmaceutical. Before we provide the required manpower or labor to our customer, we check the candidates on following basis:",
-    ],
-    listItems: [
-      "Exact documentation",
-      "Behavioral interviews",
-      "Training",
-      "Reference checking",
-      "Legal Status.",
-    ],
+  {
+    year: "Growth",
+    title: "Contractor Expansion",
+    text: "Capabilities expanded across civil infrastructure, foundation engineering, and energy project support. Details pending from TIMC.",
   },
-  civil: {
-    title: "CIVIL DIVISION",
-    breadcrumb: "CIVIL DIVISION",
-    intro: "CIVIL DIVISION",
-    bannerImage: "/images/header-contracting.jpg",
-    image: "/images/civil-construction.jpg",
-    body: [
-      "The Civil Construction division of Talha has dedicated, professional & experienced engineers, who are committed to convert ideas into action. We not only provide quality services in the civil construction field but also maintain relationships with our customers. Clients of small and big magnitude, private and government and others with their specifications are served by Talha. Some of the industries we serve are Construction of Industrial, Commercial & Residential Buildings, Construction and Development of Roads, Drainage & Sewerage System, Utility Services etc. Construction of Industrial setup such as Factory Sheds, Building, Fire Stations, Foundation of Machines & Equipment, Cooling Tower System etc. Construction of Malls and Shopping Complex including construction of all type Interior Jobs.",
-    ],
+  {
+    year: "Today",
+    title: "Integrated Delivery",
+    text: "TIMC operates as a multi-discipline contractor with equipment rental as an integrated division. Current profile pending from TIMC.",
   },
-  mechanical: {
-    title: "Mechanical Division",
-    breadcrumb: "Mechanical Division",
-    intro: "Mechanical Division",
-    bannerImage: "/images/about-us-bg.jpg",
-    image: "/images/manpower-supply.jpg",
-    body: [
-      "TALHA provides human resource solutions from many countries to the Saudi Arabia Market. We are totally committed to a culture of excellence and unwaveringly focused on maximum customer satisfaction. Our area of expertise in labour supply are professionally qualified and experienced Engineers, Skilled Workforce, Semi Skilled Technicians and unskilled labour.",
-    ],
-  },
-  materials: {
-    title: "Material Supply",
-    breadcrumb: "Material Supply",
-    intro: "Material Supply",
-    bannerImage: "/images/header-contracting.jpg",
-    bannerTitle: "Materials",
-    body: [],
-  },
-  equipment: {
-    title: "Equipment Rental",
-    breadcrumb: "Equipment Rental",
-    intro: "Equipment Rental",
-    bannerImage: "/images/header-scrap.jpg",
-    bannerTitle: "Equipments",
-    body: [],
-  },
-};
+];
 
-export const materialProducts = [
+/** Placeholder certifications — replace with official ISO / licenses / vendor regs */
+export const certifications = [
   {
-    title: "Safety & Lifting",
-    image: "/images/materials/Safety-Harnesses-Full-Body-Harness.jpg",
-    href: "/services/materials/safety-lifting",
+    id: "iso",
+    title: "ISO Certifications",
+    description:
+      "ISO certificates will be listed here once confirmed by TIMC (e.g. quality, HSE, environmental).",
   },
   {
-    title: "Electrical",
-    image: "/images/materials/Fire-Detection-Alarm-System.jpg",
-    href: "/services/materials/electrical",
+    id: "licenses",
+    title: "Company Licenses",
+    description:
+      "Commercial and contractor licenses will be published after TIMC provides official documentation.",
   },
   {
-    title: "Mechanical",
-    image: "/images/materials/Grooved-Fittings-Valves.jpg",
-    href: "/services/materials/mechanical",
-  },
-  {
-    title: "Compaction & Paving",
-    image: "/images/materials/jakhammers.jpg",
-  },
-  {
-    title: "Civil",
-    image: "/images/materials/Constructions-Sand.jpg",
-    href: "/services/materials/civil",
+    id: "vendor",
+    title: "Vendor Registrations",
+    description:
+      "Client and agency vendor registrations will appear here once TIMC shares approved listings.",
   },
 ];
 
@@ -313,18 +178,24 @@ export const completedProjects = [
     name: "Desalination Project – Walls & Ceilings",
     client: "Utility Client",
     contractor: "Main Contractor",
-    description: "Civil Construction & Scaffolding",
+    description: "Civil Construction",
     location: "Al Khobar, KSA",
   },
 ];
 
-export const clients = [
-  "SABIC",
-  "Saudi Aramco",
-  "TASNEE",
-  "SWCC",
-  "HADEED",
-  "Worley",
-  "ACC",
-  "Industrial Partners",
+export type ClientEntry = {
+  name: string;
+  /** Optional logo path under /public — leave empty until TIMC provides logos */
+  logo?: string;
+};
+
+export const clients: ClientEntry[] = [
+  { name: "SABIC" },
+  { name: "Saudi Aramco" },
+  { name: "TASNEE" },
+  { name: "SWCC" },
+  { name: "HADEED" },
+  { name: "Worley" },
+  { name: "ACC" },
+  { name: "Industrial Partners" },
 ];

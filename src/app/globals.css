@@ -1,28 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  /* Charcoal scale — sampled directly from the TIMC logo's dark ribbon (#3a3e41) */
-  --navy-950: #131416;
-  --navy-900: #202226;
-  --navy-800: #34383b;
-  --navy-700: #454a4d;
-  --navy-600: #5c6165;
+  /* Black scale — Construction Black theme */
+  --navy-950: #0a0a0a;
+  --navy-900: #141414;
+  --navy-800: #1f1f1f;
+  --navy-700: #2a2a2a;
+  --navy-600: #3d3d3d;
 
-  --steel-300: #cfd3d5;
-  --steel-400: #9aa0a4;
-  --steel-500: #6c7276;
-  --steel-600: #4c5155;
+  --steel-300: #d4d4d4;
+  --steel-400: #a3a3a3;
+  --steel-500: #737373;
+  --steel-600: #525252;
 
-  /* Accent — sampled directly from the TIMC logo mark's dominant orange */
-  --accent: #ff7f04;
-  --accent-dark: #c25a07;
-  --accent-light: #ffa64d;
+  /* Accent — brand orange */
+  --accent: #ff6b35;
+  --accent-dark: #e85a24;
+  --accent-light: #ff8f66;
 
-  --paper: #f6f5f3;
-  --border-soft: #e7e4e1;
+  /* Aliases kept for older class names — remapped into black/orange */
+  --primary-blue: #ff6b35;
+  --primary-dark: #0a0a0a;
+  --success-green: #ff8f66;
 
-  --background: #ffffff;
-  --foreground: var(--navy-900);
+  --paper: #f5f5f5;
+  --border-soft: #e5e5e5;
+
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
 }
 
 @theme inline {
@@ -34,6 +39,10 @@
   --color-accent: var(--accent);
   --color-accent-dark: var(--accent-dark);
   --color-accent-light: var(--accent-light);
+
+  --color-primary-blue: var(--primary-blue);
+  --color-primary-dark: var(--primary-dark);
+  --color-success: var(--success-green);
 
   --color-ink: var(--navy-900);
   --color-ink-2: var(--navy-950);
@@ -48,8 +57,8 @@
   --color-paper: var(--paper);
   --color-border-soft: var(--border-soft);
 
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-open-sans);
+  --font-display: var(--font-raleway);
 }
 
 * {
@@ -59,9 +68,34 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), Arial, sans-serif;
+  font-family: var(--font-open-sans), Arial, sans-serif;
   font-size: 15px;
   line-height: 1.7;
+  overflow-x: clip;
+}
+
+html {
+  overflow-x: clip;
+}
+
+/*
+  Keep media from overflowing horizontally, but do NOT force height:auto —
+  that overrides Tailwind size utilities (e.g. logo h-9) and blows up images.
+*/
+@layer base {
+  img,
+  video {
+    max-width: 100%;
+  }
+
+  img[data-nimg="fill"] {
+    max-width: none;
+  }
+
+  /* Cover / contain hero videos must be allowed to size freely */
+  video.video-cover {
+    max-width: none;
+  }
 }
 
 h1,
@@ -70,7 +104,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-raleway), sans-serif;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
@@ -93,11 +127,24 @@ a {
     padding-inline: 20px;
   }
 
+  @media (min-width: 640px) {
+    .container-site {
+      padding-inline: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-site {
+      padding-inline: 32px;
+    }
+  }
+
   /* Buttons */
 
   .btn-primary {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     background: var(--accent);
     color: var(--navy-950);
@@ -111,11 +158,17 @@ a {
     transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .btn-primary:hover {
-    background: var(--accent-light);
-    color: var(--navy-950);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px -10px rgba(232, 165, 61, 0.55);
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background: var(--accent-light);
+      color: var(--navy-950);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -10px rgba(255, 107, 53, 0.55);
+    }
   }
 
   .btn-secondary {
@@ -183,7 +236,7 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-family: var(--font-space-grotesk), sans-serif;
+    font-family: var(--font-raleway), sans-serif;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 2.5px;
@@ -200,7 +253,7 @@ a {
   }
 
   .section-heading {
-    font-family: var(--font-space-grotesk), sans-serif;
+    font-family: var(--font-raleway), sans-serif;
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--navy-900);
@@ -209,6 +262,45 @@ a {
 
   .section-heading--on-dark {
     color: #fff;
+  }
+
+  /* Content image hover zoom — add `img-zoom` on the overflow frame */
+  .img-zoom {
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .img-zoom img {
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .img-zoom:hover img {
+      transform: scale(1.1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .img-zoom img {
+      transition: none;
+    }
+
+    .img-zoom:hover img {
+      transform: none;
+    }
+  }
+
+  /* Card lift — only on fine pointers so mobile scroll isn't sticky */
+  @media (hover: hover) and (pointer: fine) {
+    .card-lift {
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .card-lift:hover {
+      transform: translateY(-4px);
+    }
   }
 
   /* Cards */
@@ -346,6 +438,19 @@ a {
   .caption-in-delay-3 {
     animation-delay: 0.55s;
   }
+
+  @keyframes standardsMarquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .standards-marquee {
+    animation: standardsMarquee 28s linear infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -354,5 +459,13 @@ a {
     opacity: 1;
     transform: none;
     animation: none;
+  }
+
+  .standards-marquee {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    padding-inline: 20px;
   }
 }
