@@ -4,14 +4,14 @@ import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-display text-sm font-semibold uppercase tracking-wide transition-[color,background-color,border-color,box-shadow,transform] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:translate-y-px [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5",
+  "inline-flex items-center justify-center gap-2 font-display text-sm font-semibold uppercase tracking-wide transition-[color,background-color,border-color,box-shadow,transform] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
   {
     variants: {
       variant: {
         default:
-          "bg-accent text-navy-950 hover:bg-accent-dark hover:text-white [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_12px_24px_-10px_rgba(255,107,53,0.55)]",
+          "btn-holo bg-accent text-navy-950 hover:bg-accent-dark hover:text-white",
         outline:
-          "border border-white/35 text-white hover:border-white hover:bg-white/10",
+          "btn-holo btn-holo-outline border border-white/35 text-white hover:border-white hover:bg-white/10",
         ghost: "text-ink hover:bg-black/5",
         link: "text-accent underline-offset-4 hover:underline",
       },

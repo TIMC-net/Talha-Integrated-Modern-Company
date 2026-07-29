@@ -141,6 +141,50 @@ a {
 
   /* Buttons */
 
+  .btn-primary,
+  .btn-secondary,
+  .btn-profile,
+  .btn-holo {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn-primary::before,
+  .btn-secondary::before,
+  .btn-profile::before,
+  .btn-holo::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    z-index: 1;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      0deg,
+      transparent,
+      transparent 30%,
+      rgba(255, 255, 255, 0.45)
+    );
+    transform: rotate(-45deg);
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .btn-secondary::before,
+  .btn-holo-outline::before {
+    background: linear-gradient(
+      0deg,
+      transparent,
+      transparent 30%,
+      rgba(255, 107, 53, 0.55)
+    );
+    mix-blend-mode: screen;
+  }
+
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -155,7 +199,8 @@ a {
     text-transform: uppercase;
     border: none;
     cursor: pointer;
-    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    transition: background-color 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease,
+      color 0.5s ease;
   }
 
   .btn-primary:active {
@@ -163,11 +208,25 @@ a {
   }
 
   @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-profile:hover,
+    .btn-holo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+    }
+
     .btn-primary:hover {
       background: var(--accent-light);
       color: var(--navy-950);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px -10px rgba(255, 107, 53, 0.55);
+    }
+
+    .btn-primary:hover::before,
+    .btn-secondary:hover::before,
+    .btn-profile:hover::before,
+    .btn-holo:hover::before {
+      opacity: 1;
+      transform: rotate(-45deg) translateY(100%);
     }
   }
 
@@ -184,12 +243,15 @@ a {
     text-transform: uppercase;
     border: 1px solid rgba(255, 255, 255, 0.35);
     cursor: pointer;
-    transition: border-color 0.25s ease, background-color 0.25s ease;
+    transition: border-color 0.5s ease, background-color 0.5s ease, transform 0.5s ease,
+      box-shadow 0.5s ease;
   }
 
-  .btn-secondary:hover {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-secondary:hover {
+      border-color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
   }
 
   .btn-outline {
@@ -222,12 +284,44 @@ a {
     letter-spacing: 0.5px;
     text-transform: uppercase;
     white-space: nowrap;
-    transition: background-color 0.25s ease;
+    transition: background-color 0.5s ease, color 0.5s ease, transform 0.5s ease,
+      box-shadow 0.5s ease;
   }
 
-  .btn-profile:hover {
-    background: var(--accent);
-    color: var(--navy-950);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-profile:hover {
+      background: var(--accent);
+      color: var(--navy-950);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-primary::before,
+    .btn-secondary::before,
+    .btn-profile::before,
+    .btn-holo::before,
+    .btn-primary,
+    .btn-secondary,
+    .btn-profile,
+    .btn-holo {
+      transition: none;
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-profile:hover,
+    .btn-holo:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-primary:hover::before,
+    .btn-secondary:hover::before,
+    .btn-profile:hover::before,
+    .btn-holo:hover::before {
+      opacity: 0;
+      transform: rotate(-45deg);
+    }
   }
 
   /* Section heading system */
@@ -450,6 +544,74 @@ a {
 
   .standards-marquee {
     animation: standardsMarquee 28s linear infinite;
+  }
+
+  /* Footer social icons — fill-from-bottom + icon flip on hover */
+  .social-icon-btn {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    overflow: hidden;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--navy-950);
+  }
+
+  .social-icon-btn .social-icon {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    transition: color 0.5s ease, transform 0.5s ease;
+  }
+
+  .social-icon-btn::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    transition: top 0.5s ease;
+  }
+
+  .social-icon-btn[data-social="linkedin"]::before {
+    background: #0077b5;
+  }
+
+  .social-icon-btn[data-social="facebook"]::before {
+    background: #3b5999;
+  }
+
+  .social-icon-btn[data-social="instagram"]::before {
+    background: #e4405f;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .social-icon-btn:hover::before {
+      top: 0;
+    }
+
+    .social-icon-btn:hover .social-icon {
+      color: #fff;
+      transform: rotateY(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .social-icon-btn .social-icon,
+    .social-icon-btn::before {
+      transition: none;
+    }
+
+    .social-icon-btn:hover .social-icon {
+      transform: none;
+    }
   }
 }
 
