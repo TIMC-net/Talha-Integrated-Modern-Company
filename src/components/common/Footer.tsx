@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { ChevronDown, Mail, MapPin, Phone } from "lucide-react";
 import { services } from "@/data/services";
 import { company } from "@/lib/company";
 
@@ -45,13 +46,51 @@ const socialLinks = [
   },
 ];
 
+function FooterNavGroup({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b border-white/10 pb-4 md:border-0 md:pb-0">
+      <button
+        type="button"
+        className="flex w-full items-center justify-between gap-3 text-left md:pointer-events-none"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <h4 className="font-display text-[13px] font-bold tracking-[2px] text-white uppercase">
+          {title}
+        </h4>
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 text-accent transition-transform duration-300 md:hidden ${
+            open ? "rotate-180" : ""
+          }`}
+          aria-hidden
+        />
+      </button>
+      <ul
+        className={`mt-4 space-y-3 md:mt-5 md:block ${
+          open ? "block" : "hidden"
+        }`}
+      >
+        {children}
+      </ul>
+    </div>
+  );
+}
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer data-dark-surface className="mt-auto border-t border-white/10 bg-navy-950">
       <div className="container-site py-14 md:py-16">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-4 lg:gap-12">
           <div>
             <p className="font-display text-lg font-bold tracking-wide text-white uppercase">
               {company.name}
@@ -81,41 +120,31 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <h4 className="font-display text-[13px] font-bold tracking-[2px] text-white uppercase">
-              Services
-            </h4>
-            <ul className="mt-5 space-y-3">
-              {services.map((service) => (
-                <li key={service.slug}>
-                  <Link
-                    href={`/services#${service.slug}`}
-                    className="text-[14px] text-white/55 transition hover:text-accent"
-                  >
-                    {service.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterNavGroup title="Services">
+            {services.map((service) => (
+              <li key={service.slug}>
+                <Link
+                  href={`/services#${service.slug}`}
+                  className="text-[14px] text-white/55 transition hover:text-accent"
+                >
+                  {service.name}
+                </Link>
+              </li>
+            ))}
+          </FooterNavGroup>
 
-          <div>
-            <h4 className="font-display text-[13px] font-bold tracking-[2px] text-white uppercase">
-              Industries
-            </h4>
-            <ul className="mt-5 space-y-3">
-              {industryLinks.map((link) => (
-                <li key={link.href + link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-[14px] text-white/55 transition hover:text-accent"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterNavGroup title="Industries">
+            {industryLinks.map((link) => (
+              <li key={link.href + link.label}>
+                <Link
+                  href={link.href}
+                  className="text-[14px] text-white/55 transition hover:text-accent"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </FooterNavGroup>
 
           <div>
             <h4 className="font-display text-[13px] font-bold tracking-[2px] text-white uppercase">
