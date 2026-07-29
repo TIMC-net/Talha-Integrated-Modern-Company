@@ -72,14 +72,18 @@ export default function ServiceDetail({ service }: { service: Service }) {
               <p className="mt-5 text-[16px] leading-relaxed text-white/65">
                 {service.fullDescription}
               </p>
-              <div className="mt-8 grid grid-cols-2 gap-2">
+              <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-2.5">
                 {service.capabilities.map((tag) => (
-                  <span
+                  <div
                     key={tag}
-                    className="flex items-center justify-center border border-white/15 bg-white/5 px-3 py-2.5 text-center font-display text-[11px] font-semibold tracking-wide text-white/80 uppercase"
+                    className="flex items-start gap-3 font-display text-[12px] font-semibold tracking-wide text-white/80 uppercase sm:text-[13px]"
                   >
-                    {tag}
-                  </span>
+                    <span
+                      aria-hidden
+                      className="mt-[0.45em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                    />
+                    <span>{tag}</span>
+                  </div>
                 ))}
               </div>
             </div>

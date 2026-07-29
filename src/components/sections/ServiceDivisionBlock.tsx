@@ -69,14 +69,6 @@ function EngineeringPanel({
       </motion.div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/25" />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.12]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.45) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.45) 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
 
       <div className="absolute inset-0 z-10 flex flex-col justify-between p-5 sm:p-6 md:p-8">
         <div className="flex items-center justify-between gap-3 border-b border-white/15 pb-3 font-mono text-[10px] tracking-wide text-white/50 uppercase sm:pb-4 sm:text-[11px]">
@@ -210,12 +202,16 @@ export default function ServiceDivisionBlock({
               Detailed {service.name} copy and imagery pending from TIMC.
             </p>
 
-            <RevealGroup className="mt-7 grid w-full grid-cols-2 gap-2">
+            <RevealGroup className="mt-7 grid grid-cols-2 gap-x-6 gap-y-2.5">
               {service.capabilities.slice(0, 8).map((tag) => (
                 <RevealItem key={tag} className="min-w-0">
-                  <span className="flex h-full min-h-[3rem] w-full items-center justify-center border border-white/15 bg-white/[0.04] px-2 py-2.5 text-center font-display text-[10px] font-semibold tracking-wide text-white/75 uppercase transition duration-300 sm:px-3 sm:text-[11px] [@media(hover:hover)_and_(pointer:fine)]:hover:border-accent [@media(hover:hover)_and_(pointer:fine)]:hover:bg-accent/10 [@media(hover:hover)_and_(pointer:fine)]:hover:text-white">
-                    {tag}
-                  </span>
+                  <div className="flex items-start gap-3 font-display text-[12px] font-semibold tracking-wide text-white/80 uppercase sm:text-[13px]">
+                    <span
+                      aria-hidden
+                      className="mt-[0.45em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                    />
+                    <span>{tag}</span>
+                  </div>
                 </RevealItem>
               ))}
             </RevealGroup>
