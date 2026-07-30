@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Cpu } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { PendingBadge, PendingNotice } from "@/components/ui/PendingBadge";
+import { aboutNarrative, company } from "@/lib/company";
+
+const yearsActive = new Date().getFullYear() - Number(company.established);
 
 const features = [
   {
@@ -25,24 +27,21 @@ export default function AboutSection() {
           <Reveal className="relative w-full min-w-0">
             <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3] md:aspect-[5/6]">
               <Image
-                src="/images/hero-construction.jpg"
-                alt="TIMC construction and engineering works — placeholder imagery"
+                src="/images/about-company-crew.jpg"
+                alt="TIMC site crew and equipment on a project site in Saudi Arabia"
                 fill
                 className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent" />
-              <div className="absolute top-3 left-3 z-10 sm:top-4 sm:left-4">
-                <PendingBadge label="Image pending" />
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-950/55 to-transparent" />
             </div>
             <div className="absolute -right-4 -bottom-4 hidden max-w-[220px] bg-accent p-6 text-navy-950 shadow-xl md:block lg:-right-8">
-              <p className="font-display text-4xl font-bold">15+</p>
+              <p className="font-display text-4xl font-bold">{yearsActive}+</p>
               <p className="mt-1 text-[13px] font-semibold tracking-wide uppercase">
                 Years building KSA infrastructure
               </p>
               <p className="mt-2 text-[10px] font-bold tracking-wide uppercase opacity-70">
-                Stat pending
+                Est. {company.established}
               </p>
             </div>
           </Reveal>
@@ -53,17 +52,11 @@ export default function AboutSection() {
               <h2 className="section-heading section-heading--on-dark mt-4 text-xl leading-snug sm:text-2xl md:text-[36px]">
                 Building a Stronger Future Across Saudi Arabia
               </h2>
-              <PendingNotice className="mt-4">
-                About copy is structural placeholder — final About Us content
-                will replace this after TIMC provides company information.
-              </PendingNotice>
-              <p className="mt-5 text-[14px] leading-relaxed text-white/65 sm:text-[15px] md:text-[16px]">
-                Talha Integrated Modern Company is a general contracting and
-                infrastructure contractor focused on civil works, foundation
-                engineering, and energy infrastructure — with heavy equipment
-                rental as an integrated service division that supports every
-                phase of delivery.
-              </p>
+              <div className="mt-5 space-y-4 text-[14px] leading-relaxed text-white/65 sm:text-[15px] md:text-[16px]">
+                {aboutNarrative.slice(0, 2).map((paragraph) => (
+                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+                ))}
+              </div>
             </Reveal>
 
             <RevealGroup className="mt-8 grid gap-5 sm:grid-cols-2">

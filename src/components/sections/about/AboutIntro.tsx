@@ -1,20 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
-import { PendingBadge, PendingNotice } from "@/components/ui/PendingBadge";
-import { aboutTabs } from "@/data/about";
-import { company } from "@/lib/company";
+import { PendingBadge } from "@/components/ui/PendingBadge";
+import { aboutNarrative, company } from "@/lib/company";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
 const yearsActive = new Date().getFullYear() - Number(company.established);
 
 export default function AboutIntro() {
-  const [active, setActive] = useState(0);
-  const tab = aboutTabs[active];
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -72,7 +67,9 @@ export default function AboutIntro() {
               <p className="mt-2 text-[11px] font-bold tracking-wide uppercase md:text-[12px]">
                 Years of Experience
               </p>
-              <p className="mt-1 text-[9px] font-bold uppercase opacity-70">Pending</p>
+              <p className="mt-1 text-[9px] font-bold uppercase opacity-70">
+                Est. {company.established}
+              </p>
             </div>
           </Reveal>
 
@@ -82,58 +79,10 @@ export default function AboutIntro() {
               <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
                 Building Your Visions Creating Reality
               </h2>
-              <PendingNotice className="mt-4">
-                Company profile narrative is placeholder. Final About Us, history,
-                and profile copy pending from TIMC.
-              </PendingNotice>
-              <p className="mt-5 text-[15px] leading-relaxed text-white/65 md:text-[16px]">
-                {company.shortName} is a Saudi-owned general contractor delivering civil
-                infrastructure, foundation engineering and energy infrastructure —
-                with integrated equipment rental supporting every project phase.
-              </p>
-            </Reveal>
-
-            <Reveal immediate delay={0.08} className="mt-8">
-              <div className="flex flex-wrap gap-2 border-b border-white/10 pb-0">
-                {aboutTabs.map((item, index) => {
-                  const isActive = active === index;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => setActive(index)}
-                      className={`relative px-4 py-3 font-display text-[13px] font-bold tracking-wide uppercase transition ${
-                        isActive ? "text-accent" : "text-white/50 hover:text-white"
-                      }`}
-                    >
-                      {item.label}
-                      {isActive && (
-                        <motion.span
-                          layoutId="about-tab-indicator"
-                          className="absolute right-0 -bottom-px left-0 h-[2px] bg-accent"
-                          transition={{ duration: 0.3, ease: EASE }}
-                        />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="min-h-[160px] border border-t-0 border-white/10 bg-navy-900 p-6 md:p-8">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={tab.id}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3, ease: EASE }}
-                    className="space-y-4 text-[14px] leading-relaxed text-white/65"
-                  >
-                    {tab.content.map((paragraph) => (
-                      <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-                    ))}
-                  </motion.div>
-                </AnimatePresence>
+              <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-white/65 md:text-[16px]">
+                {aboutNarrative.map((paragraph) => (
+                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+                ))}
               </div>
             </Reveal>
 

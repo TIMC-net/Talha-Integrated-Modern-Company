@@ -10,7 +10,7 @@ import { whyChooseUs } from "@/data/about";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function WhyChooseUs() {
-  const [openId, setOpenId] = useState(whyChooseUs[0]?.id);
+  const [openId, setOpenId] = useState<string | undefined>(undefined);
   const reduce = useReducedMotion();
 
   return (
@@ -27,20 +27,17 @@ export default function WhyChooseUs() {
       </div>
 
       <div className="container-site relative z-10">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <div className="group relative overflow-hidden border border-white/10">
-              <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3] md:aspect-[5/6]">
+        <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
+          <Reveal className="h-full min-h-[360px] lg:min-h-0">
+            <div className="group relative h-full min-h-[360px] overflow-hidden border border-white/10 lg:min-h-full">
+              <div className="img-zoom absolute inset-0">
                 <Image
-                  src="/images/civil-construction.jpg"
-                  alt="TIMC contractor expertise — placeholder imagery"
+                  src="/images/why-choose-us-crew.jpg"
+                  alt="TIMC team with drilling equipment on a project site"
                   fill
                   className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
                   sizes="(max-width: 1024px) 100vw, 45vw"
                 />
-                <span className="absolute top-3 left-3 z-10 bg-accent/90 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-navy-950 uppercase sm:top-4 sm:left-4">
-                  Image pending
-                </span>
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent transition duration-700 group-hover:from-navy-950/95" />
               </div>
 
@@ -49,7 +46,7 @@ export default function WhyChooseUs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: 0.15, ease: EASE }}
-                className="absolute right-5 bottom-5 left-5 border border-white/10 bg-navy-950/90 p-5 backdrop-blur-sm md:right-6 md:bottom-6 md:left-6"
+                className="absolute right-5 bottom-5 left-5 z-10 border border-white/10 bg-navy-950/90 p-5 backdrop-blur-sm md:right-6 md:bottom-6 md:left-6"
               >
                 <p className="font-display text-[12px] font-semibold tracking-[2px] text-accent uppercase">
                   Why Partners Choose TIMC
@@ -62,7 +59,7 @@ export default function WhyChooseUs() {
             </div>
           </Reveal>
 
-          <div>
+          <div className="flex h-full flex-col">
             <Reveal>
               <div className="flex items-center gap-3">
                 <span className="inline-block h-[7px] w-[7px] bg-accent" aria-hidden />
@@ -76,9 +73,9 @@ export default function WhyChooseUs() {
                 Expertise and Experience
               </h2>
               <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/65">
-                We bring decades of industry experience to every project. Our
-                teams handle complex scopes with clear communication, HSE
-                discipline and reliable programme control.
+                Clients choose TIMC for integrated engineering and contracting,
+                a modern equipment fleet, experienced professionals, and
+                reliable delivery from planning through completion.
               </p>
             </Reveal>
 
@@ -97,7 +94,7 @@ export default function WhyChooseUs() {
                     >
                       <button
                         type="button"
-                        onClick={() => setOpenId(item.id)}
+                        onClick={() => setOpenId(open ? undefined : item.id)}
                         className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left md:px-6"
                         aria-expanded={open}
                       >

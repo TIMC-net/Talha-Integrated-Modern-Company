@@ -96,7 +96,7 @@ export default function DeliveryProcess() {
       </div>
 
       <div
-        className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-3"
         onMouseLeave={() => setPaused(false)}
       >
         {deliveryProcess.map((step, index) => {
@@ -113,7 +113,7 @@ export default function DeliveryProcess() {
               style={{
                 transitionDelay: revealed ? `${delay}ms` : "0ms",
               }}
-              className={`relative flex h-full flex-col overflow-hidden border p-5 transition-all duration-500 md:p-6 ${
+              className={`relative flex h-full min-w-0 flex-col overflow-hidden border p-4 transition-all duration-500 md:p-5 ${
                 revealed
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0"
@@ -124,24 +124,21 @@ export default function DeliveryProcess() {
               }`}
             >
               <span
-                className={`font-display text-4xl font-bold transition duration-500 ${
+                className={`font-display text-3xl font-bold transition duration-500 lg:text-[28px] ${
                   isActive ? "text-accent" : "text-accent/35"
                 }`}
               >
                 {step.number}
               </span>
-              <p className="mt-1 font-display text-[11px] font-semibold tracking-[2px] text-white/35 uppercase">
+              <p className="mt-1 font-display text-[10px] font-semibold tracking-[2px] text-white/35 uppercase">
                 Step
               </p>
-              <h3 className="mt-4 font-display text-[14px] font-bold text-white uppercase md:text-[15px]">
+              <h3 className="mt-3 font-display text-[12px] leading-snug font-bold text-white uppercase lg:text-[13px]">
                 {step.title}
               </h3>
-              <p className="mt-3 flex-1 text-[13px] leading-relaxed text-white/55">
-                {step.description}
-              </p>
 
               <span
-                className={`mt-5 h-[2px] w-full origin-left bg-accent transition-transform duration-500 ${
+                className={`mt-4 h-[2px] w-full origin-left bg-accent transition-transform duration-500 ${
                   isActive ? "scale-x-100" : "scale-x-0"
                 }`}
               />

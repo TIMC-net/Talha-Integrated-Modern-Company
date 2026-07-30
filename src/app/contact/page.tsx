@@ -42,7 +42,8 @@ const infoItems = [
   {
     icon: MapPin,
     label: "Our Location",
-    value: company.location,
+    value: company.address,
+    href: company.mapsUrl,
   },
   {
     icon: Clock3,
@@ -151,6 +152,12 @@ export default function ContactPage() {
                             {"href" in item && item.href ? (
                               <a
                                 href={item.href}
+                                {...(item.href.startsWith("http")
+                                  ? {
+                                      target: "_blank",
+                                      rel: "noopener noreferrer",
+                                    }
+                                  : {})}
                                 className="mt-1.5 block break-words font-display text-[15px] font-bold text-white transition hover:text-accent sm:text-[17px] md:text-[18px]"
                               >
                                 {item.value}
@@ -300,13 +307,8 @@ export default function ContactPage() {
             className="h-full w-full border-0"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            src="https://maps.google.com/maps?q=Jubail%20Saudi%20Arabia&t=&z=12&ie=UTF8&iwloc=&output=embed"
+            src={`https://maps.google.com/maps?q=${company.mapsLat},${company.mapsLng}&z=17&ie=UTF8&iwloc=&output=embed`}
           />
-          {company.contactPending && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-navy-950/80 px-4 py-3 text-center text-[12px] text-white/70">
-              Map location is provisional — official Google Maps pin pending from TIMC.
-            </div>
-          )}
         </div>
 
         <div className="relative z-10 bg-accent">

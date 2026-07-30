@@ -7,31 +7,45 @@ export type ProcessStep = {
 
 export const processSteps: ProcessStep[] = [
   {
-    id: "planning",
+    id: "consultation",
     number: "01",
-    title: "Planning",
+    title: "Consultation",
     description:
-      "Scope review, site assessment, and delivery planning aligned to schedule, HSE, and client specifications.",
+      "Initial consultation and requirements analysis to clarify scope, constraints, and project goals.",
   },
   {
-    id: "design",
+    id: "assessment",
     number: "02",
-    title: "Design",
+    title: "Assessment",
     description:
-      "Engineering coordination, method statements, and constructability reviews before mobilization.",
+      "Engineering assessment and planning to define technical approach, resources, and delivery method.",
+  },
+  {
+    id: "proposal",
+    number: "03",
+    title: "Proposal",
+    description:
+      "Proposal and project scheduling with clear timelines, commercial terms, and mobilisation plan.",
   },
   {
     id: "execution",
-    number: "03",
+    number: "04",
     title: "Execution",
     description:
-      "Supervised construction with progress control, quality checkpoints, and integrated equipment support.",
+      "Project execution and quality control with supervised works, inspection, and progress reporting.",
   },
   {
-    id: "deliver",
-    number: "04",
-    title: "Deliver",
+    id: "handover",
+    number: "05",
+    title: "Handover",
     description:
-      "Inspection, punch-list clearance, documentation, and formal handover to the client.",
+      "Testing, inspection, and handover with documentation packs and formal client acceptance.",
+  },
+  {
+    id: "support",
+    number: "06",
+    title: "Support",
+    description:
+      "Post-project support and long-term partnership after completion.",
   },
 ];

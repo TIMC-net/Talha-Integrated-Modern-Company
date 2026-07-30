@@ -16,8 +16,8 @@ export default function AboutFAQ() {
   return (
     <section data-dark-surface className="bg-navy-950 py-16 md:py-24">
       <div className="container-site">
-        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
-          <Reveal>
+        <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14">
+          <Reveal className="h-full">
             <span className="section-eyebrow text-accent">Special Answer</span>
             <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
               Frequently Asked Questions
@@ -68,11 +68,11 @@ export default function AboutFAQ() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="relative">
-            <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3] md:aspect-[5/6]">
+          <Reveal delay={0.1} className="relative h-full min-h-[360px] lg:min-h-0">
+            <div className="img-zoom group relative h-full min-h-[360px] overflow-hidden lg:min-h-full">
               <Image
-                src="/images/hero-civil.jpg"
-                alt="TIMC civil infrastructure project site"
+                src="/images/about-faq-crew.jpg"
+                alt="TIMC project crew with foundation drilling equipment on site"
                 fill
                 className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
                 sizes="(max-width: 1024px) 100vw, 45vw"
@@ -82,7 +82,7 @@ export default function AboutFAQ() {
 
             <a
               href={`tel:${company.phone}`}
-              className="absolute bottom-6 left-6 right-6 flex items-center gap-4 bg-accent p-5 text-navy-950 transition hover:bg-accent-light md:left-8 md:right-auto md:min-w-[280px]"
+              className="absolute bottom-6 left-6 right-6 z-10 flex items-center gap-4 bg-accent p-5 text-navy-950 transition hover:bg-accent-light md:left-8 md:right-auto md:min-w-[280px]"
             >
               <span className="flex h-12 w-12 items-center justify-center bg-navy-950 text-accent">
                 <Phone className="h-5 w-5" />

@@ -20,7 +20,7 @@ export default function AboutPage() {
     <>
       <PageBanner
         title="About Us"
-        backgroundImage="/images/about-us-bg.jpg"
+        backgroundImage="/images/about-banner-crew.jpg"
         crumbs={[{ label: "Home", href: "/" }, { label: "About Us" }]}
       />
       <AboutIntro />

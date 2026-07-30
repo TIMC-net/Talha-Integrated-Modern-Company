@@ -21,78 +21,97 @@ export const aboutTabs: AboutTab[] = [
     id: "mission",
     label: "Our Mission",
     content: [
-      "To provide our clients with timely, cost-effective and comprehensive industrial solutions by integrating the latest techniques, tools and qualified personnel for global competitiveness.",
-      "To build strategic partnerships with our customers through a variety of service options, and to offer our employees opportunities for growth through participation, achievement, recognition and reward.",
+      "To deliver innovative engineering, construction, and infrastructure solutions that meet the highest standards of quality, safety, and operational excellence while completing every project efficiently, responsibly, and within agreed timelines.",
     ],
   },
   {
     id: "vision",
     label: "Our Vision",
     content: [
-      "To be a trusted general contracting partner across Saudi Arabia — delivering civil infrastructure, foundation engineering and energy infrastructure with integrated equipment support under one roof.",
-      "We aim to set the standard for quality, HSE discipline and schedule reliability on industrial and infrastructure projects throughout the Kingdom.",
+      "To become one of Saudi Arabia's leading engineering and general contracting companies, recognized for excellence in infrastructure development, foundation engineering, and integrated heavy equipment rental, while expanding our presence across the GCC through sustainable growth, innovation, and client-focused solutions.",
     ],
   },
   {
     id: "history",
     label: "Our History",
     content: [
-      "Talha Integrated Modern Company was established in 2010 as a Saudi-owned contracting company. We began with industrial support services and have grown into a multi-discipline contractor.",
-      "Today our work spans civil works, foundations, energy infrastructure packages and integrated equipment rental — serving industrial and infrastructure clients across the Kingdom of Saudi Arabia.",
+      "Talha Integrated Modern Company (TIMC) was established in 2010 as a Saudi Arabian engineering and contracting company. Headquartered in Jeddah, TIMC serves clients across Saudi Arabia's major cities, industrial zones, and strategic development projects while also maintaining operations in Pakistan.",
+      "The company expanded its corporate identity to reflect broader capabilities beyond equipment rental, and today operates as an integrated engineering and contracting partner across power, utility, industrial, infrastructure, renewable energy, and oil & gas sectors.",
     ],
   },
 ];
 
 export const whyChooseUs: WhyChooseItem[] = [
   {
-    id: "customer",
-    title: "Customer-Centered Approach",
+    id: "integrated",
+    title: "Integrated Solutions",
     description:
-      "Clear communication, responsive site leadership and solutions shaped around your schedule, specifications and operational constraints.",
+      "Integrated engineering and contracting solutions under one roof.",
   },
   {
-    id: "sustainability",
-    title: "Sustainability Commitment",
-    description:
-      "We are dedicated to sustainability and environmental responsibility. Our commitment to sustainable practices ensures that our solutions are not only effective but also environmentally conscious.",
+    id: "fleet",
+    title: "Modern Equipment Fleet",
+    description: "Modern fleet of over 300 pieces of equipment.",
   },
   {
-    id: "quality",
-    title: "Quality & Safety Focus",
+    id: "team",
+    title: "Experienced Professionals",
+    description: "Experienced engineers and technical professionals.",
+  },
+  {
+    id: "mobilisation",
+    title: "Fast Mobilisation",
+    description: "Fast mobilisation across Saudi Arabia.",
+  },
+  {
+    id: "standards",
+    title: "Quality & Safety Standards",
     description:
-      "Disciplined HSE and quality systems on every site — protecting people, assets and programme while delivering work that meets specification.",
+      "Commitment to international quality and safety standards.",
+  },
+  {
+    id: "experience",
+    title: "Proven Project Experience",
+    description:
+      "Proven experience supporting major infrastructure and energy projects.",
+  },
+  {
+    id: "management",
+    title: "Reliable Project Management",
+    description:
+      "Reliable project management from planning through completion.",
+  },
+  {
+    id: "partnerships",
+    title: "Long-Term Partnerships",
+    description:
+      "Long-term client relationships built on trust, quality, and performance.",
   },
 ];
 
 export const aboutFaqs: FaqItem[] = [
   {
     id: "industries",
-    question: "What industries do you specialize in?",
+    question: "What industries does TIMC serve?",
     answer:
-      "TIMC focuses on general contracting for civil infrastructure, foundation engineering and energy infrastructure, with integrated equipment rental supporting industrial and construction clients across Saudi Arabia.",
+      "TIMC serves the oil & gas, power, utilities, industrial, infrastructure, renewable energy, mining, commercial, and government sectors.",
   },
   {
-    id: "timeline",
-    question: "What is your typical project timeline?",
+    id: "operate",
+    question: "Where does TIMC operate?",
     answer:
-      "Timelines depend on scope, site conditions and client approvals. After enquiry we assess the works, prepare a programme and align mobilisation so deadlines are planned, monitored and met.",
+      "TIMC operates throughout Saudi Arabia with headquarters in Jeddah and project experience across major cities, industrial zones, and strategic developments. The company also maintains operations in Pakistan.",
   },
   {
-    id: "quote",
-    question: "How can I get a quote for my project?",
+    id: "services",
+    question: "What services does TIMC provide?",
     answer:
-      "Share your scope via the Contact page or email. Our team will review requirements, clarify technical details and prepare a commercial and technical response.",
+      "TIMC provides general contracting, civil infrastructure, foundation engineering, industrial maintenance, mechanical works, electrical works, heavy equipment rental, transportation, earthworks, utility infrastructure, and renewable energy support services.",
   },
   {
-    id: "support",
-    question: "Do you provide post-project support?",
+    id: "turnkey",
+    question: "Does TIMC provide turnkey project solutions?",
     answer:
-      "Yes. We support handover documentation, punch-list clearance and follow-up coordination as required by the contract and client procedures.",
-  },
-  {
-    id: "contact",
-    question: "How can I contact you for more information?",
-    answer:
-      "Reach us by phone, email or the Contact form on this website. Company contact details are listed in the site footer and Contact page.",
+      "Yes. TIMC delivers integrated engineering, construction, and equipment solutions tailored to each client's project requirements.",
   },
 ];

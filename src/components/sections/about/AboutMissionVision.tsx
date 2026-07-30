@@ -20,8 +20,8 @@ export default function AboutMissionVision() {
             Mission, Vision &amp; Values
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] text-white/60">
-            Structural layout for TIMC&apos;s mission, vision, and core values.
-            Final wording will replace placeholders once provided.
+            The principles that guide TIMC&apos;s engineering, construction, and
+            integrated equipment delivery across Saudi Arabia and the GCC.
           </p>
         </Reveal>
 

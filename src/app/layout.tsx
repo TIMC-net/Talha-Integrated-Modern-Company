@@ -21,7 +21,7 @@ const raleway = Raleway({
 export const metadata: Metadata = {
   title: `${company.name} | Contractor in Saudi Arabia`,
   description:
-    "TIMC is a leading contractor in Saudi Arabia specializing in civil infrastructure, foundation engineering, energy infrastructure, and integrated equipment rental.",
+    "TIMC is a Saudi Arabian engineering and contracting company established in 2010, specializing in general contracting, civil infrastructure, foundation engineering, energy infrastructure, and integrated heavy equipment rental.",
 };
 
 export const viewport: Viewport = {

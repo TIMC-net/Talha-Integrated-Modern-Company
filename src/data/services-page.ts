@@ -12,39 +12,46 @@ export type StandardBadge = {
 
 export const deliveryProcess = [
   {
-    id: "enquiry",
+    id: "consultation",
     number: "01",
-    title: "Enquiry & Assessment",
+    title: "Initial Consultation & Requirements Analysis",
     description:
-      "Site visit, scope review, technical clarifications, and detailed cost estimation.",
+      "Clarify project goals, site conditions, scope boundaries, and client requirements before technical planning begins.",
   },
   {
-    id: "engineering",
+    id: "assessment",
     number: "02",
-    title: "Engineering & Planning",
+    title: "Engineering Assessment & Planning",
     description:
-      "Design coordination, method statements, ITP preparation, and procurement planning.",
+      "Technical assessment, method planning, and resource definition aligned to quality, safety, and schedule targets.",
   },
   {
-    id: "mobilisation",
+    id: "proposal",
     number: "03",
-    title: "Mobilisation",
+    title: "Proposal & Project Scheduling",
     description:
-      "Site establishment, material and equipment delivery, HSE inductions, and crew deployment.",
+      "Detailed proposal, commercial alignment, and programme scheduling for mobilisation and delivery milestones.",
   },
   {
     id: "execution",
     number: "04",
-    title: "Execution & QC",
+    title: "Project Execution & Quality Control",
     description:
-      "Supervised construction with daily inspection, NCR management, and progress reporting.",
+      "Supervised construction with quality control, progress tracking, and disciplined site management.",
   },
   {
     id: "handover",
     number: "05",
-    title: "Testing & Handover",
+    title: "Testing, Inspection & Handover",
     description:
-      "Inspection, punch-list clearance, documentation packs, and formal client acceptance.",
+      "Testing, inspection, punch-list clearance, documentation, and formal handover to the client.",
+  },
+  {
+    id: "support",
+    number: "06",
+    title: "Post-Project Support & Long-Term Partnership",
+    description:
+      "Continued support after handover to protect performance and strengthen long-term client partnerships.",
   },
 ];
 
@@ -105,6 +112,6 @@ export const standardsWeWorkTo: StandardBadge[] = [
 export const servicesHeroStats = [
   { value: "4+", label: "Core Divisions" },
   { value: "500+", label: "Projects Completed" },
-  { value: "15+", label: "Years Experience" },
+  { value: "16+", label: "Years Experience" },
   { value: "KSA", label: "Kingdom Focus" },
 ];
