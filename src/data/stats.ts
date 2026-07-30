@@ -34,7 +34,7 @@ export const stats: Stat[] = [
   },
   {
     id: "years",
-    value: 15,
+    value: 16,
     label: "Years Experience",
     suffix: "+",
     icon: "Award",
