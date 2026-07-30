@@ -322,29 +322,40 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
-  // Integriti scroll-direction collapse: down → compact, up → expand
+  // Collapse on scroll down, expand on scroll up (Lenis-friendly thresholds)
   useEffect(() => {
+    let accumulated = 0;
+
     const update = () => {
       ticking.current = false;
 
       if (!window.matchMedia("(min-width: 1024px)").matches) {
         setCollapsed(false);
         lastScrollY.current = getScrollY();
+        accumulated = 0;
         return;
       }
 
       const y = getScrollY();
       const delta = y - lastScrollY.current;
+      lastScrollY.current = y;
+      accumulated += delta;
 
+      // Near top — always show full nav
       if (y < 48) {
         setCollapsed(false);
-      } else if (delta > 8 && y > 72) {
-        setCollapsed(true);
-      } else if (delta < -8) {
-        setCollapsed(false);
+        accumulated = 0;
+        return;
       }
 
-      lastScrollY.current = y;
+      // Need enough net movement so Lenis micro-steps still count
+      if (accumulated > 10) {
+        setCollapsed(true);
+        accumulated = 0;
+      } else if (accumulated < -6) {
+        setCollapsed(false);
+        accumulated = 0;
+      }
     };
 
     const onScroll = () => {
@@ -360,6 +371,7 @@ export default function Header() {
     };
 
     lastScrollY.current = getScrollY();
+    accumulated = 0;
     if (window.matchMedia("(min-width: 1024px)").matches && getScrollY() > 72) {
       setCollapsed(true);
     }
@@ -376,15 +388,20 @@ export default function Header() {
 
   return (
     <>
-      {/* Outer shell — Integriti: fixed centered 94vw, morphs max-width when collapsed */}
+      {/*
+        Width morph via max-width only (always w-[94vw]) so expand & collapse
+        share the same smooth CSS flow — browsers can't tween w-max ↔ %.
+      */}
       <div
-        className={`pointer-events-none fixed top-4 left-1/2 z-50 w-[94vw] max-w-[1280px] -translate-x-1/2 sm:top-5 md:top-[22px] lg:top-6 ${MORPH} will-change-[max-width] transition-[max-width,width] ${
-          collapsed ? "lg:w-max lg:max-w-[420px]" : ""
+        className={`pointer-events-none fixed top-4 left-1/2 z-50 w-[94vw] -translate-x-1/2 sm:top-5 md:top-[22px] lg:top-6 ${MORPH} will-change-[max-width] transition-[max-width] ${
+          collapsed ? "max-w-[460px] lg:max-w-[460px]" : "max-w-[1280px]"
         }`}
       >
         <nav
-          className={`pointer-events-auto flex w-full items-center justify-between rounded-[130px] border border-white/10 bg-navy-950/80 shadow-lg backdrop-blur-[30px] will-change-[padding,min-height,gap] transition-[padding,min-height,gap,background-color,box-shadow] ${MORPH} min-h-[68px] gap-3 px-3 py-3 sm:min-h-[72px] sm:px-4 md:px-5 lg:min-h-[78px] lg:px-6 xl:min-h-[84px] xl:px-7 xl:py-3.5 ${
-            collapsed ? "lg:gap-4" : ""
+          className={`pointer-events-auto flex w-full items-center overflow-hidden rounded-[130px] border border-white/10 bg-navy-950/80 shadow-lg backdrop-blur-[30px] ${MORPH} min-h-[68px] py-3 transition-[padding,gap,background-color,box-shadow] sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5 ${
+            collapsed
+              ? "justify-between gap-4 pr-2 pl-4 sm:gap-5 sm:pr-2.5 sm:pl-5 lg:pr-2.5 lg:pl-5 xl:pr-3 xl:pl-6"
+              : "justify-between gap-3 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-7"
           }`}
         >
           {/* Mobile menu trigger */}
@@ -408,12 +425,12 @@ export default function Header() {
             <Logo variant="light" compact />
           </div>
 
-          {/* Nav links — CSS max-width collapse (do not unmount) */}
+          {/* Nav links — same max-width/opacity morph in both directions */}
           <div
-            className={`relative hidden min-h-0 min-w-0 transition-[max-width,opacity,margin] lg:flex lg:items-center lg:justify-center ${MORPH} will-change-[max-width,opacity] ${
+            className={`relative hidden min-h-0 min-w-0 overflow-hidden transition-[max-width,opacity,flex-grow,margin] lg:flex lg:items-center lg:justify-center ${MORPH} will-change-[max-width,opacity] ${
               collapsed
-                ? "pointer-events-none mx-0 max-w-0 flex-none overflow-hidden opacity-0"
-                : "mx-1 max-w-[1400px] flex-1 overflow-visible opacity-100"
+                ? "pointer-events-none mx-0 max-w-0 flex-none opacity-0"
+                : "mx-1 max-w-[1400px] flex-1 opacity-100"
             }`}
           >
             <DesktopNav pathname={pathname} collapsed={collapsed} />
@@ -424,9 +441,9 @@ export default function Header() {
               href="/company-profile.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className={`hidden font-display text-[12px] font-semibold tracking-wide text-white/85 uppercase transition-[max-width,opacity,margin] hover:text-accent lg:inline-flex 2xl:text-[13px] ${MORPH} ${
+              className={`hidden whitespace-nowrap font-display text-[12px] font-semibold tracking-wide text-white/85 uppercase transition-[max-width,opacity,margin,padding] hover:text-accent lg:inline-flex 2xl:text-[13px] ${MORPH} ${
                 collapsed
-                  ? "pointer-events-none m-0 max-w-0 overflow-hidden opacity-0"
+                  ? "pointer-events-none m-0 max-w-0 overflow-hidden p-0 opacity-0"
                   : "max-w-[8rem] opacity-100"
               }`}
             >
@@ -436,7 +453,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="hidden h-11 rounded-full px-5 text-xs tracking-wide md:inline-flex xl:h-12 xl:px-6"
+              className="hidden h-11 shrink-0 rounded-full px-5 text-xs tracking-wide md:inline-flex xl:h-12 xl:px-6"
             >
               <Link href="/contact">Get A Quote</Link>
             </Button>
