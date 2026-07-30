@@ -398,16 +398,12 @@ export default function Header() {
             <Menu className="h-5 w-5" />
           </button>
 
-          {/* Logo — mark only when collapsed (Integriti), wordmark when expanded */}
-          <div
-            className={`hidden shrink-0 items-center transition-[width] lg:flex ${MORPH} will-change-[width] ${
-              collapsed ? "w-11 overflow-hidden" : "w-auto overflow-visible"
-            }`}
-          >
-            <Logo variant="light" markOnly={collapsed} compact={!collapsed} />
+          {/* Logo — full brand lockup (mark + TALHA + subtitle) */}
+          <div className="hidden shrink-0 items-center lg:flex">
+            <Logo variant="light" />
           </div>
 
-          {/* Mobile logo */}
+          {/* Mobile logo — compact wordmark for narrow pill */}
           <div className="flex min-w-0 flex-1 justify-center lg:hidden">
             <Logo variant="light" compact />
           </div>

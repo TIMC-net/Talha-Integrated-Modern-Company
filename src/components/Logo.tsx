@@ -5,9 +5,9 @@ import { company } from "@/lib/company";
 type LogoProps = {
   className?: string;
   variant?: "dark" | "light";
-  /** Smaller mark for compact floating nav */
+  /** Smaller mark for tight spaces */
   compact?: boolean;
-  /** Icon only — Integriti collapsed state */
+  /** Icon only */
   markOnly?: boolean;
 };
 
@@ -27,41 +27,42 @@ export default function Logo({
           ? "gap-0"
           : compact
             ? "gap-1.5 sm:gap-2"
-            : "max-w-[11rem] gap-2 sm:max-w-none sm:gap-2.5"
+            : "gap-2.5 sm:gap-3"
       } ${className}`}
       aria-label={company.name}
     >
       <Image
         src="/images/logo-mark.png"
         alt=""
-        width={40}
-        height={35}
+        width={48}
+        height={42}
         priority
-        className={`w-auto shrink-0 object-contain transition-[height,max-height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          markOnly || compact
-            ? "h-9 max-h-9 sm:h-10 sm:max-h-10 lg:h-11 lg:max-h-11"
-            : "h-8 max-h-8 sm:h-10 sm:max-h-10 lg:h-12 lg:max-h-12"
+        className={`w-auto shrink-0 object-contain ${
+          markOnly
+            ? "h-9 max-h-9 sm:h-10 sm:max-h-10"
+            : compact
+              ? "h-8 max-h-8 sm:h-9 sm:max-h-9"
+              : "h-10 max-h-10 sm:h-11 sm:max-h-11 lg:h-12 lg:max-h-12"
         }`}
       />
       {!markOnly && (
         <span className="flex min-w-0 flex-col justify-center leading-none">
           <span
-            className={`font-display font-bold tracking-wide uppercase transition-[font-size] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            className={`font-display font-bold tracking-wide uppercase ${
               compact
-                ? "text-[13px] sm:text-[15px] lg:text-base"
-                : "text-[12px] sm:text-base lg:text-lg"
+                ? "text-[13px] sm:text-[15px]"
+                : "text-[15px] sm:text-base lg:text-lg"
             } ${light ? "text-white" : "text-ink"}`}
           >
             TALHA
           </span>
           {!compact && (
             <span
-              className={`mt-0.5 text-[7px] font-semibold tracking-[0.14em] uppercase sm:text-[8px] sm:tracking-[0.12em] lg:text-[9px] ${
+              className={`mt-1 font-semibold tracking-[0.12em] uppercase ${
                 light ? "text-white/65" : "text-slate"
-              }`}
+              } text-[7px] sm:text-[8px] lg:text-[9px]`}
             >
-              <span className="sm:hidden">(TIMC)</span>
-              <span className="hidden sm:inline">Integrated Modern Co. (TIMC)</span>
+              Integrated Modern Co. (TIMC)
             </span>
           )}
         </span>
