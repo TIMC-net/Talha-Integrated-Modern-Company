@@ -8,60 +8,77 @@ export type Project = {
   description: string;
 };
 
-// Dummy placeholder projects — real photography/videos to follow.
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+/** Demo stock images — real project photography pending from TIMC */
+const demoImages = [
+  "/images/civil-construction.jpg",
+  "/images/header-contracting.jpg",
+  "/images/header-scaffolding.jpg",
+  "/images/hero-equipment.jpg",
+  "/images/hero-civil.jpg",
+  "/images/header-scrap.jpg",
+];
+
+/** Completed project highlights for homepage portfolio + /portfolio */
 export const projects: Project[] = [
   {
-    id: "project-1",
-    slug: "highway-expansion-project",
-    title: "Highway Expansion Project",
-    service: "civil-infrastructure",
-    location: "Jubail, KSA",
-    imageUrl: "/images/civil-construction.jpg",
-    description: "Multi-phase highway widening and drainage upgrade.",
+    id: "completed-1",
+    slug: slugify("Steam Header Project"),
+    title: "Steam Header Project",
+    service: "energy-infrastructure",
+    location: "Jubail – 1, KSA",
+    imageUrl: demoImages[0],
+    description: "Detailed Engineering",
   },
   {
-    id: "project-2",
-    slug: "industrial-tower-foundations",
-    title: "Industrial Tower Foundations",
+    id: "completed-2",
+    slug: slugify("Repair & Installation of Access Beam"),
+    title: "Repair & Installation of Access Beam",
     service: "foundation-engineering",
-    location: "Dammam, KSA",
-    imageUrl: "/images/header-contracting.jpg",
-    description: "Deep pile foundation system for a petrochemical tower.",
+    location: "Jubail – 1, KSA",
+    imageUrl: demoImages[1],
+    description: "Structural Works",
   },
   {
-    id: "project-3",
-    slug: "regional-substation-buildout",
-    title: "Regional Substation Buildout",
+    id: "completed-3",
+    slug: slugify("Turnaround Major Maintenance"),
+    title: "Turnaround Major Maintenance",
     service: "energy-infrastructure",
-    location: "Riyadh, KSA",
-    imageUrl: "/images/header-scaffolding.jpg",
-    description: "Substation construction and transmission line tie-in.",
+    location: "Jubail – 1, KSA",
+    imageUrl: demoImages[2],
+    description: "Civil / Piping / Mechanical Works",
   },
   {
-    id: "project-4",
-    slug: "fleet-support-jubail-industrial",
-    title: "Fleet Support — Jubail Industrial",
-    service: "equipment-rental",
-    location: "Jubail, KSA",
-    imageUrl: "/images/header-scrap.jpg",
-    description: "Integrated heavy-equipment support across three sites.",
-  },
-  {
-    id: "project-5",
-    slug: "bridge-rehabilitation-eastern-province",
-    title: "Bridge Rehabilitation",
+    id: "completed-4",
+    slug: slugify("Raw Water Line – Re-routing Works"),
+    title: "Raw Water Line – Re-routing Works",
     service: "civil-infrastructure",
-    location: "Eastern Province, KSA",
-    imageUrl: "/images/civil-construction.jpg",
-    description: "Structural rehabilitation of a regional highway bridge.",
+    location: "Dhahran, KSA",
+    imageUrl: demoImages[3],
+    description: "Civil & Piping",
   },
   {
-    id: "project-6",
-    slug: "renewable-energy-site-prep",
-    title: "Renewable Energy Site Prep",
-    service: "energy-infrastructure",
+    id: "completed-5",
+    slug: slugify("Road & Repair Works"),
+    title: "Road & Repair Works",
+    service: "civil-infrastructure",
+    location: "Jubail Port, KSA",
+    imageUrl: demoImages[4],
+    description: "Civil & Asphalt",
+  },
+  {
+    id: "completed-6",
+    slug: slugify("Desalination Project – Walls & Ceilings"),
+    title: "Desalination Project – Walls & Ceilings",
+    service: "civil-infrastructure",
     location: "Al Khobar, KSA",
-    imageUrl: "/images/header-contracting.jpg",
-    description: "Civil works and grid interconnection for a solar project.",
+    imageUrl: demoImages[5],
+    description: "Civil Construction",
   },
 ];

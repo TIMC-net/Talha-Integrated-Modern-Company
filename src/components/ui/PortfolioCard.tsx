@@ -21,6 +21,10 @@ export default function PortfolioCard({ project }: { project: Project }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/35 to-navy-950/10" />
 
+      <span className="absolute top-4 right-4 bg-navy-950/80 px-2 py-1 text-[9px] font-semibold tracking-wide text-accent uppercase">
+        Photo pending
+      </span>
+
       {service && (
         <span className="absolute top-4 left-4 bg-accent px-3 py-1.5 font-display text-[11px] font-bold tracking-wide text-navy-950 uppercase">
           {service.name}

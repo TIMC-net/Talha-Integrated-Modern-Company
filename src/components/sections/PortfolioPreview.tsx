@@ -45,6 +45,10 @@ function ProjectSlide({
         }`}
       />
 
+      <span className="absolute top-3 left-3 z-10 bg-accent/90 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-navy-950 uppercase">
+        Photo pending
+      </span>
+
       {/* Overlay reveals on active slide / hover — matches Abuild recording */}
       <div
         className={`absolute right-0 bottom-0 left-0 p-4 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-5 ${
@@ -78,16 +82,16 @@ export default function PortfolioPreview() {
         <Reveal>
           <div className="mb-10 flex flex-col items-start justify-between gap-5 md:mb-12 md:flex-row md:items-end">
             <div>
-              <span className="section-eyebrow text-accent">Our Project</span>
+              <span className="section-eyebrow text-accent">Completed Projects</span>
               <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
                 Our Project Clarity
               </h2>
               <p className="mt-3 max-w-xl text-[14px] text-white/55">
-                Sample project cards use stock imagery. Final project photos,
-                titles, and locations pending from TIMC.
+                Selected completed contractor packages across civil, foundation,
+                and industrial works. Project photography pending from TIMC.
               </p>
               <span className="mt-3 inline-block bg-accent/15 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-accent uppercase">
-                Projects &amp; images pending
+                Photos pending
               </span>
             </div>
 
@@ -95,7 +99,7 @@ export default function PortfolioPreview() {
               href="/projects/completed"
               className="inline-flex items-center gap-2 bg-accent px-5 py-3 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-accent-light"
             >
-              View All Projects <ArrowRight className="h-4 w-4" />
+              View All Completed <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </Reveal>
