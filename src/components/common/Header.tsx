@@ -388,13 +388,24 @@ export default function Header() {
 
   return (
     <>
+      {/* Mobile — menu button only (no capsule / no wordmark) */}
+      <button
+        type="button"
+        aria-label="Open menu"
+        aria-expanded={mobileOpen}
+        onClick={() => setMobileOpen(true)}
+        className="pointer-events-auto fixed top-4 left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-[#2A2927] text-white shadow-lg transition hover:border-accent/40 hover:bg-accent/10 sm:top-5 sm:left-5 sm:h-14 sm:w-14 lg:hidden"
+      >
+        <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+      </button>
+
       {/*
-        Width morph via max-width only (always w-[94vw]) so expand & collapse
-        share the same smooth CSS flow — browsers can't tween w-max ↔ %.
+        Desktop capsule — width morph via max-width only (always w-[94vw])
+        so expand & collapse share the same smooth CSS flow.
       */}
       <div
-        className={`pointer-events-none fixed top-4 left-1/2 z-50 w-[94vw] -translate-x-1/2 sm:top-5 md:top-[22px] lg:top-6 ${MORPH} will-change-[max-width] transition-[max-width] ${
-          collapsed ? "max-w-[460px] lg:max-w-[460px]" : "max-w-[1280px]"
+        className={`pointer-events-none fixed top-4 left-1/2 z-50 hidden w-[94vw] -translate-x-1/2 sm:top-5 md:top-[22px] lg:top-6 lg:block ${MORPH} will-change-[max-width] transition-[max-width] ${
+          collapsed ? "max-w-[460px]" : "max-w-[1280px]"
         }`}
       >
         <nav
@@ -404,30 +415,12 @@ export default function Header() {
               : "justify-between gap-3 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-7"
           }`}
         >
-          {/* Mobile menu trigger */}
-          <button
-            type="button"
-            aria-label="Open menu"
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen(true)}
-            className="relative z-[60] flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-accent/40 hover:bg-accent/10 sm:h-14 sm:w-14 lg:hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-
-          {/* Logo — full brand lockup (mark + TALHA + subtitle) */}
-          <div className="hidden shrink-0 items-center lg:flex">
+          <div className="shrink-0 items-center lg:flex">
             <Logo variant="light" />
           </div>
 
-          {/* Mobile logo — compact wordmark for narrow pill */}
-          <div className="flex min-w-0 flex-1 justify-center lg:hidden">
-            <Logo variant="light" compact />
-          </div>
-
-          {/* Nav links — same max-width/opacity morph in both directions */}
           <div
-            className={`relative hidden min-h-0 min-w-0 overflow-hidden transition-[max-width,opacity,flex-grow,margin] lg:flex lg:items-center lg:justify-center ${MORPH} will-change-[max-width,opacity] ${
+            className={`relative min-h-0 min-w-0 overflow-hidden transition-[max-width,opacity,flex-grow,margin] lg:flex lg:items-center lg:justify-center ${MORPH} will-change-[max-width,opacity] ${
               collapsed
                 ? "pointer-events-none mx-0 max-w-0 flex-none opacity-0"
                 : "mx-1 max-w-[1400px] flex-1 opacity-100"
@@ -441,7 +434,7 @@ export default function Header() {
               href="/company-profile.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className={`hidden whitespace-nowrap font-display text-[12px] font-semibold tracking-wide text-white/85 uppercase transition-[max-width,opacity,margin,padding] hover:text-accent lg:inline-flex 2xl:text-[13px] ${MORPH} ${
+              className={`whitespace-nowrap font-display text-[12px] font-semibold tracking-wide text-white/85 uppercase transition-[max-width,opacity,margin,padding] hover:text-accent lg:inline-flex 2xl:text-[13px] ${MORPH} ${
                 collapsed
                   ? "pointer-events-none m-0 max-w-0 overflow-hidden p-0 opacity-0"
                   : "max-w-[8rem] opacity-100"
@@ -453,7 +446,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="hidden h-11 shrink-0 rounded-full px-5 text-xs tracking-wide md:inline-flex xl:h-12 xl:px-6"
+              className="h-11 shrink-0 rounded-full px-5 text-xs tracking-wide xl:h-12 xl:px-6"
             >
               <Link href="/contact">Get A Quote</Link>
             </Button>
