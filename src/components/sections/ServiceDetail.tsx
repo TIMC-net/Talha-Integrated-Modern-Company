@@ -26,7 +26,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
     <>
       <section
         data-dark-surface
-        className="relative -mt-16 overflow-hidden bg-navy-950 pt-[100px] pb-14 sm:-mt-[72px] sm:pt-[120px] sm:pb-16 lg:-mt-[84px] lg:pt-[140px]"
+        className="relative overflow-hidden bg-navy-950 pt-[100px] pb-14 sm:pt-[120px] sm:pb-16 lg:pt-[140px]"
       >
         <div className="absolute inset-0">
           <Image

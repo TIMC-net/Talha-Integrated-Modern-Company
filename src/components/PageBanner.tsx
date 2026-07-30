@@ -26,7 +26,7 @@ export default function PageBanner({
   return (
     <section
       data-dark-surface
-      className="group/banner relative -mt-16 flex min-h-[260px] items-end overflow-hidden bg-ink-2 pt-[100px] pb-12 sm:-mt-[72px] sm:min-h-[320px] sm:pt-[120px] sm:pb-16 md:min-h-[380px] md:pt-[140px] md:pb-20 lg:-mt-[84px] lg:min-h-[400px] lg:pt-[150px]"
+      className="group/banner relative flex min-h-[260px] items-end overflow-hidden bg-ink-2 pt-[100px] pb-12 sm:min-h-[320px] sm:pt-[120px] sm:pb-16 md:min-h-[380px] md:pt-[140px] md:pb-20 lg:min-h-[400px] lg:pt-[150px]"
     >
       <motion.div
         className="absolute inset-0"

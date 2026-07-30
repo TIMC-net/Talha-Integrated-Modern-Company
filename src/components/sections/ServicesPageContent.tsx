@@ -49,7 +49,7 @@ export default function ServicesPageContent() {
       <section
         id="overview"
         data-dark-surface
-        className="relative -mt-16 scroll-mt-20 overflow-hidden bg-navy-950 pt-[100px] pb-14 sm:-mt-[72px] sm:scroll-mt-24 sm:pt-[120px] sm:pb-16 md:pb-20 lg:-mt-[84px] lg:scroll-mt-28 lg:pt-[140px]"
+        className="relative scroll-mt-20 overflow-hidden bg-navy-950 pt-[100px] pb-14 sm:scroll-mt-24 sm:pt-[120px] sm:pb-16 md:pb-20 lg:scroll-mt-28 lg:pt-[140px]"
       >
         <div className="absolute inset-0">
           <Image

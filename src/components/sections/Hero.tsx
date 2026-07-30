@@ -58,13 +58,13 @@ export default function Hero() {
   return (
     <section
       data-dark-surface
-      className="relative -mt-16 overflow-x-clip bg-navy-950 sm:-mt-[72px] sm:flex sm:min-h-[100svh] sm:items-center lg:-mt-[84px]"
+      className="relative overflow-x-clip bg-navy-950 sm:flex sm:min-h-[100svh] sm:items-center"
     >
       {/*
-        Mobile: native 16:9 frame below the header so the full landscape video
-        is visible with no side-crop. Desktop: absolute full-bleed cover.
+        Mobile: native 16:9 frame under the floating nav so the full landscape
+        video is visible with no side-crop. Desktop: absolute full-bleed cover.
       */}
-      <div className="relative w-full pt-16 sm:absolute sm:inset-0 sm:pt-0">
+      <div className="relative w-full sm:absolute sm:inset-0">
         <div className="relative aspect-video w-full overflow-hidden sm:absolute sm:inset-0 sm:aspect-auto sm:h-full">
           <video
             ref={videoRef}
