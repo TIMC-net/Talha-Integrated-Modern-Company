@@ -29,16 +29,51 @@ export function useLenis() {
       infinite: false,
       // Prevent native anchor / scrollIntoView from fighting Lenis
       anchors: false,
+      // Only nested vertical scroll areas — NOT horizontal Swipers.
+      // Blocking .swiper made Project Clarity (and similar) jerk on vertical scroll.
       prevent: (node) =>
         node instanceof HTMLElement &&
-        (node.closest("[data-lenis-prevent]") !== null ||
-          node.closest(".swiper") !== null),
+        node.closest("[data-lenis-prevent]") !== null,
     });
     lenisRef.current = lenis;
     window.timcLenis = lenis;
 
+    let isScrolling = false;
+    let needsRefresh = false;
+    let scrollIdleTimer = 0;
+    let refreshRaf = 0;
+    let refreshTimer = 0;
+
+    const applyRefresh = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+
+    const scheduleRefresh = () => {
+      // Never refresh mid-scroll — that causes visible page jerks sitewide.
+      if (isScrolling) {
+        needsRefresh = true;
+        return;
+      }
+      if (refreshRaf) cancelAnimationFrame(refreshRaf);
+      refreshRaf = requestAnimationFrame(() => {
+        refreshRaf = 0;
+        window.clearTimeout(refreshTimer);
+        refreshTimer = window.setTimeout(applyRefresh, 80);
+      });
+    };
+
     lenis.on("scroll", ScrollTrigger.update);
     lenis.on("scroll", () => {
+      isScrolling = true;
+      window.clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = window.setTimeout(() => {
+        isScrolling = false;
+        if (needsRefresh) {
+          needsRefresh = false;
+          applyRefresh();
+        }
+      }, 140);
       window.dispatchEvent(new Event("timc:scroll"));
     });
 
@@ -48,27 +83,25 @@ export function useLenis() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
-    const refresh = () => {
-      lenis.resize();
-      ScrollTrigger.refresh();
-    };
-
     // Content height changes (Reveals, images) invalidate Lenis limits
     const resizeObserver = new ResizeObserver(() => {
-      refresh();
+      scheduleRefresh();
     });
     resizeObserver.observe(document.body);
 
-    window.addEventListener("resize", refresh);
+    window.addEventListener("resize", scheduleRefresh);
     // After route paints / images load
-    const loadRefresh = () => refresh();
+    const loadRefresh = () => scheduleRefresh();
     window.addEventListener("load", loadRefresh);
-    requestAnimationFrame(refresh);
+    requestAnimationFrame(scheduleRefresh);
 
     return () => {
-      window.removeEventListener("resize", refresh);
+      window.removeEventListener("resize", scheduleRefresh);
       window.removeEventListener("load", loadRefresh);
       resizeObserver.disconnect();
+      if (refreshRaf) cancelAnimationFrame(refreshRaf);
+      window.clearTimeout(refreshTimer);
+      window.clearTimeout(scrollIdleTimer);
       gsap.ticker.remove(tick);
       lenis.destroy();
       lenisRef.current = null;

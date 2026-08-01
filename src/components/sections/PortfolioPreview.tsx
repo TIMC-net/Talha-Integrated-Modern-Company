@@ -78,7 +78,7 @@ export default function PortfolioPreview() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section data-dark-surface className="overflow-x-hidden overflow-y-visible bg-navy-950 py-16 md:py-24">
+    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-16 md:py-24">
       <div className="container-site">
         <Reveal>
           <div className="mb-10 flex flex-col items-start justify-between gap-5 md:mb-12 md:flex-row md:items-end">
@@ -117,6 +117,11 @@ export default function PortfolioPreview() {
             slidesPerView={1}
             loop
             speed={700}
+            // Let vertical page scroll pass through; only claim clear horizontal swipes
+            touchAngle={25}
+            threshold={8}
+            touchStartPreventDefault={false}
+            resistanceRatio={0.65}
             autoplay={{
               delay: 3500,
               disableOnInteraction: false,

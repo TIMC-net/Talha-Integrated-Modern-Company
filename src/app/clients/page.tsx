@@ -20,7 +20,7 @@ export default function ClientsPage() {
         backgroundImage="/images/header-contracting.jpg"
       />
 
-      <section data-dark-surface className="relative overflow-hidden bg-navy-950 py-16 md:py-24">
+      <section data-dark-surface className="relative overflow-x-clip bg-navy-950 py-16 md:py-24">
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{

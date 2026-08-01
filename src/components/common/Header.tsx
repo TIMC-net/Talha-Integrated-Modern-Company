@@ -3,22 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, Moon, Sun, X } from "lucide-react";
 import {
   useCallback,
   useEffect,
   useRef,
   useState,
   type CSSProperties,
+  type ReactNode,
+  type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
 import Logo from "@/components/Logo";
-import ThemeToggle from "@/components/theme/ThemeToggle";
+import { useTheme } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { company } from "@/lib/company";
+import { cn } from "@/lib/cn";
+import { isDarkSurfaceAt } from "@/lib/surface";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-/** Matches Integriti: duration-500 + cubic-bezier(0.22, 1, 0.36, 1) */
 const MORPH = "duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]";
 
 type NavItem = {
@@ -46,14 +49,106 @@ function isLinkActive(pathname: string, href: string, children?: { href: string 
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/** Build clip-path so the light-on-dark overlay only shows over dark page bands.
+ *  Same liquid-ink vertical clip on desktop capsule and mobile FABs.
+ */
+function clipOverlayToDarkBands(
+  shell: HTMLElement,
+  overlay: HTMLElement,
+) {
+  const nr = shell.getBoundingClientRect();
+  if (nr.height < 1 || nr.width < 1) {
+    overlay.style.clipPath = "inset(100% 0 0 0)";
+    return;
+  }
+
+  overlay.style.opacity = "1";
+  overlay.style.transition = "none";
+
+  // Compact circular FABs: center-column sample only (edges are transparent).
+  // Desktop capsule: majority of three X probes for rounded edges.
+  const compact = nr.width <= 80 || nr.height <= 72;
+  const samples = compact ? 16 : 28;
+  const cx = nr.left + nr.width / 2;
+  const dark: boolean[] = [];
+  for (let i = 0; i < samples; i++) {
+    const y = nr.top + ((i + 0.5) / samples) * nr.height;
+    if (compact) {
+      dark.push(isDarkSurfaceAt(cx, y));
+    } else {
+      const votes = [
+        isDarkSurfaceAt(cx, y),
+        isDarkSurfaceAt(nr.left + nr.width * 0.35, y),
+        isDarkSurfaceAt(nr.left + nr.width * 0.65, y),
+      ].filter(Boolean).length;
+      dark.push(votes >= 2);
+    }
+  }
+
+  const bands: { top: number; bottom: number }[] = [];
+  let start: number | null = null;
+  for (let i = 0; i < samples; i++) {
+    if (dark[i] && start === null) start = i;
+    if ((!dark[i] || i === samples - 1) && start !== null) {
+      const end = dark[i] && i === samples - 1 ? i + 1 : i;
+      bands.push({
+        top: (start / samples) * nr.height,
+        bottom: (end / samples) * nr.height,
+      });
+      start = null;
+    }
+  }
+
+  for (const media of document.querySelectorAll<HTMLElement>("[data-media]")) {
+    const r = media.getBoundingClientRect();
+    if (r.left > cx || r.right < cx) continue;
+    const top = Math.max(0, r.top - nr.top);
+    const bottom = Math.min(nr.height, r.bottom - nr.top);
+    if (bottom - top > 2) bands.push({ top, bottom });
+  }
+
+  if (bands.length === 0) {
+    overlay.style.clipPath = "inset(100% 0 0 0)";
+    return;
+  }
+
+  bands.sort((a, b) => a.top - b.top);
+  const merged: { top: number; bottom: number }[] = [];
+  for (const b of bands) {
+    const last = merged[merged.length - 1];
+    if (!last || b.top > last.bottom + 1) merged.push({ ...b });
+    else last.bottom = Math.max(last.bottom, b.bottom);
+  }
+
+  const cover = merged.reduce((s, b) => s + (b.bottom - b.top), 0);
+  if (cover >= nr.height - 2) {
+    overlay.style.clipPath = "inset(0)";
+    return;
+  }
+
+  if (merged.length === 1) {
+    const top = Math.max(0, merged[0].top);
+    const bottom = Math.max(0, nr.height - merged[0].bottom);
+    overlay.style.clipPath = `inset(${top}px 0 ${bottom}px 0)`;
+    return;
+  }
+
+  overlay.style.clipPath =
+    cover >= nr.height * 0.5 ? "inset(0)" : "inset(100% 0 0 0)";
+}
+
 type Highlight = { left: number; width: number; opacity: number };
 
 function DesktopNav({
   pathname,
   collapsed,
+  tone,
+  interactive,
 }: {
   pathname: string;
   collapsed: boolean;
+  tone: "on-dark" | "on-light";
+  interactive: boolean;
 }) {
   const listRef = useRef<HTMLUListElement>(null);
   const [open, setOpen] = useState<string | null>(null);
@@ -62,6 +157,7 @@ function DesktopNav({
     width: 0,
     opacity: 0,
   });
+  const onDark = tone === "on-dark";
 
   const moveHighlightTo = useCallback((el: HTMLElement | null) => {
     const list = listRef.current;
@@ -91,13 +187,17 @@ function DesktopNav({
       ref={listRef}
       className="relative flex items-center gap-1 xl:gap-2"
       onMouseLeave={() => {
+        if (!interactive) return;
         setOpen(null);
         setHighlight((h) => ({ ...h, opacity: 0 }));
       }}
     >
       <span
         aria-hidden
-        className="pointer-events-none absolute top-1/2 z-0 h-9 -translate-y-1/2 rounded-full bg-accent/20 transition-all duration-300 ease-out xl:h-10"
+        className={cn(
+          "pointer-events-none absolute top-1/2 z-0 h-9 -translate-y-1/2 rounded-full transition-all duration-300 ease-out xl:h-10",
+          onDark ? "bg-black/10" : "bg-white/20",
+        )}
         style={highlightStyle}
       />
 
@@ -111,15 +211,22 @@ function DesktopNav({
             key={item.label}
             className="relative z-10 flex h-full items-center"
             onMouseEnter={(e) => {
+              if (!interactive) return;
               moveHighlightTo(e.currentTarget);
               if (children) setOpen(item.label);
             }}
           >
             <Link
               href={item.href}
-              className={`flex items-center gap-1 rounded-full px-3 py-2 font-display text-[12px] font-semibold tracking-wide whitespace-nowrap uppercase transition-colors xl:px-4 xl:text-[13px] 2xl:px-5 2xl:text-[14px] ${
-                active || isOpen ? "bg-accent/15 text-accent" : "text-white/75 hover:text-white"
-              }`}
+              tabIndex={interactive ? undefined : -1}
+              className={cn(
+                "relative z-10 flex items-center gap-1 rounded-full px-3 py-2 font-display text-[12px] font-semibold tracking-wide whitespace-nowrap uppercase transition-colors xl:px-4 xl:text-[13px] 2xl:px-5 2xl:text-[14px]",
+                active || isOpen
+                  ? "bg-accent/15 text-accent"
+                  : onDark
+                    ? "text-[#0a0a0a]/75 hover:text-[#0a0a0a]"
+                    : "text-[#ffffff]/80 hover:text-[#ffffff]",
+              )}
             >
               {item.label}
               {children && (
@@ -130,19 +237,19 @@ function DesktopNav({
             </Link>
 
             <AnimatePresence>
-              {children && isOpen && !collapsed && (
+              {children && isOpen && !collapsed && interactive && (
                 <motion.div
                   initial={{ opacity: 0, y: 8, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.98 }}
                   transition={{ duration: 0.22, ease: EASE }}
-                  className="absolute top-[calc(100%+10px)] left-1/2 z-50 min-w-[220px] -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-navy-950/95 py-2 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+                  className="absolute top-[calc(100%+10px)] left-1/2 z-50 min-w-[220px] -translate-x-1/2 overflow-hidden rounded-2xl border border-black/10 bg-white/97 py-2 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl"
                 >
                   {children.map((child) => (
                     <Link
                       key={child.href}
                       href={child.href}
-                      className="block px-5 py-3 font-display text-[12px] font-semibold tracking-wide text-white/75 uppercase transition hover:bg-accent/10 hover:text-accent"
+                      className="block px-5 py-3 font-display text-[12px] font-semibold tracking-wide text-[#0a0a0a]/75 uppercase transition hover:bg-accent/10 hover:text-accent"
                     >
                       {child.label}
                     </Link>
@@ -154,6 +261,110 @@ function DesktopNav({
         );
       })}
     </ul>
+  );
+}
+
+function NavThemeToggle({
+  tone,
+  size = "sm",
+  className,
+}: {
+  tone: "on-dark" | "on-light";
+  size?: "sm" | "md";
+  className?: string;
+}) {
+  const { theme, toggleTheme, mounted } = useTheme();
+  const isLightTheme = mounted && theme === "light";
+  const onDark = tone === "on-dark";
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isLightTheme ? "Switch to dark theme" : "Switch to light theme"}
+      title={isLightTheme ? "Dark mode" : "Light mode"}
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center rounded-full border transition-[border-color,background-color,color] duration-300",
+        size === "md" ? "h-11 w-11" : "h-10 w-10 xl:h-11 xl:w-11",
+        onDark
+          ? "border-black/10 bg-black/5 text-[#0a0a0a] hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
+          : "border-white/15 bg-white/5 text-[#ffffff] hover:border-accent/40 hover:bg-accent/10 hover:text-accent",
+        className,
+      )}
+    >
+      {isLightTheme ? (
+        <Moon className={size === "md" ? "h-5 w-5" : "h-4 w-4 xl:h-5 xl:w-5"} />
+      ) : (
+        <Sun className={size === "md" ? "h-5 w-5" : "h-4 w-4 xl:h-5 xl:w-5"} />
+      )}
+    </button>
+  );
+}
+
+function CapsuleInner({
+  pathname,
+  collapsed,
+  tone,
+  interactive,
+}: {
+  pathname: string;
+  collapsed: boolean;
+  tone: "on-dark" | "on-light";
+  interactive: boolean;
+}) {
+  const onDark = tone === "on-dark";
+
+  return (
+    <>
+      <div className="shrink-0 items-center lg:flex">
+        <Logo variant={onDark ? "dark" : "light"} />
+      </div>
+
+      <div
+        className={`relative min-h-0 min-w-0 overflow-hidden transition-[max-width,opacity,flex-grow,margin] lg:flex lg:items-center lg:justify-center ${MORPH} will-change-[max-width,opacity] ${
+          collapsed
+            ? "pointer-events-none mx-0 max-w-0 flex-none opacity-0"
+            : "mx-1 max-w-[1400px] flex-1 opacity-100"
+        }`}
+      >
+        <DesktopNav
+          pathname={pathname}
+          collapsed={collapsed}
+          tone={tone}
+          interactive={interactive}
+        />
+      </div>
+
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+        <NavThemeToggle tone={tone} />
+        <a
+          href="/company-profile.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex={interactive ? undefined : -1}
+          className={cn(
+            "whitespace-nowrap font-display text-[12px] font-semibold tracking-wide uppercase transition-[max-width,opacity,margin,padding,color] duration-300 hover:text-accent lg:inline-flex 2xl:text-[13px]",
+            MORPH,
+            onDark ? "text-[#0a0a0a]/80" : "text-[#ffffff]/85",
+            collapsed
+              ? "pointer-events-none m-0 max-w-0 overflow-hidden p-0 opacity-0"
+              : "max-w-[8rem] opacity-100",
+          )}
+        >
+          Profile
+        </a>
+
+        <Button
+          asChild
+          size="sm"
+          className="h-11 shrink-0 rounded-full px-4 text-xs tracking-wide whitespace-nowrap xl:h-12 xl:px-5"
+        >
+          <Link href="/contact" tabIndex={interactive ? undefined : -1}>
+            Get A Quote
+          </Link>
+        </Button>
+      </div>
+    </>
   );
 }
 
@@ -292,13 +503,67 @@ function getScrollY() {
   return window.scrollY || document.documentElement.scrollTop || 0;
 }
 
+function DualToneShell({
+  className,
+  shellRef,
+  overlayRef,
+  base,
+  overlay,
+  compact = false,
+}: {
+  className?: string;
+  shellRef: RefObject<HTMLDivElement | null>;
+  overlayRef: RefObject<HTMLDivElement | null>;
+  base: ReactNode;
+  overlay: ReactNode;
+  /** Circular mobile FABs — contain layers, no partial clip bleed */
+  compact?: boolean;
+}) {
+  return (
+    <div
+      ref={shellRef}
+      data-nav-chrome
+      data-nav-compact={compact ? "" : undefined}
+      className={cn(
+        "relative",
+        compact && "overflow-hidden rounded-full shadow-lg",
+        className,
+      )}
+    >
+      {/* Base: black chrome for light page sections */}
+      <div className={cn("relative z-0", compact && "h-full w-full")}>{base}</div>
+      {/* Overlay: white chrome for dark page sections — liquid clip with scroll */}
+      <div
+        ref={overlayRef}
+        aria-hidden
+        className={cn(
+          "nav-ink-overlay pointer-events-none absolute inset-0 z-10 overflow-hidden",
+          compact && "rounded-full",
+        )}
+      >
+        {overlay}
+      </div>
+    </div>
+  );
+}
+
 export default function Header() {
   const pathname = usePathname();
+  const { theme, mounted: themeMounted } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
+  const isLightTheme = themeMounted && theme === "light";
+  const ThemeIcon = isLightTheme ? Moon : Sun;
+
+  const deskShellRef = useRef<HTMLDivElement>(null);
+  const deskOverlayRef = useRef<HTMLDivElement>(null);
+  const menuShellRef = useRef<HTMLDivElement>(null);
+  const menuOverlayRef = useRef<HTMLDivElement>(null);
+  const themeShellRef = useRef<HTMLDivElement>(null);
+  const themeOverlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -323,7 +588,62 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
-  // Collapse on scroll down, expand on scroll up (Lenis-friendly thresholds)
+  // Liquid-ink clip: update every scroll frame (GPU clip-path, 60fps)
+  useEffect(() => {
+    let raf = 0;
+    let running = false;
+
+    const update = () => {
+      running = false;
+      raf = 0;
+
+      const shells = [
+        deskShellRef.current,
+        menuShellRef.current,
+        themeShellRef.current,
+      ];
+      const prevPe: string[] = [];
+      shells.forEach((el, i) => {
+        if (!el) return;
+        prevPe[i] = el.style.pointerEvents;
+        el.style.pointerEvents = "none";
+      });
+
+      if (deskShellRef.current && deskOverlayRef.current) {
+        clipOverlayToDarkBands(deskShellRef.current, deskOverlayRef.current);
+      }
+      if (menuShellRef.current && menuOverlayRef.current) {
+        clipOverlayToDarkBands(menuShellRef.current, menuOverlayRef.current);
+      }
+      if (themeShellRef.current && themeOverlayRef.current) {
+        clipOverlayToDarkBands(themeShellRef.current, themeOverlayRef.current);
+      }
+
+      shells.forEach((el, i) => {
+        if (!el) return;
+        el.style.pointerEvents = prevPe[i] ?? "";
+      });
+    };
+
+    const schedule = () => {
+      if (running) return;
+      running = true;
+      raf = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("timc:scroll", schedule);
+    window.addEventListener("resize", schedule, { passive: true });
+    schedule();
+
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("timc:scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [pathname, collapsed]);
+
   useEffect(() => {
     let accumulated = 0;
 
@@ -342,14 +662,12 @@ export default function Header() {
       lastScrollY.current = y;
       accumulated += delta;
 
-      // Near top — always show full nav
       if (y < 48) {
         setCollapsed(false);
         accumulated = 0;
         return;
       }
 
-      // Need enough net movement so Lenis micro-steps still count
       if (accumulated > 10) {
         setCollapsed(true);
         accumulated = 0;
@@ -387,80 +705,105 @@ export default function Header() {
     };
   }, [pathname]);
 
+  const capsulePad = collapsed
+    ? "justify-between gap-3 pr-2.5 pl-5 sm:gap-4 sm:pr-3 sm:pl-6 lg:pr-3 lg:pl-6 xl:pr-3.5 xl:pl-7"
+    : "justify-between gap-3 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-7";
+
   return (
     <>
-      {/* Mobile — menu button only (no capsule / no wordmark) */}
-      <button
-        type="button"
-        aria-label="Open menu"
-        aria-expanded={mobileOpen}
-        onClick={() => setMobileOpen(true)}
-        className="mobile-chrome-btn pointer-events-auto fixed top-4 left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-[#2A2927] text-white shadow-lg transition hover:border-accent/40 hover:bg-accent/10 sm:top-5 sm:left-5 sm:h-14 sm:w-14 lg:hidden"
-      >
-        <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
-      </button>
-
-      <div className="pointer-events-auto fixed top-4 right-4 z-50 sm:top-5 sm:right-5 lg:hidden">
-        <ThemeToggle
-          size="md"
-          className="mobile-chrome-btn theme-toggle h-12 w-12 border-white/15 bg-[#2A2927] shadow-lg sm:h-14 sm:w-14"
-        />
-      </div>
-
-      {/*
-        Desktop capsule — width morph via max-width only (always w-[94vw])
-        so expand & collapse share the same smooth CSS flow.
-      */}
-      <div
-        className={`pointer-events-none fixed top-4 left-1/2 z-50 hidden w-[94vw] -translate-x-1/2 sm:top-5 md:top-[22px] lg:top-6 lg:block ${MORPH} will-change-[max-width] transition-[max-width] ${
-          collapsed ? "max-w-[600px]" : "max-w-[1280px]"
-        }`}
-      >
-        <nav
-          className={`pointer-events-auto flex w-full items-center overflow-hidden rounded-[130px] border border-white/10 bg-navy-950/80 shadow-lg backdrop-blur-[30px] ${MORPH} min-h-[68px] py-3 transition-[padding,gap,background-color,box-shadow] sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5 ${
-            collapsed
-              ? "justify-between gap-3 pr-2.5 pl-5 sm:gap-4 sm:pr-3 sm:pl-6 lg:pr-3 lg:pl-6 xl:pr-3.5 xl:pl-7"
-              : "justify-between gap-3 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-7"
-          }`}
-        >
-          <div className="shrink-0 items-center lg:flex">
-            <Logo variant="light" />
-          </div>
-
-          <div
-            className={`relative min-h-0 min-w-0 overflow-hidden transition-[max-width,opacity,flex-grow,margin] lg:flex lg:items-center lg:justify-center ${MORPH} will-change-[max-width,opacity] ${
-              collapsed
-                ? "pointer-events-none mx-0 max-w-0 flex-none opacity-0"
-                : "mx-1 max-w-[1400px] flex-1 opacity-100"
-            }`}
+      {/* Mobile menu FAB — same liquid-ink clip as desktop */}
+      <DualToneShell
+        compact
+        shellRef={menuShellRef}
+        overlayRef={menuOverlayRef}
+        className="pointer-events-auto fixed top-4 left-4 z-50 h-12 w-12 sm:top-5 sm:left-5 sm:h-14 sm:w-14 lg:hidden"
+        base={
+          <button
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen(true)}
+            className="flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-[#0a0a0a] text-[#ffffff]"
           >
-            <DesktopNav pathname={pathname} collapsed={collapsed} />
+            <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+          </button>
+        }
+        overlay={
+          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]">
+            <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
           </div>
+        }
+      />
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <ThemeToggle />
-            <a
-              href="/company-profile.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`whitespace-nowrap font-display text-[12px] font-semibold tracking-wide text-white/85 uppercase transition-[max-width,opacity,margin,padding] hover:text-accent lg:inline-flex 2xl:text-[13px] ${MORPH} ${
-                collapsed
-                  ? "pointer-events-none m-0 max-w-0 overflow-hidden p-0 opacity-0"
-                  : "max-w-[8rem] opacity-100"
-              }`}
-            >
-              Profile
-            </a>
-
-            <Button
-              asChild
-              size="sm"
-              className="h-11 shrink-0 rounded-full px-4 text-xs tracking-wide whitespace-nowrap xl:h-12 xl:px-5"
-            >
-              <Link href="/contact">Get A Quote</Link>
-            </Button>
+      {/* Mobile theme FAB — same liquid-ink clip as desktop */}
+      <DualToneShell
+        compact
+        shellRef={themeShellRef}
+        overlayRef={themeOverlayRef}
+        className="pointer-events-auto fixed top-4 right-4 z-50 h-12 w-12 sm:top-5 sm:right-5 sm:h-14 sm:w-14 lg:hidden"
+        base={
+          <NavThemeToggle
+            tone="on-light"
+            size="md"
+            className="h-full w-full border-white/20 bg-[#0a0a0a] text-[#ffffff] shadow-none"
+          />
+        }
+        overlay={
+          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]">
+            <ThemeIcon className="h-5 w-5" />
           </div>
-        </nav>
+        }
+      />
+
+      {/* Desktop capsule — dual-tone liquid ink */}
+      <div className="pointer-events-none fixed inset-x-0 top-4 z-50 hidden justify-center sm:top-5 md:top-[22px] lg:top-6 lg:flex">
+        <div
+          className={cn(
+            "pointer-events-none relative w-[94vw] transition-[max-width] will-change-[max-width]",
+            MORPH,
+            collapsed ? "max-w-[600px]" : "max-w-[1280px]",
+          )}
+        >
+          <DualToneShell
+            shellRef={deskShellRef}
+            overlayRef={deskOverlayRef}
+            className="pointer-events-auto w-full"
+            base={
+              <nav
+                data-site-nav
+                className={cn(
+                  "flex w-full items-center overflow-hidden rounded-[130px] border border-white/12 bg-[#0a0a0a]/88 text-[#ffffff] shadow-lg backdrop-blur-[30px]",
+                  MORPH,
+                  "min-h-[68px] py-3 transition-[padding,gap,box-shadow] sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
+                  capsulePad,
+                )}
+              >
+                <CapsuleInner
+                  pathname={pathname}
+                  collapsed={collapsed}
+                  tone="on-light"
+                  interactive
+                />
+              </nav>
+            }
+            overlay={
+              <nav
+                className={cn(
+                  "flex h-full w-full items-center overflow-hidden rounded-[130px] border border-black/10 bg-[#ffffff]/92 text-[#0a0a0a] shadow-lg backdrop-blur-[30px]",
+                  "min-h-[68px] py-3 sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
+                  capsulePad,
+                )}
+              >
+                <CapsuleInner
+                  pathname={pathname}
+                  collapsed={collapsed}
+                  tone="on-dark"
+                  interactive={false}
+                />
+              </nav>
+            }
+          />
+        </div>
       </div>
 
       {mounted &&

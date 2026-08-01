@@ -33,7 +33,7 @@ export default function TestimonialCarousel() {
   }, [paused, reduce, total, goNext]);
 
   return (
-    <section data-dark-surface className="overflow-hidden bg-navy-950 py-16 md:py-24">
+    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-16 md:py-24">
       <div className="container-site">
         <Reveal>
           <div className="mb-10 md:mb-12">

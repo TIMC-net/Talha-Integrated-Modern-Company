@@ -24,7 +24,7 @@ export default function AboutVendorsMarquee() {
   const rowB = [...vendors.slice().reverse(), ...vendors.slice().reverse()];
 
   return (
-    <section data-dark-surface className="overflow-hidden border-t border-white/10 bg-navy-950 py-16 md:py-20">
+    <section data-dark-surface className="overflow-x-clip border-t border-white/10 bg-navy-950 py-16 md:py-20">
       <div className="container-site mb-10 md:mb-12">
         <div className="flex items-center gap-3">
           <span className="h-px w-8 bg-orange-500" aria-hidden />

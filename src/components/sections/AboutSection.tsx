@@ -21,7 +21,7 @@ const features = [
 
 export default function AboutSection() {
   return (
-    <section data-dark-surface className="overflow-hidden bg-navy-950 py-16 md:py-24">
+    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-16 md:py-24">
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal className="relative w-full min-w-0">

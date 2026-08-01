@@ -9,6 +9,11 @@ type LogoProps = {
   compact?: boolean;
   /** Icon only */
   markOnly?: boolean;
+  /**
+   * For mix-blend-mode nav: white wordmark (inverts with difference),
+   * colored mark escapes the blend so brand colors stay true.
+   */
+  blend?: boolean;
 };
 
 export default function Logo({
@@ -16,8 +21,9 @@ export default function Logo({
   variant = "dark",
   compact = false,
   markOnly = false,
+  blend = false,
 }: LogoProps) {
-  const light = variant === "light";
+  const light = blend || variant === "light";
 
   return (
     <Link
@@ -31,20 +37,22 @@ export default function Logo({
       } ${className}`}
       aria-label={company.name}
     >
-      <Image
-        src="/images/logo-mark.png"
-        alt=""
-        width={256}
-        height={256}
-        priority
-        className={`w-auto shrink-0 rounded-full object-contain ${
-          markOnly
-            ? "h-9 max-h-9 sm:h-10 sm:max-h-10"
-            : compact
-              ? "h-8 max-h-8 sm:h-9 sm:max-h-9"
-              : "h-10 max-h-10 sm:h-11 sm:max-h-11 lg:h-12 lg:max-h-12"
-        }`}
-      />
+      <span className={blend ? "nav-blend-escape inline-flex" : "inline-flex"}>
+        <Image
+          src="/images/logo-mark.png"
+          alt=""
+          width={256}
+          height={256}
+          priority
+          className={`w-auto shrink-0 rounded-full object-contain ${
+            markOnly
+              ? "h-9 max-h-9 sm:h-10 sm:max-h-10"
+              : compact
+                ? "h-8 max-h-8 sm:h-9 sm:max-h-9"
+                : "h-10 max-h-10 sm:h-11 sm:max-h-11 lg:h-12 lg:max-h-12"
+          }`}
+        />
+      </span>
       {!markOnly && (
         <span className="flex min-w-0 flex-col justify-center leading-none">
           <span
@@ -52,14 +60,14 @@ export default function Logo({
               compact
                 ? "text-[13px] sm:text-[15px]"
                 : "text-[15px] sm:text-base lg:text-lg"
-            } ${light ? "text-white" : "text-ink"}`}
+            } ${light ? "text-[#ffffff]" : "text-[#0a0a0a]"}`}
           >
             TALHA
           </span>
           {!compact && (
             <span
               className={`mt-1 font-semibold tracking-[0.12em] uppercase ${
-                light ? "text-white/65" : "text-slate"
+                light ? "text-[#ffffff]/65" : "text-[#0a0a0a]/55"
               } text-[7px] sm:text-[8px] lg:text-[9px]`}
             >
               Integrated Modern Co. (TIMC)

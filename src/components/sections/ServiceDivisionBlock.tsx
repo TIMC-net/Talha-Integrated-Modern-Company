@@ -142,7 +142,7 @@ export default function ServiceDivisionBlock({
     <section
       id={service.slug}
       data-dark-surface
-      className={`relative scroll-mt-24 overflow-hidden border-t border-white/10 py-12 md:scroll-mt-28 md:py-16 lg:py-24 ${
+      className={`relative scroll-mt-24 overflow-x-clip border-t border-white/10 py-12 md:scroll-mt-28 md:py-16 lg:py-24 ${
         reverse ? "bg-navy-900" : "bg-navy-950"
       }`}
     >

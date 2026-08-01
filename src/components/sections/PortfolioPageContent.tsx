@@ -17,7 +17,7 @@ export default function PortfolioPageContent() {
         backgroundImage="/images/civil-construction.jpg"
       />
 
-      <section data-dark-surface className="relative overflow-hidden bg-navy-950 py-14 md:py-20">
+      <section data-dark-surface className="relative overflow-x-clip bg-navy-950 py-14 md:py-20">
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{

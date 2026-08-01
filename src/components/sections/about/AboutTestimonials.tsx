@@ -64,6 +64,9 @@ export default function AboutTestimonials() {
             slidesPerView={1}
             loop
             speed={600}
+            touchAngle={25}
+            threshold={8}
+            touchStartPreventDefault={false}
             autoplay={{
               delay: 5500,
               disableOnInteraction: false,

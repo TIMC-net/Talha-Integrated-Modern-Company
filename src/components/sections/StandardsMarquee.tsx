@@ -21,7 +21,7 @@ export default function StandardsMarquee() {
         </p>
       </div>
 
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-x-clip">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-navy-950 to-transparent md:w-24" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-navy-950 to-transparent md:w-24" />
 

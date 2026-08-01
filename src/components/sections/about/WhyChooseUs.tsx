@@ -17,7 +17,7 @@ export default function WhyChooseUs() {
     <div
       data-dark-surface
       data-media
-      className="relative overflow-hidden py-16 md:py-24"
+      className="relative overflow-x-clip py-16 md:py-24"
     >
       <div className="absolute inset-0">
         <Image
