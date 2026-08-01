@@ -29,25 +29,28 @@ export default function PageBanner({
       data-media
       className="group/banner relative flex min-h-[260px] items-end overflow-x-clip bg-ink-2 pt-[100px] pb-12 sm:min-h-[320px] sm:pt-[120px] sm:pb-16 md:min-h-[380px] md:pt-[140px] md:pb-20 lg:min-h-[400px] lg:pt-[150px]"
     >
-      <motion.div
-        className="absolute inset-0"
-        initial={reduce ? false : { scale: 1.08, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.1, ease: EASE }}
-      >
-        <Image
-          src={backgroundImage}
-          alt=""
-          fill
-          priority
-          className={`object-cover object-center transition duration-[1.2s] ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover/banner:scale-105 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-          sizes="100vw"
-          onLoad={() => setLoaded(true)}
-        />
-      </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-t from-ink-2 via-ink-2/75 to-ink-2/40" />
+      {/* Clip zoom inside the media plane so hover cannot bleed past the banner */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute inset-0"
+          initial={reduce ? false : { scale: 1.08, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.1, ease: EASE }}
+        >
+          <Image
+            src={backgroundImage}
+            alt=""
+            fill
+            priority
+            className={`object-cover object-center transition duration-700 ease-out will-change-transform [@media(hover:hover)_and_(pointer:fine)]:group-hover/banner:scale-[1.03] ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+            sizes="100vw"
+            onLoad={() => setLoaded(true)}
+          />
+        </motion.div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-2 via-ink-2/75 to-ink-2/40 transition-opacity duration-700 [@media(hover:hover)_and_(pointer:fine)]:group-hover/banner:opacity-90" />
+      </div>
 
       <div className="container-site relative z-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
