@@ -42,8 +42,8 @@ export default function OngoingProjectsPage() {
                   with site supervision, HSE discipline, and progress reporting.
                 </p>
                 <p className="mt-3 border border-accent/25 bg-accent/10 px-3 py-2 text-[12px] text-accent">
-                  Project photographs and full client details will be added once
-                  TIMC provides media and disclosure approvals.
+                  Project photographs will be added once TIMC provides site media
+                  and disclosure approvals.
                 </p>
               </div>
               <Button asChild>

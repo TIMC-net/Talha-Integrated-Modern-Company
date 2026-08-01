@@ -58,6 +58,7 @@ export default function Hero() {
   return (
     <section
       data-dark-surface
+      data-media
       className="relative overflow-x-clip bg-navy-950 sm:flex sm:min-h-[100svh] sm:items-center"
     >
       {/*

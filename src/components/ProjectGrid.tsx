@@ -3,24 +3,18 @@
 import Image from "next/image";
 import {
   Building2,
+  Calendar,
   CheckCircle2,
   CircleDot,
   HardHat,
   MapPin,
+  Banknote,
 } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-
-type Project = {
-  no: number;
-  name: string;
-  client: string;
-  contractor: string;
-  description: string;
-  location: string;
-};
+import type { ListedProject } from "@/lib/company";
 
 type ProjectGridProps = {
-  projects: Project[];
+  projects: ListedProject[];
   status: "ongoing" | "completed";
 };
 
@@ -35,6 +29,14 @@ const projectImages = [
   "/images/manpower-supply.jpg",
 ];
 
+function formatSar(amount: number) {
+  return new Intl.NumberFormat("en-SA", {
+    style: "currency",
+    currency: "SAR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
 export default function ProjectGrid({ projects, status }: ProjectGridProps) {
   const isOngoing = status === "ongoing";
   const centerLastOnDesktop =
@@ -46,17 +48,21 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
         const image = projectImages[i % projectImages.length];
         const isLastOrphan =
           centerLastOnDesktop && i === projects.length - 1;
+        const sponsorOrClient = project.sponsor || project.client;
 
         return (
           <RevealItem
             key={project.no}
             className={isLastOrphan ? "lg:col-start-2" : undefined}
           >
-            <article className="group relative flex h-full min-h-[320px] flex-col overflow-hidden border border-white/10 bg-navy-950 transition duration-500 hover:border-accent/60 sm:min-h-[400px] [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_24px_50px_-28px_rgba(255,107,53,0.45)]">
+            <article
+              data-media
+              className="group relative flex h-full min-h-[320px] flex-col overflow-hidden border border-white/10 bg-navy-950 transition duration-500 hover:border-accent/60 sm:min-h-[400px] [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_24px_50px_-28px_rgba(255,107,53,0.45)]"
+            >
               <div className="relative aspect-[16/10] w-full overflow-hidden img-zoom sm:aspect-auto sm:h-[220px]">
                 <Image
                   src={image}
-                  alt={project.name}
+                  alt=""
                   fill
                   sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
                   className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
@@ -96,22 +102,54 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
                   {project.name}
                 </h3>
 
+                {project.scope && (
+                  <p className="mt-3 text-[13px] leading-relaxed text-white/55">
+                    {project.scope}
+                  </p>
+                )}
+
                 <div className="mt-5 space-y-2.5 border-t border-white/10 pt-4 text-[13px] text-white/55">
-                  <div className="flex items-center gap-2.5">
-                    <Building2 className="h-4 w-4 shrink-0 text-accent" />
-                    <span>{project.client}</span>
+                  <div className="flex items-start gap-2.5">
+                    <Building2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    <span>
+                      <span className="text-white/35">
+                        {project.sponsor ? "Sponsor: " : "Client: "}
+                      </span>
+                      {sponsorOrClient}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <HardHat className="h-4 w-4 shrink-0 text-accent" />
-                    <span>{project.contractor}</span>
+                    <span>
+                      <span className="text-white/35">Contractor: </span>
+                      {project.contractor}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <MapPin className="h-4 w-4 shrink-0 text-accent" />
                     <span>{project.location}</span>
                   </div>
+                  {typeof project.contractAmount === "number" && (
+                    <div className="flex items-center gap-2.5">
+                      <Banknote className="h-4 w-4 shrink-0 text-accent" />
+                      <span>
+                        <span className="text-white/35">Contract: </span>
+                        {formatSar(project.contractAmount)}
+                      </span>
+                    </div>
+                  )}
+                  {project.endDate && (
+                    <div className="flex items-center gap-2.5">
+                      <Calendar className="h-4 w-4 shrink-0 text-accent" />
+                      <span>
+                        <span className="text-white/35">End of contract: </span>
+                        {project.endDate}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
-                <span className="absolute right-0 bottom-0 left-0 h-[3px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover:scale-x-100" />
+                <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[3px] bg-accent" />
               </div>
             </article>
           </RevealItem>

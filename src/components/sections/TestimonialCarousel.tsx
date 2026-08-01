@@ -134,7 +134,7 @@ export default function TestimonialCarousel() {
                 type="button"
                 aria-label="Previous testimonial"
                 onClick={goPrev}
-                className="flex h-10 w-10 items-center justify-center border border-white/15 bg-navy-950 text-white transition hover:border-accent hover:bg-accent hover:text-navy-950"
+                className="flex h-10 w-10 items-center justify-center border border-white/15 bg-navy-950 text-white transition hover:border-accent hover:bg-accent hover:text-brand-ink"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>

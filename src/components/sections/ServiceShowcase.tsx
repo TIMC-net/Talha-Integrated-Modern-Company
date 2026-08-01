@@ -18,7 +18,7 @@ export default function ServiceShowcase() {
   const Icon = iconMap[service.icon];
 
   return (
-    <section data-dark-surface className="relative overflow-hidden bg-navy-900 py-16 md:py-24">
+    <section data-dark-surface data-media className="relative overflow-hidden bg-navy-900 py-16 md:py-24">
       <div className="absolute inset-0">
         <Image
           src="/images/header-contracting.jpg"

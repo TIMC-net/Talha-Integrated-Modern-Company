@@ -25,7 +25,10 @@ export default function AboutSection() {
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal className="relative w-full min-w-0">
-            <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3] md:aspect-[5/6]">
+            <div
+              data-media
+              className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3] md:aspect-[5/6]"
+            >
               <Image
                 src="/images/about-company-crew.jpg"
                 alt="TIMC site crew and equipment on a project site in Saudi Arabia"
@@ -65,7 +68,7 @@ export default function AboutSection() {
                 return (
                   <RevealItem key={feature.title}>
                     <div className="group/card relative h-full overflow-hidden border border-white/10 bg-navy-900 p-5 transition-all duration-500 hover:border-accent/70 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                      <span className="absolute top-0 bottom-0 left-0 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover/card:scale-y-100" />
+                      <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
                       <Icon
                         className="h-8 w-8 text-accent transition duration-500 group-hover/card:scale-110"
                         strokeWidth={1.5}
@@ -76,7 +79,7 @@ export default function AboutSection() {
                       <p className="mt-2 text-[13px] leading-relaxed text-white/55">
                         {feature.text}
                       </p>
-                      <span className="absolute right-0 bottom-0 left-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/card:scale-x-100" />
+                      <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
                     </div>
                   </RevealItem>
                 );

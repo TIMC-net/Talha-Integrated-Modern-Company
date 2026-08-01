@@ -7,6 +7,7 @@ import AboutIntro from "@/components/sections/about/AboutIntro";
 import AboutMissionVision from "@/components/sections/about/AboutMissionVision";
 import AboutStatusBand from "@/components/sections/about/AboutStatusBand";
 import AboutTestimonials from "@/components/sections/about/AboutTestimonials";
+import AboutVendorsMarquee from "@/components/sections/about/AboutVendorsMarquee";
 import { company } from "@/lib/company";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function AboutPage() {
       <AboutHistory />
       <AboutStatusBand />
       <AboutCertifications />
+      <AboutVendorsMarquee />
       <AboutFAQ />
       <AboutTestimonials />
     </>

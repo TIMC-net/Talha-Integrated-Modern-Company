@@ -28,11 +28,506 @@
 
   --background: #0a0a0a;
   --foreground: #f5f5f5;
+
+  /* True black for text on accent — never remapped by light theme */
+  --brand-ink: #0a0a0a;
+  --pure-white: #ffffff;
+  /* Cascading white token — remapped in light theme for readable text */
+  --theme-white: #ffffff;
+}
+
+/* Light theme — soft paper surfaces, ink text */
+html[data-theme="light"] {
+  --navy-950: #f3f3f3;
+  --navy-900: #ffffff;
+  --navy-800: #ebebeb;
+  --navy-700: #e0e0e0;
+  --navy-600: #cfcfcf;
+
+  --steel-300: #404040;
+  --steel-400: #525252;
+  --steel-500: #666666;
+  --steel-600: #737373;
+
+  --paper: #ffffff;
+  --border-soft: #e5e5e5;
+
+  --background: #f3f3f3;
+  --foreground: #0a0a0a;
+
+  --theme-white: #0a0a0a;
+  color-scheme: light;
+}
+
+
+html[data-theme="light"] body {
+  background: var(--background);
+  color: #0a0a0a;
+}
+
+html[data-theme="light"] [data-dark-surface] {
+  color: #0a0a0a;
+}
+
+/*
+  Hard overrides — Tailwind opacity utilities may not pick up cascading
+  --color-white, so map every used white text/border/bg to ink on light.
+*/
+html[data-theme="light"] .text-white {
+  color: #0a0a0a !important;
+}
+html[data-theme="light"] .text-white\/5 {
+  color: rgb(10 10 10 / 0.18) !important;
+}
+html[data-theme="light"] .text-white\/15 {
+  color: rgb(10 10 10 / 0.28) !important;
+}
+html[data-theme="light"] .text-white\/20 {
+  color: rgb(10 10 10 / 0.4) !important;
+}
+html[data-theme="light"] .text-white\/25 {
+  color: rgb(10 10 10 / 0.45) !important;
+}
+html[data-theme="light"] .text-white\/30 {
+  color: rgb(10 10 10 / 0.5) !important;
+}
+html[data-theme="light"] .text-white\/35 {
+  color: rgb(10 10 10 / 0.55) !important;
+}
+html[data-theme="light"] .text-white\/40 {
+  color: rgb(10 10 10 / 0.62) !important;
+}
+html[data-theme="light"] .text-white\/45 {
+  color: rgb(10 10 10 / 0.65) !important;
+}
+html[data-theme="light"] .text-white\/50 {
+  color: rgb(10 10 10 / 0.68) !important;
+}
+html[data-theme="light"] .text-white\/55 {
+  color: rgb(10 10 10 / 0.72) !important;
+}
+html[data-theme="light"] .text-white\/60 {
+  color: rgb(10 10 10 / 0.75) !important;
+}
+html[data-theme="light"] .text-white\/65 {
+  color: rgb(10 10 10 / 0.78) !important;
+}
+html[data-theme="light"] .text-white\/70 {
+  color: rgb(10 10 10 / 0.8) !important;
+}
+html[data-theme="light"] .text-white\/75 {
+  color: rgb(10 10 10 / 0.85) !important;
+}
+html[data-theme="light"] .text-white\/80 {
+  color: rgb(10 10 10 / 0.88) !important;
+}
+html[data-theme="light"] .text-white\/85 {
+  color: rgb(10 10 10 / 0.9) !important;
+}
+html[data-theme="light"] .text-white\/90 {
+  color: rgb(10 10 10 / 0.92) !important;
+}
+
+html[data-theme="light"] .hover\:text-white:hover,
+html[data-theme="light"] .group-hover\:text-white:hover,
+html[data-theme="light"] .group:hover .group-hover\:text-white,
+html[data-theme="light"] .group\/card:hover .group-hover\/card\:text-white,
+html[data-theme="light"] .group\/banner:hover .group-hover\/banner\:text-white {
+  color: #0a0a0a !important;
+}
+
+html[data-theme="light"] .placeholder\:text-white\/70::placeholder,
+html[data-theme="light"] .placeholder\:text-white\/60::placeholder,
+html[data-theme="light"] .placeholder\:text-white\/55::placeholder,
+html[data-theme="light"] .placeholder\:text-white\/35::placeholder {
+  color: rgb(10 10 10 / 0.55) !important;
+}
+
+html[data-theme="light"] .ring-white\/25 {
+  --tw-ring-color: rgb(0 0 0 / 0.25) !important;
+}
+html[data-theme="light"] .ring-white {
+  --tw-ring-color: rgb(0 0 0 / 0.35) !important;
+}
+html[data-theme="light"] .focus\:ring-white:focus {
+  --tw-ring-color: rgb(0 0 0 / 0.4) !important;
+}
+
+html[data-theme="light"] .border-white\/10 {
+  border-color: rgb(0 0 0 / 0.1) !important;
+}
+html[data-theme="light"] .border-white\/12 {
+  border-color: rgb(0 0 0 / 0.12) !important;
+}
+html[data-theme="light"] .border-white\/15 {
+  border-color: rgb(0 0 0 / 0.14) !important;
+}
+html[data-theme="light"] .border-white\/20 {
+  border-color: rgb(0 0 0 / 0.18) !important;
+}
+html[data-theme="light"] .border-white\/25 {
+  border-color: rgb(0 0 0 / 0.22) !important;
+}
+html[data-theme="light"] .border-white\/35 {
+  border-color: rgb(0 0 0 / 0.3) !important;
+}
+html[data-theme="light"] .border-white\/45 {
+  border-color: rgb(0 0 0 / 0.35) !important;
+}
+html[data-theme="light"] .border-white\/90 {
+  border-color: rgb(0 0 0 / 0.55) !important;
+}
+html[data-theme="light"] .border-white {
+  border-color: rgb(0 0 0 / 0.2) !important;
+}
+
+/* Let accent hover borders win over the light-theme white-border remap */
+html[data-theme="light"] .hover\:border-accent:hover,
+html[data-theme="light"] .hover\:border-accent\/70:hover,
+html[data-theme="light"] .hover\:border-accent\/60:hover,
+html[data-theme="light"] .hover\:border-accent\/50:hover,
+html[data-theme="light"] .hover\:border-accent\/40:hover,
+html[data-theme="light"] .group:hover.hover\:border-accent,
+html[data-theme="light"] .group\/card:hover.hover\:border-accent\/70 {
+  border-color: var(--accent) !important;
+}
+
+html[data-theme="light"] .hover\:border-accent\/70:hover {
+  border-color: color-mix(in oklab, var(--accent) 70%, transparent) !important;
+}
+html[data-theme="light"] .hover\:border-accent\/60:hover {
+  border-color: color-mix(in oklab, var(--accent) 60%, transparent) !important;
+}
+html[data-theme="light"] .hover\:border-accent\/50:hover {
+  border-color: color-mix(in oklab, var(--accent) 50%, transparent) !important;
+}
+html[data-theme="light"] .hover\:border-accent\/40:hover {
+  border-color: color-mix(in oklab, var(--accent) 40%, transparent) !important;
+}
+
+html[data-theme="light"] .bg-white\/\[0\.03\],
+html[data-theme="light"] .bg-white\/\[0\.04\],
+html[data-theme="light"] .bg-white\/5 {
+  background-color: rgb(0 0 0 / 0.04) !important;
+}
+html[data-theme="light"] .bg-white\/10 {
+  background-color: rgb(0 0 0 / 0.06) !important;
+}
+html[data-theme="light"] .bg-white\/15 {
+  background-color: rgb(0 0 0 / 0.08) !important;
+}
+html[data-theme="light"] .bg-white\/20 {
+  background-color: rgb(0 0 0 / 0.1) !important;
+}
+html[data-theme="light"] .bg-white\/30 {
+  background-color: rgb(0 0 0 / 0.12) !important;
+}
+
+html[data-theme="light"] .bg-white {
+  background-color: var(--pure-white) !important;
+}
+
+html[data-theme="light"] .text-navy-950 {
+  color: var(--brand-ink) !important;
+}
+
+html[data-theme="light"] .text-accent,
+html[data-theme="light"] .hover\:text-accent:hover,
+html[data-theme="light"] .group-hover\:text-accent:hover,
+html[data-theme="light"] .group:hover .group-hover\:text-accent,
+html[data-theme="light"] .group\/card:hover .group-hover\/card\:text-accent {
+  color: var(--accent) !important;
+}
+
+/* Card/button hovers stay light — do not invert to black */
+html[data-theme="light"] .hover\:bg-navy-900:hover {
+  background-color: #ffffff !important;
+}
+
+html[data-theme="light"] .hover\:bg-navy-950:hover {
+  background-color: #eeeeee !important;
+}
+
+/* Explicit ink invert (rare CTAs) */
+html[data-theme="light"] .hover-to-ink:hover {
+  background-color: var(--brand-ink) !important;
+  color: #ffffff !important;
+}
+
+/* Clearer muted labels on light surfaces */
+html[data-theme="light"] .group:hover .group-hover\:text-accent\/20,
+html[data-theme="light"] .group-hover\:text-accent\/20 {
+  color: color-mix(in oklab, var(--accent) 22%, transparent) !important;
+}
+
+html[data-theme="light"] .group:hover .group-hover\:text-accent\/35,
+html[data-theme="light"] .group-hover\:text-accent\/35 {
+  color: color-mix(in oklab, var(--accent) 35%, transparent) !important;
+}
+
+html[data-theme="light"] .theme-capsule:hover {
+  border-color: color-mix(in oklab, var(--accent) 55%, transparent) !important;
+  background-color: color-mix(in oklab, var(--accent) 10%, #ffffff) !important;
+}
+
+html[data-theme="light"] .dark-card {
+  transition:
+    color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html[data-theme="light"] .dark-card:hover {
+  background-color: #ffffff;
+  border-color: color-mix(in oklab, var(--accent) 70%, transparent) !important;
+  box-shadow: 0 20px 40px -28px rgba(255, 107, 53, 0.55);
+}
+
+/* Accent edge bars — full draw on hover (works in light + dark) */
+.card-bar-y {
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.card-bar-x {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.group\/card:hover .card-bar-y,
+.group:hover .card-bar-y {
+  transform: scaleY(1);
+}
+
+.group\/card:hover .card-bar-x,
+.group:hover .card-bar-x {
+  transform: scaleX(1);
+}
+
+@media (hover: none) {
+  .group\/card:hover .card-bar-y,
+  .group:hover .card-bar-y {
+    transform: scaleY(0);
+  }
+
+  .group\/card:hover .card-bar-x,
+  .group:hover .card-bar-x {
+    transform: scaleX(0);
+  }
+}
+
+html[data-theme="light"] .group\/card:hover .group-hover\/card\:text-navy-950,
+html[data-theme="light"] .group:hover .group-hover\:text-navy-950,
+html[data-theme="light"] .hover\:text-navy-950:hover {
+  color: var(--brand-ink) !important;
+}
+
+html[data-theme="light"] .group\/card:hover .group-hover\/card\:text-brand-ink,
+html[data-theme="light"] .group:hover .group-hover\:text-brand-ink,
+html[data-theme="light"] .hover\:text-brand-ink:hover {
+  color: var(--brand-ink) !important;
+}
+
+html[data-theme="light"] .theme-toggle {
+  border-color: rgb(0 0 0 / 0.12);
+  background-color: rgb(0 0 0 / 0.04);
+  color: #0a0a0a;
+}
+
+html[data-theme="light"] .theme-toggle:hover {
+  border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  background-color: color-mix(in oklab, var(--accent) 10%, transparent);
+  color: var(--accent);
+}
+
+html[data-theme="light"] .mobile-chrome-btn {
+  border-color: rgb(0 0 0 / 0.12);
+  background-color: #ffffff;
+  color: #0a0a0a;
+}
+
+/* Accent CTA bands: keep dark ink on orange, white where needed */
+html[data-theme="light"] .bg-accent .text-white,
+html[data-theme="light"] .bg-accent .text-white\/75,
+html[data-theme="light"] .bg-accent .text-white\/80,
+html[data-theme="light"] .bg-accent .text-white\/55,
+html[data-theme="light"] .bg-accent .text-white\/70 {
+  color: var(--brand-ink) !important;
+}
+
+html[data-theme="light"] .btn-secondary {
+  color: #0a0a0a;
+  border-color: rgb(0 0 0 / 0.35);
+}
+
+html[data-theme="light"] .btn-secondary:hover {
+  border-color: #0a0a0a;
+  background: rgb(0 0 0 / 0.06);
+}
+
+html[data-theme="light"] .btn-outline {
+  color: #0a0a0a;
+}
+
+html[data-theme="light"] .btn-profile {
+  background: #0a0a0a;
+  color: #ffffff;
+}
+
+html[data-theme="light"] .social-icon-btn {
+  border-color: #0a0a0a;
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+/*
+  Media bands (photos / video) keep dark cinematic overlays + light text
+  so imagery matches the dark theme while the rest of the page stays light.
+*/
+html[data-theme="light"] [data-media] {
+  --navy-950: #0a0a0a;
+  --navy-900: #141414;
+  --navy-800: #1f1f1f;
+  --navy-700: #2a2a2a;
+  --navy-600: #3d3d3d;
+  --theme-white: #ffffff;
+  --color-ink: #0a0a0a;
+  --color-ink-2: #0a0a0a;
+  color: #f5f5f5;
+}
+
+html[data-theme="light"] [data-media] .text-white {
+  color: #ffffff !important;
+}
+html[data-theme="light"] [data-media] .text-white\/5 {
+  color: rgb(255 255 255 / 0.05) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/20 {
+  color: rgb(255 255 255 / 0.2) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/25 {
+  color: rgb(255 255 255 / 0.25) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/30 {
+  color: rgb(255 255 255 / 0.3) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/35 {
+  color: rgb(255 255 255 / 0.35) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/40 {
+  color: rgb(255 255 255 / 0.4) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/45 {
+  color: rgb(255 255 255 / 0.45) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/50 {
+  color: rgb(255 255 255 / 0.5) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/55 {
+  color: rgb(255 255 255 / 0.55) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/60 {
+  color: rgb(255 255 255 / 0.6) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/65 {
+  color: rgb(255 255 255 / 0.65) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/70 {
+  color: rgb(255 255 255 / 0.7) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/75 {
+  color: rgb(255 255 255 / 0.75) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/80 {
+  color: rgb(255 255 255 / 0.8) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/85 {
+  color: rgb(255 255 255 / 0.85) !important;
+}
+html[data-theme="light"] [data-media] .text-white\/90 {
+  color: rgb(255 255 255 / 0.9) !important;
+}
+
+html[data-theme="light"] [data-media] .hover\:text-white:hover,
+html[data-theme="light"] [data-media] .group:hover .group-hover\:text-white,
+html[data-theme="light"] [data-media] .group\/card:hover .group-hover\/card\:text-white {
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] [data-media] .border-white\/10 {
+  border-color: rgb(255 255 255 / 0.1) !important;
+}
+html[data-theme="light"] [data-media] .border-white\/12 {
+  border-color: rgb(255 255 255 / 0.12) !important;
+}
+html[data-theme="light"] [data-media] .border-white\/15 {
+  border-color: rgb(255 255 255 / 0.15) !important;
+}
+html[data-theme="light"] [data-media] .border-white\/20 {
+  border-color: rgb(255 255 255 / 0.2) !important;
+}
+html[data-theme="light"] [data-media] .border-white\/25 {
+  border-color: rgb(255 255 255 / 0.25) !important;
+}
+html[data-theme="light"] [data-media] .border-white\/35 {
+  border-color: rgb(255 255 255 / 0.35) !important;
+}
+html[data-theme="light"] [data-media] .border-white {
+  border-color: rgb(255 255 255 / 0.35) !important;
+}
+
+html[data-theme="light"] [data-media] .bg-white\/5,
+html[data-theme="light"] [data-media] .bg-white\/\[0\.03\],
+html[data-theme="light"] [data-media] .bg-white\/\[0\.04\] {
+  background-color: rgb(255 255 255 / 0.05) !important;
+}
+html[data-theme="light"] [data-media] .bg-white\/10 {
+  background-color: rgb(255 255 255 / 0.1) !important;
+}
+html[data-theme="light"] [data-media] .bg-white\/15 {
+  background-color: rgb(255 255 255 / 0.15) !important;
+}
+html[data-theme="light"] [data-media] .bg-white\/20 {
+  background-color: rgb(255 255 255 / 0.2) !important;
+}
+
+html[data-theme="light"] [data-media] .btn-secondary {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+html[data-theme="light"] [data-media] .btn-outline {
+  color: #ffffff;
+}
+
+html[data-theme="light"] [data-media] .section-heading,
+html[data-theme="light"] [data-media] .section-heading--on-dark {
+  color: #ffffff;
+}
+
+html[data-theme="light"] [data-media] .breadcrumb,
+html[data-theme="light"] [data-media] .breadcrumb a {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+html[data-theme="light"] [data-media] .text-accent,
+html[data-theme="light"] [data-media] .hover\:text-accent:hover,
+html[data-theme="light"] [data-media] .group:hover .group-hover\:text-accent,
+html[data-theme="light"] [data-media] .group\/card:hover .group-hover\/card\:text-accent {
+  color: var(--accent) !important;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-white: var(--theme-white);
+  --color-brand-ink: var(--brand-ink);
 
   --color-brand: var(--accent);
   --color-brand-dark: var(--accent-dark);
@@ -191,7 +686,7 @@ a {
     justify-content: center;
     gap: 8px;
     background: var(--accent);
-    color: var(--navy-950);
+    color: var(--brand-ink);
     padding: 14px 30px;
     font-size: 13px;
     font-weight: 700;
@@ -218,7 +713,7 @@ a {
 
     .btn-primary:hover {
       background: var(--accent-light);
-      color: var(--navy-950);
+      color: var(--brand-ink);
     }
 
     .btn-primary:hover::before,
@@ -358,6 +853,12 @@ a {
     color: #fff;
   }
 
+  html[data-theme="light"] .section-heading,
+  html[data-theme="light"] .section-heading--on-dark {
+    color: #0a0a0a;
+  }
+
+
   /* Content image hover zoom — add `img-zoom` on the overflow frame */
   .img-zoom {
     overflow: hidden;
@@ -427,6 +928,15 @@ a {
 
   .breadcrumb a:hover {
     color: var(--accent-light);
+  }
+
+  html[data-theme="light"] .breadcrumb:not(:where([data-media] *)),
+  html[data-theme="light"] .breadcrumb:not(:where([data-media] *)) a {
+    color: rgb(10 10 10 / 0.75);
+  }
+
+  html[data-theme="light"] .breadcrumb:not(:where([data-media] *)) a:hover {
+    color: var(--accent);
   }
 
   /* Projects table fallback (legacy — kept minimal in case referenced) */
@@ -544,6 +1054,23 @@ a {
 
   .standards-marquee {
     animation: standardsMarquee 28s linear infinite;
+  }
+
+  @keyframes vendorsMarquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .vendors-marquee {
+    animation: vendorsMarquee 140s linear infinite;
+  }
+
+  .vendors-marquee-reverse {
+    animation: vendorsMarquee 160s linear infinite reverse;
   }
 
   /* Footer social icons — fill-from-bottom + icon flip on hover */

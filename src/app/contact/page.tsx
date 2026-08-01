@@ -342,7 +342,7 @@ export default function ContactPage() {
                 <Pressable>
                   <button
                     type="submit"
-                    className="inline-flex h-12 items-center justify-center gap-2 bg-white px-6 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-navy-950 hover:text-white"
+                    className="hover-to-ink inline-flex h-12 items-center justify-center gap-2 bg-white px-6 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-navy-950 hover:text-white"
                   >
                     Submit <ArrowUpRight className="h-4 w-4" />
                   </button>

@@ -40,11 +40,12 @@ export default function CompletedProjectsPage() {
                 <p className="mt-3 max-w-xl text-[15px] text-white/60">
                   Completed contractor packages across industrial, infrastructure,
                   and utility sites — executed with quality control and clear
-                  handover documentation.
+                  handover documentation. Selected 100% completed works from the
+                  last two years.
                 </p>
                 <p className="mt-3 border border-accent/25 bg-accent/10 px-3 py-2 text-[12px] text-accent">
-                  Project names, clients, locations, and photographs are
-                  placeholders until TIMC provides official project data.
+                  Project photographs will be added once TIMC provides site media
+                  and disclosure approvals.
                 </p>
               </div>
               <Button asChild>

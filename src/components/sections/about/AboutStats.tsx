@@ -1,11 +1,18 @@
+import Link from "next/link";
 import Counter from "@/components/ui/Counter";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { ongoingProjects } from "@/lib/company";
 
 const statusStats = [
   { value: 500, suffix: "+", label: "Completed Projects" },
   { value: 50, suffix: "+", label: "Team Members" },
   { value: 98, suffix: "%", label: "Client Satisfaction" },
-  { value: 12, suffix: "+", label: "Running Projects" },
+  {
+    value: ongoingProjects.length,
+    suffix: "+",
+    label: "Ongoing Projects",
+    href: "/projects/ongoing",
+  },
 ];
 
 export default function AboutStats() {
@@ -24,14 +31,33 @@ export default function AboutStats() {
         </Reveal>
 
         <RevealGroup className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
-          {statusStats.map((stat) => (
-            <RevealItem key={stat.label} className="text-center">
-              <p className="font-display text-4xl font-bold text-accent md:text-5xl">
-                <Counter value={stat.value} suffix={stat.suffix} />
-              </p>
-              <p className="mt-2 text-[14px] text-white/60">{stat.label}</p>
-            </RevealItem>
-          ))}
+          {statusStats.map((stat) => {
+            const content = (
+              <>
+                <p className="font-display text-4xl font-bold text-accent md:text-5xl">
+                  <Counter value={stat.value} suffix={stat.suffix} />
+                </p>
+                <p className="mt-2 text-[14px] text-white/60 transition group-hover:text-accent">
+                  {stat.label}
+                </p>
+              </>
+            );
+
+            return (
+              <RevealItem key={stat.label} className="text-center">
+                {"href" in stat && stat.href ? (
+                  <Link
+                    href={stat.href}
+                    className="group block no-underline transition hover:opacity-90"
+                  >
+                    {content}
+                  </Link>
+                ) : (
+                  content
+                )}
+              </RevealItem>
+            );
+          })}
         </RevealGroup>
       </div>
     </div>

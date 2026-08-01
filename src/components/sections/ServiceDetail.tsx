@@ -26,6 +26,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
     <>
       <section
         data-dark-surface
+        data-media
         className="relative overflow-hidden bg-navy-950 pt-[100px] pb-14 sm:pt-[120px] sm:pb-16 lg:pt-[140px]"
       >
         <div className="absolute inset-0">
@@ -127,7 +128,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
                 key={item.title}
                 className="group/card relative flex flex-col items-center overflow-hidden border border-white/10 bg-navy-950 p-6 text-center transition-all duration-500 hover:border-accent/70 md:p-7 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]"
               >
-                <span className="absolute top-0 bottom-0 left-0 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover/card:scale-y-100" />
+                <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
                 <span className="font-display text-2xl font-bold text-accent">
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -137,7 +138,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
                 <p className="mt-2 text-[14px] leading-relaxed text-white/55">
                   {item.description}
                 </p>
-                <span className="absolute right-0 bottom-0 left-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/card:scale-x-100" />
+                <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
               </article>
             ))}
           </div>

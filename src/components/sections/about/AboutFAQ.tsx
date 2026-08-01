@@ -69,7 +69,10 @@ export default function AboutFAQ() {
           </Reveal>
 
           <Reveal delay={0.1} className="relative h-full min-h-[360px] lg:min-h-0">
-            <div className="img-zoom group relative h-full min-h-[360px] overflow-hidden lg:min-h-full">
+            <div
+              data-media
+              className="img-zoom group relative h-full min-h-[360px] overflow-hidden lg:min-h-full"
+            >
               <Image
                 src="/images/about-faq-crew.jpg"
                 alt="TIMC project crew with foundation drilling equipment on site"

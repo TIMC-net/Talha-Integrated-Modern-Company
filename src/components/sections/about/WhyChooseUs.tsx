@@ -14,7 +14,11 @@ export default function WhyChooseUs() {
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative overflow-hidden py-16 md:py-24">
+    <div
+      data-dark-surface
+      data-media
+      className="relative overflow-hidden py-16 md:py-24"
+    >
       <div className="absolute inset-0">
         <Image
           src="/images/header-contracting.jpg"

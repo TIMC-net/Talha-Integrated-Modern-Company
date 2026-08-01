@@ -49,6 +49,7 @@ export default function ServicesPageContent() {
       <section
         id="overview"
         data-dark-surface
+        data-media
         className="relative scroll-mt-20 overflow-hidden bg-navy-950 pt-[100px] pb-14 sm:scroll-mt-24 sm:pt-[120px] sm:pb-16 md:pb-20 lg:scroll-mt-28 lg:pt-[140px]"
       >
         <div className="absolute inset-0">
@@ -109,7 +110,7 @@ export default function ServicesPageContent() {
                     scrollToId(service.slug);
                     window.history.replaceState(null, "", `#${service.slug}`);
                   }}
-                  className="flex h-full w-full items-center justify-center border border-white/20 bg-white/5 px-2 py-3 text-center font-display text-[10px] font-bold tracking-wide text-white uppercase transition duration-300 sm:px-3 sm:text-[12px] hover:border-accent hover:bg-accent hover:text-navy-950"
+                  className="flex h-full w-full items-center justify-center border border-white/20 bg-white/5 px-2 py-3 text-center font-display text-[10px] font-bold tracking-wide text-white uppercase transition duration-300 sm:px-3 sm:text-[12px] hover:border-accent hover:bg-accent hover:text-brand-ink"
                 >
                   {service.name}
                 </a>

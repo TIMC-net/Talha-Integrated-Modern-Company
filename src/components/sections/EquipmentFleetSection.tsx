@@ -53,7 +53,7 @@ export default function EquipmentFleetSection() {
                 {category.items.map((item) => (
                   <RevealItem key={item.id}>
                     <article className="group/card relative flex h-full flex-col overflow-hidden border border-white/10 bg-navy-900 transition-all duration-500 hover:border-accent/70 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                      <span className="absolute top-0 bottom-0 left-0 z-10 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover/card:scale-y-100" />
+                      <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
                       <div className="relative aspect-[16/10] w-full overflow-hidden bg-navy-950 sm:aspect-auto sm:h-[160px]">
                         {item.image ? (
                           <Image
@@ -78,7 +78,7 @@ export default function EquipmentFleetSection() {
                           Specs pending
                         </span>
                       </div>
-                      <span className="absolute right-0 bottom-0 left-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/card:scale-x-100" />
+                      <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
                     </article>
                   </RevealItem>
                 ))}

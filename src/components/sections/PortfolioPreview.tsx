@@ -26,6 +26,7 @@ function ProjectSlide({
   return (
     <Link
       href={`/portfolio/${project.slug}`}
+      data-media
       className="group relative block aspect-[16/10] w-full overflow-hidden sm:aspect-auto sm:h-[400px] lg:h-[460px]"
     >
       <Image
@@ -143,7 +144,7 @@ export default function PortfolioPreview() {
               type="button"
               aria-label="Previous project"
               onClick={() => swiperRef.current?.slidePrev()}
-              className="flex h-12 w-12 items-center justify-center border border-white/15 bg-navy-900 text-white transition hover:border-accent hover:bg-accent hover:text-navy-950"
+              className="flex h-12 w-12 items-center justify-center border border-white/15 bg-navy-900 text-white transition hover:border-accent hover:bg-accent hover:text-brand-ink"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>

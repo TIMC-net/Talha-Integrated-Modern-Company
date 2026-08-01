@@ -27,7 +27,7 @@ function CertificationCard({
 
   return (
     <AnimatedDarkCard className="flex h-full flex-col bg-navy-900">
-      <span className="flex h-12 w-12 items-center justify-center bg-accent/15 text-accent transition duration-500 group-hover/card:bg-accent group-hover/card:text-navy-950">
+      <span className="flex h-12 w-12 items-center justify-center bg-accent/15 text-accent transition duration-500 group-hover/card:bg-accent group-hover/card:text-brand-ink">
         <Icon className="h-6 w-6" strokeWidth={1.5} />
       </span>
       <h3 className="mt-5 font-display text-[15px] font-bold tracking-wide text-white uppercase transition duration-300 group-hover/card:text-accent">

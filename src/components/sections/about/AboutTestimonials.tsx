@@ -36,7 +36,7 @@ export default function AboutTestimonials() {
                 type="button"
                 aria-label="Previous testimonial"
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="flex h-11 w-11 items-center justify-center border border-white/15 bg-navy-950 text-white transition hover:border-accent hover:bg-accent hover:text-navy-950"
+                className="flex h-11 w-11 items-center justify-center border border-white/15 bg-navy-950 text-white transition hover:border-accent hover:bg-accent hover:text-brand-ink"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -77,7 +77,7 @@ export default function AboutTestimonials() {
             {testimonials.map((item) => (
               <SwiperSlide key={item.id}>
                 <article className="group/card relative flex h-full min-h-[280px] flex-col overflow-hidden border border-white/10 bg-navy-950 p-7 transition-all duration-500 hover:border-accent/70 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                  <span className="absolute top-0 bottom-0 left-0 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover/card:scale-y-100" />
+                  <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex gap-1 text-accent" aria-hidden>
                       {Array.from({ length: 5 }).map((_, i) => (
@@ -99,7 +99,7 @@ export default function AboutTestimonials() {
                     </p>
                     <p className="mt-1 text-[13px] text-white/45">{item.company}</p>
                   </div>
-                  <span className="absolute right-0 bottom-0 left-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/card:scale-x-100" />
+                  <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
                 </article>
               </SwiperSlide>
             ))}

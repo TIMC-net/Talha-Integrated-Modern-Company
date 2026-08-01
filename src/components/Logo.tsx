@@ -34,10 +34,10 @@ export default function Logo({
       <Image
         src="/images/logo-mark.png"
         alt=""
-        width={48}
-        height={42}
+        width={256}
+        height={256}
         priority
-        className={`w-auto shrink-0 object-contain ${
+        className={`w-auto shrink-0 rounded-full object-contain ${
           markOnly
             ? "h-9 max-h-9 sm:h-10 sm:max-h-10"
             : compact

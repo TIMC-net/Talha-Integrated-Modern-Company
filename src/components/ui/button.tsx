@@ -9,10 +9,10 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "btn-holo bg-accent text-navy-950 hover:bg-accent-dark hover:text-white",
+          "btn-holo bg-accent text-brand-ink hover:bg-accent-dark hover:text-brand-ink",
         outline:
           "btn-holo btn-holo-outline border border-white/35 text-white hover:border-white hover:bg-white/10",
-        ghost: "text-ink hover:bg-black/5",
+        ghost: "text-foreground hover:bg-black/5",
         link: "text-accent underline-offset-4 hover:underline",
       },
       size: {

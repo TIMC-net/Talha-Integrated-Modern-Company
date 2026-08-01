@@ -47,7 +47,7 @@ export default function PortfolioPageContent() {
                 <Button
                   asChild
                   variant="outline"
-                  className="border-white/20 text-white hover:border-accent hover:bg-accent hover:text-navy-950"
+                  className="border-white/20 text-white hover:border-accent hover:bg-accent hover:text-brand-ink"
                 >
                   <Link href="/projects/ongoing">Ongoing</Link>
                 </Button>

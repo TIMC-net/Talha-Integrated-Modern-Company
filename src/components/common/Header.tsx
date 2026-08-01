@@ -13,6 +13,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { company } from "@/lib/company";
 
@@ -394,10 +395,17 @@ export default function Header() {
         aria-label="Open menu"
         aria-expanded={mobileOpen}
         onClick={() => setMobileOpen(true)}
-        className="pointer-events-auto fixed top-4 left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-[#2A2927] text-white shadow-lg transition hover:border-accent/40 hover:bg-accent/10 sm:top-5 sm:left-5 sm:h-14 sm:w-14 lg:hidden"
+        className="mobile-chrome-btn pointer-events-auto fixed top-4 left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-[#2A2927] text-white shadow-lg transition hover:border-accent/40 hover:bg-accent/10 sm:top-5 sm:left-5 sm:h-14 sm:w-14 lg:hidden"
       >
         <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
       </button>
+
+      <div className="pointer-events-auto fixed top-4 right-4 z-50 sm:top-5 sm:right-5 lg:hidden">
+        <ThemeToggle
+          size="md"
+          className="mobile-chrome-btn theme-toggle h-12 w-12 border-white/15 bg-[#2A2927] shadow-lg sm:h-14 sm:w-14"
+        />
+      </div>
 
       {/*
         Desktop capsule — width morph via max-width only (always w-[94vw])
@@ -405,13 +413,13 @@ export default function Header() {
       */}
       <div
         className={`pointer-events-none fixed top-4 left-1/2 z-50 hidden w-[94vw] -translate-x-1/2 sm:top-5 md:top-[22px] lg:top-6 lg:block ${MORPH} will-change-[max-width] transition-[max-width] ${
-          collapsed ? "max-w-[460px]" : "max-w-[1280px]"
+          collapsed ? "max-w-[600px]" : "max-w-[1280px]"
         }`}
       >
         <nav
           className={`pointer-events-auto flex w-full items-center overflow-hidden rounded-[130px] border border-white/10 bg-navy-950/80 shadow-lg backdrop-blur-[30px] ${MORPH} min-h-[68px] py-3 transition-[padding,gap,background-color,box-shadow] sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5 ${
             collapsed
-              ? "justify-between gap-4 pr-2 pl-4 sm:gap-5 sm:pr-2.5 sm:pl-5 lg:pr-2.5 lg:pl-5 xl:pr-3 xl:pl-6"
+              ? "justify-between gap-3 pr-2.5 pl-5 sm:gap-4 sm:pr-3 sm:pl-6 lg:pr-3 lg:pl-6 xl:pr-3.5 xl:pl-7"
               : "justify-between gap-3 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-7"
           }`}
         >
@@ -430,6 +438,7 @@ export default function Header() {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+            <ThemeToggle />
             <a
               href="/company-profile.pdf"
               target="_blank"
@@ -446,7 +455,7 @@ export default function Header() {
             <Button
               asChild
               size="sm"
-              className="h-11 shrink-0 rounded-full px-5 text-xs tracking-wide xl:h-12 xl:px-6"
+              className="h-11 shrink-0 rounded-full px-4 text-xs tracking-wide whitespace-nowrap xl:h-12 xl:px-5"
             >
               <Link href="/contact">Get A Quote</Link>
             </Button>

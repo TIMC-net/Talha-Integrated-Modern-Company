@@ -10,6 +10,7 @@ export default function PortfolioCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/portfolio/${project.slug}`}
+      data-media
       className="group relative block aspect-video overflow-hidden"
     >
       <Image

@@ -33,7 +33,7 @@ export default function CTASection() {
           <RevealGroup className="space-y-4">
             <RevealItem>
               <div className="group/card relative flex items-start gap-4 overflow-hidden border border-white/10 bg-navy-950 p-5 transition-all duration-500 hover:border-accent/70 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                <span className="absolute top-0 bottom-0 left-0 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover/card:scale-y-100" />
+                <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                 <div>
                   <p className="font-display text-[13px] font-bold tracking-wide text-white uppercase transition duration-300 group-hover/card:text-accent">
@@ -41,12 +41,12 @@ export default function CTASection() {
                   </p>
                   <p className="mt-1 text-[14px] text-white/55">{company.location}</p>
                 </div>
-                <span className="absolute right-0 bottom-0 left-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/card:scale-x-100" />
+                <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
               </div>
             </RevealItem>
             <RevealItem>
               <div className="group/card relative flex items-start gap-4 overflow-hidden border border-white/10 bg-navy-950 p-5 transition-all duration-500 hover:border-accent/70 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                <span className="absolute top-0 bottom-0 left-0 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover/card:scale-y-100" />
+                <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                 <div>
                   <p className="font-display text-[13px] font-bold tracking-wide text-white uppercase transition duration-300 group-hover/card:text-accent">
@@ -59,12 +59,12 @@ export default function CTASection() {
                     {company.phone}
                   </a>
                 </div>
-                <span className="absolute right-0 bottom-0 left-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/card:scale-x-100" />
+                <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
               </div>
             </RevealItem>
             <RevealItem>
               <div className="group/card relative flex items-start gap-4 overflow-hidden border border-white/10 bg-navy-950 p-5 transition-all duration-500 hover:border-accent/70 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                <span className="absolute top-0 bottom-0 left-0 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover/card:scale-y-100" />
+                <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
                 <Mail className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                 <div>
                   <p className="font-display text-[13px] font-bold tracking-wide text-white uppercase transition duration-300 group-hover/card:text-accent">
@@ -77,7 +77,7 @@ export default function CTASection() {
                     {company.email}
                   </a>
                 </div>
-                <span className="absolute right-0 bottom-0 left-0 h-[2px] origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/card:scale-x-100" />
+                <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
               </div>
             </RevealItem>
           </RevealGroup>
