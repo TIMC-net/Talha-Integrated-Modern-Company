@@ -3,7 +3,6 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
-  ArrowUpRight,
   CheckCircle2,
   ChevronDown,
   Clock3,
@@ -54,7 +53,6 @@ const infoItems = [
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
-  const [newsletterSent, setNewsletterSent] = useState(false);
   const reduce = useReducedMotion();
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -76,18 +74,6 @@ export default function ContactPage() {
     );
     window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`;
     setSent(true);
-  }
-
-  function onNewsletterSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const subject = encodeURIComponent("TIMC Newsletter Subscription");
-    const body = encodeURIComponent(
-      `Please subscribe this email to the TIMC newsletter:\n${data.get("newsletter-email")}`,
-    );
-    window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`;
-    setNewsletterSent(true);
   }
 
   return (
@@ -302,7 +288,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Full-bleed map + newsletter bar */}
+      {/* Full-bleed map */}
       <section className="relative">
         <div className="relative h-[380px] w-full md:h-[480px] lg:h-[520px]">
           <iframe
@@ -312,47 +298,6 @@ export default function ContactPage() {
             referrerPolicy="no-referrer-when-downgrade"
             src={`https://maps.google.com/maps?q=${company.mapsLat},${company.mapsLng}&z=17&ie=UTF8&iwloc=&output=embed`}
           />
-        </div>
-
-        <div className="relative z-10 bg-accent">
-          <div className="container-site flex flex-col items-start justify-between gap-6 py-7 md:flex-row md:items-center md:py-8">
-            <div>
-              <h3 className="font-display text-xl font-bold text-white md:text-2xl">
-                Sign Up For Our Newsletter
-              </h3>
-              <p className="mt-1 max-w-md text-[13px] text-white/85 md:text-[14px]">
-                Get project updates and contractor insights from TIMC delivered
-                to your inbox.
-              </p>
-            </div>
-
-            {newsletterSent ? (
-              <p className="font-display text-[14px] font-semibold text-white">
-                Thanks — you&rsquo;re subscribed.
-              </p>
-            ) : (
-              <form
-                onSubmit={onNewsletterSubmit}
-                className="flex w-full max-w-md flex-col gap-3 sm:flex-row sm:items-stretch"
-              >
-                <input
-                  required
-                  type="email"
-                  name="newsletter-email"
-                  placeholder="Enter Your Email"
-                  className="h-12 flex-1 border-0 bg-white/15 px-4 text-base text-white outline-none placeholder:text-white/70 ring-1 ring-white/25 transition focus:bg-white/20 focus:ring-white md:text-[14px]"
-                />
-                <Pressable>
-                  <button
-                    type="submit"
-                    className="hover-to-ink inline-flex h-12 w-full items-center justify-center gap-2 bg-white px-6 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-navy-950 hover:text-white sm:w-auto"
-                  >
-                    Submit <ArrowUpRight className="h-4 w-4" />
-                  </button>
-                </Pressable>
-              </form>
-            )}
-          </div>
         </div>
       </section>
     </>
