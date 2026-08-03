@@ -203,7 +203,7 @@ export default function ServiceDivisionBlock({
               Detailed {service.name} copy and imagery pending from TIMC.
             </p>
 
-            <RevealGroup className="mt-7 grid grid-cols-2 gap-x-6 gap-y-2.5">
+            <RevealGroup className="mt-7 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
               {service.capabilities.slice(0, 8).map((tag) => (
                 <RevealItem key={tag} className="min-w-0">
                   <div className="flex items-start gap-3 font-display text-[12px] font-semibold tracking-wide text-white/80 uppercase sm:text-[13px]">

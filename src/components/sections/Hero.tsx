@@ -80,9 +80,10 @@ export default function Hero() {
           >
             <source src="/videos/hero-construction.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 from-15% via-navy-950/40 to-navy-950/35 sm:hidden" />
-          <div className="absolute inset-0 hidden sm:block sm:bg-gradient-to-r sm:from-navy-950/92 sm:via-navy-950/70 sm:to-navy-950/45" />
-          <div className="absolute inset-0 hidden sm:block sm:bg-gradient-to-t sm:from-navy-950 sm:via-navy-950/20 sm:to-navy-950/50" />
+          {/* Light at top → darker at bottom so the video stays visible */}
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/15 via-navy-950/40 to-navy-950/92" />
+          {/* Soft left wash on desktop for headline contrast without crushing the video */}
+          <div className="absolute inset-0 hidden sm:block sm:bg-gradient-to-r sm:from-navy-950/45 sm:via-transparent sm:to-transparent" />
         </div>
       </div>
 
@@ -124,12 +125,12 @@ export default function Hero() {
 
           <div
             ref={ctaRef}
-            className="mt-6 flex w-full max-w-md flex-col gap-3 pr-14 sm:mt-9 sm:max-w-none sm:w-auto sm:flex-row sm:gap-4 sm:pr-0"
+            className="mt-6 flex w-full flex-col gap-3 sm:mt-9 sm:w-auto sm:flex-row sm:gap-4"
           >
             <Button
               asChild
               size="lg"
-              className="h-auto min-h-12 w-full whitespace-normal px-5 py-3.5 text-[13px] sm:w-auto sm:whitespace-nowrap sm:px-8 sm:text-base"
+              className="animate-soft-heartbeat h-auto min-h-12 w-full justify-center whitespace-normal px-5 py-3.5 text-center text-[13px] sm:w-auto sm:whitespace-nowrap sm:px-8 sm:text-base"
             >
               <Link href="/contact">
                 Discuss Your Project <ArrowRight className="h-4 w-4 shrink-0" />
@@ -139,7 +140,7 @@ export default function Hero() {
               asChild
               variant="outline"
               size="lg"
-              className="h-auto min-h-12 w-full px-5 py-3.5 text-[13px] sm:w-auto sm:px-8 sm:text-base"
+              className="h-auto min-h-12 w-full justify-center whitespace-normal px-5 py-3.5 text-center text-[13px] sm:w-auto sm:whitespace-nowrap sm:px-8 sm:text-base"
             >
               <Link href="/services">Our Services</Link>
             </Button>

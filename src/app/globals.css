@@ -1005,6 +1005,40 @@ a {
     animation: fadeSlide 0.7s ease both;
   }
 
+  /* Accurate lub-dub heartbeat: strong beat, short rest, softer beat, longer rest */
+  @keyframes softHeartbeat {
+    0% {
+      transform: scale(1);
+    }
+    8% {
+      transform: scale(1.08);
+    }
+    16% {
+      transform: scale(1);
+    }
+    24% {
+      transform: scale(1.055);
+    }
+    32% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-soft-heartbeat {
+    animation: softHeartbeat 1.55s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .animate-soft-heartbeat:hover,
+  .animate-soft-heartbeat:focus-visible {
+    animation-play-state: paused;
+    transform: scale(1);
+  }
+
   @keyframes captionIn {
     from {
       opacity: 0;
@@ -1066,6 +1100,14 @@ a {
 
   .vendors-marquee-reverse {
     animation: vendorsMarquee 160s linear infinite reverse;
+  }
+
+  .clients-marquee {
+    animation: vendorsMarquee 55s linear infinite;
+  }
+
+  .clients-marquee-reverse {
+    animation: vendorsMarquee 65s linear infinite reverse;
   }
 
   /* Footer social icons — fill-from-bottom + icon flip on hover */
@@ -1139,7 +1181,8 @@ a {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-slide,
-  .caption-in {
+  .caption-in,
+  .animate-soft-heartbeat {
     opacity: 1;
     transform: none;
     animation: none;
@@ -1151,5 +1194,12 @@ a {
     width: 100%;
     justify-content: center;
     padding-inline: 20px;
+  }
+
+  .vendors-marquee,
+  .vendors-marquee-reverse,
+  .clients-marquee,
+  .clients-marquee-reverse {
+    animation: none;
   }
 }

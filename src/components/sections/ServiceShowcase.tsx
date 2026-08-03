@@ -51,7 +51,7 @@ export default function ServiceShowcase() {
           <div
             role="tablist"
             aria-label="Service divisions"
-            className="mb-8 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:mx-0 md:flex-wrap md:justify-center md:gap-3 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden"
+            className="mb-8 flex flex-wrap justify-center gap-2 pb-1 md:gap-3 md:pb-0"
           >
             {services.map((item, index) => {
               const TabIcon = iconMap[item.icon];

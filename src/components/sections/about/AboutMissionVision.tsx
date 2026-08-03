@@ -72,7 +72,7 @@ export default function AboutMissionVision() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.35, ease: EASE }}
-              className="border border-t-0 border-white/10 bg-navy-900 p-7 md:p-10"
+              className="border border-white/10 bg-navy-900 p-7 md:border-t-0 md:p-10"
             >
               <h3 className="font-display text-xl font-bold text-white uppercase md:text-2xl">
                 {tab.title}

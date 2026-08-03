@@ -70,7 +70,7 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-navy-950/10" />
 
                 <div className="absolute top-4 left-4 right-4 flex items-start justify-between gap-3">
-                  <span className="bg-accent px-3 py-1.5 font-display text-[11px] font-bold tracking-wide text-navy-950 uppercase">
+                  <span className="max-w-[70%] truncate bg-accent px-3 py-1.5 font-display text-[11px] font-bold tracking-wide text-navy-950 uppercase">
                     {project.description}
                   </span>
                   <span className="font-display text-2xl font-bold text-white/25">

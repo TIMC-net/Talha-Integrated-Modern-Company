@@ -1,8 +1,9 @@
-import { Award, Briefcase, Heart, Users } from "lucide-react";
+import Link from "next/link";
+import { Award, Briefcase, Building2, HardHat } from "lucide-react";
 import Counter from "@/components/ui/Counter";
 import type { Stat } from "@/data/stats";
 
-const iconMap = { Award, Briefcase, Users, Heart };
+const iconMap = { Award, Briefcase, Building2, HardHat };
 
 export default function StatCard({
   stat,
@@ -13,8 +14,8 @@ export default function StatCard({
 }) {
   const Icon = iconMap[stat.icon];
 
-  return (
-    <div className="flex flex-col items-center text-center">
+  const content = (
+    <>
       {!onDark && (
         <span
           className="mb-4 flex h-24 w-24 items-center justify-center rounded-full"
@@ -32,12 +33,25 @@ export default function StatCard({
         <Counter value={stat.value} suffix={stat.suffix} />
       </div>
       <p
-        className={`mt-2 text-[12px] leading-relaxed sm:text-[14px] ${
-          onDark ? "text-white/70" : "text-slate"
+        className={`mt-2 text-[12px] leading-relaxed transition sm:text-[14px] ${
+          onDark ? "text-white/70 group-hover:text-accent" : "text-slate group-hover:text-accent"
         }`}
       >
         {stat.label}
       </p>
-    </div>
+    </>
   );
+
+  if (stat.href) {
+    return (
+      <Link
+        href={stat.href}
+        className="group flex flex-col items-center text-center no-underline transition hover:opacity-90"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className="flex flex-col items-center text-center">{content}</div>;
 }

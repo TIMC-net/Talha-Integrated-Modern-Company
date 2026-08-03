@@ -723,13 +723,13 @@ export default function Header() {
             aria-label="Open menu"
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen(true)}
-            className="flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-[#0a0a0a] text-[#ffffff]"
+            className="flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-[#0a0a0a]/70 text-[#ffffff] backdrop-blur-md"
           >
             <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
         }
         overlay={
-          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]">
+          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] backdrop-blur-md">
             <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
           </div>
         }
@@ -745,11 +745,11 @@ export default function Header() {
           <NavThemeToggle
             tone="on-light"
             size="md"
-            className="h-full w-full border-white/20 bg-[#0a0a0a] text-[#ffffff] shadow-none"
+            className="h-full w-full border-white/20 bg-[#0a0a0a]/70 text-[#ffffff] shadow-none backdrop-blur-md"
           />
         }
         overlay={
-          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]">
+          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] backdrop-blur-md">
             <ThemeIcon className="h-5 w-5" />
           </div>
         }
@@ -772,7 +772,7 @@ export default function Header() {
               <nav
                 data-site-nav
                 className={cn(
-                  "flex w-full items-center overflow-hidden rounded-[130px] border border-white/12 bg-[#0a0a0a]/88 text-[#ffffff] shadow-lg backdrop-blur-[30px]",
+                  "flex w-full items-center overflow-hidden rounded-[130px] border border-white/12 bg-[#0a0a0a]/70 text-[#ffffff] shadow-lg backdrop-blur-[30px]",
                   MORPH,
                   "min-h-[68px] py-3 transition-[padding,gap,box-shadow] sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
                   capsulePad,
@@ -789,7 +789,7 @@ export default function Header() {
             overlay={
               <nav
                 className={cn(
-                  "flex h-full w-full items-center overflow-hidden rounded-[130px] border border-black/10 bg-[#ffffff]/92 text-[#0a0a0a] shadow-lg backdrop-blur-[30px]",
+                  "flex h-full w-full items-center overflow-hidden rounded-[130px] border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] shadow-lg backdrop-blur-[30px]",
                   "min-h-[68px] py-3 sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
                   capsulePad,
                 )}

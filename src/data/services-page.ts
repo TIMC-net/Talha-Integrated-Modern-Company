@@ -1,9 +1,5 @@
-export type CapabilityPillar = {
-  id: string;
-  number: string;
-  title: string;
-  description: string;
-};
+import { completedProjects, company, ongoingProjects } from "@/lib/company";
+import { services } from "@/data/services";
 
 export type StandardBadge = {
   id: string;
@@ -55,51 +51,6 @@ export const deliveryProcess = [
   },
 ];
 
-export const underOneRoof: CapabilityPillar[] = [
-  {
-    id: "hse",
-    number: "01",
-    title: "HSE Management",
-    description:
-      "Dedicated HSE focus on every project with risk assessments, permit-to-work discipline, and incident reporting aligned to ISO 45001 principles.",
-  },
-  {
-    id: "ksa",
-    number: "02",
-    title: "Kingdom-Wide Delivery",
-    description:
-      "Contractor operations across Saudi Arabia with local mobilisation capability for industrial and infrastructure programmes.",
-  },
-  {
-    id: "quality",
-    number: "03",
-    title: "ISO-Aligned Quality",
-    description:
-      "Documented quality processes covering inspection, non-conformance control, and continual improvement.",
-  },
-  {
-    id: "fleet",
-    number: "04",
-    title: "Integrated Equipment",
-    description:
-      "In-house equipment support that keeps civil, foundation and energy packages moving without third-party delays.",
-  },
-  {
-    id: "workforce",
-    number: "05",
-    title: "Skilled Workforce",
-    description:
-      "Experienced supervisors, engineers and trades aligned to industrial and infrastructure project requirements.",
-  },
-  {
-    id: "reporting",
-    number: "06",
-    title: "Project Reporting",
-    description:
-      "Progress reporting, photographic records and programme tracking for clear client visibility.",
-  },
-];
-
 export const standardsWeWorkTo: StandardBadge[] = [
   { id: "iso9001", label: "ISO 9001" },
   { id: "iso14001", label: "ISO 14001" },
@@ -109,9 +60,27 @@ export const standardsWeWorkTo: StandardBadge[] = [
   { id: "vision", label: "Vision 2030" },
 ];
 
+const yearsExperience =
+  new Date().getFullYear() - Number(company.established);
+
 export const servicesHeroStats = [
-  { value: "4+", label: "Core Divisions" },
-  { value: "500+", label: "Projects Completed" },
-  { value: "16+", label: "Years Experience" },
-  { value: "KSA", label: "Kingdom Focus" },
+  {
+    value: String(services.length),
+    label: "Core Divisions",
+    href: "/services",
+  },
+  {
+    value: String(completedProjects.length),
+    label: "Projects Completed",
+    href: "/projects/completed",
+  },
+  {
+    value: String(ongoingProjects.length),
+    label: "Ongoing Projects",
+    href: "/projects/ongoing",
+  },
+  {
+    value: `${yearsExperience}+`,
+    label: "Years Experience",
+  },
 ];

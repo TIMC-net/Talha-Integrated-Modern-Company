@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
-import CapabilitiesGrid from "@/components/sections/CapabilitiesGrid";
 import DeliveryProcess from "@/components/sections/DeliveryProcess";
 import EquipmentFleetSection from "@/components/sections/EquipmentFleetSection";
 import ServiceDivisionBlock from "@/components/sections/ServiceDivisionBlock";
@@ -90,14 +89,33 @@ export default function ServicesPageContent() {
           </Reveal>
 
           <RevealGroup immediate className="mt-10 grid grid-cols-2 gap-6 border-t border-white/10 pt-8 md:grid-cols-4 md:gap-8">
-            {servicesHeroStats.map((stat) => (
-              <RevealItem key={stat.label}>
-                <p className="font-display text-3xl font-bold text-accent md:text-4xl">
-                  {stat.value}
-                </p>
-                <p className="mt-1 text-[13px] text-white/55">{stat.label}</p>
-              </RevealItem>
-            ))}
+            {servicesHeroStats.map((stat) => {
+              const body = (
+                <>
+                  <p className="font-display text-3xl font-bold text-accent md:text-4xl">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-[13px] text-white/55 transition group-hover:text-accent">
+                    {stat.label}
+                  </p>
+                </>
+              );
+
+              return (
+                <RevealItem key={stat.label}>
+                  {"href" in stat && stat.href ? (
+                    <Link
+                      href={stat.href}
+                      className="group block no-underline transition hover:opacity-90"
+                    >
+                      {body}
+                    </Link>
+                  ) : (
+                    body
+                  )}
+                </RevealItem>
+              );
+            })}
           </RevealGroup>
 
           <RevealGroup immediate className="mt-10 grid grid-cols-2 gap-2">
@@ -148,31 +166,6 @@ export default function ServicesPageContent() {
         </div>
       </section>
 
-      {/* Under one roof */}
-      <section
-        id="capabilities"
-        data-dark-surface
-        className="scroll-mt-28 border-t border-white/10 bg-navy-900 py-16 md:py-24"
-      >
-        <div className="container-site">
-          <Reveal>
-            <p className="font-display text-[12px] font-semibold tracking-[2px] text-accent uppercase">
-              Full Capabilities
-            </p>
-            <h2 className="section-heading section-heading--on-dark mt-3 text-2xl md:text-[36px]">
-              Everything Under One Roof
-            </h2>
-            <p className="mt-4 max-w-2xl text-[15px] text-white/60">
-              Supporting capabilities that complement our core divisions and make
-              TIMC a single point of responsibility for complex contractor
-              projects.
-            </p>
-          </Reveal>
-
-          <CapabilitiesGrid />
-        </div>
-      </section>
-
       <StandardsMarquee />
 
       {/* CTA */}
@@ -187,8 +180,11 @@ export default function ServicesPageContent() {
               detailed technical and commercial proposal.
             </p>
           </Reveal>
-          <Reveal delay={0.1} className="flex flex-wrap gap-3">
-            <Button asChild className="bg-navy-950 text-white hover:bg-navy-900">
+          <Reveal delay={0.1} className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+            <Button
+              asChild
+              className="w-full justify-center whitespace-normal bg-navy-950 text-white hover:bg-navy-900 sm:w-auto"
+            >
               <Link href="/contact">
                 Contact Our Team <ArrowRight className="h-4 w-4" />
               </Link>
@@ -196,7 +192,7 @@ export default function ServicesPageContent() {
             <Button
               asChild
               variant="outline"
-              className="border-navy-950/30 text-navy-950 hover:border-navy-950 hover:bg-navy-950/10"
+              className="w-full justify-center whitespace-normal border-navy-950/30 text-navy-950 hover:border-navy-950 hover:bg-navy-950/10 sm:w-auto"
             >
               <a href="/company-profile.pdf" target="_blank" rel="noopener noreferrer">
                 Download Company Profile

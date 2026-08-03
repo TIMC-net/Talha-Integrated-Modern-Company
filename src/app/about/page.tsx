@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import PageBanner from "@/components/PageBanner";
 import AboutCertifications from "@/components/sections/about/AboutCertifications";
 import AboutFAQ from "@/components/sections/about/AboutFAQ";
-import AboutHistory from "@/components/sections/about/AboutHistory";
 import AboutIntro from "@/components/sections/about/AboutIntro";
 import AboutMissionVision from "@/components/sections/about/AboutMissionVision";
 import AboutStatusBand from "@/components/sections/about/AboutStatusBand";
@@ -26,7 +25,6 @@ export default function AboutPage() {
       />
       <AboutIntro />
       <AboutMissionVision />
-      <AboutHistory />
       <AboutStatusBand />
       <AboutCertifications />
       <AboutVendorsMarquee />

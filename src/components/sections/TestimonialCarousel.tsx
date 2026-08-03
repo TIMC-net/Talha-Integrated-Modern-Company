@@ -42,12 +42,9 @@ export default function TestimonialCarousel() {
               What Our Clients Say About Our Work
             </h2>
             <p className="mt-3 max-w-xl text-[14px] text-white/55">
-              Quotes below are placeholders for structure review. Real client
-              testimonials will replace them once TIMC provides approved quotes.
+              Feedback from project partners across TIMC&apos;s completed works
+              in solar, power, housing, and industrial construction.
             </p>
-            <span className="mt-3 inline-block bg-accent/15 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-accent uppercase">
-              Testimonials pending
-            </span>
           </div>
         </Reveal>
 
@@ -125,7 +122,7 @@ export default function TestimonialCarousel() {
               </motion.article>
             </AnimatePresence>
 
-            <div className="absolute right-5 bottom-5 z-10 flex items-center gap-2">
+            <div className="absolute bottom-5 left-5 z-10 flex items-center gap-2 sm:right-5 sm:left-auto lg:right-5">
               <span className="mr-2 font-display text-[12px] tracking-wide text-white/45">
                 {String(active + 1).padStart(2, "0")} /{" "}
                 {String(total).padStart(2, "0")}

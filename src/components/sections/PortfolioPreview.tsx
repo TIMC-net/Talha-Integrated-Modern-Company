@@ -98,7 +98,7 @@ export default function PortfolioPreview() {
 
             <Link
               href="/projects/completed"
-              className="inline-flex items-center gap-2 bg-accent px-5 py-3 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-accent-light"
+              className="inline-flex w-full items-center justify-center gap-2 bg-accent px-5 py-3 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-accent-light sm:w-auto"
             >
               View All Completed <ArrowRight className="h-4 w-4" />
             </Link>

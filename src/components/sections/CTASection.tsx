@@ -21,7 +21,11 @@ export default function CTASection() {
                 maps will be published once confirmed by TIMC.
               </p>
               <div className="mt-8">
-                <Button asChild size="lg">
+                <Button
+                  asChild
+                  size="lg"
+                  className="w-full justify-center whitespace-normal sm:w-auto"
+                >
                   <Link href="/contact">
                     Get In Touch <ArrowRight className="h-4 w-4" />
                   </Link>

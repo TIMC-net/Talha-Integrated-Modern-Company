@@ -481,17 +481,59 @@ export const completedProjects: ListedProject[] = [
 
 export type ClientEntry = {
   name: string;
-  /** Optional logo path under /public — leave empty until TIMC provides logos */
-  logo?: string;
+  /** Short label for capsule UI */
+  shortName: string;
+  /** Logo for dark theme (white / light ink where needed) */
+  logo: string;
+  /**
+   * Logo for light theme. Required when `logo` uses white ink so it
+   * stays readable on light cards (typically black-ink variant).
+   */
+  logoOnLight?: string;
 };
 
+/** Trusted partners with official brand logos supplied by TIMC. */
 export const clients: ClientEntry[] = [
-  { name: "SABIC" },
-  { name: "Saudi Aramco" },
-  { name: "TASNEE" },
-  { name: "SWCC" },
-  { name: "HADEED" },
-  { name: "Worley" },
-  { name: "ACC" },
-  { name: "Industrial Partners" },
+  {
+    name: "Larsen & Toubro Limited",
+    shortName: "Larsen & Toubro",
+    logo: "/images/clients/larsen-toubro-on-dark.png",
+    logoOnLight: "/images/clients/larsen-toubro-on-light.png",
+  },
+  {
+    name: "Branch of Hyundai Engineering & Contracting Co.",
+    shortName: "Hyundai Engineering",
+    logo: "/images/clients/hyundai-engineering-on-dark.png",
+    logoOnLight: "/images/clients/hyundai-engineering-on-light.png",
+  },
+  {
+    name: "Elsewedy Electric Power Systems Projects",
+    shortName: "Elsewedy Electric",
+    logo: "/images/clients/elsewedy-electric-v3.png",
+    logoOnLight: "/images/clients/elsewedy-electric-on-light.png",
+  },
+  {
+    name: "Natco Logistics Services Company",
+    shortName: "NATCO",
+    logo: "/images/clients/natco-on-dark.png",
+    logoOnLight: "/images/clients/natco-on-light.png",
+  },
+  {
+    name: "SANY Alameriah for Contracting Co",
+    shortName: "SANY Alameriah",
+    logo: "/images/clients/sany-alameriah-on-dark.png",
+    logoOnLight: "/images/clients/sany-alameriah-on-light.png",
+  },
+  {
+    name: "NEOM",
+    shortName: "NEOM",
+    logo: "/images/clients/neom.png",
+    logoOnLight: "/images/clients/neom-on-light.png",
+  },
+  {
+    name: "Muqawil",
+    shortName: "Muqawil",
+    logo: "/images/clients/muqawil-on-dark.png",
+    logoOnLight: "/images/clients/muqawil-on-light.png",
+  },
 ];

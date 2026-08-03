@@ -167,24 +167,19 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 bg-black/40 py-5">
+      <div className="border-t border-white/10 bg-black/40 py-5 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:pb-5">
         <div className="container-site flex flex-col gap-2 text-[13px] sm:flex-row sm:items-center sm:justify-between">
           <p className="text-white/45">
             © {year} Talha Integrated Modern Company ({company.shortName}). All
             rights reserved.
           </p>
           <div className="flex flex-wrap gap-4 text-white/40">
-            <Link href="/projects/ongoing" className="transition hover:text-accent">
-              Projects
+            <Link href="/privacy" className="transition hover:text-accent">
+              Privacy Policy
             </Link>
-            <a
-              href="/company-profile.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition hover:text-accent"
-            >
-              Company Profile
-            </a>
+            <Link href="/terms" className="transition hover:text-accent">
+              Terms of Use
+            </Link>
             <Link href="/clients" className="transition hover:text-accent">
               Clients
             </Link>

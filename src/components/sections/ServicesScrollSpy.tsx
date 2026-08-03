@@ -11,7 +11,6 @@ const navItems = [
     label: service.name,
   })),
   { id: "process", label: "Process" },
-  { id: "capabilities", label: "Capabilities" },
 ];
 
 function getActiveSectionId() {

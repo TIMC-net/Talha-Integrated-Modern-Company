@@ -1,40 +1,54 @@
+import {
+  company,
+  completedProjects,
+  ongoingProjects,
+} from "@/lib/company";
+import { vendors } from "@/data/vendors";
+
 export type Stat = {
   id: string;
   value: number;
   label: string;
   suffix: string;
-  icon: "Briefcase" | "Heart" | "Users" | "Award";
+  icon: "Briefcase" | "HardHat" | "Building2" | "Award";
   color: string;
+  href?: string;
 };
+
+const yearsExperience =
+  new Date().getFullYear() - Number(company.established);
 
 export const stats: Stat[] = [
   {
-    id: "projects",
-    value: 500,
+    id: "completed",
+    value: completedProjects.length,
     label: "Completed Projects",
-    suffix: "+",
+    suffix: "",
     icon: "Briefcase",
     color: "#FF6B35",
+    href: "/projects/completed",
   },
   {
-    id: "satisfaction",
-    value: 98,
-    label: "Client Satisfaction",
-    suffix: "%",
-    icon: "Heart",
+    id: "ongoing",
+    value: ongoingProjects.length,
+    label: "Ongoing Projects",
+    suffix: "",
+    icon: "HardHat",
     color: "#FF8F66",
+    href: "/projects/ongoing",
   },
   {
-    id: "team",
-    value: 50,
-    label: "Team Members",
-    suffix: "+",
-    icon: "Users",
+    id: "vendors",
+    value: vendors.length,
+    label: "Vendors",
+    suffix: "",
+    icon: "Building2",
     color: "#E85A24",
+    href: "/about#vendors",
   },
   {
     id: "years",
-    value: 16,
+    value: yearsExperience,
     label: "Years Experience",
     suffix: "+",
     icon: "Award",

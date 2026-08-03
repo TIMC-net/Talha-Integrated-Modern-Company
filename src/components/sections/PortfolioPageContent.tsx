@@ -43,15 +43,15 @@ export default function PortfolioPageContent() {
                   Demo photography shown — final project photos pending from TIMC.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
                 <Button
                   asChild
                   variant="outline"
-                  className="border-white/20 text-white hover:border-accent hover:bg-accent hover:text-brand-ink"
+                  className="w-full justify-center border-white/20 text-white hover:border-accent hover:bg-accent hover:text-brand-ink sm:w-auto"
                 >
                   <Link href="/projects/ongoing">Ongoing</Link>
                 </Button>
-                <Button asChild>
+                <Button asChild className="w-full justify-center sm:w-auto">
                   <Link href="/projects/completed">
                     Completed <ArrowRight className="h-4 w-4" />
                   </Link>

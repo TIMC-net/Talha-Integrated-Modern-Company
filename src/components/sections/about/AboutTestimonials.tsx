@@ -25,6 +25,10 @@ export default function AboutTestimonials() {
               <h2 className="section-heading section-heading--on-dark mt-4 max-w-xl text-2xl md:text-[36px]">
                 What Our Clients Say About Our Work
               </h2>
+              <p className="mt-3 max-w-xl text-[14px] text-white/55">
+                Project feedback from partners across TIMC&apos;s completed
+                works in the Kingdom.
+              </p>
             </div>
 
             <div className="flex items-center gap-2">

@@ -73,7 +73,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
               <p className="mt-5 text-[16px] leading-relaxed text-white/65">
                 {service.fullDescription}
               </p>
-              <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-2.5">
+              <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
                 {service.capabilities.map((tag) => (
                   <div
                     key={tag}
@@ -98,15 +98,15 @@ export default function ServiceDetail({ service }: { service: Service }) {
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent" />
-              <div className="absolute right-6 bottom-6 left-6 flex items-center gap-4">
-                <span className="flex h-14 w-14 items-center justify-center bg-accent text-navy-950">
-                  <Icon className="h-7 w-7" />
+              <div className="absolute right-4 bottom-4 left-4 flex min-w-0 items-center gap-3 sm:right-6 sm:bottom-6 sm:left-6 sm:gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-accent text-navy-950 sm:h-14 sm:w-14">
+                  <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
                 </span>
-                <div>
-                  <p className="font-display text-lg font-bold text-white uppercase">
+                <div className="min-w-0">
+                  <p className="font-display text-base font-bold text-white uppercase sm:text-lg">
                     {service.name}
                   </p>
-                  <p className="text-[12px] text-white/55">
+                  <p className="line-clamp-2 text-[12px] break-words text-white/55">
                     {service.industries.join(" · ")}
                   </p>
                 </div>
@@ -196,7 +196,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
               response aligned to your project requirements.
             </p>
           </div>
-          <Button asChild size="lg" className="bg-navy-950 text-white hover:bg-navy-900">
+          <Button
+            asChild
+            size="lg"
+            className="w-full justify-center whitespace-normal bg-navy-950 text-white hover:bg-navy-900 sm:w-auto"
+          >
             <Link href="/contact">
               Contact Our Team <ArrowRight className="h-4 w-4" />
             </Link>

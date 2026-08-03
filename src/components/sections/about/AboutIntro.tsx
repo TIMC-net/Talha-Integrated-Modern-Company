@@ -38,7 +38,7 @@ export default function AboutIntro() {
   }, []);
 
   return (
-    <section data-dark-surface className="bg-navy-950 py-16 md:py-24">
+    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-16 md:py-24">
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <Reveal immediate className="relative w-full min-w-0">
