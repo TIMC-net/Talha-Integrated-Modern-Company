@@ -64,12 +64,12 @@ function EngineeringPanel({
           src={service.image}
           alt={service.name}
           fill
-          className="object-cover object-center opacity-45 transition duration-[1.1s] ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-55"
+          className="object-cover object-center opacity-65 transition duration-[1.1s] ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-80"
           sizes="(max-width: 1024px) 100vw, 50vw"
         />
       </motion.div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-navy-950/25" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-navy-950/15" />
 
       <div className="absolute inset-0 z-10 flex flex-col justify-between p-5 sm:p-6 md:p-8">
         <div className="flex items-center justify-between gap-3 border-b border-white/15 pb-3 font-mono text-[10px] tracking-wide text-white/50 uppercase sm:pb-4 sm:text-[11px]">

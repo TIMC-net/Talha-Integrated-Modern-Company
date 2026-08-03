@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import PortfolioCard from "@/components/ui/PortfolioCard";
 import { Button } from "@/components/ui/button";
@@ -11,13 +11,20 @@ import { projects } from "@/data/projects";
 export default function PortfolioPageContent() {
   return (
     <>
-      <PageBanner
-        title="Our Portfolio"
+      <InternalPageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Portfolio" }]}
-        backgroundImage="/images/civil-construction.jpg"
+        titleLead="Our"
+        titleAccent="Selected"
+        title="Portfolio"
+        description="A selection of TIMC contractor work across civil infrastructure, foundations, energy, and industrial sites throughout Saudi Arabia."
+        backgroundImage="/images/hero-civil.jpg"
       />
 
-      <section data-dark-surface className="relative overflow-x-clip bg-navy-950 py-14 md:py-20">
+      <section
+        id="portfolio"
+        data-dark-surface
+        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-14 md:py-20"
+      >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{
@@ -38,9 +45,6 @@ export default function PortfolioPageContent() {
                   Completed contractor packages across civil infrastructure,
                   foundations, energy, and industrial works. Browse ongoing and
                   completed listings for full project categories.
-                </p>
-                <p className="mt-3 border border-accent/25 bg-accent/10 px-3 py-2 text-[12px] text-accent">
-                  Demo photography shown — final project photos pending from TIMC.
                 </p>
               </div>
               <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">

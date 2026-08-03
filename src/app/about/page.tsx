@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import AboutCertifications from "@/components/sections/about/AboutCertifications";
 import AboutFAQ from "@/components/sections/about/AboutFAQ";
 import AboutIntro from "@/components/sections/about/AboutIntro";
@@ -18,10 +18,14 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <PageBanner
-        title="About Us"
-        backgroundImage="/images/about-banner-crew.jpg"
+      <InternalPageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "About Us" }]}
+        titleLead="About"
+        titleAccent="TIMC"
+        title="Company"
+        description="Established in 2010 and headquartered in Jeddah, TIMC delivers civil infrastructure, foundation engineering, energy infrastructure, and integrated equipment rental across Saudi Arabia and the GCC."
+        backgroundImage="/images/hero-equipment.jpg"
+        imageClassName="object-cover object-center"
       />
       <AboutIntro />
       <AboutMissionVision />

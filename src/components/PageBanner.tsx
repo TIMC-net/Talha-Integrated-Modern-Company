@@ -49,7 +49,7 @@ export default function PageBanner({
             onLoad={() => setLoaded(true)}
           />
         </motion.div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-2 via-ink-2/75 to-ink-2/40 transition-opacity duration-700 [@media(hover:hover)_and_(pointer:fine)]:group-hover/banner:opacity-90" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-2/90 via-ink-2/55 to-ink-2/25 transition-opacity duration-700 [@media(hover:hover)_and_(pointer:fine)]:group-hover/banner:opacity-90" />
       </div>
 
       <div className="container-site relative z-10">

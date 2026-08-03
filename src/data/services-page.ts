@@ -60,10 +60,17 @@ export const standardsWeWorkTo: StandardBadge[] = [
   { id: "vision", label: "Vision 2030" },
 ];
 
+export type HeroStat = {
+  value: string;
+  label: string;
+  href?: string;
+};
+
 const yearsExperience =
   new Date().getFullYear() - Number(company.established);
 
-export const servicesHeroStats = [
+/** Shared stats band used on every internal page hero. */
+export const siteHeroStats: HeroStat[] = [
   {
     value: String(services.length),
     label: "Core Divisions",
@@ -84,3 +91,6 @@ export const servicesHeroStats = [
     label: "Years Experience",
   },
 ];
+
+/** @deprecated Use siteHeroStats */
+export const servicesHeroStats = siteHeroStats;

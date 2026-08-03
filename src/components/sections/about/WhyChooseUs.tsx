@@ -42,7 +42,7 @@ export default function WhyChooseUs() {
                   className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
                   sizes="(max-width: 1024px) 100vw, 45vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent transition duration-700 group-hover:from-navy-950/95" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent transition duration-700 group-hover:from-navy-950/90" />
               </div>
 
               <motion.div

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import LegalDocument from "@/components/sections/LegalDocument";
 import { company } from "@/lib/company";
 
@@ -12,10 +12,13 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <PageBanner
-        title="Privacy Policy"
+      <InternalPageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}
-        backgroundImage="/images/header-contracting.jpg"
+        titleLead="Our"
+        titleAccent="Privacy"
+        title="Policy"
+        description={`How ${company.shortName} collects, uses, and protects personal information when you visit our website or submit an enquiry.`}
+        backgroundImage="/images/header-manpower.jpg"
       />
       <LegalDocument
         lastUpdated="3 August 2026"

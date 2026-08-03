@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import ProjectGrid from "@/components/ProjectGrid";
 import { Reveal } from "@/components/motion/Reveal";
 import ProjectCategoryTabs from "@/components/sections/ProjectCategoryTabs";
@@ -10,17 +10,24 @@ import { ongoingProjects } from "@/lib/company";
 export default function OngoingProjectsPage() {
   return (
     <>
-      <PageBanner
-        title="Ongoing Projects"
+      <InternalPageHero
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Projects", href: "/projects/ongoing" },
           { label: "Ongoing" },
         ]}
-        backgroundImage="/images/header-contracting.jpg"
+        titleLead="Our"
+        titleAccent="Ongoing"
+        title="Projects"
+        description="Active contractor works underway across the Kingdom — supervised on site with progress reporting, quality control, and disciplined HSE management."
+        backgroundImage="/images/hero-construction.jpg"
       />
 
-      <section data-dark-surface className="relative overflow-x-clip bg-navy-950 py-14 md:py-20">
+      <section
+        id="projects"
+        data-dark-surface
+        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-14 md:py-20"
+      >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{

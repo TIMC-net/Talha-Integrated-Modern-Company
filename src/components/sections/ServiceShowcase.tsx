@@ -24,7 +24,7 @@ export default function ServiceShowcase() {
           src="/images/header-contracting.jpg"
           alt=""
           fill
-          className="object-cover opacity-25"
+            className="object-cover opacity-45"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-navy-950/80" />

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import LegalDocument from "@/components/sections/LegalDocument";
 import { company } from "@/lib/company";
 
@@ -12,10 +12,13 @@ export const metadata: Metadata = {
 export default function TermsOfUsePage() {
   return (
     <>
-      <PageBanner
-        title="Terms of Use"
+      <InternalPageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Terms of Use" }]}
-        backgroundImage="/images/header-contracting.jpg"
+        titleLead="Terms"
+        titleAccent="of"
+        title="Use"
+        description={`Conditions that govern access to the ${company.shortName} website and online enquiries for contracting and equipment rental services.`}
+        backgroundImage="/images/header-fence.jpg"
       />
       <LegalDocument
         lastUpdated="3 August 2026"

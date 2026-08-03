@@ -20,7 +20,7 @@ export default function PortfolioCard({ project }: { project: Project }) {
         sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
         className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/35 to-navy-950/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/25 to-transparent" />
 
       <span className="absolute top-4 right-4 bg-navy-950/80 px-2 py-1 text-[9px] font-semibold tracking-wide text-accent uppercase">
         Photo pending

@@ -80,7 +80,7 @@ export default function Footer() {
               infrastructure, foundation engineering, energy infrastructure and
               integrated equipment rental across the Kingdom of Saudi Arabia.
             </p>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-6 hidden items-center gap-3 md:flex">
               {socialLinks.map(({ label, href, network, icon }) => (
                 <a
                   key={label}
@@ -150,6 +150,22 @@ export default function Footer() {
                 >
                   {company.address}
                 </a>
+              </li>
+              {/* Mobile: LinkedIn sits directly under location */}
+              <li className="flex items-center gap-3 pt-1 md:hidden">
+                {socialLinks.map(({ label, href, network, icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    data-social={network}
+                    className="social-icon-btn"
+                  >
+                    <span className="social-icon">{icon}</span>
+                  </a>
+                ))}
               </li>
             </ul>
             <p className="mt-5 text-[12px] leading-relaxed text-white/40">

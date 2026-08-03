@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import { getService } from "@/data/services";
 import { projects } from "@/data/projects";
 
@@ -31,30 +31,36 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
   if (!project) notFound();
 
   const service = getService(project.service);
+  const words = project.title.split(" ");
+  const accent = words[0] ?? "Project";
+  const rest = words.slice(1).join(" ") || "Detail";
 
   return (
     <>
-      <PageBanner
-        title={project.title}
+      <InternalPageHero
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Portfolio", href: "/portfolio" },
           { label: project.title },
         ]}
+        titleLead="Project"
+        titleAccent={accent}
+        title={rest}
+        description={`${project.description}${service ? ` Delivered under ${service.name}.` : ""} Location: ${project.location}.`}
         backgroundImage={project.imageUrl}
       />
 
-      <section className="bg-white py-14 md:py-20">
+      <section data-dark-surface className="bg-navy-950 py-14 md:py-20">
         <div className="container-site">
           <Link
             href="/portfolio"
-            className="inline-flex items-center gap-2 font-display text-[12px] font-bold tracking-wide text-accent-dark uppercase"
+            className="inline-flex items-center gap-2 font-display text-[12px] font-bold tracking-wide text-accent uppercase"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Portfolio
           </Link>
 
           <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-14">
-            <div className="img-zoom group relative aspect-video">
+            <div className="img-zoom group relative aspect-video border border-white/10">
               <Image
                 src={project.imageUrl}
                 alt={project.title}
@@ -65,18 +71,18 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
             </div>
             <div>
               {service && (
-                <span className="section-eyebrow">{service.name}</span>
+                <span className="section-eyebrow text-accent">{service.name}</span>
               )}
-              <h2 className="section-heading mt-4 text-2xl md:text-[32px]">
+              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]">
                 {project.title}
               </h2>
-              <p className="mt-2 text-[14px] font-semibold tracking-wide text-slate uppercase">
+              <p className="mt-2 text-[14px] font-semibold tracking-wide text-white/55 uppercase">
                 {project.location}
               </p>
-              <p className="mt-5 text-[16px] leading-relaxed text-slate">
+              <p className="mt-5 text-[16px] leading-relaxed text-white/65">
                 {project.description}
               </p>
-              <p className="mt-4 text-[14px] leading-relaxed text-slate">
+              <p className="mt-4 text-[14px] leading-relaxed text-white/50">
                 Full project narrative, photography, and client references will
                 be published once TIMC provides final project materials.
               </p>

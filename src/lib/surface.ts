@@ -59,30 +59,58 @@ function isNavChrome(node: Element) {
  * Detect whether the page surface under a point is visually dark.
  */
 export function isDarkSurfaceAt(x: number, y: number): boolean {
+  if (
+    !Number.isFinite(x) ||
+    !Number.isFinite(y) ||
+    x < 0 ||
+    y < 0 ||
+    x > window.innerWidth ||
+    y > window.innerHeight
+  ) {
+    const bodyLum = luminanceFromCssColor(
+      window.getComputedStyle(document.body).backgroundColor,
+    );
+    if (bodyLum !== null) return bodyLum < 0.55;
+    return document.documentElement.dataset.theme !== "light";
+  }
+
   const stack = document.elementsFromPoint(x, y);
-  const el =
-    stack.find((node) => node instanceof Element && !isNavChrome(node)) ?? null;
-  if (!el) return true;
 
   for (const node of stack) {
     if (!(node instanceof Element) || isNavChrome(node)) continue;
     if (node.closest("[data-media]")) return true;
   }
 
-  let node: Element | null = el;
-  while (node && node !== document.documentElement) {
-    if (node.hasAttribute("data-media")) return true;
+  // Prefer real painted content over html/body (avoids false "dark" at the
+  // viewport top when chrome floats over a light section).
+  const el =
+    stack.find((node) => {
+      if (!(node instanceof Element) || isNavChrome(node)) return false;
+      if (node === document.documentElement || node === document.body) return false;
+      return true;
+    }) ?? null;
 
-    const style = window.getComputedStyle(node);
-    const lum = luminanceFromCssColor(style.backgroundColor);
-    if (lum !== null) return lum < 0.55;
+  if (el) {
+    let node: Element | null = el;
+    while (node && node !== document.documentElement) {
+      if (node.hasAttribute("data-media")) return true;
 
-    node = node.parentElement;
+      const style = window.getComputedStyle(node);
+      const lum = luminanceFromCssColor(style.backgroundColor);
+      if (lum !== null) return lum < 0.55;
+
+      node = node.parentElement;
+    }
+
+    if (el.closest("[data-dark-surface]")) {
+      return document.documentElement.dataset.theme !== "light";
+    }
   }
 
-  if (el.closest("[data-dark-surface]")) {
-    return document.documentElement.dataset.theme !== "light";
-  }
+  const bodyLum = luminanceFromCssColor(
+    window.getComputedStyle(document.body).backgroundColor,
+  );
+  if (bodyLum !== null) return bodyLum < 0.55;
 
   return document.documentElement.dataset.theme !== "light";
 }

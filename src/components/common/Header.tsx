@@ -10,16 +10,14 @@ import {
   useRef,
   useState,
   type CSSProperties,
-  type ReactNode,
-  type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
 import Logo from "@/components/Logo";
+import { DualToneShell, clipOverlayToDarkBands } from "@/components/motion/DualToneShell";
 import { useTheme } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { company } from "@/lib/company";
 import { cn } from "@/lib/cn";
-import { isDarkSurfaceAt } from "@/lib/surface";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const MORPH = "duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]";
@@ -47,94 +45,6 @@ function isLinkActive(pathname: string, href: string, children?: { href: string 
     return true;
   }
   return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-/** Build clip-path so the light-on-dark overlay only shows over dark page bands.
- *  Same liquid-ink vertical clip on desktop capsule and mobile FABs.
- */
-function clipOverlayToDarkBands(
-  shell: HTMLElement,
-  overlay: HTMLElement,
-) {
-  const nr = shell.getBoundingClientRect();
-  if (nr.height < 1 || nr.width < 1) {
-    overlay.style.clipPath = "inset(100% 0 0 0)";
-    return;
-  }
-
-  overlay.style.opacity = "1";
-  overlay.style.transition = "none";
-
-  // Compact circular FABs: center-column sample only (edges are transparent).
-  // Desktop capsule: majority of three X probes for rounded edges.
-  const compact = nr.width <= 80 || nr.height <= 72;
-  const samples = compact ? 16 : 28;
-  const cx = nr.left + nr.width / 2;
-  const dark: boolean[] = [];
-  for (let i = 0; i < samples; i++) {
-    const y = nr.top + ((i + 0.5) / samples) * nr.height;
-    if (compact) {
-      dark.push(isDarkSurfaceAt(cx, y));
-    } else {
-      const votes = [
-        isDarkSurfaceAt(cx, y),
-        isDarkSurfaceAt(nr.left + nr.width * 0.35, y),
-        isDarkSurfaceAt(nr.left + nr.width * 0.65, y),
-      ].filter(Boolean).length;
-      dark.push(votes >= 2);
-    }
-  }
-
-  const bands: { top: number; bottom: number }[] = [];
-  let start: number | null = null;
-  for (let i = 0; i < samples; i++) {
-    if (dark[i] && start === null) start = i;
-    if ((!dark[i] || i === samples - 1) && start !== null) {
-      const end = dark[i] && i === samples - 1 ? i + 1 : i;
-      bands.push({
-        top: (start / samples) * nr.height,
-        bottom: (end / samples) * nr.height,
-      });
-      start = null;
-    }
-  }
-
-  for (const media of document.querySelectorAll<HTMLElement>("[data-media]")) {
-    const r = media.getBoundingClientRect();
-    if (r.left > cx || r.right < cx) continue;
-    const top = Math.max(0, r.top - nr.top);
-    const bottom = Math.min(nr.height, r.bottom - nr.top);
-    if (bottom - top > 2) bands.push({ top, bottom });
-  }
-
-  if (bands.length === 0) {
-    overlay.style.clipPath = "inset(100% 0 0 0)";
-    return;
-  }
-
-  bands.sort((a, b) => a.top - b.top);
-  const merged: { top: number; bottom: number }[] = [];
-  for (const b of bands) {
-    const last = merged[merged.length - 1];
-    if (!last || b.top > last.bottom + 1) merged.push({ ...b });
-    else last.bottom = Math.max(last.bottom, b.bottom);
-  }
-
-  const cover = merged.reduce((s, b) => s + (b.bottom - b.top), 0);
-  if (cover >= nr.height - 2) {
-    overlay.style.clipPath = "inset(0)";
-    return;
-  }
-
-  if (merged.length === 1) {
-    const top = Math.max(0, merged[0].top);
-    const bottom = Math.max(0, nr.height - merged[0].bottom);
-    overlay.style.clipPath = `inset(${top}px 0 ${bottom}px 0)`;
-    return;
-  }
-
-  overlay.style.clipPath =
-    cover >= nr.height * 0.5 ? "inset(0)" : "inset(100% 0 0 0)";
 }
 
 type Highlight = { left: number; width: number; opacity: number };
@@ -503,50 +413,6 @@ function getScrollY() {
   return window.scrollY || document.documentElement.scrollTop || 0;
 }
 
-function DualToneShell({
-  className,
-  shellRef,
-  overlayRef,
-  base,
-  overlay,
-  compact = false,
-}: {
-  className?: string;
-  shellRef: RefObject<HTMLDivElement | null>;
-  overlayRef: RefObject<HTMLDivElement | null>;
-  base: ReactNode;
-  overlay: ReactNode;
-  /** Circular mobile FABs — contain layers, no partial clip bleed */
-  compact?: boolean;
-}) {
-  return (
-    <div
-      ref={shellRef}
-      data-nav-chrome
-      data-nav-compact={compact ? "" : undefined}
-      className={cn(
-        "relative",
-        compact && "overflow-hidden rounded-full shadow-lg",
-        className,
-      )}
-    >
-      {/* Base: black chrome for light page sections */}
-      <div className={cn("relative z-0", compact && "h-full w-full")}>{base}</div>
-      {/* Overlay: white chrome for dark page sections — liquid clip with scroll */}
-      <div
-        ref={overlayRef}
-        aria-hidden
-        className={cn(
-          "nav-ink-overlay pointer-events-none absolute inset-0 z-10 overflow-hidden",
-          compact && "rounded-full",
-        )}
-      >
-        {overlay}
-      </div>
-    </div>
-  );
-}
-
 export default function Header() {
   const pathname = usePathname();
   const { theme, mounted: themeMounted } = useTheme();
@@ -597,15 +463,12 @@ export default function Header() {
       running = false;
       raf = 0;
 
-      const shells = [
-        deskShellRef.current,
-        menuShellRef.current,
-        themeShellRef.current,
-      ];
-      const prevPe: string[] = [];
-      shells.forEach((el, i) => {
-        if (!el) return;
-        prevPe[i] = el.style.pointerEvents;
+      // Hide all nav chrome so elementsFromPoint reads the page underneath
+      const chrome = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-nav-chrome]"),
+      );
+      const prevPe = chrome.map((el) => el.style.pointerEvents);
+      chrome.forEach((el) => {
         el.style.pointerEvents = "none";
       });
 
@@ -619,8 +482,7 @@ export default function Header() {
         clipOverlayToDarkBands(themeShellRef.current, themeOverlayRef.current);
       }
 
-      shells.forEach((el, i) => {
-        if (!el) return;
+      chrome.forEach((el, i) => {
         el.style.pointerEvents = prevPe[i] ?? "";
       });
     };
@@ -634,10 +496,18 @@ export default function Header() {
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("timc:scroll", schedule);
     window.addEventListener("resize", schedule, { passive: true });
+
+    const themeObserver = new MutationObserver(schedule);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "class"],
+    });
+
     schedule();
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
+      themeObserver.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("timc:scroll", schedule);
       window.removeEventListener("resize", schedule);
@@ -711,46 +581,47 @@ export default function Header() {
 
   return (
     <>
-      {/* Mobile menu FAB — same liquid-ink clip as desktop */}
+      {/* Mobile menu — liquid-ink wipe (same flow as desktop capsule) */}
       <DualToneShell
-        compact
         shellRef={menuShellRef}
         overlayRef={menuOverlayRef}
-        className="pointer-events-auto fixed top-4 left-4 z-50 h-12 w-12 sm:top-5 sm:left-5 sm:h-14 sm:w-14 lg:hidden"
+        className="pointer-events-auto fixed top-4 left-4 z-50 h-12 w-12 overflow-hidden rounded-full shadow-lg sm:top-5 sm:left-5 sm:h-14 sm:w-14 lg:hidden"
         base={
           <button
             type="button"
             aria-label="Open menu"
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen(true)}
-            className="flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-[#0a0a0a]/70 text-[#ffffff] backdrop-blur-md"
+            className="flex h-full w-full items-center justify-center rounded-full border border-white/25 bg-[#0a0a0a] text-[#ffffff]"
           >
-            <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+            <Menu className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.25} />
           </button>
         }
         overlay={
-          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] backdrop-blur-md">
-            <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]">
+            <Menu className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.25} />
           </div>
         }
       />
 
-      {/* Mobile theme FAB — same liquid-ink clip as desktop */}
+      {/* Mobile theme — liquid-ink wipe (same flow as desktop capsule) */}
       <DualToneShell
-        compact
         shellRef={themeShellRef}
         overlayRef={themeOverlayRef}
-        className="pointer-events-auto fixed top-4 right-4 z-50 h-12 w-12 sm:top-5 sm:right-5 sm:h-14 sm:w-14 lg:hidden"
+        className="pointer-events-auto fixed top-4 right-4 z-50 h-12 w-12 overflow-hidden rounded-full shadow-lg sm:top-5 sm:right-5 sm:h-14 sm:w-14 lg:hidden"
         base={
           <NavThemeToggle
             tone="on-light"
             size="md"
-            className="h-full w-full border-white/20 bg-[#0a0a0a]/70 text-[#ffffff] shadow-none backdrop-blur-md"
+            className="h-full w-full border-white/25 bg-[#0a0a0a] text-[#ffffff] shadow-none"
           />
         }
         overlay={
-          <div className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] backdrop-blur-md">
-            <ThemeIcon className="h-5 w-5" />
+          <div
+            aria-hidden
+            className="flex h-full w-full items-center justify-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]"
+          >
+            <ThemeIcon className="h-5 w-5" strokeWidth={2.25} />
           </div>
         }
       />

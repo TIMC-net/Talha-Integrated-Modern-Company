@@ -2,7 +2,11 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUp, Phone } from "lucide-react";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type RefObject } from "react";
+import {
+  DualToneShell,
+  clipOverlayToDarkBands,
+} from "@/components/motion/DualToneShell";
 import { company } from "@/lib/company";
 
 function waLink(mobile: string) {
@@ -51,14 +55,60 @@ function scrollToTop(reduce: boolean | null) {
   window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
 }
 
+function ProgressRing({
+  circleRef,
+  trackStroke,
+}: {
+  circleRef: RefObject<SVGCircleElement | null>;
+  trackStroke: string;
+}) {
+  return (
+    <svg
+      viewBox={`0 0 ${VIEW} ${VIEW}`}
+      className="pointer-events-none absolute inset-0 h-full w-full -rotate-90"
+      aria-hidden
+    >
+      <circle
+        cx={VIEW / 2}
+        cy={VIEW / 2}
+        r={RADIUS}
+        fill="none"
+        stroke={trackStroke}
+        strokeWidth={STROKE}
+      />
+      <circle
+        ref={circleRef}
+        cx={VIEW / 2}
+        cy={VIEW / 2}
+        r={RADIUS}
+        fill="none"
+        stroke="var(--accent)"
+        strokeWidth={STROKE}
+        strokeLinecap="round"
+        strokeDasharray={CIRCUMFERENCE}
+        strokeDashoffset={CIRCUMFERENCE}
+      />
+    </svg>
+  );
+}
+
+const fabBase =
+  "relative grid h-full w-full place-items-center rounded-full border border-white/25 bg-[#0a0a0a] text-[#ffffff] shadow-none";
+const fabOverlay =
+  "relative grid h-full w-full place-items-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]";
+
 export default function FloatingActions() {
   const [showTop, setShowTop] = useState(false);
-  const [onDark, setOnDark] = useState(false);
   const [canHover, setCanHover] = useState(false);
   const reduce = useReducedMotion();
-  const stackRef = useRef<HTMLDivElement>(null);
-  const progressCircleRef = useRef<SVGCircleElement>(null);
   const showTopRef = useRef(false);
+
+  const topShellRef = useRef<HTMLDivElement>(null);
+  const topOverlayRef = useRef<HTMLDivElement>(null);
+  const phoneShellRef = useRef<HTMLDivElement>(null);
+  const phoneOverlayRef = useRef<HTMLDivElement>(null);
+  const progressDarkRef = useRef<SVGCircleElement>(null);
+  const progressLightRef = useRef<SVGCircleElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -70,13 +120,44 @@ export default function FloatingActions() {
 
   useEffect(() => {
     const applyProgress = (progress: number) => {
-      const circle = progressCircleRef.current;
-      if (circle) {
-        circle.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - progress));
+      const offset = String(CIRCUMFERENCE * (1 - progress));
+      if (progressDarkRef.current) {
+        progressDarkRef.current.style.strokeDashoffset = offset;
+      }
+      if (progressLightRef.current) {
+        progressLightRef.current.style.strokeDashoffset = offset;
       }
     };
 
+    const clipAll = () => {
+      const chrome = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-nav-chrome]"),
+      );
+      const prevPe = chrome.map((el) => el.style.pointerEvents);
+      chrome.forEach((el) => {
+        el.style.pointerEvents = "none";
+      });
+
+      const pairs: [HTMLDivElement | null, HTMLDivElement | null][] = [
+        [topShellRef.current, topOverlayRef.current],
+        [phoneShellRef.current, phoneOverlayRef.current],
+      ];
+      pairs.forEach(([shell, overlay]) => {
+        if (shell && overlay) clipOverlayToDarkBands(shell, overlay);
+      });
+
+      chrome.forEach((el, i) => {
+        el.style.pointerEvents = prevPe[i] ?? "";
+      });
+    };
+
+    let raf = 0;
+    let running = false;
+
     const update = () => {
+      running = false;
+      raf = 0;
+
       const progress = getScrollProgress();
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       applyProgress(progress);
@@ -86,127 +167,135 @@ export default function FloatingActions() {
         showTopRef.current = nextShow;
         setShowTop(nextShow);
       }
+
+      clipAll();
     };
 
-    const updateSurface = () => {
-      const stack = stackRef.current;
-      if (!stack) return;
-      const prevPointerEvents = stack.style.pointerEvents;
-      stack.style.pointerEvents = "none";
-      const el = document.elementFromPoint(
-        window.innerWidth - 48,
-        window.innerHeight - 48
-      );
-      stack.style.pointerEvents = prevPointerEvents;
-      const nextDark = Boolean(el?.closest("[data-dark-surface]"));
-      setOnDark((prev) => (prev === nextDark ? prev : nextDark));
+    const schedule = () => {
+      if (running) return;
+      running = true;
+      raf = requestAnimationFrame(update);
     };
 
-    let raf = 0;
-    let frame = 0;
-    const loop = () => {
-      update();
-      if (frame % 8 === 0) updateSurface();
-      frame += 1;
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("timc:scroll", schedule);
+    window.addEventListener("resize", schedule, { passive: true });
 
-    window.addEventListener("resize", update);
+    // Theme toggles change surfaces without scrolling — re-clip immediately
+    const themeObserver = new MutationObserver(schedule);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "class"],
+    });
+
+    schedule();
+
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", update);
+      if (raf) cancelAnimationFrame(raf);
+      themeObserver.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("timc:scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
-  }, []);
-
-  useEffect(() => {
-    if (!showTop || !progressCircleRef.current) return;
-    progressCircleRef.current.style.strokeDashoffset = String(
-      CIRCUMFERENCE * (1 - getScrollProgress())
-    );
   }, [showTop]);
 
-  const surfaceClass = onDark
-    ? "bg-navy-950 text-white hover:bg-navy-900"
-    : "bg-white text-navy-950 hover:bg-paper";
-
-  const trackStroke = onDark ? "rgba(255,255,255,0.2)" : "rgba(10,10,10,0.15)";
+  useEffect(() => {
+    if (!showTop) return;
+    const offset = String(CIRCUMFERENCE * (1 - getScrollProgress()));
+    if (progressDarkRef.current) progressDarkRef.current.style.strokeDashoffset = offset;
+    if (progressLightRef.current) progressLightRef.current.style.strokeDashoffset = offset;
+  }, [showTop]);
 
   return (
-    <div
-      ref={stackRef}
-      className="fixed right-3 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 flex flex-col items-end gap-2.5 sm:right-6 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] sm:gap-3 lg:right-8 lg:bottom-8"
-    >
+    <div className="fixed right-3 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 flex flex-col items-end gap-2.5 sm:right-6 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] sm:gap-3 lg:right-8 lg:bottom-8">
       <AnimatePresence>
         {showTop && (
-          <motion.button
-            type="button"
-            aria-label="Back to top"
-            onClick={() => scrollToTop(reduce)}
+          <motion.div
             initial={{ opacity: 0, scale: 0.85, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 10 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             whileHover={reduce || !canHover ? undefined : { scale: 1.06 }}
             whileTap={reduce ? undefined : { scale: 0.96 }}
-            className={`relative grid h-11 w-11 place-items-center overflow-hidden rounded-full shadow-[0_10px_30px_-12px_rgba(0,0,0,0.55)] transition sm:h-12 sm:w-12 ${surfaceClass}`}
+            className="h-11 w-11 sm:h-12 sm:w-12"
           >
-            <svg
-              viewBox={`0 0 ${VIEW} ${VIEW}`}
-              className="pointer-events-none absolute inset-0 h-full w-full -rotate-90"
-              aria-hidden
-            >
-              <circle
-                cx={VIEW / 2}
-                cy={VIEW / 2}
-                r={RADIUS}
-                fill="none"
-                stroke={trackStroke}
-                strokeWidth={STROKE}
-              />
-              <circle
-                ref={progressCircleRef}
-                cx={VIEW / 2}
-                cy={VIEW / 2}
-                r={RADIUS}
-                fill="none"
-                stroke="var(--accent)"
-                strokeWidth={STROKE}
-                strokeLinecap="round"
-                strokeDasharray={CIRCUMFERENCE}
-                strokeDashoffset={CIRCUMFERENCE}
-              />
-            </svg>
-            <ArrowUp
-              className="relative z-10 h-4 w-4 sm:h-[18px] sm:w-[18px]"
-              strokeWidth={2.5}
-              aria-hidden
+            <DualToneShell
+              shellRef={topShellRef}
+              overlayRef={topOverlayRef}
+              className="h-full w-full overflow-hidden rounded-full shadow-lg"
+              base={
+                <button
+                  type="button"
+                  aria-label="Back to top"
+                  onClick={() => scrollToTop(reduce)}
+                  className={fabBase}
+                >
+                  <ProgressRing
+                    circleRef={progressDarkRef}
+                    trackStroke="rgba(255,255,255,0.2)"
+                  />
+                  <ArrowUp
+                    className="relative z-10 h-4 w-4 sm:h-[18px] sm:w-[18px]"
+                    strokeWidth={2.5}
+                    aria-hidden
+                  />
+                </button>
+              }
+              overlay={
+                <div className={fabOverlay}>
+                  <ProgressRing
+                    circleRef={progressLightRef}
+                    trackStroke="rgba(10,10,10,0.15)"
+                  />
+                  <ArrowUp
+                    className="relative z-10 h-4 w-4 sm:h-[18px] sm:w-[18px]"
+                    strokeWidth={2.5}
+                    aria-hidden
+                  />
+                </div>
+              }
             />
-          </motion.button>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      <a
-        href={`tel:${company.phone}`}
-        aria-label="Call us"
-        onMouseMove={handleGlowMove}
-        onMouseLeave={handleGlowLeave}
-        className={`border-glow grid h-11 w-11 place-items-center rounded-full shadow-lg transition [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5 sm:h-12 sm:w-12 ${surfaceClass}`}
-      >
-        <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
-      </a>
+      <DualToneShell
+        shellRef={phoneShellRef}
+        overlayRef={phoneOverlayRef}
+        className="h-11 w-11 overflow-hidden rounded-full shadow-lg sm:h-12 sm:w-12"
+        base={
+          <a
+            href={`tel:${company.phone}`}
+            aria-label="Call us"
+            onMouseMove={handleGlowMove}
+            onMouseLeave={handleGlowLeave}
+            className={`${fabBase} border-glow [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5`}
+          >
+            <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+          </a>
+        }
+        overlay={
+          <div className={fabOverlay}>
+            <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+          </div>
+        }
+      />
 
-      <a
-        href={waLink(company.mobile)}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Chat on WhatsApp"
-        onMouseMove={handleGlowMove}
-        onMouseLeave={handleGlowLeave}
-        className="border-glow grid h-11 w-11 place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:brightness-110 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5 sm:h-12 sm:w-12"
-      >
-        <WhatsAppIcon />
-      </a>
+      <div className="whatsapp-fab relative h-11 w-11 sm:h-12 sm:w-12">
+        <span className="whatsapp-fab__pulse" aria-hidden />
+        <span className="whatsapp-fab__pulse whatsapp-fab__pulse--delay" aria-hidden />
+        <a
+          href={waLink(company.mobile)}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Chat on WhatsApp"
+          onMouseMove={handleGlowMove}
+          onMouseLeave={handleGlowLeave}
+          className="border-glow relative z-10 grid h-full w-full place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:brightness-110 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5"
+        >
+          <WhatsAppIcon />
+        </a>
+      </div>
     </div>
   );
 }

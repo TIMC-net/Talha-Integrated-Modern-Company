@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
-import { PendingBadge } from "@/components/ui/PendingBadge";
 import { aboutNarrative, company } from "@/lib/company";
 
 const yearsActive = new Date().getFullYear() - Number(company.established);
@@ -38,14 +37,18 @@ export default function AboutIntro() {
   }, []);
 
   return (
-    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-16 md:py-24">
+    <section
+      id="intro"
+      data-dark-surface
+      className="scroll-mt-24 overflow-x-clip bg-navy-950 py-16 md:py-24"
+    >
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <Reveal immediate className="relative w-full min-w-0">
             <div className="group relative mx-auto aspect-video w-full max-w-full overflow-hidden bg-navy-900 sm:aspect-[16/10] md:aspect-[4/3] lg:aspect-[5/6]">
               <video
                 ref={videoRef}
-                className="video-cover absolute inset-0 h-full w-full object-cover"
+                className="video-cover video-cover--muted absolute inset-0 h-full w-full object-cover"
                 style={{ objectPosition: "center 40%" }}
                 autoPlay
                 muted
@@ -56,10 +59,13 @@ export default function AboutIntro() {
               >
                 <source src="/videos/about-company.mp4" type="video/mp4" />
               </video>
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950/50 to-transparent" />
-              <div className="absolute top-3 left-3 z-10 sm:top-4 sm:left-4">
-                <PendingBadge label="Media pending" />
-              </div>
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(to bottom, rgba(5,8,16,0.08) 0%, rgba(5,8,16,0.22) 40%, rgba(5,8,16,0.55) 72%, rgba(5,8,16,0.82) 100%)",
+                }}
+              />
             </div>
 
             <div className="absolute right-2 bottom-6 hidden w-[130px] bg-accent p-4 text-navy-950 shadow-xl sm:block sm:right-0 md:-right-4 md:bottom-8 md:w-[150px] md:p-5 lg:-right-6">

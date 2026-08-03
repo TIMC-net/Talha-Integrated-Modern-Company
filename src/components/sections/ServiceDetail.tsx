@@ -8,6 +8,7 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
+import InternalPageHero from "@/components/InternalPageHero";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/services";
 import { deliveryProcess } from "@/data/services-page";
@@ -21,47 +22,23 @@ const iconMap: Record<Service["icon"], LucideIcon> = {
 
 export default function ServiceDetail({ service }: { service: Service }) {
   const Icon = iconMap[service.icon];
+  const firstWord = service.name.split(" ")[0] ?? service.name;
+  const restTitle = service.name.split(" ").slice(1).join(" ") || service.name;
 
   return (
     <>
-      <section
-        data-dark-surface
-        data-media
-        className="relative overflow-x-clip bg-navy-950 pt-[100px] pb-14 sm:pt-[120px] sm:pb-16 lg:pt-[140px]"
-      >
-        <div className="absolute inset-0">
-          <Image
-            src={service.image}
-            alt=""
-            fill
-            priority
-            className="object-cover opacity-40"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/60 via-navy-950/75 to-navy-950" />
-        </div>
-
-        <div className="container-site relative z-10">
-          <p className="breadcrumb mb-6">
-            <Link href="/">Home</Link>
-            <span className="mx-2 text-white/40">/</span>
-            <Link href="/services">Services</Link>
-            <span className="mx-2 text-white/40">/</span>
-            <span className="text-accent-light">{service.name}</span>
-          </p>
-          <p className="font-display text-[12px] font-semibold tracking-[2.5px] text-accent uppercase">
-            {service.category === "integrated"
-              ? "Integrated Division"
-              : "Core Division"}
-          </p>
-          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold text-white uppercase md:text-5xl">
-            {service.name}
-          </h1>
-          <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-white/70">
-            {service.tagline}. {service.description}
-          </p>
-        </div>
-      </section>
+      <InternalPageHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+          { label: service.name },
+        ]}
+        titleLead={service.category === "integrated" ? "Integrated" : "Core"}
+        titleAccent={firstWord}
+        title={restTitle === firstWord ? "Division" : restTitle}
+        description={`${service.tagline}. ${service.description}`}
+        backgroundImage={service.image}
+      />
 
       <section data-dark-surface className="bg-navy-950 py-14 md:py-20">
         <div className="container-site">
@@ -94,7 +71,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
                 src={service.image}
                 alt={service.name}
                 fill
-                className="object-cover object-center opacity-55 transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-70"
+                className="object-cover object-center opacity-75 transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-90"
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent" />

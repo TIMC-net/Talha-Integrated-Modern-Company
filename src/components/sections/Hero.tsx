@@ -81,9 +81,9 @@ export default function Hero() {
             <source src="/videos/hero-construction.mp4" type="video/mp4" />
           </video>
           {/* Light at top → darker at bottom so the video stays visible */}
-          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/15 via-navy-950/40 to-navy-950/92" />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/10 via-navy-950/30 to-navy-950/85" />
           {/* Soft left wash on desktop for headline contrast without crushing the video */}
-          <div className="absolute inset-0 hidden sm:block sm:bg-gradient-to-r sm:from-navy-950/45 sm:via-transparent sm:to-transparent" />
+          <div className="absolute inset-0 hidden sm:block sm:bg-gradient-to-r sm:from-navy-950/35 sm:via-transparent sm:to-transparent" />
         </div>
       </div>
 

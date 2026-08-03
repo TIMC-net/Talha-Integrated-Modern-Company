@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
 import { whoWeAre } from "@/lib/company";
+import { cn } from "@/lib/cn";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -12,7 +13,11 @@ export default function AboutMissionVision() {
   const tab = whoWeAre[active];
 
   return (
-    <section data-dark-surface className="border-t border-white/10 bg-navy-950 py-16 md:py-24">
+    <section
+      id="mission"
+      data-dark-surface
+      className="scroll-mt-24 border-t border-white/10 bg-navy-950 py-16 md:py-24"
+    >
       <div className="container-site">
         <Reveal>
           <span className="section-eyebrow text-accent">Who We Are</span>
@@ -26,31 +31,52 @@ export default function AboutMissionVision() {
         </Reveal>
 
         <div className="mt-10">
-          <div className="mb-6 md:hidden">
-            <select
-              className="h-12 w-full border border-white/15 bg-navy-900 px-4 text-[13px] font-semibold tracking-wide text-white uppercase outline-none"
-              value={active}
-              onChange={(e) => setActive(Number(e.target.value))}
-            >
-              {whoWeAre.map((item, i) => (
-                <option key={item.id} value={i}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="relative mb-0 hidden border-b border-white/10 md:flex">
+          {/* Mobile: custom tab buttons — avoid native <select> picker UI */}
+          <div
+            role="tablist"
+            aria-label="Mission, vision and values"
+            className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-3 md:hidden"
+          >
             {whoWeAre.map((item, i) => {
               const isActive = active === i;
               return (
                 <button
                   key={item.id}
                   type="button"
+                  role="tab"
+                  aria-selected={isActive}
                   onClick={() => setActive(i)}
-                  className={`relative px-6 py-4 font-display text-[13px] font-bold tracking-wide uppercase transition ${
-                    isActive ? "text-accent" : "text-white/45 hover:text-white"
-                  }`}
+                  className={cn(
+                    "border px-4 py-3 text-left font-display text-[12px] font-bold tracking-wide uppercase transition",
+                    isActive
+                      ? "border-accent bg-accent/10 text-accent"
+                      : "border-white/15 bg-navy-900 text-white/65 hover:border-white/30 hover:text-white",
+                  )}
+                >
+                  {item.title}
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            role="tablist"
+            aria-label="Mission, vision and values"
+            className="relative mb-0 hidden border-b border-white/10 md:flex"
+          >
+            {whoWeAre.map((item, i) => {
+              const isActive = active === i;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActive(i)}
+                  className={cn(
+                    "relative px-6 py-4 font-display text-[13px] font-bold tracking-wide uppercase transition",
+                    isActive ? "text-accent" : "text-white/45 hover:text-white",
+                  )}
                 >
                   {item.title}
                   {isActive && (
@@ -68,11 +94,12 @@ export default function AboutMissionVision() {
           <AnimatePresence mode="wait">
             <motion.div
               key={tab.id}
+              role="tabpanel"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.35, ease: EASE }}
-              className="border border-white/10 bg-navy-900 p-7 md:border-t-0 md:p-10"
+              className="border border-white/10 bg-navy-900 p-6 sm:p-7 md:border-t-0 md:p-10"
             >
               <h3 className="font-display text-xl font-bold text-white uppercase md:text-2xl">
                 {tab.title}

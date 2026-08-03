@@ -60,7 +60,7 @@ export default function EquipmentFleetSection() {
                             src={item.image}
                             alt={item.name}
                             fill
-                            className="object-cover object-center opacity-70 transition duration-700 [@media(hover:hover)_and_(pointer:fine)]:group-hover/card:scale-105 [@media(hover:hover)_and_(pointer:fine)]:group-hover/card:opacity-90"
+                            className="object-cover object-center opacity-90 transition duration-700 [@media(hover:hover)_and_(pointer:fine)]:group-hover/card:scale-105 [@media(hover:hover)_and_(pointer:fine)]:group-hover/card:opacity-100"
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           />
                         ) : (

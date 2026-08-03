@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import ProjectGrid from "@/components/ProjectGrid";
 import { Reveal } from "@/components/motion/Reveal";
 import ProjectCategoryTabs from "@/components/sections/ProjectCategoryTabs";
@@ -10,17 +10,24 @@ import { completedProjects } from "@/lib/company";
 export default function CompletedProjectsPage() {
   return (
     <>
-      <PageBanner
-        title="Completed Projects"
+      <InternalPageHero
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Projects", href: "/projects/ongoing" },
           { label: "Completed" },
         ]}
+        titleLead="Our"
+        titleAccent="Completed"
+        title="Projects"
+        description="Delivered contractor packages across industrial, infrastructure, and utility sites — executed with quality control, HSE discipline, and clear handover documentation."
         backgroundImage="/images/civil-construction.jpg"
       />
 
-      <section data-dark-surface className="relative overflow-x-clip bg-navy-950 py-14 md:py-20">
+      <section
+        id="projects"
+        data-dark-surface
+        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-14 md:py-20"
+      >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{

@@ -27,16 +27,17 @@ export default function AboutSection() {
           <Reveal className="relative w-full min-w-0">
             <div
               data-media
-              className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3] md:aspect-[5/6]"
+              className="img-zoom group relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/4] md:aspect-[5/6]"
             >
               <Image
-                src="/images/about-company-crew.jpg"
-                alt="TIMC site crew and equipment on a project site in Saudi Arabia"
+                src="/images/timc-crew-site.jpg"
+                alt="TIMC site crew in safety gear with drilling equipment on a project site in Saudi Arabia"
                 fill
-                className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
+                className="object-cover object-[center_20%] transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950/55 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-950/25 via-transparent to-transparent" />
             </div>
             <div className="absolute -right-4 -bottom-4 hidden max-w-[220px] bg-accent p-6 text-navy-950 shadow-xl md:block lg:-right-8">
               <p className="font-display text-4xl font-bold">{yearsActive}+</p>

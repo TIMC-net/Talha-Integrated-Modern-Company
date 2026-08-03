@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { useTheme } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/button";
@@ -17,13 +17,20 @@ export default function ClientsPage() {
 
   return (
     <>
-      <PageBanner
-        title="Our Clients"
+      <InternalPageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Clients" }]}
-        backgroundImage="/images/header-contracting.jpg"
+        titleLead="Our"
+        titleAccent="Trusted"
+        title="Clients"
+        description="Official partners across contracting, engineering, and energy programmes in the Kingdom — organisations that rely on TIMC for disciplined site delivery."
+        backgroundImage="/images/who-section-bg.jpg"
       />
 
-      <section data-dark-surface className="relative overflow-x-clip bg-navy-950 py-16 md:py-24">
+      <section
+        id="partners"
+        data-dark-surface
+        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-16 md:py-24"
+      >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
           style={{

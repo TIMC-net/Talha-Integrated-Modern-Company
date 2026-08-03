@@ -12,7 +12,7 @@ import {
   Phone,
 } from "lucide-react";
 import { FormEvent, useState } from "react";
-import PageBanner from "@/components/PageBanner";
+import InternalPageHero from "@/components/InternalPageHero";
 import Pressable from "@/components/motion/Pressable";
 import { Reveal } from "@/components/motion/Reveal";
 import { services } from "@/data/services";
@@ -92,14 +92,17 @@ export default function ContactPage() {
 
   return (
     <>
-      <PageBanner
-        title="Contact Us"
+      <InternalPageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
+        titleLead="Get"
+        titleAccent="In"
+        title="Touch"
+        description="Share your project scope with the TIMC team in Jeddah — we prepare technical and commercial responses for civil, foundation, energy, and equipment rental requirements."
         backgroundImage="/images/header-scaffolding.jpg"
       />
 
       <section data-dark-surface className="bg-navy-950 py-14 md:py-20">
-        <div className="container-site">
+        <div id="contact-form" className="container-site scroll-mt-28">
           <Reveal immediate>
             <div className="grid overflow-hidden border border-white/10 lg:grid-cols-[0.9fr_1.35fr]">
               {/* Left — Quick contact */}
