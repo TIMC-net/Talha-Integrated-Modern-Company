@@ -1,12 +1,41 @@
 "use client";
 
-import { type ReactNode, type RefObject } from "react";
+import { useLayoutEffect, type ReactNode, type RefObject } from "react";
 import { cn } from "@/lib/cn";
 import { isDarkSurfaceAt } from "@/lib/surface";
 
+type InkPair = {
+  shell: HTMLElement;
+  overlay: HTMLElement;
+};
+
+const pairs = new Set<InkPair>();
+let listening = false;
+let raf = 0;
+let running = false;
+let mediaCache: DOMRect[] | null = null;
+let pointCache = new Map<string, boolean>();
+
+function darkAt(x: number, y: number): boolean {
+  // Quantize to cut duplicate probes across shells in the same frame
+  const key = `${x | 0}:${(y / 3) | 0}`;
+  const hit = pointCache.get(key);
+  if (hit !== undefined) return hit;
+  const value = isDarkSurfaceAt(x, y);
+  pointCache.set(key, value);
+  return value;
+}
+
+function mediaRects(): DOMRect[] {
+  if (mediaCache) return mediaCache;
+  mediaCache = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-media]"),
+  ).map((el) => el.getBoundingClientRect());
+  return mediaCache;
+}
+
 /**
  * Build clip-path so the light-on-dark overlay only shows over dark page bands.
- * Same liquid-ink vertical clip used by the navbar capsule and circular FABs.
  */
 export function clipOverlayToDarkBands(
   shell: HTMLElement,
@@ -24,31 +53,27 @@ export function clipOverlayToDarkBands(
   const compact = shell.hasAttribute("data-nav-compact");
   const cx = nr.left + nr.width / 2;
 
-  /*
-    Compact FABs (phone / scroll-top): center sample + full snap.
-    Mobile menu / theme + desktop capsule: liquid vertical wipe.
-  */
   if (compact) {
     const cy = nr.top + nr.height / 2;
-    const isDark = isDarkSurfaceAt(cx, cy);
-    overlay.style.clipPath = isDark ? "inset(0)" : "inset(100% 0 0 0)";
+    overlay.style.clipPath = darkAt(cx, cy) ? "inset(0)" : "inset(100% 0 0 0)";
     return;
   }
 
   const narrow = nr.width <= 80;
-  const samples = narrow ? 24 : 28;
+  // Fewer samples = smoother scroll; still enough for a clean liquid wipe
+  const samples = narrow ? 10 : 14;
   const dark: boolean[] = [];
 
   for (let i = 0; i < samples; i++) {
     const y = nr.top + ((i + 0.5) / samples) * nr.height;
     if (narrow) {
-      // Probe just behind the chrome column so we read page surface, not glow.
-      dark.push(isDarkSurfaceAt(cx, y));
+      dark.push(darkAt(cx, y));
     } else {
+      // Two probes is enough for the desktop capsule
       const votes = [
-        isDarkSurfaceAt(cx, y),
-        isDarkSurfaceAt(nr.left + nr.width * 0.35, y),
-        isDarkSurfaceAt(nr.left + nr.width * 0.65, y),
+        darkAt(cx, y),
+        darkAt(nr.left + nr.width * 0.3, y),
+        darkAt(nr.left + nr.width * 0.7, y),
       ].filter(Boolean).length;
       dark.push(votes >= 2);
     }
@@ -68,11 +93,8 @@ export function clipOverlayToDarkBands(
     }
   }
 
-  // Media panels: only for wide capsules. Narrow circles rely on per-row
-  // samples so a hero edge can wipe through the button like the desktop bar.
   if (!narrow) {
-    for (const media of document.querySelectorAll<HTMLElement>("[data-media]")) {
-      const r = media.getBoundingClientRect();
+    for (const r of mediaRects()) {
       if (r.left > cx || r.right < cx) continue;
       const top = Math.max(0, r.top - nr.top);
       const bottom = Math.min(nr.height, r.bottom - nr.top);
@@ -99,7 +121,6 @@ export function clipOverlayToDarkBands(
     return;
   }
 
-  // Prefer a single wipe band (desktop + mobile circle crossing one edge).
   if (merged.length === 1 || narrow) {
     const band =
       merged.length === 1
@@ -113,6 +134,71 @@ export function clipOverlayToDarkBands(
 
   overlay.style.clipPath =
     cover >= nr.height * 0.5 ? "inset(0)" : "inset(100% 0 0 0)";
+}
+
+function flushInk() {
+  running = false;
+  raf = 0;
+  pointCache = new Map();
+  mediaCache = null;
+
+  if (pairs.size === 0) return;
+
+  const chrome = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-nav-chrome]"),
+  );
+  const prevPe = chrome.map((el) => el.style.pointerEvents);
+  for (const el of chrome) el.style.pointerEvents = "none";
+
+  for (const { shell, overlay } of pairs) {
+    if (!shell.isConnected || !overlay.isConnected) continue;
+    clipOverlayToDarkBands(shell, overlay);
+  }
+
+  chrome.forEach((el, i) => {
+    el.style.pointerEvents = prevPe[i] ?? "";
+  });
+}
+
+function scheduleInk() {
+  if (running) return;
+  running = true;
+  raf = requestAnimationFrame(flushInk);
+}
+
+function ensureListening() {
+  if (listening || typeof window === "undefined") return;
+  listening = true;
+  window.addEventListener("scroll", scheduleInk, { passive: true });
+  window.addEventListener("timc:scroll", scheduleInk);
+  window.addEventListener("resize", scheduleInk, { passive: true });
+
+  const themeObserver = new MutationObserver(scheduleInk);
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme", "class"],
+  });
+  // Keep observer alive for app lifetime (pairs come and go)
+  (ensureListening as { _obs?: MutationObserver })._obs = themeObserver;
+}
+
+/** Force an immediate ink refresh (e.g. after navbar morph). */
+export function refreshNavInk() {
+  scheduleInk();
+}
+
+/** Register a dual-tone shell for the shared scroll clip pass. */
+export function registerNavInk(
+  shell: HTMLElement,
+  overlay: HTMLElement,
+): () => void {
+  const pair: InkPair = { shell, overlay };
+  pairs.add(pair);
+  ensureListening();
+  scheduleInk();
+  return () => {
+    pairs.delete(pair);
+  };
 }
 
 export function DualToneShell({
@@ -131,6 +217,13 @@ export function DualToneShell({
   /** Circular phone/scroll FABs — snap whole control, no mid-glyph split */
   compact?: boolean;
 }) {
+  useLayoutEffect(() => {
+    const shell = shellRef.current;
+    const overlayEl = overlayRef.current;
+    if (!shell || !overlayEl) return;
+    return registerNavInk(shell, overlayEl);
+  }, [shellRef, overlayRef]);
+
   return (
     <div
       ref={shellRef}
@@ -142,9 +235,7 @@ export function DualToneShell({
         className,
       )}
     >
-      {/* Base: black chrome for light page sections */}
       <div className={cn("relative z-0 h-full w-full")}>{base}</div>
-      {/* Overlay: white chrome for dark page sections — liquid clip with scroll */}
       <div
         ref={overlayRef}
         aria-hidden

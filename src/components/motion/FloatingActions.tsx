@@ -5,7 +5,6 @@ import { ArrowUp, Phone } from "lucide-react";
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from "react";
 import {
   DualToneShell,
-  clipOverlayToDarkBands,
 } from "@/components/motion/DualToneShell";
 import { company } from "@/lib/company";
 
@@ -129,28 +128,6 @@ export default function FloatingActions() {
       }
     };
 
-    const clipAll = () => {
-      const chrome = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-nav-chrome]"),
-      );
-      const prevPe = chrome.map((el) => el.style.pointerEvents);
-      chrome.forEach((el) => {
-        el.style.pointerEvents = "none";
-      });
-
-      const pairs: [HTMLDivElement | null, HTMLDivElement | null][] = [
-        [topShellRef.current, topOverlayRef.current],
-        [phoneShellRef.current, phoneOverlayRef.current],
-      ];
-      pairs.forEach(([shell, overlay]) => {
-        if (shell && overlay) clipOverlayToDarkBands(shell, overlay);
-      });
-
-      chrome.forEach((el, i) => {
-        el.style.pointerEvents = prevPe[i] ?? "";
-      });
-    };
-
     let raf = 0;
     let running = false;
 
@@ -167,8 +144,6 @@ export default function FloatingActions() {
         showTopRef.current = nextShow;
         setShowTop(nextShow);
       }
-
-      clipAll();
     };
 
     const schedule = () => {
@@ -180,24 +155,15 @@ export default function FloatingActions() {
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("timc:scroll", schedule);
     window.addEventListener("resize", schedule, { passive: true });
-
-    // Theme toggles change surfaces without scrolling — re-clip immediately
-    const themeObserver = new MutationObserver(schedule);
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme", "class"],
-    });
-
     schedule();
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
-      themeObserver.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("timc:scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [showTop]);
+  }, []);
 
   useEffect(() => {
     if (!showTop) return;

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
   DualToneShell,
-  clipOverlayToDarkBands,
 } from "@/components/motion/DualToneShell";
 import { scrollToId } from "@/hooks/useLenis";
 import { services } from "@/data/services";
@@ -111,57 +110,6 @@ export default function ServicesScrollSpy() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("timc:scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    let raf = 0;
-    let running = false;
-
-    const clip = () => {
-      running = false;
-      raf = 0;
-      const shell = shellRef.current;
-      const overlay = overlayRef.current;
-      if (!shell || !overlay) return;
-
-      const chrome = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-nav-chrome]"),
-      );
-      const prevPe = chrome.map((el) => el.style.pointerEvents);
-      chrome.forEach((el) => {
-        el.style.pointerEvents = "none";
-      });
-      clipOverlayToDarkBands(shell, overlay);
-      chrome.forEach((el, i) => {
-        el.style.pointerEvents = prevPe[i] ?? "";
-      });
-    };
-
-    const schedule = () => {
-      if (running) return;
-      running = true;
-      raf = requestAnimationFrame(clip);
-    };
-
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("timc:scroll", schedule);
-    window.addEventListener("resize", schedule, { passive: true });
-
-    const themeObserver = new MutationObserver(schedule);
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme", "class"],
-    });
-
-    schedule();
-
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      themeObserver.disconnect();
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("timc:scroll", schedule);
-      window.removeEventListener("resize", schedule);
     };
   }, []);
 

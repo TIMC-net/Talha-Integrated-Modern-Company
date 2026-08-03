@@ -43,8 +43,15 @@ export function useLenis() {
     let scrollIdleTimer = 0;
     let refreshRaf = 0;
     let refreshTimer = 0;
+    let lastBodyHeight = 0;
 
     const applyRefresh = () => {
+      const nextH = document.body.scrollHeight;
+      // Ignore tiny layout jitters (font swap / 1px shifts) that cause scroll jumps
+      if (lastBodyHeight > 0 && Math.abs(nextH - lastBodyHeight) < 32) {
+        return;
+      }
+      lastBodyHeight = nextH;
       lenis.resize();
       ScrollTrigger.refresh();
     };
@@ -59,7 +66,7 @@ export function useLenis() {
       refreshRaf = requestAnimationFrame(() => {
         refreshRaf = 0;
         window.clearTimeout(refreshTimer);
-        refreshTimer = window.setTimeout(applyRefresh, 80);
+        refreshTimer = window.setTimeout(applyRefresh, 220);
       });
     };
 
@@ -73,7 +80,7 @@ export function useLenis() {
           needsRefresh = false;
           applyRefresh();
         }
-      }, 140);
+      }, 180);
       window.dispatchEvent(new Event("timc:scroll"));
     });
 

@@ -13,7 +13,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import Logo from "@/components/Logo";
-import { DualToneShell, clipOverlayToDarkBands } from "@/components/motion/DualToneShell";
+import { DualToneShell, refreshNavInk } from "@/components/motion/DualToneShell";
 import { useTheme } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { company } from "@/lib/company";
@@ -456,66 +456,6 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
-  // Liquid-ink clip: update every scroll frame (GPU clip-path, 60fps)
-  useEffect(() => {
-    let raf = 0;
-    let running = false;
-
-    const update = () => {
-      running = false;
-      raf = 0;
-
-      // Hide all nav chrome so elementsFromPoint reads the page underneath
-      const chrome = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-nav-chrome]"),
-      );
-      const prevPe = chrome.map((el) => el.style.pointerEvents);
-      chrome.forEach((el) => {
-        el.style.pointerEvents = "none";
-      });
-
-      if (deskShellRef.current && deskOverlayRef.current) {
-        clipOverlayToDarkBands(deskShellRef.current, deskOverlayRef.current);
-      }
-      if (menuShellRef.current && menuOverlayRef.current) {
-        clipOverlayToDarkBands(menuShellRef.current, menuOverlayRef.current);
-      }
-      if (themeShellRef.current && themeOverlayRef.current) {
-        clipOverlayToDarkBands(themeShellRef.current, themeOverlayRef.current);
-      }
-
-      chrome.forEach((el, i) => {
-        el.style.pointerEvents = prevPe[i] ?? "";
-      });
-    };
-
-    const schedule = () => {
-      if (running) return;
-      running = true;
-      raf = requestAnimationFrame(update);
-    };
-
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("timc:scroll", schedule);
-    window.addEventListener("resize", schedule, { passive: true });
-
-    const themeObserver = new MutationObserver(schedule);
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme", "class"],
-    });
-
-    schedule();
-
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      themeObserver.disconnect();
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("timc:scroll", schedule);
-      window.removeEventListener("resize", schedule);
-    };
-  }, [pathname, collapsed]);
-
   useEffect(() => {
     let accumulated = 0;
 
@@ -576,6 +516,10 @@ export default function Header() {
       window.removeEventListener("resize", onResize);
     };
   }, [pathname]);
+
+  useEffect(() => {
+    refreshNavInk();
+  }, [collapsed, pathname]);
 
   const capsulePad = collapsed
     ? "justify-between gap-3 pr-2.5 pl-5 sm:gap-4 sm:pr-3 sm:pl-6 lg:pr-3 lg:pl-6 xl:pr-3.5 xl:pl-7"
@@ -645,7 +589,7 @@ export default function Header() {
               <nav
                 data-site-nav
                 className={cn(
-                  "flex w-full items-center overflow-hidden rounded-[130px] border border-white/12 bg-[#0a0a0a]/70 text-[#ffffff] shadow-lg backdrop-blur-[30px]",
+                  "flex w-full items-center overflow-hidden rounded-[130px] border border-white/12 bg-[#0a0a0a]/70 text-[#ffffff] shadow-lg backdrop-blur-xl",
                   MORPH,
                   "min-h-[68px] py-3 transition-[padding,gap,box-shadow] sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
                   capsulePad,
@@ -662,7 +606,7 @@ export default function Header() {
             overlay={
               <nav
                 className={cn(
-                  "flex h-full w-full items-center overflow-hidden rounded-[130px] border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] shadow-lg backdrop-blur-[30px]",
+                  "flex h-full w-full items-center overflow-hidden rounded-[130px] border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] shadow-lg backdrop-blur-xl",
                   "min-h-[68px] py-3 sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
                   capsulePad,
                 )}
