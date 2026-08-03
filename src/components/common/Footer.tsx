@@ -183,7 +183,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 bg-black/40 py-5 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:pb-5">
+      <div className="border-t border-white/10 bg-black/40 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:pb-5">
         <div className="container-site flex flex-col gap-2 text-[13px] sm:flex-row sm:items-center sm:justify-between">
           <p className="text-white/45">
             © {year} Talha Integrated Modern Company ({company.shortName}). All

@@ -18,15 +18,19 @@ const navItems = [
   { id: "process", label: "Process" },
 ];
 
+const ROW_H = 44; // h-11
+const ROW_GAP = 12; // gap-3
+
 function getActiveSectionId() {
-  const marker = 140;
+  // Activate a section once its top crosses the upper third of the viewport
+  // so the spy matches what the user is actually reading.
+  const marker = Math.round(Math.min(220, window.innerHeight * 0.32));
   let current = navItems[0].id;
 
   for (const item of navItems) {
     const el = document.getElementById(item.id);
     if (!el) continue;
-    const top = el.getBoundingClientRect().top;
-    if (top - marker <= 0) {
+    if (el.getBoundingClientRect().top - marker <= 0) {
       current = item.id;
     }
   }
@@ -39,11 +43,9 @@ function DotGlyph({
   tone,
 }: {
   active: boolean;
-  /** onDark = white dots over dark bands; onLight = ink dots over light bands */
   tone: "onDark" | "onLight";
 }) {
   const onDark = tone === "onDark";
-  // Hardcoded ink/white — never use theme-remapped navy/white tokens
   const ink = "#0a0a0a";
   const snow = "#ffffff";
 
@@ -65,9 +67,7 @@ function DotGlyph({
     <span
       className={cn(
         "h-2.5 w-2.5 rounded-full border transition",
-        onDark
-          ? "group-hover:bg-white/30"
-          : "group-hover:bg-black/15",
+        onDark ? "group-hover:bg-white/30" : "group-hover:bg-black/15",
       )}
       style={{
         borderColor: onDark ? "rgba(255,255,255,0.55)" : "rgba(10,10,10,0.55)",
@@ -125,10 +125,17 @@ export default function ServicesScrollSpy() {
       const overlay = overlayRef.current;
       if (!shell || !overlay) return;
 
-      const prev = shell.style.pointerEvents;
-      shell.style.pointerEvents = "none";
+      const chrome = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-nav-chrome]"),
+      );
+      const prevPe = chrome.map((el) => el.style.pointerEvents);
+      chrome.forEach((el) => {
+        el.style.pointerEvents = "none";
+      });
       clipOverlayToDarkBands(shell, overlay);
-      shell.style.pointerEvents = prev;
+      chrome.forEach((el, i) => {
+        el.style.pointerEvents = prevPe[i] ?? "";
+      });
     };
 
     const schedule = () => {
@@ -159,62 +166,44 @@ export default function ServicesScrollSpy() {
   }, []);
 
   const scrollTo = (id: string) => {
+    setHoveredId(null);
     setActiveId(id);
     scrollToId(id);
     window.history.replaceState(null, "", `#${id}`);
   };
 
-  const rows = (tone: "onDark" | "onLight", interactive: boolean) => (
+  // Exactly one tooltip — hover wins over active (never two at once)
+  const labelId = hoveredId ?? activeId;
+  const labelIndex = navItems.findIndex((item) => item.id === labelId);
+  const labelItem = labelIndex >= 0 ? navItems[labelIndex] : null;
+  const labelTop =
+    labelIndex >= 0 ? labelIndex * (ROW_H + ROW_GAP) + ROW_H / 2 : 0;
+
+  const dots = (tone: "onDark" | "onLight", interactive: boolean) => (
     <div className="flex flex-col items-end gap-3">
       {navItems.map((item) => {
         const active = activeId === item.id;
-        const showLabel = interactive && (active || hoveredId === item.id);
 
-        return (
+        return interactive ? (
+          <button
+            key={item.id}
+            type="button"
+            aria-label={`Go to ${item.label}`}
+            aria-current={active ? "true" : undefined}
+            onClick={() => scrollTo(item.id)}
+            onMouseEnter={() => setHoveredId(item.id)}
+            onMouseLeave={() => setHoveredId(null)}
+            className="group flex h-11 w-11 items-center justify-center"
+          >
+            <DotGlyph active={active} tone={tone} />
+          </button>
+        ) : (
           <div
             key={item.id}
-            className="relative flex items-center justify-end"
-            onMouseEnter={
-              interactive ? () => setHoveredId(item.id) : undefined
-            }
-            onMouseLeave={interactive ? () => setHoveredId(null) : undefined}
+            className="flex h-11 w-11 items-center justify-center"
+            aria-hidden
           >
-            {interactive ? (
-              <div
-                className={cn(
-                  "absolute right-8 mr-1 transition duration-150",
-                  showLabel
-                    ? "translate-x-0 opacity-100"
-                    : "pointer-events-none translate-x-2 opacity-0",
-                )}
-              >
-                <div className="relative rounded bg-navy-900 px-3 py-1.5 shadow-lg">
-                  <span className="font-display text-[11px] font-semibold tracking-wide whitespace-nowrap text-white uppercase">
-                    {item.label}
-                  </span>
-                  <span
-                    className="absolute top-1/2 -right-1.5 h-0 w-0 -translate-y-1/2 border-y-[6px] border-l-[6px] border-y-transparent border-l-navy-900"
-                    aria-hidden
-                  />
-                </div>
-              </div>
-            ) : null}
-
-            {interactive ? (
-              <button
-                type="button"
-                aria-label={`Go to ${item.label}`}
-                aria-current={active ? "true" : undefined}
-                onClick={() => scrollTo(item.id)}
-                className="group flex h-11 w-11 items-center justify-center"
-              >
-                <DotGlyph active={active} tone={tone} />
-              </button>
-            ) : (
-              <div className="flex h-11 w-11 items-center justify-center">
-                <DotGlyph active={active} tone={tone} />
-              </div>
-            )}
+            <DotGlyph active={active} tone={tone} />
           </div>
         );
       })}
@@ -224,14 +213,31 @@ export default function ServicesScrollSpy() {
   return (
     <nav
       aria-label="Page sections"
-      className="pointer-events-none fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 lg:block md:right-6 xl:right-8"
+      className="pointer-events-none fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 md:right-6 lg:block xl:right-8"
     >
-      <div className="pointer-events-auto">
+      <div className="pointer-events-auto relative">
+        {labelItem ? (
+          <div
+            className="pointer-events-none absolute right-full z-20 mr-3 -translate-y-1/2 transition-[top,opacity] duration-150"
+            style={{ top: labelTop }}
+          >
+            <div className="relative rounded bg-[#0a0a0a] px-3 py-1.5 shadow-lg">
+              <span className="font-display text-[11px] font-semibold tracking-wide whitespace-nowrap text-[#ffffff] uppercase">
+                {labelItem.label}
+              </span>
+              <span
+                className="absolute top-1/2 left-full h-0 w-0 -translate-y-1/2 border-y-[6px] border-l-[6px] border-y-transparent border-l-[#0a0a0a]"
+                aria-hidden
+              />
+            </div>
+          </div>
+        ) : null}
+
         <DualToneShell
           shellRef={shellRef}
           overlayRef={overlayRef}
-          base={rows("onLight", true)}
-          overlay={rows("onDark", false)}
+          base={dots("onLight", true)}
+          overlay={dots("onDark", false)}
         />
       </div>
     </nav>

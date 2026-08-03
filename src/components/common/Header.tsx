@@ -290,6 +290,8 @@ const itemVariants = {
 
 function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => void }) {
   const [openItem, setOpenItem] = useState<string | null>(null);
+  const { theme, mounted } = useTheme();
+  const isLight = mounted && theme === "light";
 
   return (
     <motion.div
@@ -304,7 +306,7 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
         variants={itemVariants}
         className="flex h-16 shrink-0 items-center justify-between px-5 sm:h-[72px] sm:px-6"
       >
-        <Logo variant="light" />
+        <Logo variant={isLight ? "dark" : "light"} />
         <button
           type="button"
           aria-label="Close menu"
