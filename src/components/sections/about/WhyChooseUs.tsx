@@ -5,36 +5,28 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { useTheme } from "@/components/theme/ThemeProvider";
 import { whyChooseUs } from "@/data/about";
+import { cn } from "@/lib/cn";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function WhyChooseUs() {
   const [openId, setOpenId] = useState<string | undefined>(undefined);
   const reduce = useReducedMotion();
+  const { theme, mounted } = useTheme();
+  const isLight = mounted && theme === "light";
 
   return (
     <div
       data-dark-surface
-      data-media
-      className="relative overflow-x-clip py-16 md:py-24"
+      className="relative overflow-x-clip bg-navy-950 py-16 md:py-24"
     >
-      <div className="absolute inset-0">
-        <Image
-          src="/images/header-contracting.jpg"
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-navy-950/88" />
-      </div>
-
       <div className="container-site relative z-10">
         <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal className="h-full min-h-[360px] lg:min-h-0">
-            <div className="group relative h-full min-h-[360px] overflow-hidden border border-white/10 lg:min-h-full">
-              <div className="img-zoom absolute inset-0">
+            <div className="group relative h-full min-h-[360px] overflow-hidden border border-black/10 lg:min-h-full">
+              <div data-media className="img-zoom absolute inset-0">
                 <Image
                   src="/images/why-choose-us-crew.jpg"
                   alt="TIMC team with drilling equipment on a project site"
@@ -42,7 +34,7 @@ export default function WhyChooseUs() {
                   className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
                   sizes="(max-width: 1024px) 100vw, 45vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent transition duration-700 group-hover:from-navy-950/90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent transition duration-700 group-hover:from-[#0a0a0a]/90" />
               </div>
 
               <motion.div
@@ -50,12 +42,22 @@ export default function WhyChooseUs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: 0.15, ease: EASE }}
-                className="absolute right-5 bottom-5 left-5 z-10 border border-white/10 bg-navy-950/90 p-5 backdrop-blur-sm md:right-6 md:bottom-6 md:left-6"
+                className={cn(
+                  "absolute right-5 bottom-5 left-5 z-10 border p-5 backdrop-blur-sm md:right-6 md:bottom-6 md:left-6",
+                  isLight
+                    ? "border-black/10 bg-[#ffffff]/95"
+                    : "border-[rgba(255,255,255,0.12)] bg-[#0a0a0a]/90",
+                )}
               >
                 <p className="font-display text-[12px] font-semibold tracking-[2px] text-accent uppercase">
                   Why Partners Choose TIMC
                 </p>
-                <p className="mt-2 text-[14px] leading-relaxed text-white/70">
+                <p
+                  className={cn(
+                    "mt-2 text-[14px] leading-relaxed",
+                    isLight ? "text-[#0a0a0a]/70" : "text-[#ffffff]/70",
+                  )}
+                >
                   Disciplined delivery across civil, foundation and energy
                   packages — with integrated equipment support.
                 </p>
