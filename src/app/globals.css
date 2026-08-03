@@ -1135,7 +1135,8 @@ a {
   }
 
   .standards-marquee {
-    animation: standardsMarquee 28s linear infinite;
+    animation: standardsMarquee 48s linear infinite;
+    will-change: transform;
   }
 
   /* Horizontal carousels: allow vertical page scroll / pinch zoom */
@@ -1248,10 +1249,27 @@ a {
 
   .standards-marquee {
     animation: none;
-    flex-wrap: wrap;
     width: 100%;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 1rem;
     padding-inline: 20px;
+  }
+
+  .standards-marquee > div {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding-right: 0;
+  }
+
+  .standards-marquee > [aria-hidden] {
+    display: none;
+  }
+
+  /* Show one set of standards only (6 badges) when motion is reduced */
+  .standards-marquee > div:first-child > *:nth-child(n + 7) {
+    display: none;
   }
 
   .vendors-marquee,

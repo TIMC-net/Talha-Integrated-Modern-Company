@@ -10,8 +10,11 @@ function StandardPill({ label }: { label: string }) {
   );
 }
 
+/** Enough repeats that one half always fills wide viewports — seamless -50% loop. */
+const HALF_REPEATS = 4;
+
 export default function StandardsMarquee() {
-  const loop = [...standardsWeWorkTo, ...standardsWeWorkTo];
+  const half = Array.from({ length: HALF_REPEATS }, () => standardsWeWorkTo).flat();
 
   return (
     <section data-dark-surface className="border-t border-white/10 bg-navy-950 py-14 md:py-16">
@@ -25,10 +28,17 @@ export default function StandardsMarquee() {
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-navy-950 to-transparent md:w-24" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-navy-950 to-transparent md:w-24" />
 
-        <div className="standards-marquee flex w-max gap-4 hover:[animation-play-state:paused]">
-          {loop.map((item, index) => (
-            <StandardPill key={`${item.id}-${index}`} label={item.label} />
-          ))}
+        <div className="standards-marquee flex w-max">
+          <div className="flex gap-4 pr-4">
+            {half.map((item, index) => (
+              <StandardPill key={`a-${item.id}-${index}`} label={item.label} />
+            ))}
+          </div>
+          <div className="flex gap-4 pr-4" aria-hidden>
+            {half.map((item, index) => (
+              <StandardPill key={`b-${item.id}-${index}`} label={item.label} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

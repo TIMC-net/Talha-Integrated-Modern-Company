@@ -37,8 +37,6 @@ export default function DeliveryProcess() {
     return () => window.clearInterval(id);
   }, [inView, paused]);
 
-  const progress = ((active + 1) / deliveryProcess.length) * 100;
-
   return (
     <div ref={sectionRef}>
       <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
@@ -54,42 +52,51 @@ export default function DeliveryProcess() {
         </p>
       </div>
 
-      {/* Progress track — desktop */}
+      {/* Progress track — desktop: light node N + segments 1→N with card N */}
       <div className="relative mb-10 hidden md:block">
-        <div className="absolute top-5 right-[10%] left-[10%] h-px bg-white/15" />
-        <div
-          className="absolute top-5 left-[10%] h-px bg-accent transition-[width] duration-700 ease-out"
-          style={{ width: `calc(${progress}% * 0.8)` }}
-        />
-        <div className="relative flex justify-between px-[6%]">
+        <div className="flex items-center px-[6%]">
           {deliveryProcess.map((step, index) => {
             const isActive = active === index;
             const isDone = index < active;
+
             return (
-              <button
-                key={step.id}
-                type="button"
-                onMouseEnter={() => {
-                  setPaused(true);
-                  setActive(index);
-                }}
-                onMouseLeave={() => setPaused(false)}
-                onClick={() => setActive(index)}
-                className="flex flex-col items-center"
-                aria-label={step.title}
-              >
-                <span
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 font-display text-[13px] font-bold transition duration-500 ${
-                    isActive
-                      ? "scale-110 border-accent bg-accent text-navy-950 shadow-[0_0_24px_rgba(255,107,53,0.45)]"
-                      : isDone
-                        ? "border-accent bg-accent/20 text-accent"
-                        : "border-white/25 bg-navy-950 text-white/45"
-                  }`}
+              <div key={step.id} className="contents">
+                {index > 0 ? (
+                  <div
+                    className="relative mx-1 h-px min-w-0 flex-1 bg-white/15"
+                    aria-hidden
+                  >
+                    <div
+                      className="absolute inset-y-0 left-0 bg-accent transition-[width] duration-700 ease-out"
+                      style={{ width: index <= active ? "100%" : "0%" }}
+                    />
+                  </div>
+                ) : null}
+                <button
+                  type="button"
+                  onMouseEnter={() => {
+                    setPaused(true);
+                    setActive(index);
+                  }}
+                  onMouseLeave={() => setPaused(false)}
+                  onClick={() => setActive(index)}
+                  className="relative z-10 flex shrink-0 flex-col items-center"
+                  aria-label={step.title}
+                  aria-current={isActive ? "step" : undefined}
                 >
-                  {step.number}
-                </span>
-              </button>
+                  <span
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 font-display text-[13px] font-bold transition duration-500 ${
+                      isActive
+                        ? "scale-110 border-accent bg-accent text-navy-950 shadow-[0_0_24px_rgba(255,107,53,0.45)]"
+                        : isDone
+                          ? "border-accent bg-navy-950 text-accent"
+                          : "border-white/25 bg-navy-950 text-white/45"
+                    }`}
+                  >
+                    {step.number}
+                  </span>
+                </button>
+              </div>
             );
           })}
         </div>
