@@ -28,9 +28,15 @@ function darkAt(x: number, y: number): boolean {
 
 function mediaRects(): DOMRect[] {
   if (mediaCache) return mediaCache;
+  const vw = window.innerWidth;
+  const minW = vw * 0.4;
+  // Only hero / full-bleed media — skip portfolio tiles and small cards
+  // so navbar ink work stays cheap on dense pages (projects grid).
   mediaCache = Array.from(
     document.querySelectorAll<HTMLElement>("[data-media]"),
-  ).map((el) => el.getBoundingClientRect());
+  )
+    .map((el) => el.getBoundingClientRect())
+    .filter((r) => r.width >= minW && r.height > 80);
   return mediaCache;
 }
 

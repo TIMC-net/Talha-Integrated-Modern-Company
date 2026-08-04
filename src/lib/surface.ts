@@ -125,9 +125,10 @@ export function isDarkNavBand(bandBottom = 88): boolean {
   const touchY = Math.min(52, Math.max(40, bandBottom * 0.5));
 
   // 1) Media / photo panel — flip on first pixel of contact with the band
+  // Only wide media (heroes); ignore small data-media tiles if any remain
   for (const media of document.querySelectorAll<HTMLElement>("[data-media]")) {
     const r = media.getBoundingClientRect();
-    if (r.width < vw * 0.3) continue;
+    if (r.width < vw * 0.4) continue;
     // Touches the chrome strip (y: 0 → bandBottom)
     if (r.bottom > 0 && r.top < bandBottom) return true;
   }

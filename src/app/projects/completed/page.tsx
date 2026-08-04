@@ -20,7 +20,7 @@ export default function CompletedProjectsPage() {
         titleAccent="Completed"
         title="Projects"
         description="Delivered contractor packages across industrial, infrastructure, and utility sites — executed with quality control, HSE discipline, and clear handover documentation."
-        backgroundImage="/images/civil-construction.jpg"
+        backgroundImage="/images/projects-hero-v4.jpg"
       />
 
       <section

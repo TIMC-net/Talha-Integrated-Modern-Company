@@ -6,6 +6,7 @@ export type Project = {
   location: string;
   imageUrl: string;
   description: string;
+  client?: string;
 };
 
 function slugify(value: string) {
@@ -25,60 +26,121 @@ const demoImages = [
   "/images/header-scrap.jpg",
 ];
 
-/** Completed project highlights for homepage portfolio + /portfolio */
-export const projects: Project[] = [
+type CompletedSource = {
+  title: string;
+  client: string;
+  scope: string;
+  service: string;
+};
+
+/**
+ * Completed project highlights from TIMC list (100% completed, last 2 years).
+ * Used on homepage portfolio carousel and /portfolio pages.
+ */
+const completedSource: CompletedSource[] = [
   {
-    id: "completed-1",
-    slug: slugify("Steam Header Project"),
-    title: "Steam Header Project",
+    title: "Jeddah Solar Power Project (300 MW)",
+    client: "Larsen & Toubro Limited Company",
+    scope: "Supply of Equipment and Power Generators",
     service: "energy-infrastructure",
-    location: "Jubail – 1, KSA",
-    imageUrl: demoImages[0],
-    description: "Detailed Engineering",
   },
   {
-    id: "completed-2",
-    slug: slugify("Repair & Installation of Access Beam"),
-    title: "Repair & Installation of Access Beam",
-    service: "foundation-engineering",
-    location: "Jubail – 1, KSA",
-    imageUrl: demoImages[1],
-    description: "Structural Works",
-  },
-  {
-    id: "completed-3",
-    slug: slugify("Turnaround Major Maintenance"),
-    title: "Turnaround Major Maintenance",
+    title: "Al Shuaibah 1 & 2 Solar Power Plant (2,631 MW)",
+    client: "Branch of Hyundai Engineering & Contracting Co.",
+    scope: "Supply of Equipment and Power Generators",
     service: "energy-infrastructure",
-    location: "Jubail – 1, KSA",
-    imageUrl: demoImages[2],
-    description: "Civil / Piping / Mechanical Works",
   },
   {
-    id: "completed-4",
-    slug: slugify("Raw Water Line – Re-routing Works"),
-    title: "Raw Water Line – Re-routing Works",
-    service: "civil-infrastructure",
-    location: "Dhahran, KSA",
-    imageUrl: demoImages[3],
-    description: "Civil & Piping",
+    title: "THE LINE – Civil & Infrastructure Works (NEOM)",
+    client: "ABACUS International Co",
+    scope: "Supply of Equipment and Power Generators",
+    service: "equipment-rental",
   },
   {
-    id: "completed-5",
-    slug: slugify("Road & Repair Works"),
-    title: "Road & Repair Works",
+    title: "NEOM Al Khuraybah Infrastructure Development",
+    client: "Gheed Najd Contracting Est",
+    scope: "Supply of Equipment and Power Generators",
     service: "civil-infrastructure",
-    location: "Jubail Port, KSA",
-    imageUrl: demoImages[4],
-    description: "Civil & Asphalt",
   },
   {
-    id: "completed-6",
-    slug: slugify("Desalination Project – Walls & Ceilings"),
-    title: "Desalination Project – Walls & Ceilings",
+    title: "Sindalah Island Backbone Infrastructure",
+    client: "Desert Eagle Contracting Co",
+    scope: "Supply of Heavy Equipment",
+    service: "equipment-rental",
+  },
+  {
+    title: "Majma Housing Project – Residential Infrastructure",
+    client: "Katerra Saudi Arabia Contracting Co",
+    scope: "Supply of Power Generators",
     service: "civil-infrastructure",
-    location: "Al Khobar, KSA",
-    imageUrl: demoImages[5],
-    description: "Civil Construction",
+  },
+  {
+    title: "Water Treatment System (WTS) Plant Projects",
+    client: "Memar Monif Contracting Est",
+    scope: "Supply of Heavy Equipment",
+    service: "equipment-rental",
+  },
+  {
+    title: "THE LINE – Civil & Infrastructure Works (NEOM)",
+    client: "Prestige Rental Equipements CO",
+    scope: "Supply of Heavy Equipment",
+    service: "equipment-rental",
+  },
+  {
+    title: "SANY Alameriah Precast Concrete Factory – Jeddah Industrial City 3",
+    client: "SANY Alameriah for Contracting Co",
+    scope: "Supply of Equipment and Power Generators",
+    service: "equipment-rental",
+  },
+  {
+    title: "Jabal Omar Development Project – Makkah",
+    client: "Tahadi Lifter For Contracting Est",
+    scope: "Supply of Equipment and Power Generators",
+    service: "civil-infrastructure",
+  },
+  {
+    title: "Rabigh 2 Independent Power Plant (Rabigh 2 IPP)",
+    client: "Taj Noori Contracting Est",
+    scope: "Supply of Heavy Equipment",
+    service: "energy-infrastructure",
+  },
+  {
+    title: "Sindalah Island Development – Infrastructure Works",
+    client: "Ahmed Muhammad Al Mkhavi",
+    scope: "Supply of Heavy Equipment",
+    service: "civil-infrastructure",
+  },
+  {
+    title: "Al Shuaibah 1 & 2 Solar PV Independent Power Plant (IPP)",
+    client: "Tran Ji Trading and Contracting Company",
+    scope: "Supply of Equipment and Power Generators",
+    service: "energy-infrastructure",
+  },
+  {
+    title: "Reinforcement of Rabigh Power Plant — 1.2GW SCC6-5000F 3+1",
+    client: "ELSEWEDY Electric Power Systems Projects",
+    scope: "Supply of Equipment and Power Generators",
+    service: "energy-infrastructure",
   },
 ];
+
+/** Completed project highlights for homepage portfolio + /portfolio */
+export const projects: Project[] = completedSource.map((item, index) => {
+  // Unique slug when two entries share a project name (e.g. THE LINE)
+  const slugBase = slugify(item.title);
+  const slug =
+    completedSource.filter((p) => slugify(p.title) === slugBase).length > 1
+      ? `${slugBase}-${slugify(item.client).slice(0, 24)}`
+      : slugBase;
+
+  return {
+    id: `completed-${index + 1}`,
+    slug,
+    title: item.title,
+    service: item.service,
+    location: "KSA",
+    imageUrl: demoImages[index % demoImages.length],
+    description: item.scope,
+    client: item.client,
+  };
+});

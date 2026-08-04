@@ -1,20 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import InternalPageHero from "@/components/InternalPageHero";
-import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { useTheme } from "@/components/theme/ThemeProvider";
+import { Reveal } from "@/components/motion/Reveal";
+import ClientsMarquee from "@/components/sections/ClientsMarquee";
 import { Button } from "@/components/ui/button";
 import { clients } from "@/lib/company";
 
 export default function ClientsPage() {
-  const reduce = useReducedMotion();
-  const { theme, mounted } = useTheme();
-  const isLight = mounted && theme === "light";
-
   return (
     <>
       <InternalPageHero
@@ -29,7 +23,7 @@ export default function ClientsPage() {
       <section
         id="partners"
         data-dark-surface
-        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-16 md:py-24"
+        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-14 md:py-20"
       >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"
@@ -41,7 +35,7 @@ export default function ClientsPage() {
 
         <div className="container-site relative z-10">
           <Reveal immediate>
-            <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
+            <div className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
               <span className="section-eyebrow justify-center text-accent">
                 Trusted Partners
               </span>
@@ -49,75 +43,19 @@ export default function ClientsPage() {
                 Clients Who Rely On TIMC
               </h2>
               <p className="mt-3 text-[15px] text-white/60">
-                Official partners across contracting, engineering, and energy
-                programmes in the Kingdom.
+                {clients.length} official partners across contracting,
+                engineering, and energy programmes in the Kingdom.
               </p>
             </div>
           </Reveal>
+        </div>
 
-          <RevealGroup
-            immediate
-            className="flex flex-wrap justify-center gap-3 sm:gap-4 lg:gap-5"
-          >
-            {clients.map((client, index) => (
-              <RevealItem
-                key={client.name}
-                className="w-[calc(50%-0.375rem)] max-w-[260px] sm:w-[calc(33.333%-0.7rem)] lg:w-[calc(25%-0.95rem)]"
-              >
-                <article className="group/card relative flex h-full flex-col overflow-hidden border border-white/10 bg-navy-900 p-5 transition-all duration-500 hover:border-accent/70 sm:p-6 md:p-7 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                  <span
-                    aria-hidden
-                    className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent"
-                  />
+        <Reveal delay={0.08}>
+          <ClientsMarquee clients={clients} />
+        </Reveal>
 
-                  <div className="relative flex min-h-[120px] flex-1 items-center justify-center sm:min-h-[140px] md:min-h-[152px]">
-                    <motion.div
-                      className="flex h-full w-full items-center justify-center"
-                      animate={
-                        reduce
-                          ? undefined
-                          : {
-                              y: [0, -5, 0],
-                            }
-                      }
-                      transition={{
-                        duration: 4.2 + (index % 3) * 0.45,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.25,
-                      }}
-                    >
-                      <Image
-                        src={
-                          isLight && client.logoOnLight
-                            ? client.logoOnLight
-                            : client.logo
-                        }
-                        alt={`${client.name} logo`}
-                        width={320}
-                        height={160}
-                        unoptimized
-                        className="h-[5rem] w-auto max-w-[90%] object-contain sm:h-24 md:h-28"
-                      />
-                    </motion.div>
-                  </div>
-
-                  <div className="relative mt-4 border-t border-white/10 pt-4 text-center">
-                    <p className="font-display text-[12px] font-bold tracking-[1.5px] text-white uppercase transition duration-300 group-hover/card:text-accent sm:text-[13px]">
-                      {client.shortName}
-                    </p>
-                  </div>
-
-                  <span
-                    aria-hidden
-                    className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent"
-                  />
-                </article>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-
-          <Reveal delay={0.15} className="mt-14 border-t border-white/10 pt-10 md:mt-16">
+        <div className="container-site relative z-10">
+          <Reveal delay={0.15} className="mt-12 border-t border-white/10 pt-10 md:mt-14">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
                 <p className="font-display text-[13px] font-semibold tracking-[2px] text-accent uppercase">

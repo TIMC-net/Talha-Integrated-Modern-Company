@@ -20,7 +20,7 @@ export default function OngoingProjectsPage() {
         titleAccent="Ongoing"
         title="Projects"
         description="Active contractor works underway across the Kingdom — supervised on site with progress reporting, quality control, and disciplined HSE management."
-        backgroundImage="/images/hero-construction.jpg"
+        backgroundImage="/images/projects-hero-v4.jpg"
       />
 
       <section

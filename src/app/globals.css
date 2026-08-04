@@ -1178,11 +1178,7 @@ a {
   }
 
   .clients-marquee {
-    animation: vendorsMarquee 55s linear infinite;
-  }
-
-  .clients-marquee-reverse {
-    animation: vendorsMarquee 65s linear infinite reverse;
+    animation: vendorsMarquee 95s linear infinite;
   }
 
   /* Footer social icons — fill-from-bottom + icon flip on hover */
@@ -1295,8 +1291,7 @@ a {
 
   .vendors-marquee,
   .vendors-marquee-reverse,
-  .clients-marquee,
-  .clients-marquee-reverse {
+  .clients-marquee {
     animation: none;
   }
 }
