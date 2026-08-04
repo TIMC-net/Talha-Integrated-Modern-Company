@@ -444,11 +444,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "Engineering and Construction Company",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/9/cover-demo.jpg",
+    coverImage: "/images/projects/ongoing/9/cover-v2.jpg",
     details: {
       fullName:
         "Design & Construction of Source OHTL Supporting 1A Substation — Structure Pads (Jazan)",
-      heroImage: "/images/projects/ongoing/9/hero-demo.jpg",
+      heroImage: "/images/projects/ongoing/9/details-hero-v1.jpg",
       overview:
         "Delivery of structural foundation pads for the Source OHTL supporting 1A substation package in the Jazan region. Works cover earthworks, fill placement, layer compaction, and finished pad surfaces prepared to receive tower and equipment foundations in normal soil conditions, aligned with approved engineering drawings and SEC civil requirements.",
       scopeItems: [
@@ -461,12 +461,13 @@ export const ongoingProjects: ListedProject[] = [
         "Quality control, survey checks, and progressive inspection records throughout construction in coordination with the client’s supervision team.",
       ],
       standardsNote:
-        "Executed under approved engineering drawings, SEC specifications, project QA/QC procedures, and HSE requirements. Demo photography is temporary and will be replaced when TIMC provides official site media for this package.",
+        "Executed under approved engineering drawings, SEC specifications, project QA/QC procedures, and HSE requirements — delivering durable foundation pads for OHTL and substation infrastructure in the Jazan region.",
       images: [
-        "/images/projects/ongoing/9/01.jpg",
-        "/images/projects/ongoing/9/02.jpg",
-        "/images/projects/ongoing/9/03.jpg",
-        "/images/projects/ongoing/9/04.jpg",
+        "/images/projects/ongoing/9/site-01.jpg",
+        "/images/projects/ongoing/9/site-02.jpg",
+        "/images/projects/ongoing/9/site-03.jpg",
+        "/images/projects/ongoing/9/site-04.jpg",
+        "/images/projects/ongoing/9/site-05.jpg",
       ],
     },
   },
@@ -481,11 +482,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "National Contracting Company Ltd.",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/10/cover-demo.jpg",
+    coverImage: "/images/projects/ongoing/10/cover-v2.jpg",
     details: {
       fullName:
         "380kV OHTL from Jillah BSP #9063 to Layla BSP #9049 — Access Roads & Structure Pads",
-      heroImage: "/images/projects/ongoing/10/hero-demo.jpg",
+      heroImage: "/images/projects/ongoing/10/details-hero-v1.jpg",
       overview:
         "Civil support works for the 380kV overhead transmission line corridor linking Jillah Bulk Supply Point (BSP #9063) and Layla Bulk Supply Point (BSP #9049). The package focuses on building safe, all-weather site access and durable structure pads that enable tower foundation and stringing activities under National Contracting Company Ltd. (Transmission & Distribution) supervision.",
       scopeItems: [
@@ -497,12 +498,11 @@ export const ongoingProjects: ListedProject[] = [
         "Equipment-supported execution (graders, rollers, water trucks, and material handling plant) with certified operators and continuous HSE controls along the corridor.",
       ],
       standardsNote:
-        "Works follow approved route and civil drawings, NCC / SEC project specifications, QA/QC hold points, and HSE rules for transmission line construction. Temporary demo images are used pending official project photography from TIMC.",
+        "Works follow approved route and civil drawings, NCC / SEC project specifications, QA/QC hold points, and HSE rules for transmission line construction across the Jillah–Layla corridor.",
       images: [
-        "/images/projects/ongoing/10/01.jpg",
-        "/images/projects/ongoing/10/02.jpg",
-        "/images/projects/ongoing/10/03.jpg",
-        "/images/projects/ongoing/10/04.jpg",
+        "/images/projects/ongoing/10/site-01.jpg",
+        "/images/projects/ongoing/10/site-02.jpg",
+        "/images/projects/ongoing/10/site-03.jpg",
       ],
     },
   },
