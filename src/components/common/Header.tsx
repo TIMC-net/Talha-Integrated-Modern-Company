@@ -106,7 +106,9 @@ function DesktopNav({
         aria-hidden
         className={cn(
           "pointer-events-none absolute top-1/2 z-0 h-9 -translate-y-1/2 rounded-full transition-all duration-300 ease-out xl:h-10",
-          onDark ? "bg-black/10" : "bg-white/20",
+          // Hardcoded rgba — light theme remaps bg-white/* to black, which
+          // erases the hover pill on the dark dual-tone capsule.
+          onDark ? "bg-[rgba(10,10,10,0.08)]" : "bg-[rgba(255,255,255,0.22)]",
         )}
         style={highlightStyle}
       />
@@ -132,7 +134,7 @@ function DesktopNav({
               className={cn(
                 "relative z-10 flex items-center gap-1 rounded-full px-3 py-2 font-display text-[12px] font-semibold tracking-wide whitespace-nowrap uppercase transition-colors xl:px-4 xl:text-[13px] 2xl:px-5 2xl:text-[14px]",
                 active || isOpen
-                  ? "bg-accent/15 text-accent"
+                  ? "bg-accent text-[#0a0a0a]"
                   : onDark
                     ? "text-[#0a0a0a]/75 hover:text-[#0a0a0a]"
                     : "text-[#ffffff]/80 hover:text-[#ffffff]",
