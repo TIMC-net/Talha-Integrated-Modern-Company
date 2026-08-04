@@ -62,10 +62,8 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Projects", href: "/projects/ongoing" },
-          { label: "Ongoing", href: "/projects/ongoing" },
           { label: `Project ${String(project.no).padStart(2, "0")}` },
         ]}
-        titleLead="Ongoing"
         titleAccent={titleAccent}
         title={titleRest}
         description={project.scope ?? details.overview}
