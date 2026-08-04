@@ -30,10 +30,10 @@ export default function AboutSection() {
               className="img-zoom group relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/4] md:aspect-[5/6]"
             >
               <Image
-                src="/images/timc-crew-site.jpg"
+                src="/images/home-about-crew.jpg"
                 alt="TIMC site crew in safety gear with drilling equipment on a project site in Saudi Arabia"
                 fill
-                className="object-cover object-[center_20%] transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.03]"
+                className="object-cover object-[center_30%] transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
               />

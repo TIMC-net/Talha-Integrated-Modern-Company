@@ -597,6 +597,7 @@ html {
   img[src*="logo-mark"],
   img[src*="/images/clients/"],
   img[src*="timc-crew-site"],
+  img[src*="home-about-crew"],
   img[src*="why-choose-us-crew"] {
     filter: none;
   }
