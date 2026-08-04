@@ -1140,6 +1140,21 @@ a {
     will-change: transform;
   }
 
+  /* Home project clarity — autoplay focus card progress bar */
+  @keyframes projectSlideProgress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .project-slide-progress {
+    transform-origin: left center;
+    animation: projectSlideProgress 3.5s linear forwards;
+  }
+
   /* Horizontal carousels: allow vertical page scroll / pinch zoom */
   .swiper {
     touch-action: pan-y pinch-zoom;
@@ -1271,6 +1286,11 @@ a {
   /* Show one set of standards only (6 badges) when motion is reduced */
   .standards-marquee > div:first-child > *:nth-child(n + 7) {
     display: none;
+  }
+
+  .project-slide-progress {
+    animation: none;
+    transform: scaleX(1);
   }
 
   .vendors-marquee,
