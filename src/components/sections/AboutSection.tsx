@@ -21,7 +21,7 @@ const features = [
 
 export default function AboutSection() {
   return (
-    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-16 md:py-24">
+    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-12 md:py-16">
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal className="relative w-full min-w-0">
@@ -63,7 +63,7 @@ export default function AboutSection() {
               </div>
             </Reveal>
 
-            <RevealGroup className="mt-8 grid gap-5 sm:grid-cols-2">
+            <RevealGroup className="mt-6 grid gap-5 sm:grid-cols-2">
               {features.map((feature) => {
                 const Icon = feature.icon;
                 return (
@@ -87,7 +87,7 @@ export default function AboutSection() {
               })}
             </RevealGroup>
 
-            <Reveal className="mt-8">
+            <Reveal className="mt-6">
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 font-display text-[13px] font-bold tracking-wide text-accent uppercase transition hover:gap-3 hover:text-accent-light"

@@ -16,23 +16,13 @@ import { useEffect, useState } from "react";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import type { ListedProject } from "@/lib/company";
+import { listedProjectImage } from "@/lib/project-media";
 import { cn } from "@/lib/cn";
 
 type ProjectGridProps = {
   projects: ListedProject[];
   status: "ongoing" | "completed";
 };
-
-const projectImages = [
-  "/images/civil-construction.jpg",
-  "/images/header-contracting.jpg",
-  "/images/header-scaffolding.jpg",
-  "/images/hero-equipment.jpg",
-  "/images/hero-civil.jpg",
-  "/images/header-scrap.jpg",
-  "/images/scaffolding.jpg",
-  "/images/manpower-supply.jpg",
-];
 
 const EASE = "ease-[cubic-bezier(0.22,1,0.36,1)]";
 
@@ -215,17 +205,6 @@ function ProjectHoverCard({
         )}
       />
 
-      <span
-        className={cn(
-          "absolute top-4 right-4 z-10 font-display text-[22px] font-bold tracking-wide text-[#ffffff]/35 drop-shadow-sm",
-          "transition-colors duration-500",
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:text-accent",
-          "group-data-[open=true]:text-accent",
-        )}
-      >
-        {String(project.no).padStart(2, "0")}
-      </span>
-
       <div
         className={cn(
           "pointer-events-none absolute inset-x-0 bottom-0 z-10 px-5 pb-5 pt-20",
@@ -384,8 +363,7 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
       className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
     >
       {projects.map((project, i) => {
-        const image =
-          project.coverImage ?? projectImages[i % projectImages.length];
+        const image = listedProjectImage(project, i);
         const isLastOrphan =
           centerLastOnDesktop && i === projects.length - 1;
 

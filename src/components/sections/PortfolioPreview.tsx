@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
-import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type SwiperClass from "swiper";
 import { Reveal } from "@/components/motion/Reveal";
@@ -14,17 +13,20 @@ import { cn } from "@/lib/cn";
 
 import "swiper/css";
 
+const SLIDE_SPEED_MS = 400;
+
 function ProjectSlide({
   project,
   isActive,
-  index,
+  progressKey,
+  onProgressComplete,
 }: {
   project: (typeof projects)[number];
   isActive: boolean;
-  index: number;
+  progressKey: number;
+  onProgressComplete?: () => void;
 }) {
   const service = getService(project.service);
-  const number = String(index + 1).padStart(2, "0");
 
   return (
     <Link
@@ -32,119 +34,102 @@ function ProjectSlide({
       data-media
       aria-current={isActive ? "true" : undefined}
       className={cn(
-        "relative block aspect-[4/5] w-full overflow-hidden outline-none sm:aspect-[3/4] lg:aspect-[4/5] xl:h-[440px] xl:aspect-auto",
-        "transition-[opacity,transform,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "relative mx-auto block h-full w-full max-w-[min(100%,380px)] overflow-hidden outline-none",
+        "aspect-[3/4] sm:aspect-[4/5]",
+        "origin-center transition-[opacity,filter,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
         isActive
-          ? "z-[1] opacity-100"
-          : "z-0 opacity-[0.55] saturate-[0.75]",
+          ? "z-[2] scale-100 opacity-100 blur-0"
+          : "z-0 scale-[0.92] opacity-60 blur-[1px] sm:scale-[0.88] sm:opacity-55 sm:blur-[1.5px]",
       )}
     >
       <Image
         src={project.imageUrl}
         alt={project.title}
         fill
-        sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+        sizes="(max-width: 639px) 85vw, (max-width: 1023px) 45vw, 33vw"
+        className="object-cover object-center"
+      />
+
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/92 via-[#0a0a0a]/30 to-[#0a0a0a]/10"
+      />
+      <div
+        aria-hidden
         className={cn(
-          "object-cover object-center transition duration-[1.1s] ease-out",
-          isActive ? "scale-105" : "scale-100",
+          "pointer-events-none absolute inset-0 bg-[#0a0a0a]/35 transition-opacity duration-500",
+          isActive ? "opacity-0" : "opacity-100",
         )}
       />
 
-      {/* Cinematic grade — stronger only when focused */}
       <div
         className={cn(
-          "absolute inset-0 transition duration-700",
-          isActive
-            ? "bg-gradient-to-t from-[#0a0a0a]/90 via-[#0a0a0a]/35 to-[#0a0a0a]/10"
-            : "bg-[#0a0a0a]/40",
-        )}
-      />
-
-      {/* Index marker */}
-      <span
-        className={cn(
-          "absolute top-4 left-4 z-10 font-display text-[11px] font-semibold tracking-[0.2em] uppercase transition duration-500",
-          isActive ? "text-[#ffffff]/90" : "text-[#ffffff]/40",
-        )}
-      >
-        {number}
-      </span>
-
-      {/* Focused caption — type over gradient, no stacked boxes */}
-      <div
-        className={cn(
-          "absolute inset-x-0 bottom-0 z-10 px-4 pb-5 pt-16 sm:px-5 sm:pb-6",
-          "transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          isActive
-            ? "translate-y-0 opacity-100"
-            : "pointer-events-none translate-y-6 opacity-0",
+          "absolute inset-x-0 bottom-0 z-10 px-3 pb-4 pt-14 sm:px-5 sm:pb-6 sm:pt-16",
+          "transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          isActive ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
         <div
           className={cn(
-            "mb-3 h-px w-8 bg-accent transition-all duration-700 delay-75",
-            isActive ? "scale-x-100 opacity-100" : "origin-left scale-x-0 opacity-0",
+            "mb-2 h-px w-7 origin-left bg-accent transition-[transform,opacity] duration-500 sm:mb-3 sm:w-8",
+            isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0",
           )}
         />
 
         {service && (
-          <p
-            className={cn(
-              "font-display text-[11px] font-semibold tracking-[0.18em] text-accent uppercase transition-all duration-500 delay-100",
-              isActive ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
-            )}
-          >
+          <p className="font-display text-[10px] font-semibold tracking-[0.16em] text-accent uppercase sm:text-[11px] sm:tracking-[0.18em]">
             {service.name}
           </p>
         )}
 
-        <h3
-          className={cn(
-            "mt-2 font-display text-[17px] leading-snug font-bold tracking-wide text-[#ffffff] uppercase sm:text-[18px] lg:text-[19px]",
-            "transition-all duration-500 delay-150",
-            isActive ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
-          )}
-        >
+        <h3 className="mt-1.5 line-clamp-3 font-display text-[14px] leading-snug font-bold tracking-wide text-[#ffffff] uppercase sm:mt-2 sm:line-clamp-none sm:text-[16px] md:text-[18px] lg:text-[19px]">
           {project.title}
         </h3>
 
-        <p
-          className={cn(
-            "mt-2 text-[13px] text-[#ffffff]/65 transition-all duration-500 delay-200",
-            isActive ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
-          )}
-        >
+        <p className="mt-1.5 text-[12px] text-[#ffffff]/65 sm:mt-2 sm:text-[13px]">
           {project.location}
         </p>
       </div>
 
-      {/* Quiet autoplay meter */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 z-20 h-[2px] bg-[#ffffff]/10"
+      />
       {isActive ? (
         <span
-          key={`progress-${project.id}`}
+          key={`progress-${project.id}-${progressKey}`}
           aria-hidden
           className="project-slide-progress absolute inset-x-0 bottom-0 z-20 h-[2px] bg-accent"
+          onAnimationEnd={(e) => {
+            if (e.target !== e.currentTarget) return;
+            onProgressComplete?.();
+          }}
         />
-      ) : (
-        <span
-          aria-hidden
-          className="absolute inset-x-0 bottom-0 z-10 h-px bg-[#ffffff]/10"
-        />
-      )}
+      ) : null}
     </Link>
   );
 }
 
 export default function PortfolioPreview() {
   const swiperRef = useRef<SwiperClass | null>(null);
+  const pausedRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [progressKey, setProgressKey] = useState(0);
+
+  const goNext = () => {
+    if (pausedRef.current) return;
+    swiperRef.current?.slideNext();
+  };
 
   return (
-    <section data-dark-surface className="overflow-x-clip bg-navy-950 py-16 md:py-24">
-      <div className="container-site">
+    <section
+      data-dark-surface
+      className="overflow-hidden bg-navy-950 py-12 md:py-16"
+    >
+      <div className="container-site min-w-0">
         <Reveal>
-          <div className="mb-10 flex flex-col items-start justify-between gap-6 md:mb-14 md:flex-row md:items-end">
-            <div className="max-w-2xl">
+          <div className="mb-8 flex flex-col items-start justify-between gap-5 md:mb-10 md:flex-row md:items-end">
+            <div className="max-w-2xl min-w-0">
               <span className="section-eyebrow text-accent">Completed Projects</span>
               <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
                 Our Project Clarity
@@ -158,7 +143,7 @@ export default function PortfolioPreview() {
 
             <Link
               href="/projects/completed"
-              className="group inline-flex items-center gap-2 border-b border-accent pb-1 font-display text-[13px] font-bold tracking-[0.12em] text-accent uppercase transition hover:gap-3 hover:text-accent-light"
+              className="group inline-flex shrink-0 items-center gap-2 border-b border-accent pb-1 font-display text-[13px] font-bold tracking-[0.12em] text-accent uppercase transition hover:gap-3 hover:text-accent-light"
             >
               View all completed
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
@@ -166,47 +151,81 @@ export default function PortfolioPreview() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.08} className="overflow-visible">
-          <Swiper
-            modules={[Autoplay]}
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper;
-              setActiveIndex(swiper.realIndex);
+        <Reveal delay={0.08} className="min-w-0 overflow-hidden">
+          <div
+            className="project-clarity-shell min-w-0 overflow-hidden"
+            onMouseEnter={() => {
+              pausedRef.current = true;
             }}
-            onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-            spaceBetween={16}
-            slidesPerView={1}
-            loop
-            speed={800}
-            touchAngle={25}
-            threshold={8}
-            touchStartPreventDefault={false}
-            resistanceRatio={0.65}
-            autoplay={{
-              delay: 3500,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
+            onMouseLeave={() => {
+              pausedRef.current = false;
+              setProgressKey((k) => k + 1);
             }}
-            breakpoints={{
-              640: { slidesPerView: 2, spaceBetween: 20 },
-              1024: { slidesPerView: 3, spaceBetween: 24 },
-              1280: { slidesPerView: 4, spaceBetween: 24 },
-            }}
-            className="!overflow-hidden"
           >
-            {projects.map((project, index) => (
-              <SwiperSlide key={project.id} className="!h-auto">
-                <ProjectSlide
-                  project={project}
-                  isActive={index === activeIndex}
-                  index={index}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+            <Swiper
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+                setActiveIndex(swiper.realIndex);
+              }}
+              onRealIndexChange={(swiper) => {
+                setActiveIndex(swiper.realIndex);
+                setProgressKey((k) => k + 1);
+              }}
+              onSlideChangeTransitionEnd={(swiper) => {
+                setActiveIndex(swiper.realIndex);
+              }}
+              centeredSlides
+              /* Mobile: one large center card + soft peeks. Desktop: three-up. */
+              slidesPerView={1.18}
+              spaceBetween={12}
+              loop
+              loopAdditionalSlides={3}
+              speed={SLIDE_SPEED_MS}
+              touchAngle={35}
+              threshold={6}
+              touchStartPreventDefault={false}
+              resistanceRatio={0.65}
+              watchSlidesProgress
+              breakpoints={{
+                480: {
+                  slidesPerView: 1.35,
+                  spaceBetween: 14,
+                },
+                640: {
+                  slidesPerView: 2.15,
+                  spaceBetween: 16,
+                },
+                900: {
+                  slidesPerView: 3,
+                  spaceBetween: 18,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 24,
+                },
+              }}
+              className="project-clarity-swiper !overflow-hidden"
+            >
+              {projects.map((project, index) => (
+                <SwiperSlide
+                  key={project.id}
+                  className="!flex !h-auto items-center justify-center py-1 sm:py-2"
+                >
+                  <ProjectSlide
+                    project={project}
+                    isActive={index === activeIndex}
+                    progressKey={progressKey}
+                    onProgressComplete={
+                      index === activeIndex ? goNext : undefined
+                    }
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
 
-          <div className="mt-8 flex items-center border-t border-white/10 pt-6">
-            <div className="flex gap-2">
+          <div className="mt-6 flex justify-center border-t border-white/10 pt-5">
+            <div className="flex items-center gap-3">
               <button
                 type="button"
                 aria-label="Previous project"

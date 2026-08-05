@@ -46,7 +46,9 @@ export default function StatCard({
     return (
       <Link
         href={stat.href}
-        className="group flex flex-col items-center text-center no-underline transition hover:opacity-90"
+        className={`group flex cursor-pointer flex-col items-center text-center no-underline transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${
+          onDark ? "rounded-sm" : ""
+        }`}
       >
         {content}
       </Link>

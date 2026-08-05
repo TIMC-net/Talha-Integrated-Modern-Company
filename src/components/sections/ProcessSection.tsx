@@ -100,11 +100,11 @@ export default function ProcessSection() {
     <section
       ref={sectionRef}
       data-dark-surface
-      className="bg-navy-950 py-16 md:py-24"
+      className="bg-navy-950 pt-6 pb-12 md:pt-8 md:pb-16"
     >
       <div className="container-site">
         <Reveal>
-          <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
+          <div className="mx-auto mb-8 max-w-2xl text-center md:mb-10">
             <span className="section-eyebrow justify-center text-accent">
               How To Process
             </span>

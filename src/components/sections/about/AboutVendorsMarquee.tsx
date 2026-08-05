@@ -27,7 +27,7 @@ export default function AboutVendorsMarquee() {
     <section
       id="vendors"
       data-dark-surface
-      className="overflow-x-clip border-t border-white/10 bg-navy-950 py-16 md:py-20"
+      className="scroll-mt-28 overflow-x-clip border-t border-white/10 bg-navy-950 py-16 md:py-20 md:scroll-mt-32"
     >
       <div className="container-site mb-10 md:mb-12">
         <div className="flex items-center gap-3">

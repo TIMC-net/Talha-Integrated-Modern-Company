@@ -6,7 +6,7 @@ import { company } from "@/lib/company";
 
 export default function CTASection() {
   return (
-    <section data-dark-surface className="border-t border-white/10 bg-navy-900 py-16 md:py-20">
+    <section data-dark-surface className="border-t border-white/10 bg-navy-900 py-12 md:py-14">
       <div className="container-site">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
@@ -20,7 +20,7 @@ export default function CTASection() {
                 or integrated equipment support. Official office coordinates and
                 maps will be published once confirmed by TIMC.
               </p>
-              <div className="mt-8">
+              <div className="mt-6">
                 <Button
                   asChild
                   size="lg"

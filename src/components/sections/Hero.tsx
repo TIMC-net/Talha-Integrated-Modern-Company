@@ -87,7 +87,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="container-site relative z-10 w-full -mt-10 pt-0 pb-12 sm:mt-0 sm:pt-[120px] sm:pb-20 lg:pt-[140px] lg:pb-24">
+      <div className="container-site relative z-10 w-full -mt-10 pt-0 pb-10 sm:mt-0 sm:pt-[100px] sm:pb-14 lg:pt-[120px] lg:pb-16">
         <div className="max-w-3xl">
           <p className="mb-3 inline-flex items-center gap-3 font-display text-[11px] font-semibold tracking-[2.5px] text-accent uppercase sm:mb-4 sm:text-[12px] sm:tracking-[3px]">
             <span className="inline-block h-[2px] w-7 bg-accent" aria-hidden />

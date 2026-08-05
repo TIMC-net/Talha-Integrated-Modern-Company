@@ -513,6 +513,20 @@ html[data-theme="light"] [data-media] .group\/card:hover .group-hover\/card\:tex
   color: var(--accent) !important;
 }
 
+/* Division tabs (and similar) — beat .text-white / .border-white/* !important on media bands */
+html[data-theme="light"] [data-media] .division-tab[aria-selected="false"]:hover,
+html[data-theme="light"] [data-media] .division-tab[aria-selected="false"]:focus-visible {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  background-color: color-mix(in oklab, var(--accent) 14%, transparent) !important;
+}
+
+html[data-theme="light"] [data-media] .division-tab[aria-selected="true"] {
+  border-color: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: var(--brand-ink) !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -1152,7 +1166,34 @@ a {
 
   .project-slide-progress {
     transform-origin: left center;
-    animation: projectSlideProgress 3.5s linear forwards;
+    animation: projectSlideProgress 2s linear forwards;
+  }
+
+  .project-clarity-shell:hover .project-slide-progress {
+    animation-play-state: paused;
+  }
+
+  /* Home completed projects — centered carousel, clipped to section */
+  .project-clarity-shell {
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .project-clarity-swiper {
+    overflow: hidden !important;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .project-clarity-swiper .swiper-wrapper {
+    align-items: center;
+  }
+
+  .project-clarity-swiper .swiper-slide {
+    height: auto;
+    box-sizing: border-box;
   }
 
   /* Horizontal carousels: allow vertical page scroll / pinch zoom */

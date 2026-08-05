@@ -1,3 +1,6 @@
+import { completedProjects } from "@/lib/company";
+import { listedProjectImage } from "@/lib/project-media";
+
 export type Project = {
   id: string;
   slug: string;
@@ -16,16 +19,6 @@ function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-/** Demo stock images — real project photography pending from TIMC */
-const demoImages = [
-  "/images/civil-construction.jpg",
-  "/images/header-contracting.jpg",
-  "/images/header-scaffolding.jpg",
-  "/images/hero-equipment.jpg",
-  "/images/hero-civil.jpg",
-  "/images/header-scrap.jpg",
-];
-
 type CompletedSource = {
   title: string;
   client: string;
@@ -36,6 +29,7 @@ type CompletedSource = {
 /**
  * Completed project highlights from TIMC list (100% completed, last 2 years).
  * Used on homepage portfolio carousel and /portfolio pages.
+ * Cover images match `/projects/completed` via `completedProjects` + shared fallbacks.
  */
 const completedSource: CompletedSource[] = [
   {
@@ -133,13 +127,15 @@ export const projects: Project[] = completedSource.map((item, index) => {
       ? `${slugBase}-${slugify(item.client).slice(0, 24)}`
       : slugBase;
 
+  const listed = completedProjects[index];
+
   return {
     id: `completed-${index + 1}`,
     slug,
     title: item.title,
     service: item.service,
-    location: "KSA",
-    imageUrl: demoImages[index % demoImages.length],
+    location: listed?.location ?? "KSA",
+    imageUrl: listedProjectImage(listed ?? {}, index),
     description: item.scope,
     client: item.client,
   };

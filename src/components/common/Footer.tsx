@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
-import { ChevronDown, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, ChevronDown, Mail, MapPin, Phone } from "lucide-react";
 import { services } from "@/data/services";
 import { company } from "@/lib/company";
 
@@ -175,9 +175,26 @@ export default function Footer() {
             </p>
             <Link
               href="/contact"
-              className="mt-6 inline-flex font-display text-[12px] font-bold tracking-wide text-accent uppercase transition hover:text-accent-light"
+              className="group/cta relative mt-6 inline-flex h-11 items-center gap-2.5 overflow-hidden bg-accent px-6 font-display text-[12px] font-bold tracking-[0.16em] text-brand-ink uppercase shadow-[0_14px_32px_-16px_rgba(255,107,53,0.8)] transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#ff7d4d] hover:shadow-[0_18px_40px_-14px_rgba(255,107,53,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:translate-y-px"
             >
-              Contact Us →
+              {/* Shine sweep */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover/cta:translate-x-[120%]"
+              />
+              {/* Soft pulse ring on hover */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/cta:opacity-100"
+                style={{
+                  boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.28)",
+                }}
+              />
+              <span className="relative">Contact Us</span>
+              <ArrowRight
+                className="relative h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cta:translate-x-1"
+                strokeWidth={2.25}
+              />
             </Link>
           </div>
         </div>

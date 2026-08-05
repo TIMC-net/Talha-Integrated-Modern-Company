@@ -18,7 +18,7 @@ export default function ServiceShowcase() {
   const Icon = iconMap[service.icon];
 
   return (
-    <section data-dark-surface data-media className="relative overflow-x-clip bg-navy-900 py-16 md:py-24">
+    <section data-dark-surface data-media className="relative overflow-x-clip bg-navy-900 py-12 md:py-16">
       <div className="absolute inset-0">
         <Image
           src="/images/header-contracting.jpg"
@@ -32,7 +32,7 @@ export default function ServiceShowcase() {
 
       <div className="container-site relative z-10">
         <Reveal>
-          <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
+          <div className="mx-auto mb-8 max-w-2xl text-center md:mb-10">
             <span className="section-eyebrow justify-center text-accent">
               Our Divisions
             </span>
@@ -51,7 +51,7 @@ export default function ServiceShowcase() {
           <div
             role="tablist"
             aria-label="Service divisions"
-            className="mb-8 flex flex-wrap justify-center gap-2 pb-1 md:gap-3 md:pb-0"
+            className="mb-6 flex flex-wrap justify-center gap-2 pb-1 md:gap-3 md:pb-0"
           >
             {services.map((item, index) => {
               const TabIcon = iconMap[item.icon];
@@ -73,16 +73,26 @@ export default function ServiceShowcase() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(index)}
-                  whileTap={{ scale: 0.98 }}
-                  className={`inline-flex shrink-0 items-center gap-2 border px-3 py-2.5 font-display text-[11px] font-bold tracking-wide uppercase transition sm:px-4 sm:py-3 sm:text-[12px] md:px-5 md:text-[13px] ${
+                  whileHover={isActive ? undefined : { scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 420, damping: 24 }}
+                  className={`division-tab relative inline-flex shrink-0 items-center gap-2 overflow-hidden border px-3 py-2.5 font-display text-[11px] font-bold tracking-wide uppercase transition-[border-color,background-color,color,box-shadow] duration-300 sm:px-4 sm:py-3 sm:text-[12px] md:px-5 md:text-[13px] ${
                     isActive
-                      ? "border-accent bg-accent text-navy-950"
-                      : "border-white/15 bg-white/5 text-white [@media(hover:hover)_and_(pointer:fine)]:hover:border-accent [@media(hover:hover)_and_(pointer:fine)]:hover:text-accent"
+                      ? "border-accent bg-accent text-brand-ink shadow-[0_10px_28px_-12px_rgba(255,107,53,0.65)]"
+                      : "border-white/15 bg-white/5 text-white [@media(hover:hover)_and_(pointer:fine)]:hover:border-accent [@media(hover:hover)_and_(pointer:fine)]:hover:bg-accent/12 [@media(hover:hover)_and_(pointer:fine)]:hover:text-accent"
                   }`}
                 >
-                  <TabIcon className="h-4 w-4 shrink-0" />
-                  <span className="md:hidden">{shortName}</span>
-                  <span className="hidden md:inline">{item.name}</span>
+                  {isActive ? (
+                    <motion.span
+                      layoutId="division-tab-glow"
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 bg-accent"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
+                  ) : null}
+                  <TabIcon className="relative z-[1] h-4 w-4 shrink-0" />
+                  <span className="relative z-[1] md:hidden">{shortName}</span>
+                  <span className="relative z-[1] hidden md:inline">{item.name}</span>
                 </motion.button>
               );
             })}
