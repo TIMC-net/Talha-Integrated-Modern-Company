@@ -50,10 +50,6 @@ export default function CompletedProjectsPage() {
                   handover documentation. Selected 100% completed works from the
                   last two years.
                 </p>
-                <p className="mt-3 border border-accent/25 bg-accent/10 px-3 py-2 text-[12px] text-accent">
-                  Project photographs will be added once TIMC provides site media
-                  and disclosure approvals.
-                </p>
               </div>
               <Button asChild>
                 <Link href="/contact">

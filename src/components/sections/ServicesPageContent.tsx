@@ -26,9 +26,18 @@ export default function ServicesPageContent() {
 
   const toggleFleet = () => {
     if (fleetOpen) {
+      // Collapse in place — do not jump to the top of Equipment Rental
       setFleetOpen(false);
-      window.history.replaceState(null, "", "#equipment-rental");
-      requestAnimationFrame(() => scrollToId("equipment-rental"));
+      if (
+        window.location.hash === "#equipment-fleet" ||
+        window.location.hash === "#equipment-rental"
+      ) {
+        window.history.replaceState(
+          null,
+          "",
+          `${window.location.pathname}${window.location.search}`,
+        );
+      }
       return;
     }
 

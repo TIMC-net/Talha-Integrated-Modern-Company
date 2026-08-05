@@ -5,13 +5,12 @@ import Link from "next/link";
 import {
   Building2,
   Calendar,
-  CheckCircle2,
-  ChevronUp,
   CircleDot,
-  HardHat,
+  Layers,
   MapPin,
   Banknote,
   ArrowUpRight,
+  ChevronUp,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -67,12 +66,12 @@ function ProjectMeta({
           </span>
         </div>
       ) : null}
-      {status === "completed" ? (
-        <div className="flex items-center gap-2.5">
-          <HardHat className="h-3.5 w-3.5 shrink-0 text-accent" />
+      {status === "completed" && project.description ? (
+        <div className="flex items-start gap-2.5">
+          <Layers className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
           <span>
-            <span className="text-[#ffffff]/60">Contractor: </span>
-            {project.contractor}
+            <span className="text-[#ffffff]/60">Category: </span>
+            {project.description}
           </span>
         </div>
       ) : null}
@@ -279,35 +278,34 @@ function ProjectHoverCard({
         />
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 pt-5 pb-2 sm:px-6 sm:pt-6">
-          <div
-            className={cn(
-              "stagger-item flex flex-wrap items-center gap-2",
-              "transition-all duration-500",
-              EASE,
-              "[@media(hover:hover)_and_(pointer:fine)]:translate-y-3",
-              "[@media(hover:hover)_and_(pointer:fine)]:opacity-0",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:delay-100",
-              "group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100",
-            )}
-          >
-            <span className="inline-flex items-center gap-1 border border-accent/70 bg-accent/15 px-2 py-0.5 font-display text-[10px] font-bold tracking-[0.12em] text-accent uppercase backdrop-blur-sm">
-              {isOngoing ? (
-                <CircleDot className="h-3 w-3" strokeWidth={2.25} />
-              ) : (
-                <CheckCircle2 className="h-3 w-3" strokeWidth={2.25} />
+          {isOngoing ? (
+            <div
+              className={cn(
+                "stagger-item flex flex-wrap items-center gap-2",
+                "transition-all duration-500",
+                EASE,
+                "[@media(hover:hover)_and_(pointer:fine)]:translate-y-3",
+                "[@media(hover:hover)_and_(pointer:fine)]:opacity-0",
+                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0",
+                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100",
+                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:delay-100",
+                "group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100",
               )}
-              {isOngoing ? "In Progress" : "Completed"}
-            </span>
-            <span className="font-display text-[10px] font-semibold tracking-[0.16em] text-[#ffffff]/70 uppercase">
-              {project.description}
-            </span>
-          </div>
+            >
+              <span className="inline-flex items-center gap-1 border border-accent/70 bg-accent/15 px-2 py-0.5 font-display text-[10px] font-bold tracking-[0.12em] text-accent uppercase backdrop-blur-sm">
+                <CircleDot className="h-3 w-3" strokeWidth={2.25} />
+                In Progress
+              </span>
+              <span className="font-display text-[10px] font-semibold tracking-[0.16em] text-[#ffffff]/70 uppercase">
+                {project.description}
+              </span>
+            </div>
+          ) : null}
 
           <h3
             className={cn(
-              "mt-2.5 font-display text-[15px] leading-snug font-bold text-[#ffffff] uppercase drop-shadow-md sm:text-[16px]",
+              "font-display text-[15px] leading-snug font-bold text-[#ffffff] uppercase drop-shadow-md sm:text-[16px]",
+              isOngoing ? "mt-2.5" : "mt-0",
               "transition-all duration-500",
               EASE,
               "[@media(hover:hover)_and_(pointer:fine)]:translate-y-3",

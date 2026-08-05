@@ -15,7 +15,10 @@ export type Service = {
   icon: "Truck" | "Building2" | "Hammer" | "Zap";
   color: string;
   category: ServiceCategory;
+  /** Primary / cover frame (cards, hero fallback). */
   image: string;
+  /** Full division gallery — first frame should usually match `image`. */
+  images?: string[];
   highlights: string[];
   capabilities: string[];
   subServices: SubService[];
@@ -36,7 +39,15 @@ export const services: Service[] = [
     icon: "Building2",
     color: "#FF6B35",
     category: "contractor",
-    image: "/images/civil-construction.jpg",
+    image: "/images/services/civil-infrastructure/01-cover-v2.jpg",
+    images: [
+      "/images/services/civil-infrastructure/01-cover-v2.jpg",
+      "/images/services/civil-infrastructure/02-v2.jpg",
+      "/images/services/civil-infrastructure/03-v2.jpg",
+      "/images/services/civil-infrastructure/04-v2.jpg",
+      "/images/services/civil-infrastructure/05-v2.jpg",
+      "/images/services/civil-infrastructure/06-v2.jpg",
+    ],
     highlights: [
       "Highways, bridges & utilities",
       "Multi-phase project delivery",
@@ -87,7 +98,19 @@ export const services: Service[] = [
     icon: "Hammer",
     color: "#E85A24",
     category: "contractor",
-    image: "/images/header-contracting.jpg",
+    image: "/images/services/foundation-engineering/01-cover-v3.jpg",
+    images: [
+      "/images/services/foundation-engineering/01-cover-v3.jpg",
+      "/images/services/foundation-engineering/03-v2.jpg",
+      "/images/services/foundation-engineering/04-v2.jpg",
+      "/images/services/foundation-engineering/05-v2.jpg",
+      "/images/services/foundation-engineering/06-v2.jpg",
+      "/images/services/foundation-engineering/07-v2.jpg",
+      "/images/services/foundation-engineering/08-v2.jpg",
+      "/images/services/foundation-engineering/09-v2.jpg",
+      "/images/services/foundation-engineering/10-v2.jpg",
+      "/images/services/foundation-engineering/11-v2.jpg",
+    ],
     highlights: [
       "Deep piles & structural systems",
       "Geotechnical-informed delivery",
@@ -138,7 +161,15 @@ export const services: Service[] = [
     icon: "Zap",
     color: "#FF8F66",
     category: "contractor",
-    image: "/images/header-scaffolding.jpg",
+    image: "/images/services/energy-infrastructure/01-cover-v2.jpg",
+    images: [
+      "/images/services/energy-infrastructure/01-cover-v2.jpg",
+      "/images/services/energy-infrastructure/02-v2.jpg",
+      "/images/services/energy-infrastructure/03-v2.jpg",
+      "/images/services/energy-infrastructure/04-v2.jpg",
+      "/images/services/energy-infrastructure/05-v2.jpg",
+      "/images/services/energy-infrastructure/06-v2.jpg",
+    ],
     highlights: [
       "Power & renewable project delivery",
       "Grid & substation civil packages",
@@ -189,7 +220,16 @@ export const services: Service[] = [
     icon: "Truck",
     color: "#FF6B35",
     category: "integrated",
-    image: "/images/hero-equipment.jpg",
+    image: "/images/services/equipment-rental/01-cover-v1.jpg",
+    images: [
+      "/images/services/equipment-rental/01-cover-v1.jpg",
+      "/images/services/equipment-rental/02-v1.jpg",
+      "/images/services/equipment-rental/03-v1.jpg",
+      "/images/services/equipment-rental/04-v1.jpg",
+      "/images/services/equipment-rental/05-v1.jpg",
+      "/images/services/equipment-rental/06-v1.jpg",
+      "/images/services/equipment-rental/07-v1.jpg",
+    ],
     highlights: [
       "Modern, well-maintained heavy fleet",
       "Project-phase equipment packages",

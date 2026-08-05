@@ -12,6 +12,10 @@ import InternalPageHero from "@/components/InternalPageHero";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/services";
 import { deliveryProcess } from "@/data/services-page";
+import ServiceDivisionMedia, {
+  serviceGalleryFrames,
+} from "@/components/sections/ServiceDivisionMedia";
+import ServiceSiteGallery from "@/components/sections/ServiceSiteGallery";
 
 const iconMap: Record<Service["icon"], LucideIcon> = {
   Truck,
@@ -24,6 +28,9 @@ export default function ServiceDetail({ service }: { service: Service }) {
   const Icon = iconMap[service.icon];
   const firstWord = service.name.split(" ")[0] ?? service.name;
   const restTitle = service.name.split(" ").slice(1).join(" ") || service.name;
+  const frames = serviceGalleryFrames(service);
+  const cover = frames[0] ?? service.image;
+  const processImage = frames[1] ?? cover;
 
   return (
     <>
@@ -37,7 +44,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
         titleAccent={firstWord}
         title={restTitle === firstWord ? "Division" : restTitle}
         description={`${service.tagline}. ${service.description}`}
-        backgroundImage={service.image}
+        backgroundImage={cover}
       />
 
       <section data-dark-surface className="bg-navy-950 py-14 md:py-20">
@@ -66,16 +73,15 @@ export default function ServiceDetail({ service }: { service: Service }) {
               </div>
             </div>
 
-            <div className="img-zoom group relative aspect-[16/11] w-full border border-white/10 bg-navy-900 sm:min-h-[280px] sm:aspect-auto">
-              <Image
-                src={service.image}
+            <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden border border-white/10 bg-navy-900 sm:min-h-[280px] sm:aspect-auto">
+              <ServiceDivisionMedia
+                images={frames}
                 alt={service.name}
-                fill
-                className="object-cover object-center opacity-75 transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-90"
-                sizes="(max-width: 1024px) 100vw, 40vw"
+                priority
+                className="absolute inset-0"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent" />
-              <div className="absolute right-4 bottom-4 left-4 flex min-w-0 items-center gap-3 sm:right-6 sm:bottom-6 sm:left-6 sm:gap-4">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute right-4 bottom-8 left-4 z-10 flex min-w-0 items-center gap-3 sm:right-6 sm:bottom-10 sm:left-6 sm:gap-4">
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center bg-accent text-navy-950 sm:h-14 sm:w-14">
                   <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
                 </span>
@@ -122,12 +128,14 @@ export default function ServiceDetail({ service }: { service: Service }) {
         </div>
       </section>
 
+      <ServiceSiteGallery images={frames} serviceName={service.name} />
+
       <section data-dark-surface className="border-t border-white/10 bg-navy-950 py-14 md:py-20">
         <div className="container-site">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-            <div className="img-zoom group relative aspect-[16/11] w-full sm:aspect-[4/3]">
+            <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3]">
               <Image
-                src={service.image}
+                src={processImage}
                 alt={service.name}
                 fill
                 className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
@@ -152,7 +160,9 @@ export default function ServiceDetail({ service }: { service: Service }) {
                       <h3 className="font-display text-[15px] font-bold text-white uppercase">
                         {step.title}
                       </h3>
-                      <p className="mt-1 text-[14px] text-white/55">{step.description}</p>
+                      <p className="mt-1 text-[14px] text-white/55">
+                        {step.description}
+                      </p>
                     </div>
                   </li>
                 ))}

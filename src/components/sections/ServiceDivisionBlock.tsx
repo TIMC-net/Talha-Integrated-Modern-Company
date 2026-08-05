@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Building2,
@@ -14,6 +14,10 @@ import {
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/services";
+import {
+  serviceGalleryFrames,
+  useServiceGalleryCycle,
+} from "@/components/sections/ServiceDivisionMedia";
 
 const iconMap: Record<Service["icon"], LucideIcon> = {
   Truck,
@@ -34,89 +38,105 @@ function EngineeringPanel({
 }) {
   const Icon = iconMap[service.icon];
   const reduce = useReducedMotion();
+  const frames = serviceGalleryFrames(service);
+  const { index: frameIndex, multi, goTo, setPaused, active } =
+    useServiceGalleryCycle(frames);
 
   return (
     <motion.div
       data-media
-      className="group relative aspect-[16/10] w-full overflow-hidden border border-white/10 bg-navy-950 sm:aspect-[16/9] lg:aspect-auto lg:h-full lg:min-h-[520px]"
+      className="group/panel relative aspect-[16/10] w-full overflow-hidden border border-white/10 bg-navy-950 sm:aspect-[16/9] lg:aspect-auto lg:h-full lg:min-h-[520px]"
       initial={reduce ? false : { opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.75, ease: EASE }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      {/* Accent edge */}
-      <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[3px] bg-accent" />
-
-      {/* Corner brackets */}
-      <span className="pointer-events-none absolute top-3 left-3 z-20 h-5 w-5 border-t border-l border-accent/70" />
-      <span className="pointer-events-none absolute top-3 right-3 z-20 h-5 w-5 border-t border-r border-accent/70" />
-      <span className="pointer-events-none absolute bottom-3 left-3 z-20 h-5 w-5 border-b border-l border-accent/70" />
-      <span className="pointer-events-none absolute right-3 bottom-3 z-20 h-5 w-5 border-r border-b border-accent/70" />
-
-      <motion.div
-        className="absolute inset-0"
-        initial={{ scale: 1.08 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, ease: EASE }}
-      >
-        <Image
-          src={service.image}
-          alt={service.name}
-          fill
-          className="object-cover object-center opacity-65 transition duration-[1.1s] ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-80"
-          sizes="(max-width: 1024px) 100vw, 50vw"
-        />
-      </motion.div>
-
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-navy-950/15" />
-
-      <div className="absolute inset-0 z-10 flex flex-col justify-between p-5 sm:p-6 md:p-8">
-        <div className="flex items-center justify-between gap-3 border-b border-white/15 pb-3 font-mono text-[10px] tracking-wide text-white/50 uppercase sm:pb-4 sm:text-[11px]">
-          <span className="truncate">TIMC — {service.slug.toUpperCase()}</span>
-          <span className="shrink-0 text-accent">DWG REV: 0{index + 1}</span>
-        </div>
-
-        {/* Full drawing overlay on desktop only — avoids repeating the title on mobile */}
-        <div className="hidden lg:block">
-          <motion.div
-            className="mb-5 flex h-14 w-14 items-center justify-center bg-accent text-navy-950 shadow-[0_12px_30px_-10px_rgba(255,107,53,0.7)]"
-            transition={{ type: "spring", stiffness: 320, damping: 18 }}
-          >
-            <Icon className="h-7 w-7" />
-          </motion.div>
-          <p className="font-display text-xl font-bold text-white uppercase md:text-2xl">
-            {service.name}
-          </p>
-          <p className="mt-2 text-[13px] text-white/55">
-            {service.industries.join(" · ")}
-          </p>
-          <ul className="mt-5 space-y-2 font-mono text-[12px] text-white/55">
-            {service.highlights.map((item, i) => (
-              <motion.li
-                key={item}
-                className="flex gap-2"
-                initial={reduce ? false : { opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.25 + i * 0.08, duration: 0.45, ease: EASE }}
-              >
-                <span className="text-accent">▸</span>
-                {item}
-              </motion.li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="flex items-end justify-between gap-3 lg:hidden">
-          <span className="flex h-11 w-11 items-center justify-center bg-accent text-navy-950">
-            <Icon className="h-5 w-5" />
-          </span>
-          <span className="font-display text-[11px] font-bold tracking-wide text-white/70 uppercase">
-            {service.industries[0]}
-          </span>
-        </div>
+      <div className="absolute inset-0">
+        {active ? (
+          <AnimatePresence mode="sync" initial={false}>
+            <motion.div
+              key={active}
+              className="absolute inset-0"
+              initial={reduce ? false : { opacity: 0, scale: 1.06 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduce ? undefined : { opacity: 0 }}
+              transition={{ duration: reduce ? 0 : 1.05, ease: EASE }}
+            >
+              <Image
+                src={active}
+                alt={
+                  multi
+                    ? `${service.name} — site ${frameIndex + 1}`
+                    : service.name
+                }
+                fill
+                priority={index === 0 && frameIndex === 0}
+                className="object-cover object-center opacity-90 brightness-[1.08]"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </motion.div>
+          </AnimatePresence>
+        ) : null}
       </div>
+
+      {/* Soft bottom wash for title legibility */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/75 via-navy-950/15 to-transparent" />
+
+      {/* Brand mark + division name only */}
+      <div className="pointer-events-none absolute right-5 bottom-10 left-5 z-10 sm:right-6 sm:bottom-12 sm:left-6 md:right-8 md:bottom-14 md:left-8">
+        <div className="mb-3 flex h-12 w-12 items-center justify-center bg-accent text-navy-950 shadow-[0_12px_30px_-10px_rgba(255,107,53,0.7)] sm:mb-4 sm:h-14 sm:w-14">
+          <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
+        </div>
+        <p className="font-display text-xl font-bold tracking-wide text-white uppercase sm:text-2xl md:text-[28px] md:leading-tight">
+          {service.name}
+        </p>
+      </div>
+
+      {/* Progress lines — hover only (always visible on touch / reduced motion) */}
+      {multi && (
+        <div
+          className={[
+            "absolute right-5 bottom-4 left-5 z-30 sm:right-6 sm:bottom-5 sm:left-6 md:right-8 md:left-8",
+            "flex items-center gap-1.5 px-1 py-1 transition-opacity duration-300 ease-out",
+            reduce
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0 [@media(hover:hover)_and_(pointer:fine)]:group-hover/panel:pointer-events-auto [@media(hover:hover)_and_(pointer:fine)]:group-hover/panel:opacity-100 group-focus-within/panel:pointer-events-auto group-focus-within/panel:opacity-100 [@media(hover:none)]:pointer-events-auto [@media(hover:none)]:opacity-100",
+          ].join(" ")}
+          role="tablist"
+          aria-label={`${service.name} gallery`}
+        >
+          <span
+            aria-hidden
+            className="pointer-events-none h-3 w-3 shrink-0 border-b border-l border-accent/80"
+          />
+          {frames.map((src, i) => {
+            const selected = i === frameIndex;
+            return (
+              <button
+                key={src}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-label={`Show image ${i + 1} of ${frames.length}`}
+                onClick={() => goTo(i)}
+                className="group/tick relative h-[3px] min-w-0 flex-1 overflow-hidden bg-white/25 transition-colors hover:bg-white/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                <span
+                  className={`absolute inset-y-0 left-0 bg-accent transition-[width] duration-300 ease-out ${
+                    selected ? "w-full" : "w-0 group-hover/tick:w-1/3"
+                  }`}
+                />
+              </button>
+            );
+          })}
+          <span
+            aria-hidden
+            className="pointer-events-none h-3 w-3 shrink-0 border-r border-b border-accent/80"
+          />
+        </div>
+      )}
     </motion.div>
   );
 }
@@ -146,7 +166,6 @@ export default function ServiceDivisionBlock({
         reverse ? "bg-navy-900" : "bg-navy-950"
       }`}
     >
-      {/* Soft atmosphere */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
         style={{
@@ -199,9 +218,6 @@ export default function ServiceDivisionBlock({
             <p className="mt-4 text-[15px] leading-relaxed text-white/65 md:text-[16px]">
               {service.fullDescription}
             </p>
-            <p className="mt-3 border border-accent/25 bg-accent/10 px-3 py-2 text-[11px] text-accent">
-              Detailed {service.name} copy and imagery pending from TIMC.
-            </p>
 
             <RevealGroup className="mt-7 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
               {service.capabilities.slice(0, 8).map((tag) => (
@@ -240,7 +256,8 @@ export default function ServiceDivisionBlock({
             <Reveal delay={0.15} className="mt-9 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button asChild className="w-full whitespace-normal text-center sm:w-auto">
                 <Link href="/contact">
-                  Request {service.name} <ArrowRight className="h-4 w-4 shrink-0" />
+                  Request {service.name}{" "}
+                  <ArrowRight className="h-4 w-4 shrink-0" />
                 </Link>
               </Button>
               {isIntegrated && onViewFleet && (

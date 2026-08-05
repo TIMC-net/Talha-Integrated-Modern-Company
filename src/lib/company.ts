@@ -520,6 +520,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/1/cover-v1.jpg",
   },
   {
     no: 2,
@@ -531,6 +532,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/2/cover-v1.jpg",
   },
   {
     no: 3,
@@ -542,6 +544,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/3/cover-v1.jpg",
   },
   {
     no: 4,
@@ -553,6 +556,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/4/cover-v1.jpg",
   },
   {
     no: 5,
@@ -564,6 +568,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/5/cover-v1.jpg",
   },
   {
     no: 6,
@@ -575,6 +580,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/6/cover-v1.jpg",
   },
   {
     no: 7,
@@ -608,6 +614,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/9/cover-v1.jpg",
   },
   {
     no: 10,
@@ -619,6 +626,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/10/cover-v1.jpg",
   },
   {
     no: 11,
@@ -630,6 +638,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/11/cover-v1.jpg",
   },
   {
     no: 12,
@@ -641,6 +650,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/12/cover-v1.jpg",
   },
   {
     no: 13,
@@ -652,6 +662,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/13/cover-v1.jpg",
   },
   {
     no: 14,
@@ -663,6 +674,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
+    coverImage: "/images/projects/completed/14/cover-v1.jpg",
   },
 ];
 

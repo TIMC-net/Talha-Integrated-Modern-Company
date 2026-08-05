@@ -21,12 +21,9 @@ export default function EquipmentFleetSection() {
             Fleet Categories
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] text-white/60">
-            Structured fleet overview ready for TIMC categories, specifications,
-            and equipment photographs. Placeholder entries below will be replaced
-            with official fleet data.
-          </p>
-          <p className="mt-4 max-w-2xl border border-accent/25 bg-accent/10 px-3 py-2 text-[12px] text-accent">
-            Fleet categories, specs, and images pending from TIMC.
+            Integrated rental support for TIMC contractor packages — earth
+            moving, lifting, material handling, power, and compaction aligned to
+            civil, foundation, and energy infrastructure works.
           </p>
         </Reveal>
 
@@ -53,8 +50,11 @@ export default function EquipmentFleetSection() {
                 {category.items.map((item) => (
                   <RevealItem key={item.id}>
                     <article className="group/card relative flex h-full flex-col overflow-hidden border border-white/10 bg-navy-900 transition-all duration-500 hover:border-accent/70 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                      <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
-                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-navy-950 sm:aspect-auto sm:h-[160px]">
+                      <span
+                        aria-hidden
+                        className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent"
+                      />
+                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-navy-950 sm:aspect-auto sm:h-[168px]">
                         {item.image ? (
                           <Image
                             src={item.image}
@@ -73,12 +73,19 @@ export default function EquipmentFleetSection() {
                         <h4 className="font-display text-[14px] font-bold tracking-wide text-white uppercase transition duration-300 group-hover/card:text-accent">
                           {item.name}
                         </h4>
-                        <p className="mt-2 text-[13px] text-white/50">{item.specs}</p>
-                        <span className="mt-4 inline-block self-start bg-accent/10 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-accent uppercase">
-                          Specs pending
-                        </span>
+                        <p className="mt-2 text-[13px] leading-relaxed text-white/55">
+                          {item.specs}
+                        </p>
+                        {item.notes && (
+                          <p className="mt-3 border-t border-white/10 pt-3 text-[12px] text-white/40">
+                            {item.notes}
+                          </p>
+                        )}
                       </div>
-                      <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
+                      <span
+                        aria-hidden
+                        className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent"
+                      />
                     </article>
                   </RevealItem>
                 ))}
