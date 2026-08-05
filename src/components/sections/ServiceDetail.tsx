@@ -11,10 +11,9 @@ import {
 import InternalPageHero from "@/components/InternalPageHero";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/services";
+import { serviceGalleryFrames } from "@/data/services";
 import { deliveryProcess } from "@/data/services-page";
-import ServiceDivisionMedia, {
-  serviceGalleryFrames,
-} from "@/components/sections/ServiceDivisionMedia";
+import ServiceDivisionMedia from "@/components/sections/ServiceDivisionMedia";
 import ServiceSiteGallery from "@/components/sections/ServiceSiteGallery";
 
 const iconMap: Record<Service["icon"], LucideIcon> = {

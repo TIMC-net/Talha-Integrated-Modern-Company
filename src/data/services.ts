@@ -25,6 +25,14 @@ export type Service = {
   industries: string[];
 };
 
+/** Resolve gallery frames: prefer `images`, fall back to `image` cover. */
+export function serviceGalleryFrames(service: Pick<Service, "image" | "images">): string[] {
+  if (service.images && service.images.length > 0) {
+    return service.images;
+  }
+  return service.image ? [service.image] : [];
+}
+
 // Four equal divisions — Equipment Rental is one integrated offering
 // alongside the three core contractor disciplines, not the lead service.
 export const services: Service[] = [

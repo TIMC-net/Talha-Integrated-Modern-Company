@@ -14,10 +14,8 @@ import {
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/services";
-import {
-  serviceGalleryFrames,
-  useServiceGalleryCycle,
-} from "@/components/sections/ServiceDivisionMedia";
+import { serviceGalleryFrames } from "@/data/services";
+import { useServiceGalleryCycle } from "@/components/sections/ServiceDivisionMedia";
 
 const iconMap: Record<Service["icon"], LucideIcon> = {
   Truck,

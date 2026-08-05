@@ -160,14 +160,3 @@ export default function ServiceDivisionMedia({
     </div>
   );
 }
-
-/** Resolve gallery frames: prefer `images`, always include `image` as fallback cover. */
-export function serviceGalleryFrames(service: {
-  image: string;
-  images?: string[];
-}): string[] {
-  if (service.images && service.images.length > 0) {
-    return service.images;
-  }
-  return service.image ? [service.image] : [];
-}
