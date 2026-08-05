@@ -7,11 +7,11 @@ import {
   ChevronDown,
   Clock3,
   Mail,
-  MapPin,
   Phone,
 } from "lucide-react";
 import { FormEvent, useState } from "react";
 import InternalPageHero from "@/components/InternalPageHero";
+import LocationMapReveal from "@/components/LocationMapReveal";
 import Pressable from "@/components/motion/Pressable";
 import { Reveal } from "@/components/motion/Reveal";
 import { services } from "@/data/services";
@@ -24,8 +24,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const fieldClass =
   "w-full border border-white/10 bg-navy-950 px-4 py-3.5 text-base text-white outline-none transition placeholder:text-white/35 focus:border-accent md:text-[14px]";
 
-
-const infoItems = [
+const contactLinks = [
   {
     icon: Phone,
     label: "Contact Phone",
@@ -37,17 +36,6 @@ const infoItems = [
     label: "Mail",
     value: company.email,
     href: `mailto:${company.email}`,
-  },
-  {
-    icon: MapPin,
-    label: "Our Location",
-    value: company.address,
-    href: company.mapsUrl,
-  },
-  {
-    icon: Clock3,
-    label: "Opening Hours",
-    value: "Sun – Thu: 8:30 – 17:00",
   },
 ] as const;
 
@@ -91,7 +79,6 @@ export default function ContactPage() {
         <div id="contact-form" className="container-site scroll-mt-28">
           <Reveal immediate>
             <div className="grid overflow-hidden border border-white/10 lg:grid-cols-[0.9fr_1.35fr]">
-              {/* Left — Quick contact */}
               <aside className="relative bg-navy-900 px-5 py-8 text-white sm:px-8 sm:py-10 md:px-10 md:py-12 lg:px-12 lg:py-14">
                 <div className="absolute top-8 bottom-8 left-0 hidden items-center sm:flex">
                   <span className="h-full w-[3px] bg-accent" />
@@ -115,7 +102,7 @@ export default function ContactPage() {
                 )}
 
                 <ul className="space-y-0 sm:ml-10 md:ml-12">
-                  {infoItems.map((item, index) => {
+                  {contactLinks.map((item, index) => {
                     const Icon = item.icon;
                     return (
                       <motion.li
@@ -128,7 +115,7 @@ export default function ContactPage() {
                           duration: 0.45,
                           ease: EASE,
                         }}
-                        className="border-b border-white/10 py-5 first:pt-0 last:border-b-0 last:pb-0 sm:py-6"
+                        className="border-b border-white/10 py-5 first:pt-0 sm:py-6"
                       >
                         <div className="flex items-start gap-3 sm:gap-4">
                           <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center text-accent sm:h-10 sm:w-10">
@@ -138,33 +125,52 @@ export default function ContactPage() {
                             <p className="font-display text-[11px] font-semibold tracking-[2px] text-white/45 uppercase">
                               {item.label}
                             </p>
-                            {"href" in item && item.href ? (
-                              <a
-                                href={item.href}
-                                {...(item.href.startsWith("http")
-                                  ? {
-                                      target: "_blank",
-                                      rel: "noopener noreferrer",
-                                    }
-                                  : {})}
-                                className="mt-1.5 block break-words font-display text-[15px] font-bold text-white transition hover:text-accent sm:text-[17px] md:text-[18px]"
-                              >
-                                {item.value}
-                              </a>
-                            ) : (
-                              <p className="mt-1.5 break-words font-display text-[15px] font-bold text-white sm:text-[17px] md:text-[18px]">
-                                {item.value}
-                              </p>
-                            )}
+                            <a
+                              href={item.href}
+                              className="mt-1.5 block break-words font-display text-[15px] font-bold text-white transition hover:text-accent sm:text-[17px] md:text-[18px]"
+                            >
+                              {item.value}
+                            </a>
                           </div>
                         </div>
                       </motion.li>
                     );
                   })}
+
+                  <motion.li
+                    initial={reduce ? false : { opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.16, duration: 0.45, ease: EASE }}
+                    className="border-b border-white/10 py-5 sm:py-6"
+                  >
+                    <LocationMapReveal />
+                  </motion.li>
+
+                  <motion.li
+                    initial={reduce ? false : { opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.24, duration: 0.45, ease: EASE }}
+                    className="py-5 last:pb-0 sm:py-6"
+                  >
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center text-accent sm:h-10 sm:w-10">
+                        <Clock3 className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="font-display text-[11px] font-semibold tracking-[2px] text-white/45 uppercase">
+                          Opening Hours
+                        </p>
+                        <p className="mt-1.5 break-words font-display text-[15px] font-bold text-white sm:text-[17px] md:text-[18px]">
+                          Sun – Thu: 8:30 – 17:00
+                        </p>
+                      </div>
+                    </div>
+                  </motion.li>
                 </ul>
               </aside>
 
-              {/* Right — Form */}
               <div className="bg-navy-950 px-5 py-8 sm:px-6 sm:py-10 md:px-10 md:py-12 lg:px-12 lg:py-14">
                 <h2 className="font-display text-xl font-bold text-white sm:text-2xl md:text-[32px]">
                   Feel Free to Contact Us
@@ -285,19 +291,6 @@ export default function ContactPage() {
               </div>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* Full-bleed map */}
-      <section className="relative">
-        <div className="relative h-[380px] w-full md:h-[480px] lg:h-[520px]">
-          <iframe
-            title="TIMC Location Map"
-            className="h-full w-full border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            src={`https://maps.google.com/maps?q=${company.mapsLat},${company.mapsLng}&z=17&ie=UTF8&iwloc=&output=embed`}
-          />
         </div>
       </section>
     </>

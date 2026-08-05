@@ -6,11 +6,9 @@ import { ArrowRight, ChevronDown, Mail, MapPin, Phone } from "lucide-react";
 import { services } from "@/data/services";
 import { company } from "@/lib/company";
 
-const industryLinks = [
-  { label: "Civil Infrastructure", href: "/services#civil-infrastructure" },
-  { label: "Foundation Engineering", href: "/services#foundation-engineering" },
-  { label: "Energy Infrastructure", href: "/services#energy-infrastructure" },
-  { label: "Equipment Rental", href: "/services#equipment-rental" },
+const projectLinks = [
+  { label: "Ongoing Projects", href: "/projects/ongoing" },
+  { label: "Completed Projects", href: "/projects/completed" },
 ];
 
 const socialLinks = [
@@ -36,7 +34,7 @@ function FooterNavGroup({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-b border-white/10 pb-4 md:border-0 md:pb-0">
+    <div className="min-w-0 border-b border-white/10 pb-4 md:border-0 md:pb-0">
       <button
         type="button"
         className="flex w-full items-center justify-between gap-3 text-left md:pointer-events-none"
@@ -70,9 +68,9 @@ export default function Footer() {
   return (
     <footer data-dark-surface className="mt-auto border-t border-white/10 bg-navy-950">
       <div className="container-site py-14 md:py-16">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-4 lg:gap-12">
-          <div>
-            <p className="font-display text-lg font-bold tracking-wide text-white uppercase">
+        <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-x-12 md:gap-y-12 lg:grid-cols-[minmax(0,1.35fr)_auto_auto_minmax(0,1.15fr)] lg:gap-x-14 xl:gap-x-16">
+          <div className="min-w-0">
+            <p className="font-display text-lg font-bold tracking-wide text-white uppercase text-balance">
               {company.name}
             </p>
             <p className="mt-4 text-[14px] leading-relaxed text-white/55">
@@ -110,9 +108,9 @@ export default function Footer() {
             ))}
           </FooterNavGroup>
 
-          <FooterNavGroup title="Industries">
-            {industryLinks.map((link) => (
-              <li key={link.href + link.label}>
+          <FooterNavGroup title="Projects">
+            {projectLinks.map((link) => (
+              <li key={link.href}>
                 <Link
                   href={link.href}
                   className="text-[14px] text-white/55 transition hover:text-accent"
@@ -123,7 +121,7 @@ export default function Footer() {
             ))}
           </FooterNavGroup>
 
-          <div>
+          <div className="min-w-0">
             <h4 className="font-display text-[13px] font-bold tracking-[2px] text-white uppercase">
               Get in Touch
             </h4>
@@ -168,11 +166,24 @@ export default function Footer() {
                 ))}
               </li>
             </ul>
-            <p className="mt-5 text-[12px] leading-relaxed text-white/40">
-              CR: {company.commercialRegistration}
-              <br />
-              VAT: {company.vatNumber}
-            </p>
+            <dl className="mt-5 space-y-0 border border-white/10 bg-white/[0.03] px-3.5 py-3">
+              <div className="flex items-baseline justify-between gap-4 border-b border-white/10 pb-2.5">
+                <dt className="font-display text-[10px] font-semibold tracking-[0.16em] text-white/40 uppercase">
+                  CR No.
+                </dt>
+                <dd className="font-display text-[12px] font-semibold tracking-wide text-white/75 tabular-nums">
+                  {company.commercialRegistration}
+                </dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-4 pt-2.5">
+                <dt className="font-display text-[10px] font-semibold tracking-[0.16em] text-white/40 uppercase">
+                  VAT No.
+                </dt>
+                <dd className="font-display text-[12px] font-semibold tracking-wide text-white/75 tabular-nums">
+                  {company.vatNumber}
+                </dd>
+              </div>
+            </dl>
             <Link
               href="/contact"
               className="group/cta relative mt-6 inline-flex h-11 items-center gap-2.5 overflow-hidden bg-accent px-6 font-display text-[12px] font-bold tracking-[0.16em] text-brand-ink uppercase shadow-[0_14px_32px_-16px_rgba(255,107,53,0.8)] transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#ff7d4d] hover:shadow-[0_18px_40px_-14px_rgba(255,107,53,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:translate-y-px"
