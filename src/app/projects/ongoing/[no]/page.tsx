@@ -193,7 +193,13 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
                   {details.images.length} images
                 </p>
               </div>
-              <div className="flex flex-wrap justify-start gap-3 md:gap-4">
+              <div
+                className={
+                  details.images.length === 2
+                    ? "flex flex-wrap justify-start gap-3 md:gap-4"
+                    : "flex flex-wrap justify-center gap-3 md:gap-4"
+                }
+              >
                 {details.images.map((src, i) => (
                   <div
                     key={src}

@@ -7,11 +7,11 @@ import {
   ChevronDown,
   Clock3,
   Mail,
+  MapPin,
   Phone,
 } from "lucide-react";
 import { FormEvent, useState } from "react";
 import InternalPageHero from "@/components/InternalPageHero";
-import LocationMapReveal from "@/components/LocationMapReveal";
 import Pressable from "@/components/motion/Pressable";
 import { Reveal } from "@/components/motion/Reveal";
 import { services } from "@/data/services";
@@ -37,31 +37,67 @@ const contactLinks = [
     value: company.email,
     href: `mailto:${company.email}`,
   },
+  {
+    icon: MapPin,
+    label: "Our Location",
+    value: company.address,
+    href: company.mapsUrl,
+    external: true,
+  },
 ] as const;
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const reduce = useReducedMotion();
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (submitting) return;
+
     const form = e.currentTarget;
     const data = new FormData(form);
-    const subject = encodeURIComponent(
-      `TIMC Project Enquiry — ${String(data.get("service") || "General")}`,
-    );
-    const body = encodeURIComponent(
-      [
-        `Name: ${data.get("name")}`,
-        `Email: ${data.get("email")}`,
-        `Phone: ${data.get("phone")}`,
-        `Service: ${data.get("service")}`,
-        "",
-        String(data.get("message") || ""),
-      ].join("\n"),
-    );
-    window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+    const phoneDigits = String(data.get("phone") ?? "").replace(/\D/g, "");
+
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: String(data.get("name") ?? "").trim(),
+          email: String(data.get("email") ?? "").trim(),
+          phone: phoneDigits,
+          service: String(data.get("service") ?? "").trim(),
+          message: String(data.get("message") ?? "").trim(),
+          company_website: String(data.get("company_website") ?? ""),
+        }),
+      });
+
+      const payload = (await res.json().catch(() => null)) as {
+        error?: string;
+      } | null;
+
+      if (!res.ok) {
+        setError(
+          payload?.error ??
+            `Could not send your message. Please email ${company.email} directly.`,
+        );
+        return;
+      }
+
+      setSent(true);
+    } catch {
+      setError(
+        `Could not send your message. Please email ${company.email} directly.`,
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -127,6 +163,12 @@ export default function ContactPage() {
                             </p>
                             <a
                               href={item.href}
+                              {...("external" in item && item.external
+                                ? {
+                                    target: "_blank",
+                                    rel: "noopener noreferrer",
+                                  }
+                                : {})}
                               className="mt-1.5 block break-words font-display text-[15px] font-bold text-white transition hover:text-accent sm:text-[17px] md:text-[18px]"
                             >
                               {item.value}
@@ -136,16 +178,6 @@ export default function ContactPage() {
                       </motion.li>
                     );
                   })}
-
-                  <motion.li
-                    initial={reduce ? false : { opacity: 0, x: -16 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.16, duration: 0.45, ease: EASE }}
-                    className="border-b border-white/10 py-5 sm:py-6"
-                  >
-                    <LocationMapReveal />
-                  </motion.li>
 
                   <motion.li
                     initial={reduce ? false : { opacity: 0, x: -16 }}
@@ -186,8 +218,11 @@ export default function ContactPage() {
                       className="mt-10 flex items-start gap-3 border border-accent/40 border-l-4 bg-accent/10 p-6 text-[14px] text-white/80"
                     >
                       <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                      Thank you. Your email client should open with your message.
-                      If it did not, please write directly to {company.email}.
+                      <span>
+                        Thank you. Your message has been sent. Our team will
+                        respond as soon as possible. For urgent enquiries, call{" "}
+                        {company.phone} or write to {company.email}.
+                      </span>
                     </motion.div>
                   ) : (
                     <motion.form
@@ -197,6 +232,16 @@ export default function ContactPage() {
                       onSubmit={onSubmit}
                       className="mt-8 space-y-5"
                     >
+                      {/* Honeypot — leave empty */}
+                      <input
+                        type="text"
+                        name="company_website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden
+                        className="pointer-events-none absolute -left-[9999px] h-0 w-0 opacity-0"
+                      />
+
                       <div className="grid gap-5 sm:grid-cols-2">
                         <label className="block">
                           <span className="mb-2 block text-[13px] font-medium text-white/70">
@@ -207,6 +252,7 @@ export default function ContactPage() {
                             name="name"
                             placeholder="Your full name"
                             className={fieldClass}
+                            disabled={submitting}
                           />
                         </label>
 
@@ -220,6 +266,7 @@ export default function ContactPage() {
                             name="email"
                             placeholder="info@example.com"
                             className={fieldClass}
+                            disabled={submitting}
                           />
                         </label>
 
@@ -229,9 +276,20 @@ export default function ContactPage() {
                           </span>
                           <input
                             required
+                            type="tel"
                             name="phone"
+                            inputMode="numeric"
+                            autoComplete="tel"
+                            pattern="[0-9]+"
+                            title="Enter numbers only"
+                            maxLength={15}
                             placeholder="Phone Number"
+                            value={phone}
+                            onChange={(e) =>
+                              setPhone(e.target.value.replace(/\D/g, ""))
+                            }
                             className={fieldClass}
+                            disabled={submitting}
                           />
                         </label>
 
@@ -245,6 +303,7 @@ export default function ContactPage() {
                               name="service"
                               defaultValue=""
                               className={`${fieldClass} appearance-none pr-10`}
+                              disabled={submitting}
                             >
                               <option value="" disabled className="bg-navy-950">
                                 Select a service
@@ -274,15 +333,29 @@ export default function ContactPage() {
                           rows={6}
                           placeholder="Type Here..."
                           className={`${fieldClass} resize-y`}
+                          disabled={submitting}
                         />
                       </label>
+
+                      {error ? (
+                        <p
+                          role="alert"
+                          className="border border-red-400/40 border-l-4 border-l-red-400 bg-red-500/10 px-4 py-3 text-[13px] leading-relaxed text-white/85"
+                        >
+                          {error}
+                        </p>
+                      ) : null}
 
                       <Pressable>
                         <button
                           type="submit"
-                          className="inline-flex items-center gap-2 bg-accent px-7 py-3.5 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-accent-light"
+                          disabled={submitting}
+                          className="inline-flex items-center gap-2 bg-accent px-7 py-3.5 font-display text-[13px] font-bold tracking-wide text-navy-950 uppercase transition hover:bg-accent-light disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                          Send Message <ArrowRight className="h-4 w-4" />
+                          {submitting ? "Sending…" : "Send Message"}
+                          {!submitting ? (
+                            <ArrowRight className="h-4 w-4" />
+                          ) : null}
                         </button>
                       </Pressable>
                     </motion.form>
@@ -291,6 +364,19 @@ export default function ContactPage() {
               </div>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* Full-bleed map — always visible */}
+      <section className="relative">
+        <div className="relative h-[380px] w-full md:h-[480px] lg:h-[520px]">
+          <iframe
+            title="TIMC Location Map"
+            className="h-full w-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            src={`https://maps.google.com/maps?q=${company.mapsLat},${company.mapsLng}&z=17&ie=UTF8&iwloc=&output=embed`}
+          />
         </div>
       </section>
     </>

@@ -3,10 +3,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUp, Phone } from "lucide-react";
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from "react";
-import {
-  DualToneShell,
-} from "@/components/motion/DualToneShell";
+import { DualToneShell } from "@/components/motion/DualToneShell";
 import { company } from "@/lib/company";
+import { cn } from "@/lib/cn";
 
 function waLink(mobile: string) {
   const digits = mobile.replace(/[^\d]/g, "");
@@ -92,9 +91,12 @@ function ProgressRing({
 }
 
 const fabBase =
-  "relative grid h-full w-full place-items-center rounded-full border border-white/25 bg-[#0a0a0a] text-[#ffffff] shadow-none";
+  "fab-surface relative grid h-full w-full place-items-center rounded-full border border-white/25 bg-[#0a0a0a] text-[#ffffff] shadow-none transition-[background-color,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]";
 const fabOverlay =
-  "relative grid h-full w-full place-items-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]";
+  "fab-surface relative grid h-full w-full place-items-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a] transition-[background-color,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]";
+
+const fabShellClass =
+  "group/fab h-11 w-11 overflow-hidden rounded-full shadow-lg transition-shadow duration-300 sm:h-12 sm:w-12 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_14px_32px_-10px_rgba(255,107,53,0.55)]";
 
 export default function FloatingActions() {
   const [showTop, setShowTop] = useState(false);
@@ -172,6 +174,12 @@ export default function FloatingActions() {
     if (progressLightRef.current) progressLightRef.current.style.strokeDashoffset = offset;
   }, [showTop]);
 
+  const hoverMotion =
+    reduce || !canHover
+      ? undefined
+      : { scale: 1.1, y: -2 };
+  const tapMotion = reduce ? undefined : { scale: 0.94 };
+
   return (
     <div className="fixed right-3 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 flex flex-col items-end gap-2.5 sm:right-6 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] sm:gap-3 lg:right-8 lg:bottom-8">
       <AnimatePresence>
@@ -181,20 +189,22 @@ export default function FloatingActions() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 10 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={reduce || !canHover ? undefined : { scale: 1.06 }}
+            whileHover={
+              reduce || !canHover ? undefined : { scale: 1.08 }
+            }
             whileTap={reduce ? undefined : { scale: 0.96 }}
-            className="h-11 w-11 sm:h-12 sm:w-12"
+            className="h-11 w-11 origin-center overflow-hidden rounded-full shadow-lg sm:h-12 sm:w-12"
           >
             <DualToneShell
               shellRef={topShellRef}
               overlayRef={topOverlayRef}
-              className="h-full w-full overflow-hidden rounded-full shadow-lg"
+              className="h-full w-full overflow-hidden rounded-full"
               base={
                 <button
                   type="button"
                   aria-label="Back to top"
                   onClick={() => scrollToTop(reduce)}
-                  className={fabBase}
+                  className="relative grid h-full w-full place-items-center rounded-full border border-white/25 bg-[#0a0a0a] text-[#ffffff] shadow-none"
                 >
                   <ProgressRing
                     circleRef={progressDarkRef}
@@ -208,7 +218,7 @@ export default function FloatingActions() {
                 </button>
               }
               overlay={
-                <div className={fabOverlay}>
+                <div className="relative grid h-full w-full place-items-center rounded-full border border-black/10 bg-[#ffffff] text-[#0a0a0a]">
                   <ProgressRing
                     circleRef={progressLightRef}
                     trackStroke="rgba(10,10,10,0.15)"
@@ -225,29 +235,51 @@ export default function FloatingActions() {
         )}
       </AnimatePresence>
 
-      <DualToneShell
-        shellRef={phoneShellRef}
-        overlayRef={phoneOverlayRef}
-        className="h-11 w-11 overflow-hidden rounded-full shadow-lg sm:h-12 sm:w-12"
-        base={
-          <a
-            href={`tel:${company.phone}`}
-            aria-label="Call us"
-            onMouseMove={handleGlowMove}
-            onMouseLeave={handleGlowLeave}
-            className={`${fabBase} border-glow [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5`}
-          >
-            <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
-          </a>
-        }
-        overlay={
-          <div className={fabOverlay}>
-            <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
-          </div>
-        }
-      />
+      <div className="phone-fab relative h-11 w-11 origin-center sm:h-12 sm:w-12">
+        <span className="phone-fab__pulse" aria-hidden />
+        <span className="phone-fab__pulse phone-fab__pulse--delay" aria-hidden />
+        <motion.div
+          whileHover={hoverMotion}
+          whileTap={tapMotion}
+          transition={{ type: "spring", stiffness: 420, damping: 24 }}
+          className="relative z-10 h-11 w-11 origin-center overflow-hidden rounded-full shadow-lg transition-shadow duration-300 sm:h-12 sm:w-12 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_12px_28px_-12px_rgba(0,0,0,0.55)]"
+        >
+          <DualToneShell
+            shellRef={phoneShellRef}
+            overlayRef={phoneOverlayRef}
+            className="fab-dual h-full w-full overflow-hidden rounded-full"
+            base={
+              <a
+                href={`tel:${company.phone}`}
+                aria-label="Call us"
+                onMouseMove={handleGlowMove}
+                onMouseLeave={handleGlowLeave}
+                className={cn(fabBase, "border-glow")}
+              >
+                <Phone
+                  className="fab-icon h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:h-5 sm:w-5"
+                  strokeWidth={2.1}
+                />
+              </a>
+            }
+            overlay={
+              <div className={fabOverlay}>
+                <Phone
+                  className="fab-icon h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] sm:h-5 sm:w-5"
+                  strokeWidth={2.1}
+                />
+              </div>
+            }
+          />
+        </motion.div>
+      </div>
 
-      <div className="whatsapp-fab relative h-11 w-11 sm:h-12 sm:w-12">
+      <motion.div
+        whileHover={hoverMotion}
+        whileTap={tapMotion}
+        transition={{ type: "spring", stiffness: 420, damping: 24 }}
+        className="whatsapp-fab group/fab relative h-11 w-11 origin-center sm:h-12 sm:w-12"
+      >
         <span className="whatsapp-fab__pulse" aria-hidden />
         <span className="whatsapp-fab__pulse whatsapp-fab__pulse--delay" aria-hidden />
         <a
@@ -257,11 +289,13 @@ export default function FloatingActions() {
           aria-label="Chat on WhatsApp"
           onMouseMove={handleGlowMove}
           onMouseLeave={handleGlowLeave}
-          className="border-glow relative z-10 grid h-full w-full place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition hover:brightness-110 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-0.5"
+          className="border-glow relative z-10 grid h-full w-full place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition-[background-color,box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] [@media(hover:hover)_and_(pointer:fine)]:group-hover/fab:bg-[#2fe074] [@media(hover:hover)_and_(pointer:fine)]:group-hover/fab:shadow-[0_14px_32px_-10px_rgba(37,211,102,0.65)] [@media(hover:hover)_and_(pointer:fine)]:group-hover/fab:brightness-105"
         >
-          <WhatsAppIcon />
+          <span className="fab-icon transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] [@media(hover:hover)_and_(pointer:fine)]:group-hover/fab:scale-110 [@media(hover:hover)_and_(pointer:fine)]:group-hover/fab:rotate-6">
+            <WhatsAppIcon />
+          </span>
         </a>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
 import { whoWeAre } from "@/lib/company";
 import { cn } from "@/lib/cn";
@@ -11,6 +11,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 export default function AboutMissionVision() {
   const [active, setActive] = useState(0);
   const tab = whoWeAre[active];
+  const reduce = useReducedMotion();
 
   return (
     <section
@@ -31,7 +32,7 @@ export default function AboutMissionVision() {
         </Reveal>
 
         <div className="mt-10">
-          {/* Mobile: custom tab buttons — avoid native <select> picker UI */}
+          {/* Mobile tabs */}
           <div
             role="tablist"
             aria-label="Mission, vision and values"
@@ -40,25 +41,44 @@ export default function AboutMissionVision() {
             {whoWeAre.map((item, i) => {
               const isActive = active === i;
               return (
-                <button
+                <motion.button
                   key={item.id}
                   type="button"
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(i)}
+                  whileTap={reduce ? undefined : { scale: 0.985 }}
                   className={cn(
-                    "border px-4 py-3 text-left font-display text-[12px] font-bold tracking-wide uppercase transition",
+                    "group relative overflow-hidden border px-4 py-3 text-left font-display text-[12px] font-bold tracking-wide uppercase transition-[border-color,background-color,color,box-shadow] duration-300",
                     isActive
-                      ? "border-accent bg-accent/10 text-accent"
-                      : "border-white/15 bg-navy-900 text-white/65 hover:border-white/30 hover:text-white",
+                      ? "border-accent bg-accent/10 text-accent shadow-[0_12px_28px_-18px_rgba(255,107,53,0.7)]"
+                      : "border-white/15 bg-navy-900 text-white/65 hover:border-accent/50 hover:bg-accent/[0.06] hover:text-white",
                   )}
                 >
-                  {item.title}
-                </button>
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "absolute top-0 bottom-0 left-0 w-[2px] origin-top bg-accent transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                      isActive ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100",
+                    )}
+                  />
+                  <span className="flex items-center gap-2.5 pl-1">
+                    <span
+                      className={cn(
+                        "font-display text-[11px] font-bold tabular-nums transition-colors duration-300",
+                        isActive ? "text-accent" : "text-white/30 group-hover:text-accent/70",
+                      )}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {item.title}
+                  </span>
+                </motion.button>
               );
             })}
           </div>
 
+          {/* Desktop tabs */}
           <div
             role="tablist"
             aria-label="Mission, vision and values"
@@ -67,26 +87,46 @@ export default function AboutMissionVision() {
             {whoWeAre.map((item, i) => {
               const isActive = active === i;
               return (
-                <button
+                <motion.button
                   key={item.id}
                   type="button"
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(i)}
+                  whileHover={reduce ? undefined : { y: -1 }}
+                  whileTap={reduce ? undefined : { scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 28 }}
                   className={cn(
-                    "relative px-6 py-4 font-display text-[13px] font-bold tracking-wide uppercase transition",
+                    "group relative px-6 py-4 font-display text-[13px] font-bold tracking-wide uppercase transition-colors duration-300",
                     isActive ? "text-accent" : "text-white/45 hover:text-white",
                   )}
                 >
-                  {item.title}
-                  {isActive && (
+                  <span className="inline-flex items-center gap-2.5">
+                    <span
+                      className={cn(
+                        "text-[11px] tabular-nums transition-colors duration-300",
+                        isActive
+                          ? "text-accent/80"
+                          : "text-white/25 group-hover:text-accent/60",
+                      )}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {item.title}
+                  </span>
+                  {isActive ? (
                     <motion.span
                       layoutId="about-who-tab"
                       className="absolute right-0 bottom-0 left-0 h-[2px] bg-accent"
                       transition={{ duration: 0.35, ease: EASE }}
                     />
+                  ) : (
+                    <span
+                      aria-hidden
+                      className="absolute right-4 bottom-0 left-4 h-px origin-center scale-x-0 bg-white/25 transition-transform duration-300 group-hover:scale-x-100"
+                    />
                   )}
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -95,19 +135,77 @@ export default function AboutMissionVision() {
             <motion.div
               key={tab.id}
               role="tabpanel"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              className="border border-white/10 bg-navy-900 p-6 sm:p-7 md:border-t-0 md:p-10"
+              initial={
+                reduce ? false : { opacity: 0, y: 16, scale: 0.985 }
+              }
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={reduce ? undefined : { opacity: 0, y: -10, scale: 0.99 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="group/panel relative overflow-hidden border border-white/10 bg-navy-900 p-6 transition-[border-color,box-shadow] duration-500 sm:p-7 md:border-t-0 md:p-10 hover:border-accent/35 hover:shadow-[0_24px_48px_-32px_rgba(255,107,53,0.45)]"
             >
-              <h3 className="font-display text-xl font-bold text-white uppercase md:text-2xl">
-                {tab.title}
-              </h3>
-              <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-white/65">
-                {tab.content.map((paragraph) => (
-                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
-                ))}
+              {/* Accent edge draw */}
+              <motion.span
+                aria-hidden
+                key={`edge-${tab.id}`}
+                initial={reduce ? false : { scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 0.55, ease: EASE }}
+                className="absolute top-0 bottom-0 left-0 w-[3px] origin-top bg-accent"
+              />
+
+              {/* Soft corner marks */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute top-4 right-4 h-3 w-3 border-t border-r border-accent/0 transition-colors duration-500 group-hover/panel:border-accent/70"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute bottom-4 left-4 h-3 w-3 border-b border-l border-accent/0 transition-colors duration-500 group-hover/panel:border-accent/70"
+              />
+
+              {/* Warm wash on hover */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/[0.07] via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover/panel:opacity-100"
+              />
+
+              <div className="relative">
+                <motion.p
+                  key={`idx-${tab.id}`}
+                  initial={reduce ? false : { opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.35, ease: EASE }}
+                  className="font-display text-[12px] font-semibold tracking-[0.2em] text-accent uppercase"
+                >
+                  {String(active + 1).padStart(2, "0")} — Principle
+                </motion.p>
+
+                <motion.h3
+                  key={`title-${tab.id}`}
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.05, ease: EASE }}
+                  className="mt-2 font-display text-xl font-bold text-white uppercase md:text-2xl"
+                >
+                  {tab.title}
+                </motion.h3>
+
+                <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-white/65">
+                  {tab.content.map((paragraph, pIndex) => (
+                    <motion.p
+                      key={paragraph.slice(0, 48)}
+                      initial={reduce ? false : { opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.08 + pIndex * 0.06,
+                        ease: EASE,
+                      }}
+                    >
+                      {paragraph}
+                    </motion.p>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>

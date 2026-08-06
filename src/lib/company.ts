@@ -220,8 +220,8 @@ export const ongoingProjects: ListedProject[] = [
         "All piling activities are carried out in accordance with the approved engineering drawings, project specifications, and applicable international standards, delivering durable and reliable foundations for high-voltage transmission tower infrastructure.",
       images: [
         "/images/projects/ongoing/2/01.jpg",
-        "/images/projects/ongoing/2/02.jpg",
-        "/images/projects/ongoing/2/03.jpg",
+        "/images/projects/ongoing/2/02-v2.jpg",
+        "/images/projects/ongoing/2/03-v2.jpg",
         "/images/projects/ongoing/2/04.jpg",
         "/images/projects/ongoing/2/05.jpg",
         "/images/projects/ongoing/2/06.jpg",
