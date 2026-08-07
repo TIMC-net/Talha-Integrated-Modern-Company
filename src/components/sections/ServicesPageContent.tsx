@@ -60,6 +60,7 @@ export default function ServicesPageContent() {
         title="Services"
         description="Comprehensive contractor solutions — from civil infrastructure and foundation engineering to energy infrastructure, with integrated equipment rental supporting every project phase."
         backgroundImage="/images/header-contracting.jpg"
+        connectBottom
       />
 
       {/* Four core division blocks */}

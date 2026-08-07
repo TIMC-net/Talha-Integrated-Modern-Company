@@ -18,12 +18,13 @@ export default function ClientsPage() {
         title="Clients"
         description="Official partners across contracting, engineering, and energy programmes in the Kingdom — organisations that rely on TIMC for disciplined site delivery."
         backgroundImage="/images/who-section-bg.jpg"
+        connectBottom
       />
 
       <section
         id="partners"
         data-dark-surface
-        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-14 md:py-20"
+        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 pt-6 pb-14 md:pt-8 md:pb-20"
       >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"

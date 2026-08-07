@@ -26,6 +26,7 @@ export default function AboutPage() {
         description="Established in 2010 and headquartered in Jeddah, TIMC delivers civil infrastructure, foundation engineering, energy infrastructure, and integrated equipment rental across Saudi Arabia and the GCC."
         backgroundImage="/images/hero-equipment.jpg"
         imageClassName="object-cover object-center"
+        connectBottom
       />
       <AboutIntro />
       <AboutMissionVision />

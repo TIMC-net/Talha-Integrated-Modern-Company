@@ -42,6 +42,11 @@ type InternalPageHeroProps = {
   actions?: HeroAction[];
   /** Optional page-specific stats band — omit on most pages */
   stats?: HeroStat[];
+  /**
+   * Soften the bottom edge so the hero blends into the following section
+   * (no hard seam / dividing line). Use on internal pages after home.
+   */
+  connectBottom?: boolean;
   id?: string;
   className?: string;
   children?: ReactNode;
@@ -59,6 +64,7 @@ export default function InternalPageHero({
   layout = "bleed",
   actions,
   stats,
+  connectBottom = false,
   id,
   className,
   children,
@@ -253,20 +259,45 @@ export default function InternalPageHero({
         {photoOverlay ? (
           <>
             <div className="absolute inset-0 bg-gradient-to-r from-navy-950/88 via-navy-950/45 to-navy-950/10" />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-navy-950/25" />
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-t to-navy-950/25",
+                connectBottom
+                  ? "from-navy-950 via-navy-950/55 via-40%"
+                  : "from-navy-950/80 via-transparent",
+              )}
+            />
           </>
         ) : (
           <>
             <div className="absolute inset-0 bg-gradient-to-r from-navy-950/78 via-navy-950/45 to-navy-950/20" />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/15 to-navy-950/30" />
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-t to-navy-950/30",
+                connectBottom
+                  ? "from-navy-950 via-navy-950/70 via-45%"
+                  : "from-navy-950/95 via-navy-950/15",
+              )}
+            />
           </>
         )}
+        {/* Extra soft seam into the next section (matches navy-950 bands) */}
+        {connectBottom ? (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-28 bg-gradient-to-t from-navy-950 from-15% via-navy-950/85 via-50% to-transparent sm:h-36 md:h-44"
+          />
+        ) : null}
       </div>
 
       <div
         className={cn(
           "container-site relative z-10",
-          showStats ? "pb-12 sm:pb-14 md:pb-16" : "pb-16 sm:pb-20 md:pb-24",
+          showStats
+            ? "pb-12 sm:pb-14 md:pb-16"
+            : connectBottom
+              ? "pb-20 sm:pb-24 md:pb-28"
+              : "pb-16 sm:pb-20 md:pb-24",
         )}
       >
         <Reveal immediate>

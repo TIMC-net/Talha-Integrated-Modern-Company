@@ -40,7 +40,7 @@ export default function AboutIntro() {
     <section
       id="intro"
       data-dark-surface
-      className="scroll-mt-24 overflow-x-clip bg-navy-950 py-16 md:py-24"
+      className="scroll-mt-24 overflow-x-clip bg-navy-950 pt-6 pb-16 md:pt-8 md:pb-24"
     >
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">

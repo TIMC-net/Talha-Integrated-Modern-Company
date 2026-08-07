@@ -68,11 +68,12 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
         title={titleRest}
         description={project.scope ?? details.overview}
         backgroundImage={heroImage}
+        connectBottom
       />
 
       <section
         data-dark-surface
-        className="relative bg-navy-950 py-14 md:py-20"
+        className="relative bg-navy-950 pt-6 pb-14 md:pt-8 md:pb-20"
       >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"

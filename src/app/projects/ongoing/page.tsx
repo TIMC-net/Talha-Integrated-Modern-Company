@@ -21,12 +21,13 @@ export default function OngoingProjectsPage() {
         title="Projects"
         description="Active contractor works underway across the Kingdom — supervised on site with progress reporting, quality control, and disciplined HSE management."
         backgroundImage="/images/projects-hero-v4.jpg"
+        connectBottom
       />
 
       <section
         id="projects"
         data-dark-surface
-        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 py-14 md:py-20"
+        className="relative scroll-mt-24 overflow-x-clip bg-navy-950 pt-6 pb-14 md:pt-8 md:pb-20"
       >
         <div
           className="pointer-events-none absolute inset-0 opacity-40"

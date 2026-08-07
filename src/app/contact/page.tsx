@@ -109,9 +109,10 @@ export default function ContactPage() {
         title="Touch"
         description="Share your project scope with the TIMC team in Jeddah — we prepare technical and commercial responses for civil, foundation, energy, and equipment rental requirements."
         backgroundImage="/images/header-scaffolding.jpg"
+        connectBottom
       />
 
-      <section data-dark-surface className="bg-navy-950 py-14 md:py-20">
+      <section data-dark-surface className="bg-navy-950 pt-6 pb-14 md:pt-8 md:pb-20">
         <div id="contact-form" className="container-site scroll-mt-28">
           <Reveal immediate>
             <div className="grid overflow-hidden border border-white/10 lg:grid-cols-[0.9fr_1.35fr]">
