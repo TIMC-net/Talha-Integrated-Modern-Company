@@ -597,22 +597,11 @@ html {
   }
 
   /*
-    Site photography lift — photos/videos read brighter under dark overlays.
-    Brand marks + partner logos are excluded so theme-tuned assets stay intact.
+    Photography stays original in both themes — no brightness, contrast,
+    saturate, or invert. Theme only remaps UI chrome, never the pixels.
   */
   img[data-nimg],
-  video.video-cover:not(.video-cover--muted) {
-    filter: brightness(1.14) contrast(1.05) saturate(1.06);
-  }
-
-  img[data-nimg][src*="logo"],
-  img[data-nimg][src*="clients%2F"],
-  img[data-nimg][src*="/clients/"],
-  img[src*="logo-mark"],
-  img[src*="/images/clients/"],
-  img[src*="timc-crew-site"],
-  img[src*="home-about-crew"],
-  img[src*="why-choose-us-crew"] {
+  video.video-cover {
     filter: none;
   }
 }
@@ -1256,6 +1245,122 @@ html[data-theme="light"] .phone-fab__pulse {
     height: auto;
     box-sizing: border-box;
   }
+
+  /* Fleet equipment carousels */
+  @keyframes fleetEqProgress {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  .fleet-eq-progress-bar {
+    width: 0%;
+    animation: fleetEqProgress var(--fleet-eq-ms, 4.2s) linear forwards;
+  }
+
+  [data-fleet-carousel]:hover .fleet-eq-progress-bar {
+    animation-play-state: paused;
+  }
+
+  .fleet-eq-swiper .swiper-slide {
+    height: auto;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fleet-eq-hover-panel .fleet-eq-hover-chip {
+      transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s,
+        opacity 0.4s ease 0.05s;
+    }
+
+    .fleet-eq-hover-panel .fleet-eq-hover-title {
+      transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
+        opacity 0.45s ease 0.1s;
+    }
+
+    .fleet-eq-hover-panel .fleet-eq-hover-app {
+      transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+        opacity 0.45s ease 0.15s;
+    }
+
+    .fleet-eq-hover-panel .fleet-eq-hover-cta {
+      transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+        opacity 0.45s ease 0.2s,
+        gap 0.3s ease,
+        color 0.3s ease;
+    }
+
+    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-chip,
+    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-title,
+    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-app,
+    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-cta {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .group\/eq:hover .fleet-eq-hover-chip,
+    .group\/eq:hover .fleet-eq-hover-title,
+    .group\/eq:hover .fleet-eq-hover-app,
+    .group\/eq:hover .fleet-eq-hover-cta,
+    .group\/eq:focus-within .fleet-eq-hover-chip,
+    .group\/eq:focus-within .fleet-eq-hover-title,
+    .group\/eq:focus-within .fleet-eq-hover-app,
+    .group\/eq:focus-within .fleet-eq-hover-cta {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Touch devices: never leave the fleet hover overlay sitting on photos */
+  @media (hover: none), (pointer: coarse) {
+    .fleet-eq-hover-panel {
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  }
+
+  /*
+    Light theme hard-overrides map .text-white → ink. Fleet hover panels sit on
+    a dark photo overlay, so force true white there (same intent as [data-media]).
+  */
+  html[data-theme="light"] .fleet-eq-hover-panel .text-white {
+    color: #ffffff !important;
+  }
+  html[data-theme="light"] .fleet-eq-hover-panel .text-white\/70 {
+    color: rgb(255 255 255 / 0.7) !important;
+  }
+  html[data-theme="light"] .fleet-eq-hover-panel .text-white\/65 {
+    color: rgb(255 255 255 / 0.65) !important;
+  }
+  html[data-theme="light"] .fleet-eq-hover-panel .hover\:text-white:hover {
+    color: #ffffff !important;
+  }
+  html[data-theme="light"] .fleet-eq-hover-panel .text-accent {
+    color: var(--accent, #ff6b35) !important;
+  }
+
+  @keyframes fleetEqModalIn {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /*
+    Detail modal uses explicit hex colors in JSX.
+    Do not force-map its text — light body is intended to use ink on paper.
+  */
 
   /* Horizontal carousels: allow vertical page scroll / pinch zoom */
   .swiper {

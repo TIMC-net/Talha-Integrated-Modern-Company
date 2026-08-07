@@ -15,7 +15,7 @@ import { services } from "@/data/services";
 import { scrollToId } from "@/hooks/useLenis";
 
 export default function ServicesPageContent() {
-  const [fleetOpen, setFleetOpen] = useState(false);
+  const [fleetOpen, setFleetOpen] = useState(true);
 
   useEffect(() => {
     if (window.location.hash === "#equipment-fleet") {

@@ -251,7 +251,7 @@ export default function InternalPageHero({
           className={cn(
             photoOverlay
               ? "object-cover object-center"
-              : "object-cover object-[center_35%] brightness-[1.08] contrast-[1.06] saturate-[1.1]",
+              : "object-cover object-[center_35%]",
             imageClassName,
           )}
           sizes="100vw"

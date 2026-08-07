@@ -255,24 +255,39 @@ export const services: Service[] = [
     ],
     subServices: [
       {
-        title: "Earth Moving & Material Handling",
+        title: "Lifting & Mobile Cranes",
         description:
-          "Excavators, loaders, dumpers, and material handlers sized for civil and industrial sites.",
+          "Mobile, rough terrain, all-terrain, crawler, boom, tower and spider cranes for heavy and utility lifts.",
       },
       {
-        title: "Lifting & Cranes",
+        title: "Civil, Earthmoving & Compaction",
         description:
-          "Mobile and crawler crane support for erection, heavy lifts, and plant shutdowns.",
+          "Excavators, dozers, loaders, graders, skid steers and rollers for earthworks and compaction.",
       },
       {
-        title: "Power Generation",
+        title: "Transportation & Heavy Haulage",
         description:
-          "Generators and temporary power packages for remote and brownfield worksites.",
+          "Flatbeds, lowbeds, satah and pipe trailers, dump trucks and water or fuel tankers.",
       },
       {
-        title: "Compaction & Paving Support",
+        title: "Rigging & Material Handling",
         description:
-          "Rollers, compactors, and paving equipment for roads, pads, and hardstanding.",
+          "Forklifts, telehandlers, reach stackers, winches and spreader beams for yard logistics.",
+      },
+      {
+        title: "Aerial & Access",
+        description:
+          "Scissor lifts, articulating and telescopic booms, spider lifts and manlifts for elevated work.",
+      },
+      {
+        title: "Power, Air & Utilities",
+        description:
+          "Generators, ATS, distribution panels, air compressors and LED lighting towers.",
+      },
+      {
+        title: "Site Support & Specialty",
+        description:
+          "Office cabins, accommodation, storage containers, fencing and concrete barriers.",
       },
     ],
     industries: ["Construction", "Infrastructure", "Foundation Work", "Energy Projects"],

@@ -71,7 +71,7 @@ function EngineeringPanel({
                 }
                 fill
                 priority={index === 0 && frameIndex === 0}
-                className="object-cover object-center opacity-90 brightness-[1.08]"
+                className="object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </motion.div>
@@ -79,10 +79,8 @@ function EngineeringPanel({
         ) : null}
       </div>
 
-      {/* Soft bottom wash for title legibility */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/75 via-navy-950/15 to-transparent" />
 
-      {/* Brand mark + division name only */}
       <div className="pointer-events-none absolute right-5 bottom-10 left-5 z-10 sm:right-6 sm:bottom-12 sm:left-6 md:right-8 md:bottom-14 md:left-8">
         <div className="mb-3 flex h-12 w-12 items-center justify-center bg-accent text-navy-950 shadow-[0_12px_30px_-10px_rgba(255,107,53,0.7)] sm:mb-4 sm:h-14 sm:w-14">
           <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
@@ -92,7 +90,6 @@ function EngineeringPanel({
         </p>
       </div>
 
-      {/* Progress lines — hover only (always visible on touch / reduced motion) */}
       {multi && (
         <div
           className={[
@@ -186,7 +183,7 @@ export default function ServiceDivisionBlock({
           />
 
           <motion.div
-            className="flex w-full min-w-0 flex-col justify-center"
+            className="flex w-full min-w-0 flex-col justify-center lg:min-h-[520px]"
             initial={reduce ? false : { opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
@@ -231,27 +228,10 @@ export default function ServiceDivisionBlock({
               ))}
             </RevealGroup>
 
-            <RevealGroup className="mt-8 grid w-full gap-4 sm:grid-cols-2">
-              {service.subServices.map((sub, i) => (
-                <RevealItem key={sub.title} className="min-w-0">
-                  <article className="group/card relative flex h-full w-full flex-col items-center overflow-hidden border border-white/10 bg-black/30 p-5 text-center transition duration-500 hover:border-accent/70 hover:bg-black/45 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_20px_40px_-28px_rgba(255,107,53,0.55)]">
-                    <span aria-hidden className="card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] bg-accent" />
-                    <span className="font-display text-[13px] font-bold text-accent/70 transition duration-300 group-hover/card:text-accent">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <h3 className="mt-2 font-display text-[14px] font-bold text-white uppercase">
-                      {sub.title}
-                    </h3>
-                    <p className="mt-2 text-[13px] leading-relaxed text-white/55">
-                      {sub.description}
-                    </p>
-                    <span aria-hidden className="card-bar-x absolute right-0 bottom-0 left-0 z-20 h-[2px] bg-accent" />
-                  </article>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-
-            <Reveal delay={0.15} className="mt-9 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Reveal
+              delay={0.12}
+              className="mt-9 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap"
+            >
               <Button asChild className="w-full whitespace-normal text-center sm:w-auto">
                 <Link href="/contact">
                   Request {service.name}{" "}
