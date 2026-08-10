@@ -33,7 +33,7 @@ const motionTags = {
 /**
  * Scroll-triggered text: words lift into place as if being written,
  * or characters type on for shorter headlines.
- * Re-triggers every time the block enters the viewport (no reload needed).
+ * Plays once per page load when first scrolled into view (reload to replay).
  */
 export default function WriteOnScroll({
   text,
@@ -51,15 +51,14 @@ export default function WriteOnScroll({
     return <StaticTag className={className}>{text}</StaticTag>;
   }
 
-  // once: false — leave / re-enter viewport replays the write animation
+  // once: true — animate on first entry only; reload the page to see it again
   const viewProps = immediate
     ? ({ initial: "hidden", animate: "show" } as const)
     : ({
         initial: "hidden",
         whileInView: "show",
         viewport: {
-          // Replay every time the block enters view (scroll up or down).
-          once: false,
+          once: true,
           amount: 0.35,
           margin: "0px 0px -8% 0px",
         },
