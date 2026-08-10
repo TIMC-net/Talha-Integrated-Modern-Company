@@ -285,19 +285,19 @@ html[data-theme="light"] .dark-card:hover {
   box-shadow: 0 20px 40px -28px rgba(255, 107, 53, 0.55);
 }
 
-/* Accent edge bars — full draw on hover (works in light + dark) */
+/* Accent edge bars — full draw on hover (works in light + dark).
+   Avoid permanent will-change: it promotes hundreds of compositor layers
+   and makes first hover feel laggy until the browser settles. */
 .card-bar-y {
   transform: scaleY(0);
   transform-origin: top center;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-bar-x {
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .group\/card:hover .card-bar-y,
@@ -1276,15 +1276,18 @@ html[data-theme="light"] .phone-fab__pulse {
   /* Fleet equipment carousels */
   @keyframes fleetEqProgress {
     from {
-      width: 0%;
+      transform: scaleX(0);
     }
     to {
-      width: 100%;
+      transform: scaleX(1);
     }
   }
 
   .fleet-eq-progress-bar {
-    width: 0%;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
     animation: fleetEqProgress var(--fleet-eq-ms, 3s) linear forwards;
   }
 
@@ -1292,95 +1295,183 @@ html[data-theme="light"] .phone-fab__pulse {
     animation-play-state: paused;
   }
 
-  .fleet-eq-swiper {
-    overflow: hidden !important;
+  /* Fleet section: black in dark theme, white in light theme.
+     Equipment cards stay true-dark (photo frames) on either surface. */
+  #equipment-fleet {
+    background-color: #0a0a0a;
+    color: #f5f5f5;
   }
 
-  .fleet-eq-swiper .swiper-wrapper {
-    /* Keep transform layers inside the clipped track */
-    will-change: transform;
+  html[data-theme="light"] #equipment-fleet {
+    background-color: #ffffff !important;
+    color: #0a0a0a;
+  }
+
+  /* Light theme: ink copy outside the photo cards */
+  html[data-theme="light"] #equipment-fleet .text-white {
+    color: #0a0a0a !important;
+  }
+  html[data-theme="light"] #equipment-fleet .text-white\/60 {
+    color: rgb(10 10 10 / 0.6) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .text-white\/50 {
+    color: rgb(10 10 10 / 0.5) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .text-white\/35 {
+    color: rgb(10 10 10 / 0.4) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .text-white\/25 {
+    color: rgb(10 10 10 / 0.35) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .text-white\/20 {
+    color: rgb(10 10 10 / 0.25) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .section-heading,
+  html[data-theme="light"] #equipment-fleet .section-heading--on-dark {
+    color: #0a0a0a !important;
+  }
+  html[data-theme="light"] #equipment-fleet .border-white\/10,
+  html[data-theme="light"] #equipment-fleet .border-white\/12 {
+    border-color: rgb(10 10 10 / 0.12) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .bg-white\/\[0\.04\] {
+    background-color: rgb(10 10 10 / 0.04) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .bg-white\/20 {
+    background-color: rgb(10 10 10 / 0.15) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .bg-white\/25 {
+    background-color: rgb(10 10 10 / 0.18) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .hover\:bg-white\/45:hover {
+    background-color: rgb(10 10 10 / 0.28) !important;
+  }
+  html[data-theme="light"] #equipment-fleet .text-accent {
+    color: var(--accent, #ff6b35) !important;
+  }
+
+  /* Cards: solid black frame — never paint a white seam on light section */
+  .fleet-eq-card {
+    width: 100%;
+    max-width: 100%;
+    border: 0 !important;
+    outline: none;
+    /* no translateZ / isolation — those promote layers that hairline mid-transition */
+    background-color: #0a0a0a !important;
+    overflow: hidden !important;
+    transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: none;
+  }
+
+  .fleet-eq-card.fleet-eq-card--hot,
+  .fleet-eq-card[data-hot="true"] {
+    box-shadow: 0 14px 28px -18px rgba(0, 0, 0, 0.45);
+  }
+
+  html[data-theme="light"] .fleet-eq-card.fleet-eq-card--hot,
+  html[data-theme="light"] .fleet-eq-card[data-hot="true"] {
+    box-shadow: 0 16px 32px -20px rgba(0, 0, 0, 0.28);
+  }
+
+  .fleet-eq-photo-shell {
+    background-color: #0a0a0a;
+  }
+
+  .fleet-eq-photo-shell > span {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  .fleet-eq-photo {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  /*
+    Details panel is position: absolute; left/right 0; width 100%.
+    Open with max-height, NEVER translateY — transform on fractional
+    Swiper slides left a white 1px line on the right until animation ended.
+  */
+  .fleet-eq-details-panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #0c0c0c;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* Extend paint into half-pixel edges without layout transform */
+    box-shadow: 0 0 0 1px #0c0c0c;
+  }
+
+  .fleet-eq-swiper,
+  .fleet-eq-swiper .swiper-slide {
+    background-color: transparent;
+  }
+
+  .fleet-eq-swiper {
+    overflow: hidden !important;
   }
 
   .fleet-eq-swiper .swiper-slide {
     height: auto;
     overflow: hidden;
+    box-sizing: border-box;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    .fleet-eq-hover-panel .fleet-eq-hover-chip {
-      transition:
-        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s,
-        opacity 0.4s ease 0.05s;
-    }
-
-    .fleet-eq-hover-panel .fleet-eq-hover-title {
-      transition:
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
-        opacity 0.45s ease 0.1s;
-    }
-
-    .fleet-eq-hover-panel .fleet-eq-hover-app {
-      transition:
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
-        opacity 0.45s ease 0.15s;
-    }
-
-    .fleet-eq-hover-panel .fleet-eq-hover-cta {
-      transition:
-        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
-        opacity 0.45s ease 0.2s,
-        gap 0.3s ease,
-        color 0.3s ease;
-    }
-
-    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-chip,
-    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-title,
-    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-app,
-    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-cta {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-
-    .group\/eq[data-hot="true"] .fleet-eq-hover-chip,
-    .group\/eq[data-hot="true"] .fleet-eq-hover-title,
-    .group\/eq[data-hot="true"] .fleet-eq-hover-app,
-    .group\/eq[data-hot="true"] .fleet-eq-hover-cta,
-    .group\/eq:focus-within .fleet-eq-hover-chip,
-    .group\/eq:focus-within .fleet-eq-hover-title,
-    .group\/eq:focus-within .fleet-eq-hover-app,
-    .group\/eq:focus-within .fleet-eq-hover-cta {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .fleet-eq-swiper .swiper-slide > * {
+    width: 100%;
+    max-width: 100%;
   }
 
-  /* Touch devices: never leave the fleet hover overlay sitting on photos */
-  @media (hover: none), (pointer: coarse) {
-    .fleet-eq-hover-panel {
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
+  [data-fleet-carousel] > .relative {
+    overflow: hidden;
   }
 
-  /*
-    Light theme hard-overrides map .text-white → ink. Fleet hover panels sit on
-    a dark photo overlay, so force true white there (same intent as [data-media]).
-  */
-  html[data-theme="light"] .fleet-eq-hover-panel .text-white {
+  html[data-theme="light"] .fleet-eq-card {
+    border: 0 !important;
+    border-color: transparent !important;
+  }
+
+  /* Light theme: frost panel type stays white on dark photo chrome */
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\],
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/90,
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/82,
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/80,
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/70 {
     color: #ffffff !important;
   }
-  html[data-theme="light"] .fleet-eq-hover-panel .text-white\/70 {
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/90 {
+    color: rgb(255 255 255 / 0.9) !important;
+  }
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/82,
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/80 {
+    color: rgb(255 255 255 / 0.8) !important;
+  }
+  html[data-theme="light"] .fleet-eq-card .text-\[\#ffffff\]\/70 {
     color: rgb(255 255 255 / 0.7) !important;
   }
-  html[data-theme="light"] .fleet-eq-hover-panel .text-white\/65 {
-    color: rgb(255 255 255 / 0.65) !important;
-  }
-  html[data-theme="light"] .fleet-eq-hover-panel .hover\:text-white:hover {
+  html[data-theme="light"] .fleet-eq-card .hover\:text-\[\#ffffff\]:hover,
+  html[data-theme="light"] .fleet-eq-card .hover\:text-white:hover {
     color: #ffffff !important;
   }
-  html[data-theme="light"] .fleet-eq-hover-panel .text-accent {
+  html[data-theme="light"] .fleet-eq-card .text-accent {
     color: var(--accent, #ff6b35) !important;
+  }
+  /* Global light .text-white remap must NOT win inside photo cards */
+  html[data-theme="light"] #equipment-fleet .fleet-eq-card .text-white,
+  html[data-theme="light"] #equipment-fleet .fleet-eq-card [class*="text-\[\#ffffff"] {
+    color: #ffffff !important;
   }
 
   @keyframes fleetEqModalIn {

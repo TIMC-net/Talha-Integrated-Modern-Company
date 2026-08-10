@@ -19,7 +19,7 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -41,6 +41,7 @@ import "swiper/css";
 
 const AUTOPLAY_MS = 3000;
 const SLIDE_SPEED_MS = 700;
+const EASE = "ease-[cubic-bezier(0.22,1,0.36,1)]";
 
 const iconByCategory: Record<string, LucideIcon> = {
   lifting: ArrowUpFromLine,
@@ -81,13 +82,43 @@ function EquipmentDetailsPanel({
 
   useEffect(() => {
     const unlock = lockPageScroll();
+    const previouslyFocused =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
+
+    // Move focus into the dialog (a11y) without scrolling the page.
+    // Windows Chromium default focus restoration scrolls the focused node
+    // into view and can jump to the top of the page on close.
+    requestAnimationFrame(() => {
+      const root = document.querySelector(".fleet-eq-detail-root");
+      const focusTarget =
+        root?.querySelector<HTMLElement>(
+          "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])",
+        ) ?? null;
+      focusTarget?.focus({ preventScroll: true });
+    });
+
     return () => {
-      unlock();
       window.removeEventListener("keydown", onKey);
+      unlock();
+      // Restore prior focus without scrolling (Windows needs preventScroll)
+      if (
+        previouslyFocused &&
+        document.contains(previouslyFocused) &&
+        typeof previouslyFocused.focus === "function"
+      ) {
+        try {
+          previouslyFocused.focus({ preventScroll: true });
+        } catch {
+          /* ignore */
+        }
+      }
     };
   }, [onClose]);
 
@@ -360,6 +391,12 @@ function FleetEquipmentCard({
   onViewDetails: (equipment: FleetEquipment) => void;
   onHoverChange: (active: boolean) => void;
 }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (canHover) setOpen(false);
+  }, [canHover]);
+
   const {
     ref,
     active: hot,
@@ -367,114 +404,193 @@ function FleetEquipmentCard({
   } = useStableInsetHover<HTMLElement>({
     enabled: canHover,
     inset: 12,
-    bottomInset: 18,
-    enterDelay: 90,
-    leaveDelay: 160,
+    bottomInset: 14,
+    enterDelay: 70,
+    leaveDelay: 140,
     onChange: onHoverChange,
   });
+
+  // Desktop hover OR mobile tap panel — same pattern as project cards
+  const panelOpen = canHover ? hot : open;
+
+  useEffect(() => {
+    if (canHover) return;
+    onHoverChange(open);
+    return () => {
+      if (open) onHoverChange(false);
+    };
+  }, [canHover, open, onHoverChange]);
 
   return (
     <article
       ref={ref}
+      tabIndex={canHover ? -1 : 0}
+      role={canHover ? undefined : "button"}
+      aria-expanded={canHover ? undefined : open}
+      aria-label={
+        canHover
+          ? undefined
+          : `${item.name}. ${open ? "Tap to close details" : "Tap for details"}`
+      }
+      onClick={() => {
+        if (!canHover) setOpen((v) => !v);
+      }}
+      onKeyDown={(e) => {
+        if (canHover) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setOpen((v) => !v);
+        }
+      }}
       {...(canHover ? handlers : {})}
-      data-hot={canHover && hot ? "true" : undefined}
+      data-hot={panelOpen ? "true" : undefined}
+      data-open={!canHover && open ? "true" : undefined}
       className={cn(
-        "group/eq relative flex h-full flex-col overflow-hidden border border-white/10 bg-navy-950",
-        "transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-        canHover &&
-          hot &&
-          "border-accent/60 -translate-y-1 shadow-[0_22px_44px_-28px_rgba(255,107,53,0.45)]",
-        !canHover && "hover:border-accent/60",
+        "fleet-eq-card group/eq relative aspect-[2/3] w-full cursor-pointer overflow-hidden bg-[#0a0a0a]",
+        "outline-none border-0",
+        "focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]",
+        panelOpen && "fleet-eq-card--hot z-[2]",
       )}
     >
-      <span
-        aria-hidden
-        className={cn(
-          "card-bar-y absolute top-0 bottom-0 left-0 z-20 w-[2px] origin-top scale-y-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          canHover && hot && "scale-y-100",
-          "group-focus-within/eq:scale-y-100",
-        )}
-      />
-
-      <div
-        data-media
-        className="relative aspect-[2/3] w-full overflow-hidden bg-[#141414]"
-      >
+      {/* Photo — fixed frame (no hover scale: transforms caused 1px white seams mid-animation) */}
+      <div className="fleet-eq-photo-shell absolute inset-0 overflow-hidden">
         {item.image ? (
           <Image
             src={item.image}
             alt={item.name}
             fill
             sizes="(max-width: 699px) 55vw, (max-width: 1199px) 28vw, 22vw"
-            className={cn(
-              "object-cover object-center transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
-              canHover && hot && "scale-[1.06]",
-              "group-focus-within/eq:scale-[1.06]",
-            )}
+            className="fleet-eq-photo object-cover object-center"
+            loading="lazy"
+            decoding="async"
           />
         ) : (
-          <div className="flex h-full items-center justify-center bg-[#141414]">
+          <div className="absolute inset-0 flex items-center justify-center bg-[#141414]">
             <Icon className="h-10 w-10 text-white/15" strokeWidth={1.25} />
           </div>
         )}
+      </div>
 
-        <button
-          type="button"
+      {/* Subtle bottom shade */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black/70 via-transparent to-transparent"
+      />
+
+      {/* Left accent draw */}
+      <span
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute top-0 bottom-0 left-0 z-30 w-[2px] origin-bottom scale-y-0 bg-accent",
+          "transition-transform duration-500",
+          EASE,
+          panelOpen && "scale-y-100",
+        )}
+      />
+
+      {/* Default title strip */}
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-0 bottom-0 z-10 px-4 pb-4 pt-20 sm:px-5 sm:pb-5",
+          "transition-opacity duration-400",
+          EASE,
+          panelOpen && "opacity-0",
+        )}
+      >
+        <p className="line-clamp-2 font-display text-[14px] leading-snug font-bold tracking-wide text-[#ffffff] uppercase drop-shadow-md sm:text-[15px]">
+          {item.name}
+        </p>
+        {!canHover && !open ? (
+          <p className="mt-2 flex items-center gap-1 font-display text-[10px] font-semibold tracking-[0.14em] text-accent uppercase">
+            Tap for details
+            <ChevronUp className="h-3 w-3" />
+          </p>
+        ) : null}
+      </div>
+
+      {/*
+        Details panel: max-height (not translateY).
+        translateY + fractional Swiper widths caused a white hairline mid-hover
+        that only vanished after the transition finished.
+      */}
+      <div
+        className={cn(
+          "fleet-eq-details-panel absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden",
+          "transition-[max-height,opacity] duration-500",
+          EASE,
+          panelOpen
+            ? "max-h-[74%] opacity-100 sm:max-h-[70%]"
+            : "max-h-0 opacity-0",
+        )}
+      >
+        <span
+          aria-hidden
           className={cn(
-            "absolute inset-0 z-[5] flex flex-col justify-end",
-            "[@media(hover:hover)_and_(pointer:fine)]:hidden",
+            "absolute top-0 left-0 z-10 h-[2px] w-full origin-left scale-x-0 bg-accent",
+            "transition-transform duration-500 delay-75",
+            EASE,
+            panelOpen && "scale-x-100",
           )}
-          onClick={() => onViewDetails(item)}
-          aria-label={`Tap for details — ${item.name}`}
-        >
+        />
+
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 pt-4 pb-4 sm:px-5 sm:pt-5 sm:pb-5">
           <span
-            aria-hidden
-            className="pointer-events-none bg-gradient-to-t from-[#0a0a0a]/75 via-[#0a0a0a]/20 to-transparent px-3.5 pb-3.5 pt-12"
+            className={cn(
+              "inline-flex border border-accent/60 bg-accent/12 px-2.5 py-0.5 font-display text-[10px] font-bold tracking-[0.12em] text-accent uppercase",
+              "transition-opacity duration-400 delay-75",
+              EASE,
+              panelOpen ? "opacity-100" : "opacity-0",
+            )}
           >
-            <span className="inline-flex items-center gap-1.5 font-display text-[11px] font-bold tracking-[0.14em] text-accent uppercase">
-              Tap for details
-              <ChevronUp className="h-3.5 w-3.5 shrink-0" strokeWidth={2.5} />
-            </span>
+            {item.capacity}
           </span>
-        </button>
 
-        <div
-          className={cn(
-            "fleet-eq-hover-panel absolute inset-0 z-10 flex flex-col justify-end p-4 sm:p-5",
-            "bg-gradient-to-t from-[#0a0a0a]/92 via-[#0a0a0a]/45 to-transparent",
-            "pointer-events-none translate-y-5 opacity-0",
-            "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            canHover && hot && "pointer-events-auto translate-y-0 opacity-100",
-            "group-focus-within/eq:pointer-events-auto group-focus-within/eq:translate-y-0 group-focus-within/eq:opacity-100",
-            "[@media(hover:none)]:invisible [@media(hover:none)]:!opacity-0",
-          )}
-          aria-hidden={!(canHover && hot)}
-        >
-          <div>
-            <span className="fleet-eq-hover-chip inline-flex border border-accent/55 bg-accent/15 px-2.5 py-1 font-display text-[11px] font-bold tracking-[0.12em] text-accent uppercase">
-              {item.capacity}
-            </span>
-            <h4 className="fleet-eq-hover-title mt-3 font-display text-[14px] font-bold tracking-wide text-white uppercase sm:text-[15px]">
-              {item.name}
-            </h4>
-            <p className="fleet-eq-hover-app mt-1.5 text-[12px] leading-snug text-white/70 sm:text-[13px]">
-              {item.application}
-            </p>
+          <h3
+            className={cn(
+              "mt-2.5 font-display text-[14px] leading-snug font-bold tracking-wide text-[#ffffff] uppercase sm:text-[15px]",
+              "transition-opacity duration-400 delay-100",
+              EASE,
+              panelOpen ? "opacity-100" : "opacity-0",
+            )}
+          >
+            {item.name}
+          </h3>
+
+          <p
+            className={cn(
+              "mt-2 text-[12px] leading-relaxed text-[#ffffff]/80 sm:text-[13px]",
+              "transition-opacity duration-400 delay-125",
+              EASE,
+              panelOpen ? "opacity-100" : "opacity-0",
+            )}
+          >
+            {item.application}
+          </p>
+
+          <div
+            className={cn(
+              "mt-4",
+              "transition-opacity duration-400 delay-150",
+              EASE,
+              panelOpen ? "opacity-100" : "opacity-0",
+            )}
+          >
             <button
               type="button"
-              onClick={() => onViewDetails(item)}
-              tabIndex={canHover && hot ? 0 : -1}
+              onClick={(e) => {
+                e.stopPropagation();
+                onViewDetails(item);
+              }}
+              tabIndex={panelOpen ? 0 : -1}
               className={cn(
-                "fleet-eq-hover-cta mt-4 inline-flex items-center gap-1.5 font-display text-[11px] font-bold tracking-[0.12em] text-accent uppercase",
-                "hover:gap-2.5 hover:text-white",
+                "inline-flex items-center gap-1.5 font-display text-[11px] font-bold tracking-[0.12em] text-accent uppercase",
+                "transition-[gap,color] duration-300",
+                "hover:gap-2.5 hover:text-[#ffffff]",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-                "pointer-events-auto",
               )}
             >
               View details
-              <ArrowRight
-                className={cn("h-3.5 w-3.5 transition", hot && "translate-x-0.5")}
-              />
+              <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>
@@ -500,11 +616,24 @@ function CategoryFleetCarousel({
   /** Bar only runs after the slide has settled — avoids start→restart on each change */
   const [barReady, setBarReady] = useState(false);
   const [canHover, setCanHover] = useState(false);
-  const [cardHoverCount, setCardHoverCount] = useState(0);
+  /** Ref-only so hover never re-renders the whole carousel mid-animation */
+  const cardHoverCountRef = useRef(0);
   const Icon = iconByCategory[category.id] ?? Truck;
   const canLoop = category.items.length > 2;
   const autoplayActive = inView && !detailsOpen;
   const progressRunning = autoplayActive && barReady;
+
+  const onCardHoverChange = useCallback((active: boolean) => {
+    cardHoverCountRef.current = Math.max(
+      0,
+      cardHoverCountRef.current + (active ? 1 : -1),
+    );
+    if (cardHoverCountRef.current > 0) {
+      document.documentElement.setAttribute("data-fleet-card-hover", "");
+    } else {
+      document.documentElement.removeAttribute("data-fleet-card-hover");
+    }
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -513,14 +642,6 @@ function CategoryFleetCarousel({
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
   }, []);
-
-  useEffect(() => {
-    if (cardHoverCount > 0) {
-      document.documentElement.setAttribute("data-fleet-card-hover", "");
-    } else {
-      document.documentElement.removeAttribute("data-fleet-card-hover");
-    }
-  }, [cardHoverCount]);
 
   useEffect(() => {
     const el = rootRef.current;
@@ -597,6 +718,7 @@ function CategoryFleetCarousel({
           spaceBetween={12}
           grabCursor
           watchSlidesProgress
+          roundLengths
           touchAngle={28}
           threshold={6}
           autoplay={{
@@ -611,7 +733,7 @@ function CategoryFleetCarousel({
             960: { slidesPerView: 3.7, spaceBetween: 16 },
             1200: { slidesPerView: 4.4, spaceBetween: 18 },
           }}
-          className="fleet-eq-swiper !overflow-hidden"
+          className="fleet-eq-swiper"
         >
           {category.items.map((item) => (
             <SwiperSlide key={item.id} className="!h-auto">
@@ -620,9 +742,7 @@ function CategoryFleetCarousel({
                 Icon={Icon}
                 canHover={canHover}
                 onViewDetails={onViewDetails}
-                onHoverChange={(active) => {
-                  setCardHoverCount((n) => Math.max(0, n + (active ? 1 : -1)));
-                }}
+                onHoverChange={onCardHoverChange}
               />
             </SwiperSlide>
           ))}
@@ -659,13 +779,18 @@ function CategoryFleetCarousel({
                   <span
                     key={progressKey}
                     className={cn(
-                      "absolute inset-y-0 left-0 bg-accent",
+                      "absolute inset-y-0 left-0 w-full bg-accent",
                       progressRunning && "fleet-eq-progress-bar",
                     )}
                     style={
                       progressRunning
                         ? undefined
-                        : { width: autoplayActive ? "0%" : "100%" }
+                        : {
+                            transform: autoplayActive
+                              ? "scaleX(0)"
+                              : "scaleX(1)",
+                            transformOrigin: "left center",
+                          }
                     }
                   />
                 )}
@@ -690,6 +815,7 @@ function CategoryFleetCarousel({
 export default function EquipmentFleetSection() {
   const [selected, setSelected] = useState<SelectedUnit | null>(null);
   const detailsOpen = selected !== null;
+  const closeDetails = useCallback(() => setSelected(null), []);
 
   useEffect(() => {
     return () => {
@@ -700,8 +826,7 @@ export default function EquipmentFleetSection() {
   return (
     <section
       id="equipment-fleet"
-      data-dark-surface
-      className="scroll-mt-28 border-t border-white/10 bg-navy-950 py-16 md:py-24"
+      className="scroll-mt-28 border-t border-white/10 bg-[#0a0a0a] py-16 md:py-24"
     >
       <div className="container-site">
         <Reveal>
@@ -711,7 +836,7 @@ export default function EquipmentFleetSection() {
           <WriteOnScroll
             as="h2"
             text="Fleet Categories"
-            className="section-heading section-heading--on-dark mt-3 text-2xl md:text-[36px]"
+            className="section-heading mt-3 text-2xl text-white md:text-[36px]"
             mode="write"
           />
           <p className="mt-4 max-w-2xl text-[15px] text-white/60">
@@ -738,7 +863,7 @@ export default function EquipmentFleetSection() {
       {selected && (
         <EquipmentDetailsPanel
           selected={selected}
-          onClose={() => setSelected(null)}
+          onClose={closeDetails}
         />
       )}
     </section>

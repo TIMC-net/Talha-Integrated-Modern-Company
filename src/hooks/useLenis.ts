@@ -11,6 +11,43 @@ declare global {
   }
 }
 
+function readScrollY(lenis?: Lenis | null) {
+  if (typeof window === "undefined") return 0;
+  const fromLenis =
+    lenis && typeof lenis.scroll === "number" && Number.isFinite(lenis.scroll)
+      ? lenis.scroll
+      : 0;
+  // Prefer the largest valid reading — Windows Chromium can report 0 on one
+  // API while another still holds the true offset during a layout transition.
+  return Math.max(
+    0,
+    Math.round(
+      Math.max(
+        fromLenis,
+        window.scrollY || 0,
+        window.pageYOffset || 0,
+        document.documentElement.scrollTop || 0,
+        document.body.scrollTop || 0,
+      ),
+    ),
+  );
+}
+
+function writeScrollY(y: number, lenis?: Lenis | null) {
+  const top = Math.max(0, Math.round(y));
+  if (lenis) {
+    try {
+      // Keep Lenis and native window in sync (critical on Windows)
+      lenis.scrollTo(top, { immediate: true });
+    } catch {
+      /* ignore */
+    }
+  }
+  window.scrollTo({ top, left: 0, behavior: "auto" });
+  document.documentElement.scrollTop = top;
+  document.body.scrollTop = top;
+}
+
 /** Initializes Lenis smooth scroll and keeps it in lockstep with GSAP's
  * ticker so ScrollTrigger positions stay accurate. Returns the live
  * instance (null until mounted / if the user prefers reduced motion). */
@@ -46,17 +83,28 @@ export function useLenis() {
     let lastBodyHeight = 0;
 
     const applyRefresh = () => {
+      // Skip while a modal holds the page — Refresh + resize mid-lock jumps
+      // scroll position on Windows Chromium when the dialog closes.
+      if (document.documentElement.hasAttribute("data-scroll-locked")) {
+        return;
+      }
       const nextH = document.body.scrollHeight;
       // Ignore tiny layout jitters (font swap / 1px shifts) that cause scroll jumps
       if (lastBodyHeight > 0 && Math.abs(nextH - lastBodyHeight) < 32) {
         return;
       }
       lastBodyHeight = nextH;
+      const y = readScrollY(lenis);
       lenis.resize();
       ScrollTrigger.refresh();
+      // Re-apply scroll after resize so Windows doesn't snap to 0
+      writeScrollY(y, lenis);
     };
 
     const scheduleRefresh = () => {
+      if (document.documentElement.hasAttribute("data-scroll-locked")) {
+        return;
+      }
       // Never refresh mid-scroll — that causes visible page jerks sitewide.
       if (isScrolling) {
         needsRefresh = true;
@@ -127,11 +175,15 @@ const HEADER_OFFSET = 100;
  * Lock document scroll while a modal / sheet is open.
  * Handles Lenis + iOS Safari (overflow:hidden alone still lets the page move).
  * Returns an unlock function — call it in effect cleanup.
+ *
+ * Windows Chromium note: clearing body position:fixed often resets scroll to 0
+ * unless we re-apply the saved offset immediately and again on the next frames.
  */
 export function lockPageScroll() {
-  const lenis = typeof window !== "undefined" ? window.timcLenis : undefined;
-  const scrollY =
-    lenis && typeof lenis.scroll === "number" ? lenis.scroll : window.scrollY;
+  if (typeof window === "undefined") return () => {};
+
+  const lenis = window.timcLenis;
+  const scrollY = readScrollY(lenis);
 
   const html = document.documentElement;
   const body = document.body;
@@ -145,7 +197,11 @@ export function lockPageScroll() {
     bodyRight: body.style.right,
     bodyWidth: body.style.width,
     bodyTouchAction: body.style.touchAction,
+    bodyPaddingRight: body.style.paddingRight,
   };
+
+  // Avoid layout shift when the scrollbar disappears
+  const scrollbarGap = window.innerWidth - html.clientWidth;
 
   // Hide viewport FABs / section spies so they can't paint over dialogs.
   html.setAttribute("data-scroll-locked", "");
@@ -157,9 +213,17 @@ export function lockPageScroll() {
   body.style.right = "0";
   body.style.width = "100%";
   body.style.touchAction = "none";
+  if (scrollbarGap > 0) {
+    body.style.paddingRight = `${scrollbarGap}px`;
+  }
   lenis?.stop();
 
+  let unlocked = false;
+
   return () => {
+    if (unlocked) return;
+    unlocked = true;
+
     html.removeAttribute("data-scroll-locked");
     html.style.overflow = prev.htmlOverflow;
     body.style.overflow = prev.bodyOverflow;
@@ -169,12 +233,20 @@ export function lockPageScroll() {
     body.style.right = prev.bodyRight;
     body.style.width = prev.bodyWidth;
     body.style.touchAction = prev.bodyTouchAction;
+    body.style.paddingRight = prev.bodyPaddingRight;
+
+    // Resume Lenis before writing scroll so its internal offset is usable
     lenis?.start();
-    if (lenis) {
-      lenis.scrollTo(scrollY, { immediate: true });
-    } else {
-      window.scrollTo(0, scrollY);
-    }
+    writeScrollY(scrollY, lenis);
+
+    // Windows Chromium often reapplies scroll:0 after style flush — reassert
+    // the saved position across the next two frames after layout settles.
+    requestAnimationFrame(() => {
+      writeScrollY(scrollY, lenis);
+      requestAnimationFrame(() => {
+        writeScrollY(scrollY, lenis);
+      });
+    });
   };
 }
 

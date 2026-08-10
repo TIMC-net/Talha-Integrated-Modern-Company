@@ -47,6 +47,10 @@ export function useStableInsetHover<T extends HTMLElement = HTMLElement>({
   const activeRef = useRef(false);
   const enterT = useRef(0);
   const leaveT = useRef(0);
+  const lastBox = useRef<DOMRect | null>(null);
+  const boxStamp = useRef(0);
+  const moveRaf = useRef(0);
+  const pendingPoint = useRef<{ x: number; y: number } | null>(null);
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
@@ -66,6 +70,10 @@ export function useStableInsetHover<T extends HTMLElement = HTMLElement>({
       window.clearTimeout(leaveT.current);
       leaveT.current = 0;
     }
+    if (moveRaf.current) {
+      window.cancelAnimationFrame(moveRaf.current);
+      moveRaf.current = 0;
+    }
   }, []);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
@@ -77,35 +85,34 @@ export function useStableInsetHover<T extends HTMLElement = HTMLElement>({
     }
   }, [enabled, clearTimers, set]);
 
-  const pointInRect = (
-    clientX: number,
-    clientY: number,
-    pad: { t: number; r: number; b: number; l: number },
-  ) => {
-    const el = ref.current;
-    if (!el) return false;
-    const box = el.getBoundingClientRect();
-    return (
-      clientX >= box.left + pad.l &&
-      clientX <= box.right - pad.r &&
-      clientY >= box.top + pad.t &&
-      clientY <= box.bottom - pad.b
-    );
-  };
+  const getBox = useCallback(() => {
+    const now = performance.now();
+    // Cache geometry — getBoundingClientRect on every mousemove is expensive
+    if (!lastBox.current || now - boxStamp.current > 100) {
+      const el = ref.current;
+      if (!el) return null;
+      lastBox.current = el.getBoundingClientRect();
+      boxStamp.current = now;
+    }
+    return lastBox.current;
+  }, []);
 
-  /** Strict zone — only this can turn the panel ON */
-  const isOpenZone = useCallback(
-    (x: number, y: number) =>
-      pointInRect(x, y, { t: inset, r: inset, b: bottomInset, l: inset }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- pointInRect uses ref
-    [inset, bottomInset],
-  );
-
-  /** Loose zone — keeps panel open while reading bottom content */
-  const isKeepZone = useCallback(
-    (x: number, y: number) => pointInRect(x, y, { t: 0, r: 0, b: 0, l: 0 }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+  const pointInPad = useCallback(
+    (
+      clientX: number,
+      clientY: number,
+      pad: { t: number; r: number; b: number; l: number },
+    ) => {
+      const box = getBox();
+      if (!box) return false;
+      return (
+        clientX >= box.left + pad.l &&
+        clientX <= box.right - pad.r &&
+        clientY >= box.top + pad.t &&
+        clientY <= box.bottom - pad.b
+      );
+    },
+    [getBox],
   );
 
   const requestOpen = useCallback(() => {
@@ -144,7 +151,7 @@ export function useStableInsetHover<T extends HTMLElement = HTMLElement>({
       if (!enabled) return;
       if (activeRef.current) {
         // Once open: stay as long as cursor is over the card at all
-        if (isKeepZone(clientX, clientY)) {
+        if (pointInPad(clientX, clientY, { t: 0, r: 0, b: 0, l: 0 })) {
           cancelClose();
         } else {
           requestClose();
@@ -152,20 +159,35 @@ export function useStableInsetHover<T extends HTMLElement = HTMLElement>({
         return;
       }
       // Closed: only open from deep inside (avoids bottom-line flicker)
-      if (isOpenZone(clientX, clientY)) requestOpen();
-      else {
-        if (enterT.current) {
-          window.clearTimeout(enterT.current);
-          enterT.current = 0;
-        }
+      if (
+        pointInPad(clientX, clientY, {
+          t: inset,
+          r: inset,
+          b: bottomInset,
+          l: inset,
+        })
+      ) {
+        requestOpen();
+      } else if (enterT.current) {
+        window.clearTimeout(enterT.current);
+        enterT.current = 0;
       }
     },
-    [enabled, isKeepZone, isOpenZone, requestOpen, requestClose, cancelClose],
+    [
+      enabled,
+      inset,
+      bottomInset,
+      pointInPad,
+      requestOpen,
+      requestClose,
+      cancelClose,
+    ],
   );
 
   const onPointerEnter = useCallback(
     (e: ReactPointerEvent<T>) => {
       if (!enabled || e.pointerType === "touch") return;
+      lastBox.current = null;
       evaluate(e.clientX, e.clientY);
     },
     [enabled, evaluate],
@@ -174,7 +196,13 @@ export function useStableInsetHover<T extends HTMLElement = HTMLElement>({
   const onPointerMove = useCallback(
     (e: ReactPointerEvent<T>) => {
       if (!enabled || e.pointerType === "touch") return;
-      evaluate(e.clientX, e.clientY);
+      pendingPoint.current = { x: e.clientX, y: e.clientY };
+      if (moveRaf.current) return;
+      moveRaf.current = window.requestAnimationFrame(() => {
+        moveRaf.current = 0;
+        const p = pendingPoint.current;
+        if (p) evaluate(p.x, p.y);
+      });
     },
     [enabled, evaluate],
   );
@@ -182,6 +210,7 @@ export function useStableInsetHover<T extends HTMLElement = HTMLElement>({
   const onPointerLeave = useCallback(
     (_e: ReactPointerEvent<T>) => {
       if (!enabled || _e.pointerType === "touch") return;
+      lastBox.current = null;
       if (enterT.current) {
         window.clearTimeout(enterT.current);
         enterT.current = 0;
