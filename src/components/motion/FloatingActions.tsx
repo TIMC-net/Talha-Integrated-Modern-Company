@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type MouseEvent, type RefObject } from "re
 import { DualToneShell } from "@/components/motion/DualToneShell";
 import { company } from "@/lib/company";
 import { cn } from "@/lib/cn";
+import { useSuppressChrome } from "@/hooks/useSuppressChrome";
 
 function waLink(mobile: string) {
   const digits = mobile.replace(/[^\d]/g, "");
@@ -103,6 +104,7 @@ export default function FloatingActions() {
   const [canHover, setCanHover] = useState(false);
   const reduce = useReducedMotion();
   const showTopRef = useRef(false);
+  const suppress = useSuppressChrome();
 
   const topShellRef = useRef<HTMLDivElement>(null);
   const topOverlayRef = useRef<HTMLDivElement>(null);
@@ -180,8 +182,10 @@ export default function FloatingActions() {
       : { scale: 1.1, y: -2 };
   const tapMotion = reduce ? undefined : { scale: 0.94 };
 
+  if (suppress) return null;
+
   return (
-    <div className="fixed right-3 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 flex flex-col items-end gap-2.5 sm:right-6 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] sm:gap-3 lg:right-8 lg:bottom-8">
+    <div className="site-floating-actions fixed right-3 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 flex flex-col items-end gap-2.5 sm:right-6 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] sm:gap-3 lg:right-8 lg:bottom-8">
       <AnimatePresence>
         {showTop && (
           <motion.div
@@ -198,6 +202,7 @@ export default function FloatingActions() {
             <DualToneShell
               shellRef={topShellRef}
               overlayRef={topOverlayRef}
+              compact
               className="h-full w-full overflow-hidden rounded-full"
               base={
                 <button
@@ -247,6 +252,7 @@ export default function FloatingActions() {
           <DualToneShell
             shellRef={phoneShellRef}
             overlayRef={phoneOverlayRef}
+            compact
             className="fab-dual h-full w-full overflow-hidden rounded-full"
             base={
               <a

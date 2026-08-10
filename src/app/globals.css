@@ -880,13 +880,17 @@ a {
     display: inline-block;
     overflow: hidden;
     vertical-align: bottom;
-    padding-bottom: 0.12em;
-    margin-bottom: -0.12em;
+    /* Extra room so italic / bold last glyphs (e.g. “r”) are not cropped */
+    padding-bottom: 0.18em;
+    padding-right: 0.04em;
+    margin-bottom: -0.18em;
   }
 
   .write-on-scroll__word-inner {
     display: inline-block;
     will-change: transform, opacity;
+    /* Slight overshoot room inside the clip */
+    padding-right: 0.02em;
   }
 
   .write-on-scroll--type .write-on-scroll__char {
@@ -1329,18 +1333,18 @@ html[data-theme="light"] .phone-fab__pulse {
         color 0.3s ease;
     }
 
-    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-chip,
-    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-title,
-    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-app,
-    .group\/eq:not(:hover):not(:focus-within) .fleet-eq-hover-cta {
+    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-chip,
+    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-title,
+    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-app,
+    .group\/eq:not([data-hot="true"]):not(:focus-within) .fleet-eq-hover-cta {
       opacity: 0;
       transform: translateY(12px);
     }
 
-    .group\/eq:hover .fleet-eq-hover-chip,
-    .group\/eq:hover .fleet-eq-hover-title,
-    .group\/eq:hover .fleet-eq-hover-app,
-    .group\/eq:hover .fleet-eq-hover-cta,
+    .group\/eq[data-hot="true"] .fleet-eq-hover-chip,
+    .group\/eq[data-hot="true"] .fleet-eq-hover-title,
+    .group\/eq[data-hot="true"] .fleet-eq-hover-app,
+    .group\/eq[data-hot="true"] .fleet-eq-hover-cta,
     .group\/eq:focus-within .fleet-eq-hover-chip,
     .group\/eq:focus-within .fleet-eq-hover-title,
     .group\/eq:focus-within .fleet-eq-hover-app,
@@ -1577,4 +1581,30 @@ html[data-theme="light"] .phone-fab__pulse {
   .clients-marquee {
     animation: none;
   }
+}
+
+/* Clip expanding pulse rings so they never paint outside the FAB footprint */
+.site-floating-actions .phone-fab,
+.site-floating-actions .whatsapp-fab {
+  overflow: visible;
+  isolation: isolate;
+}
+
+.site-floating-actions .phone-fab__pulse,
+.site-floating-actions .whatsapp-fab__pulse {
+  z-index: 0;
+}
+
+/*
+  Root-level (not nested under reduced-motion): fully kill floating chrome
+  while dialogs / hover detail panels are open so FABs+pulses cannot paint through.
+*/
+html[data-scroll-locked] .site-floating-actions,
+html[data-scroll-locked] .site-section-spy,
+html[data-project-panel-open] .site-floating-actions,
+html[data-fleet-card-hover] .site-floating-actions {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
 }

@@ -14,8 +14,9 @@ type WriteOnScrollProps = {
   /**
    * `words` — clipped rise-in per word (drawn onto the page).
    * `write` — character-by-character type-on.
+   * `fade` — whole string fades/rises (no overflow mask — safe for hero titles).
    */
-  mode?: "words" | "write";
+  mode?: "words" | "write" | "fade";
   delay?: number;
   /** Play on mount instead of waiting for scroll */
   immediate?: boolean;
@@ -51,7 +52,6 @@ export default function WriteOnScroll({
     return <StaticTag className={className}>{text}</StaticTag>;
   }
 
-  // once: true — animate on first entry only; reload the page to see it again
   const viewProps = immediate
     ? ({ initial: "hidden", animate: "show" } as const)
     : ({
@@ -63,6 +63,25 @@ export default function WriteOnScroll({
           margin: "0px 0px -8% 0px",
         },
       } as const);
+
+  if (mode === "fade") {
+    return (
+      <MotionTag
+        className={cn("write-on-scroll write-on-scroll--fade", className)}
+        {...viewProps}
+        variants={{
+          hidden: { opacity: 0, y: 14 },
+          show: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.55, delay, ease: EASE },
+          },
+        }}
+      >
+        {text}
+      </MotionTag>
+    );
+  }
 
   if (mode === "write") {
     const chars = Array.from(text);

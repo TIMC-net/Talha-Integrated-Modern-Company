@@ -5,6 +5,7 @@ import {
   DualToneShell,
 } from "@/components/motion/DualToneShell";
 import { scrollToId } from "@/hooks/useLenis";
+import { useSuppressChrome } from "@/hooks/useSuppressChrome";
 import { services } from "@/data/services";
 import { cn } from "@/lib/cn";
 
@@ -80,6 +81,7 @@ export default function ServicesScrollSpy() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const suppress = useSuppressChrome();
 
   useEffect(() => {
     let ticking = false;
@@ -158,10 +160,12 @@ export default function ServicesScrollSpy() {
     </div>
   );
 
+  if (suppress) return null;
+
   return (
     <nav
       aria-label="Page sections"
-      className="pointer-events-none fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 md:right-6 lg:block xl:right-8"
+      className="site-section-spy pointer-events-none fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 md:right-6 lg:block xl:right-8"
     >
       <div className="pointer-events-auto relative">
         {labelItem ? (

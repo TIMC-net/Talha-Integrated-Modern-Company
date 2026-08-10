@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import type { ListedProject } from "@/lib/company";
 import { listedProjectImage } from "@/lib/project-media";
 import { cn } from "@/lib/cn";
+import { useStableInsetHover } from "@/hooks/useStableInsetHover";
 
 type ProjectGridProps = {
   projects: ListedProject[];
@@ -103,12 +104,14 @@ function ProjectHoverCard({
   status,
   isDimmed,
   onHoverChange,
+  onOpenChange,
 }: {
   project: ListedProject;
   image: string;
   status: "ongoing" | "completed";
   isDimmed: boolean;
   onHoverChange: (active: boolean) => void;
+  onOpenChange: (open: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [canHover, setCanHover] = useState(false);
@@ -128,14 +131,39 @@ function ProjectHoverCard({
     return () => mq.removeEventListener("change", sync);
   }, []);
 
-  const isOpen = canHover ? undefined : open;
+  useEffect(() => {
+    if (canHover) return;
+    onOpenChange(open);
+    return () => onOpenChange(false);
+  }, [canHover, open, onOpenChange]);
+
+  const {
+    ref: hoverRef,
+    active: hot,
+    handlers: hoverHandlers,
+  } = useStableInsetHover<HTMLElement>({
+    enabled: canHover,
+    inset: 12,
+    bottomInset: 18,
+    enterDelay: 90,
+    leaveDelay: 160,
+    onChange: onHoverChange,
+  });
+
+  // Desktop hot OR mobile tap panel
+  const panelOpen = canHover ? hot : open;
 
   return (
     <article
-      tabIndex={0}
-      role="button"
+      ref={hoverRef}
+      tabIndex={canHover ? -1 : 0}
+      role={canHover ? undefined : "button"}
       aria-expanded={canHover ? undefined : open}
-      aria-label={`${project.name}. ${canHover ? "Hover for details" : open ? "Tap to close details" : "Tap for details"}`}
+      aria-label={
+        canHover
+          ? undefined
+          : `${project.name}. ${open ? "Tap to close details" : "Tap for details"}`
+      }
       onClick={() => {
         if (!canHover) setOpen((v) => !v);
       }}
@@ -146,32 +174,25 @@ function ProjectHoverCard({
           setOpen((v) => !v);
         }
       }}
-      onMouseEnter={() => {
-        if (canHover) onHoverChange(true);
-      }}
-      onMouseLeave={() => {
-        if (canHover) onHoverChange(false);
-      }}
+      {...(canHover ? hoverHandlers : {})}
       className={cn(
         "group relative aspect-[4/5] w-full cursor-pointer overflow-hidden border border-white/12 bg-[#111]",
         "outline-none transition-[transform,border-color,box-shadow,opacity] duration-500",
         EASE,
         "focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/40",
-        "[@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1.5",
-        "[@media(hover:hover)_and_(pointer:fine)]:hover:border-accent/55",
-        "[@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_32px_60px_-28px_rgba(255,107,53,0.5)]",
-        "data-[open=true]:-translate-y-1 data-[open=true]:border-accent/55 data-[open=true]:shadow-[0_28px_56px_-28px_rgba(255,107,53,0.45)]",
-        // Opacity only — avoid filter:saturate (forces expensive paint per frame)
+        panelOpen &&
+          "-translate-y-1.5 border-accent/55 shadow-[0_32px_60px_-28px_rgba(255,107,53,0.5)]",
+        !panelOpen && canHover === false && "data-[open=true]:-translate-y-1",
         isDimmed && "opacity-45",
       )}
-      data-open={isOpen ? "true" : undefined}
+      data-hot={panelOpen ? "true" : undefined}
+      data-open={!canHover && open ? "true" : undefined}
     >
       <div
         className={cn(
           "absolute inset-0 transition-transform duration-[900ms]",
           EASE,
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105",
-          "group-data-[open=true]:scale-105",
+          panelOpen && "scale-105",
         )}
       >
         <Image
@@ -189,8 +210,7 @@ function ProjectHoverCard({
         className={cn(
           "absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent",
           "transition-opacity duration-500",
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-90",
-          "group-data-[open=true]:opacity-90",
+          panelOpen && "opacity-90",
         )}
       />
 
@@ -200,8 +220,7 @@ function ProjectHoverCard({
           "absolute top-0 bottom-0 left-0 z-20 w-[2px] origin-bottom scale-y-0 bg-accent",
           "transition-transform duration-500",
           EASE,
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-y-100",
-          "group-data-[open=true]:scale-y-100",
+          panelOpen && "scale-y-100",
         )}
       />
 
@@ -211,9 +230,7 @@ function ProjectHoverCard({
           "bg-gradient-to-t from-black/65 via-black/25 to-transparent",
           "transition-all duration-500",
           EASE,
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-4",
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-0",
-          "group-data-[open=true]:translate-y-4 group-data-[open=true]:opacity-0",
+          panelOpen && "translate-y-4 opacity-0",
         )}
       >
         <p className="line-clamp-2 font-display text-[15px] leading-snug font-bold tracking-wide text-[#ffffff] uppercase drop-shadow-md sm:text-[16px]">
@@ -231,16 +248,12 @@ function ProjectHoverCard({
         className={cn(
           "absolute inset-x-0 bottom-0 z-20 flex max-h-[72%] flex-col sm:max-h-[68%]",
           "border-t border-[rgba(255,255,255,0.22)]",
-          // Solid glass without live backdrop-blur on idle panels —
-          // blur is painted only when the sheet is open / hovered.
           "bg-[rgba(12,12,12,0.92)]",
           "shadow-[0_-16px_40px_rgba(0,0,0,0.18)]",
           "transition-transform duration-500",
           EASE,
-          "[@media(hover:hover)_and_(pointer:fine)]:translate-y-[105%]",
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0",
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:bg-[rgba(12,12,12,0.78)]",
-          "[@media(hover:hover)_and_(pointer:fine)]:group-hover:backdrop-blur-md",
+          canHover && "translate-y-[105%]",
+          canHover && panelOpen && "translate-y-0 bg-[rgba(12,12,12,0.78)] backdrop-blur-md",
           !canHover && !open && "translate-y-[105%]",
           !canHover && open && "translate-y-0 backdrop-blur-md bg-[rgba(12,12,12,0.78)]",
         )}
@@ -251,8 +264,7 @@ function ProjectHoverCard({
             "absolute top-0 left-0 z-10 h-[2px] w-full origin-left scale-x-0 bg-accent",
             "transition-transform duration-500 delay-75",
             EASE,
-            "[@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-x-100",
-            "group-data-[open=true]:scale-x-100",
+            panelOpen && "scale-x-100",
           )}
         />
 
@@ -263,12 +275,8 @@ function ProjectHoverCard({
                 "stagger-item flex flex-wrap items-center gap-2",
                 "transition-all duration-500",
                 EASE,
-                "[@media(hover:hover)_and_(pointer:fine)]:translate-y-3",
-                "[@media(hover:hover)_and_(pointer:fine)]:opacity-0",
-                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0",
-                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100",
-                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:delay-100",
-                "group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100",
+                canHover && !panelOpen && "translate-y-3 opacity-0",
+                panelOpen && "translate-y-0 opacity-100 delay-100",
               )}
             >
               <span className="inline-flex items-center gap-1 border border-accent/70 bg-accent/15 px-2 py-0.5 font-display text-[10px] font-bold tracking-[0.12em] text-accent uppercase backdrop-blur-sm">
@@ -287,12 +295,8 @@ function ProjectHoverCard({
               isOngoing ? "mt-2.5" : "mt-0",
               "transition-all duration-500",
               EASE,
-              "[@media(hover:hover)_and_(pointer:fine)]:translate-y-3",
-              "[@media(hover:hover)_and_(pointer:fine)]:opacity-0",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:delay-150",
-              "group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100",
+              canHover && !panelOpen && "translate-y-3 opacity-0",
+              panelOpen && "translate-y-0 opacity-100 delay-150",
             )}
           >
             {project.name}
@@ -304,12 +308,8 @@ function ProjectHoverCard({
                 "mt-2 line-clamp-2 text-[13px] leading-relaxed text-[#ffffff]/82 drop-shadow-sm",
                 "transition-all duration-500",
                 EASE,
-                "[@media(hover:hover)_and_(pointer:fine)]:translate-y-3",
-                "[@media(hover:hover)_and_(pointer:fine)]:opacity-0",
-                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0",
-                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100",
-                "[@media(hover:hover)_and_(pointer:fine)]:group-hover:delay-200",
-                "group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100",
+                canHover && !panelOpen && "translate-y-3 opacity-0",
+                panelOpen && "translate-y-0 opacity-100 delay-200",
               )}
             >
               {project.scope}
@@ -321,12 +321,8 @@ function ProjectHoverCard({
               "mt-3 border-t border-white/18 pt-3",
               "transition-all duration-500",
               EASE,
-              "[@media(hover:hover)_and_(pointer:fine)]:translate-y-3",
-              "[@media(hover:hover)_and_(pointer:fine)]:opacity-0",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-y-0",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100",
-              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:delay-250",
-              "group-data-[open=true]:translate-y-0 group-data-[open=true]:opacity-100",
+              canHover && !panelOpen && "translate-y-3 opacity-0",
+              panelOpen && "translate-y-0 opacity-100 delay-250",
             )}
           >
             <ProjectMeta project={project} status={status} />
@@ -356,6 +352,17 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
   const centerLastOnDesktop =
     projects.length % 3 === 1 && projects.length > 3;
   const [hoveredNo, setHoveredNo] = useState<number | null>(null);
+  const [openNo, setOpenNo] = useState<number | null>(null);
+
+  const chromeBlocked = hoveredNo !== null || openNo !== null;
+
+  useEffect(() => {
+    if (!chromeBlocked) return;
+    document.documentElement.setAttribute("data-project-panel-open", "");
+    return () => {
+      document.documentElement.removeAttribute("data-project-panel-open");
+    };
+  }, [chromeBlocked]);
 
   return (
     <RevealGroup
@@ -379,6 +386,9 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
               isDimmed={hoveredNo !== null && hoveredNo !== project.no}
               onHoverChange={(active) =>
                 setHoveredNo(active ? project.no : null)
+              }
+              onOpenChange={(open) =>
+                setOpenNo(open ? project.no : null)
               }
             />
           </RevealItem>

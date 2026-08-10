@@ -147,6 +147,8 @@ export function lockPageScroll() {
     bodyTouchAction: body.style.touchAction,
   };
 
+  // Hide viewport FABs / section spies so they can't paint over dialogs.
+  html.setAttribute("data-scroll-locked", "");
   html.style.overflow = "hidden";
   body.style.overflow = "hidden";
   body.style.position = "fixed";
@@ -158,6 +160,7 @@ export function lockPageScroll() {
   lenis?.stop();
 
   return () => {
+    html.removeAttribute("data-scroll-locked");
     html.style.overflow = prev.htmlOverflow;
     body.style.overflow = prev.bodyOverflow;
     body.style.position = prev.bodyPosition;
