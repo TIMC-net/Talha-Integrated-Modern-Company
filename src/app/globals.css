@@ -1289,10 +1289,33 @@ html[data-theme="light"] .phone-fab__pulse {
     transform: scaleX(0);
     transform-origin: left center;
     animation: fleetEqProgress var(--fleet-eq-ms, 3s) linear forwards;
+    background-color: var(--accent) !important;
   }
 
-  [data-fleet-carousel]:hover .fleet-eq-progress-bar {
+  /* Pause progress mid-fill — same when hovering the carousel or a card panel is open.
+     Do NOT unmount the bar or it restarts from 0. */
+  [data-fleet-carousel]:hover .fleet-eq-progress-bar,
+  [data-fleet-carousel][data-panel-open] .fleet-eq-progress-bar,
+  [data-fleet-carousel][data-carousel-paused] .fleet-eq-progress-bar {
     animation-play-state: paused;
+  }
+
+  /* Pagination dots stay soft white — do not recolor on hover */
+  .fleet-eq-dot {
+    background-color: rgb(255 255 255 / 0.28);
+    transition: width 0.3s ease;
+  }
+
+  .fleet-eq-dot--active {
+    background-color: rgb(255 255 255 / 0.18);
+  }
+
+  html[data-theme="light"] .fleet-eq-dot {
+    background-color: rgb(10 10 10 / 0.2);
+  }
+
+  html[data-theme="light"] .fleet-eq-dot--active {
+    background-color: rgb(10 10 10 / 0.12);
   }
 
   /* Fleet section: black in dark theme, white in light theme.

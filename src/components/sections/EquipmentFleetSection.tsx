@@ -19,7 +19,14 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { createPortal } from "react-dom";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -383,19 +390,25 @@ function FleetEquipmentCard({
   Icon,
   canHover,
   onViewDetails,
-  onHoverChange,
+  onPanelOpenChange,
 }: {
   item: FleetEquipment;
   Icon: LucideIcon;
   canHover: boolean;
   onViewDetails: (equipment: FleetEquipment) => void;
-  onHoverChange: (active: boolean) => void;
+  /** true when this card's details panel is open (hover or mobile tap) */
+  onPanelOpenChange: (itemId: string, open: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const openRef = useRef(false);
+  openRef.current = open;
 
   useEffect(() => {
-    if (canHover) setOpen(false);
-  }, [canHover]);
+    if (canHover && openRef.current) {
+      setOpen(false);
+      onPanelOpenChange(item.id, false);
+    }
+  }, [canHover, item.id, onPanelOpenChange]);
 
   const {
     ref,
@@ -407,19 +420,21 @@ function FleetEquipmentCard({
     bottomInset: 14,
     enterDelay: 70,
     leaveDelay: 140,
-    onChange: onHoverChange,
+    onChange: (active) => onPanelOpenChange(item.id, active),
   });
 
-  // Desktop hover OR mobile tap panel — same pattern as project cards
+  // Desktop hover OR mobile tap panel
   const panelOpen = canHover ? hot : open;
 
-  useEffect(() => {
+  const toggleMobilePanel = () => {
     if (canHover) return;
-    onHoverChange(open);
-    return () => {
-      if (open) onHoverChange(false);
-    };
-  }, [canHover, open, onHoverChange]);
+    setOpen((prev) => {
+      const next = !prev;
+      // Stop / resume autoplay immediately on the user gesture
+      onPanelOpenChange(item.id, next);
+      return next;
+    });
+  };
 
   return (
     <article
@@ -432,14 +447,12 @@ function FleetEquipmentCard({
           ? undefined
           : `${item.name}. ${open ? "Tap to close details" : "Tap for details"}`
       }
-      onClick={() => {
-        if (!canHover) setOpen((v) => !v);
-      }}
+      onClick={toggleMobilePanel}
       onKeyDown={(e) => {
         if (canHover) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          setOpen((v) => !v);
+          toggleMobilePanel();
         }
       }}
       {...(canHover ? handlers : {})}
@@ -610,30 +623,101 @@ function CategoryFleetCarousel({
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const swiperRef = useRef<SwiperClass | null>(null);
+  /** True after a full stop() — needs start() instead of resume() */
+  const fullyStoppedRef = useRef(true);
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
   const [progressKey, setProgressKey] = useState(0);
   /** Bar only runs after the slide has settled — avoids start→restart on each change */
   const [barReady, setBarReady] = useState(false);
   const [canHover, setCanHover] = useState(false);
-  /** Ref-only so hover never re-renders the whole carousel mid-animation */
-  const cardHoverCountRef = useRef(0);
+  /** Item ids with an open details panel (hover or “Tap for details”) */
+  const [openPanelIds, setOpenPanelIds] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  );
+  const openPanelIdsRef = useRef(openPanelIds);
+  openPanelIdsRef.current = openPanelIds;
+  const inViewRef = useRef(inView);
+  inViewRef.current = inView;
+  const detailsOpenRef = useRef(detailsOpen);
+  detailsOpenRef.current = detailsOpen;
+
   const Icon = iconByCategory[category.id] ?? Truck;
   const canLoop = category.items.length > 2;
-  const autoplayActive = inView && !detailsOpen;
-  const progressRunning = autoplayActive && barReady;
+  const panelBlocking = openPanelIds.size > 0;
+  /** True autoplay engine allowed to run (starts/resumes between pauses) */
+  const engineAllowed = inView && !detailsOpen;
 
-  const onCardHoverChange = useCallback((active: boolean) => {
-    cardHoverCountRef.current = Math.max(
-      0,
-      cardHoverCountRef.current + (active ? 1 : -1),
-    );
-    if (cardHoverCountRef.current > 0) {
+  const syncChromeFlag = (hasOpen: boolean) => {
+    if (hasOpen) {
       document.documentElement.setAttribute("data-fleet-card-hover", "");
     } else {
       document.documentElement.removeAttribute("data-fleet-card-hover");
     }
+  };
+
+  /** Soft pause — keeps Swiper delay progress so resume continues mid-slide */
+  const pauseAutoplaySoft = useCallback(() => {
+    const s = swiperRef.current;
+    if (!s?.autoplay) return;
+    try {
+      s.autoplay.pause();
+    } catch {
+      /* older builds */
+      s.autoplay.stop();
+      fullyStoppedRef.current = true;
+    }
   }, []);
+
+  /** Full stop (modal / leave viewport) — bar remounts on next start */
+  const stopAutoplayHard = useCallback(() => {
+    const s = swiperRef.current;
+    if (!s?.autoplay) return;
+    s.autoplay.stop();
+    fullyStoppedRef.current = true;
+    setBarReady(false);
+  }, []);
+
+  const resumeOrStartAutoplay = useCallback(() => {
+    const s = swiperRef.current;
+    if (!s?.autoplay) return;
+    if (!inViewRef.current || detailsOpenRef.current) return;
+    if (openPanelIdsRef.current.size > 0) return;
+
+    if (fullyStoppedRef.current) {
+      s.autoplay.start();
+      fullyStoppedRef.current = false;
+      setBarReady(true);
+      setProgressKey((k) => k + 1);
+      return;
+    }
+    try {
+      s.autoplay.resume();
+    } catch {
+      s.autoplay.start();
+    }
+    setBarReady(true);
+  }, []);
+
+  const onPanelOpenChange = useCallback(
+    (itemId: string, open: boolean) => {
+      setOpenPanelIds((prev) => {
+        const next = new Set(prev);
+        if (open) next.add(itemId);
+        else next.delete(itemId);
+        const hasOpen = next.size > 0;
+        syncChromeFlag(hasOpen);
+        // Soft-pause mid-timer; do NOT reset progressKey / barReady
+        if (hasOpen) {
+          pauseAutoplaySoft();
+        } else if (inViewRef.current && !detailsOpenRef.current) {
+          resumeOrStartAutoplay();
+        }
+        return next;
+      });
+    },
+    [pauseAutoplaySoft, resumeOrStartAutoplay],
+  );
 
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -654,24 +738,32 @@ function CategoryFleetCarousel({
     return () => io.disconnect();
   }, []);
 
+  // Engine gate: hard-stop when leaving view / opening modal; otherwise resume if free
   useEffect(() => {
-    const swiper = swiperRef.current;
-    if (!swiper?.autoplay) return;
-    if (autoplayActive) {
-      swiper.autoplay.start();
-      setBarReady(true);
-      setProgressKey((k) => k + 1);
-    } else {
-      swiper.autoplay.stop();
-      setBarReady(false);
+    if (!engineAllowed) {
+      stopAutoplayHard();
+      return;
     }
-  }, [autoplayActive]);
+    if (panelBlocking) {
+      pauseAutoplaySoft();
+      return;
+    }
+    resumeOrStartAutoplay();
+  }, [
+    engineAllowed,
+    panelBlocking,
+    stopAutoplayHard,
+    pauseAutoplaySoft,
+    resumeOrStartAutoplay,
+  ]);
 
   return (
     <div
       ref={rootRef}
       id={`fleet-${category.id}`}
       data-fleet-carousel
+      data-panel-open={panelBlocking ? "true" : undefined}
+      data-carousel-paused={panelBlocking || detailsOpen ? "true" : undefined}
       className="scroll-mt-28"
     >
       <div className="mb-5 flex items-end justify-between gap-4 px-1 sm:mb-6">
@@ -698,19 +790,42 @@ function CategoryFleetCarousel({
           modules={[Autoplay]}
           onSwiper={(s) => {
             swiperRef.current = s;
+            if (
+              openPanelIdsRef.current.size > 0 ||
+              detailsOpenRef.current ||
+              !inViewRef.current
+            ) {
+              s.autoplay?.stop();
+              fullyStoppedRef.current = true;
+            }
           }}
           onSlideChange={(s) => {
             setActive(s.realIndex);
-            if (autoplayActive) {
-              setBarReady(false);
-              requestAnimationFrame(() => {
-                setProgressKey((k) => k + 1);
-                setBarReady(true);
-              });
+            // New slide → new bar; only if engine may run
+            if (
+              openPanelIdsRef.current.size > 0 ||
+              detailsOpenRef.current ||
+              !inViewRef.current
+            ) {
+              pauseAutoplaySoft();
+              return;
             }
+            setBarReady(false);
+            requestAnimationFrame(() => {
+              setProgressKey((k) => k + 1);
+              setBarReady(true);
+            });
           }}
           onSlideChangeTransitionEnd={() => {
-            if (autoplayActive) setBarReady(true);
+            if (
+              openPanelIdsRef.current.size > 0 ||
+              detailsOpenRef.current ||
+              !inViewRef.current
+            ) {
+              pauseAutoplaySoft();
+              return;
+            }
+            setBarReady(true);
           }}
           loop={canLoop}
           speed={SLIDE_SPEED_MS}
@@ -724,6 +839,7 @@ function CategoryFleetCarousel({
           autoplay={{
             delay: AUTOPLAY_MS,
             disableOnInteraction: false,
+            // Swiper pauses its timer; CSS pauses the visual bar (resumes mid-fill)
             pauseOnMouseEnter: true,
             waitForTransition: true,
           }}
@@ -742,7 +858,7 @@ function CategoryFleetCarousel({
                 Icon={Icon}
                 canHover={canHover}
                 onViewDetails={onViewDetails}
-                onHoverChange={onCardHoverChange}
+                onPanelOpenChange={onPanelOpenChange}
               />
             </SwiperSlide>
           ))}
@@ -769,28 +885,20 @@ function CategoryFleetCarousel({
                   else swiperRef.current?.slideTo(index);
                 }}
                 className={cn(
-                  "relative h-1.5 overflow-hidden rounded-full transition-all duration-300",
+                  "fleet-eq-dot relative h-1.5 overflow-hidden rounded-full",
                   active === index
-                    ? "w-8 bg-white/20"
-                    : "w-1.5 bg-white/25 hover:bg-white/45",
+                    ? "fleet-eq-dot--active w-8 bg-white/20"
+                    : "w-1.5 bg-white/25",
                 )}
               >
-                {active === index && (
+                {active === index && barReady && (
                   <span
                     key={progressKey}
-                    className={cn(
-                      "absolute inset-y-0 left-0 w-full bg-accent",
-                      progressRunning && "fleet-eq-progress-bar",
-                    )}
+                    className="fleet-eq-progress-bar absolute inset-y-0 left-0 w-full !bg-accent"
                     style={
-                      progressRunning
-                        ? undefined
-                        : {
-                            transform: autoplayActive
-                              ? "scaleX(0)"
-                              : "scaleX(1)",
-                            transformOrigin: "left center",
-                          }
+                      {
+                        ["--fleet-eq-ms" as string]: `${AUTOPLAY_MS}ms`,
+                      } as CSSProperties
                     }
                   />
                 )}
