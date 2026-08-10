@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type SwiperClass from "swiper";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { getService } from "@/data/services";
 import { projects } from "@/data/projects";
 import { cn } from "@/lib/cn";
@@ -131,9 +132,11 @@ export default function PortfolioPreview() {
           <div className="mb-8 flex flex-col items-start justify-between gap-5 md:mb-10 md:flex-row md:items-end">
             <div className="max-w-2xl min-w-0">
               <span className="section-eyebrow text-accent">Completed Projects</span>
-              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-                Our Project Clarity
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="Our Project Clarity"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
               <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/55">
                 Selected packages across civil, foundation, and energy
                 infrastructure — delivered with disciplined HSE and schedule
@@ -230,7 +233,7 @@ export default function PortfolioPreview() {
                 type="button"
                 aria-label="Previous project"
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="flex h-11 w-11 items-center justify-center border border-white/15 text-white transition hover:border-accent hover:text-accent"
+                className="slider-nav-btn h-11 w-11"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -238,7 +241,7 @@ export default function PortfolioPreview() {
                 type="button"
                 aria-label="Next project"
                 onClick={() => swiperRef.current?.slideNext()}
-                className="flex h-11 w-11 items-center justify-center border border-white/15 text-white transition hover:border-accent hover:bg-accent hover:text-[#0a0a0a]"
+                className="slider-nav-btn h-11 w-11"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>

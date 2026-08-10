@@ -6,6 +6,7 @@ import { useId, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { company } from "@/lib/company";
 import { cn } from "@/lib/cn";
 
@@ -101,9 +102,11 @@ export default function CTASection() {
           <Reveal>
             <div>
               <span className="section-eyebrow text-accent">Contact Us</span>
-              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-                Supporting You in Shaping Communities Across KSA
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="Supporting You in Shaping Communities Across KSA"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
               <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/60">
                 Reach TIMC for civil, foundation, and energy project enquiries —
                 or integrated equipment support from our Jeddah headquarters.

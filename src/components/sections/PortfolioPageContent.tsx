@@ -7,6 +7,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import PortfolioCard from "@/components/ui/PortfolioCard";
 import { Button } from "@/components/ui/button";
 import { projects } from "@/data/projects";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export default function PortfolioPageContent() {
   return (
@@ -40,9 +41,11 @@ export default function PortfolioPageContent() {
             <div className="mb-10 flex flex-col items-start justify-between gap-5 md:mb-12 md:flex-row md:items-end">
               <div className="max-w-2xl">
                 <span className="section-eyebrow text-accent">Completed Projects</span>
-                <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-                  Contractor Work Across the Kingdom
-                </h2>
+                <WriteOnScroll
+                as="h2"
+                text="Contractor Work Across the Kingdom"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
                 <p className="mt-3 text-[15px] text-white/60">
                   Completed contractor packages across civil infrastructure,
                   foundations, energy, and industrial works. Browse ongoing and

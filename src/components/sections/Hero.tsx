@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { Button } from "@/components/ui/button";
-import { fadeInUp, revealText } from "@/lib/gsap-config";
+import { fadeInUp } from "@/lib/gsap-config";
 
 const BRAND = "TIMC";
 const HEADLINE = "General Contractor for Critical Infrastructure";
@@ -12,17 +13,11 @@ const SUBHEADING =
   "Civil infrastructure, foundation engineering, and energy infrastructure — with integrated equipment rental supporting every project phase across Saudi Arabia.";
 
 export default function Hero() {
-  const brandRef = useRef<HTMLHeadingElement>(null);
-  const wordsRef = useRef<HTMLSpanElement[]>([]);
-  const subRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    fadeInUp(brandRef.current, 0.15);
-    revealText(wordsRef.current);
-    fadeInUp(subRef.current, 0.7);
-    fadeInUp(ctaRef.current, 1.0);
+    fadeInUp(ctaRef.current, 0.55);
 
     const video = videoRef.current;
     if (!video) return;
@@ -94,34 +89,26 @@ export default function Hero() {
             Kingdom of Saudi Arabia
           </p>
 
-          <h1
-            ref={brandRef}
+          <WriteOnScroll
+            as="h1"
+            text={BRAND}
+            mode="write"
             className="font-display text-[2.25rem] leading-none font-bold tracking-wide text-white uppercase sm:text-5xl md:text-6xl lg:text-[72px]"
-          >
-            {BRAND}
-          </h1>
+          />
 
-          <p className="mt-3 font-display text-[15px] leading-snug font-semibold text-white/90 uppercase sm:mt-5 sm:text-xl md:text-2xl lg:text-[32px] lg:leading-[1.2]">
-            {HEADLINE.split(" ").map((word, i) => (
-              <span key={`${word}-${i}`} className="inline-block overflow-hidden">
-                <span
-                  ref={(el) => {
-                    if (el) wordsRef.current[i] = el;
-                  }}
-                  className="inline-block"
-                >
-                  {word}&nbsp;
-                </span>
-              </span>
-            ))}
-          </p>
+          <WriteOnScroll
+            as="p"
+            text={HEADLINE}
+            delay={0.12}
+            className="mt-3 font-display text-[15px] leading-snug font-semibold text-white/90 uppercase sm:mt-5 sm:text-xl md:text-2xl lg:text-[32px] lg:leading-[1.2]"
+          />
 
-          <p
-            ref={subRef}
+          <WriteOnScroll
+            as="p"
+            text={SUBHEADING}
+            delay={0.22}
             className="mt-3 max-w-xl text-[13px] leading-relaxed text-white/75 sm:mt-6 sm:text-[16px] md:text-[18px]"
-          >
-            {SUBHEADING}
-          </p>
+          />
 
           <div
             ref={ctaRef}

@@ -7,6 +7,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import ClientsMarquee from "@/components/sections/ClientsMarquee";
 import { Button } from "@/components/ui/button";
 import { clients } from "@/lib/company";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export default function ClientsPage() {
   return (
@@ -41,9 +42,11 @@ export default function ClientsPage() {
               <span className="section-eyebrow justify-center text-accent">
                 Trusted Partners
               </span>
-              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-                Clients Who Rely On TIMC
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="Clients Who Rely On TIMC"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
               <p className="mt-3 text-[15px] text-white/60">
                 {clients.length} official partners across contracting,
                 engineering, and energy programmes in the Kingdom.

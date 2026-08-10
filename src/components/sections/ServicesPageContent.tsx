@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import InternalPageHero from "@/components/InternalPageHero";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { Button } from "@/components/ui/button";
 import DeliveryProcess from "@/components/sections/DeliveryProcess";
 import EquipmentFleetSection from "@/components/sections/EquipmentFleetSection";
@@ -98,9 +99,11 @@ export default function ServicesPageContent() {
       <section data-dark-surface className="border-t border-white/10 bg-accent py-14 md:py-16">
         <div className="container-site flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold text-navy-950 uppercase md:text-3xl">
-              Ready to Discuss Your Project?
-            </h2>
+            <WriteOnScroll
+              as="h2"
+              text="Ready to Discuss Your Project?"
+              className="font-display text-2xl font-bold text-navy-950 uppercase md:text-3xl"
+            />
             <p className="mt-2 max-w-xl text-[15px] text-navy-950/75">
               Our team is ready to assess your requirements and prepare a
               detailed technical and commercial proposal.

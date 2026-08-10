@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/services";
 import { serviceGalleryFrames } from "@/data/services";
@@ -204,9 +205,11 @@ export default function ServiceDivisionBlock({
             <p className="mt-5 font-display text-[12px] font-semibold tracking-[2px] text-white/40 uppercase sm:mt-6">
               {isIntegrated ? "Supporting Capability" : `Service ${number}`}
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold text-white uppercase sm:text-3xl md:text-[40px] md:leading-[1.15]">
-              {service.name}
-            </h2>
+            <WriteOnScroll
+              as="h2"
+              text={service.name}
+              className="mt-2 font-display text-2xl font-bold text-white uppercase sm:text-3xl md:text-[40px] md:leading-[1.15]"
+            />
             <p className="mt-2 font-display text-[14px] font-medium tracking-wide text-accent/90">
               {service.tagline}
             </p>

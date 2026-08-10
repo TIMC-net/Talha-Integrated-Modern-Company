@@ -871,6 +871,29 @@ a {
     color: #0a0a0a;
   }
 
+  /* Scroll write / word-rise text */
+  .write-on-scroll--words {
+    overflow: visible;
+  }
+
+  .write-on-scroll__word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+
+  .write-on-scroll__word-inner {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  .write-on-scroll--type .write-on-scroll__char {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
 
   /* Content image hover zoom — add `img-zoom` on the overflow frame */
   .img-zoom {
@@ -1258,7 +1281,7 @@ html[data-theme="light"] .phone-fab__pulse {
 
   .fleet-eq-progress-bar {
     width: 0%;
-    animation: fleetEqProgress var(--fleet-eq-ms, 4.2s) linear forwards;
+    animation: fleetEqProgress var(--fleet-eq-ms, 3s) linear forwards;
   }
 
   [data-fleet-carousel]:hover .fleet-eq-progress-bar {
@@ -1375,6 +1398,49 @@ html[data-theme="light"] .phone-fab__pulse {
   /* Horizontal carousels: allow vertical page scroll / pinch zoom */
   .swiper {
     touch-action: pan-y pinch-zoom;
+  }
+
+  /*
+    Shared carousel prev/next control:
+    dark → white border + icon, light → black border + icon,
+    hover → accent (brand red/orange) for both.
+  */
+  .slider-nav-btn {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ffffff;
+    background-color: transparent;
+    color: #ffffff;
+    transition:
+      border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html[data-theme="light"] .slider-nav-btn,
+  html[data-theme="light"] [data-dark-surface] .slider-nav-btn,
+  html[data-theme="light"] [data-media] .slider-nav-btn {
+    border-color: #0a0a0a !important;
+    background-color: transparent !important;
+    color: #0a0a0a !important;
+  }
+
+  .slider-nav-btn:hover,
+  html[data-theme="light"] .slider-nav-btn:hover,
+  html[data-theme="light"] [data-dark-surface] .slider-nav-btn:hover,
+  html[data-theme="light"] [data-media] .slider-nav-btn:hover {
+    border-color: var(--accent, #ff6b35) !important;
+    background-color: var(--accent, #ff6b35) !important;
+    color: #0a0a0a !important;
+  }
+
+  .slider-nav-btn:focus-visible {
+    outline: 2px solid var(--accent, #ff6b35);
+    outline-offset: 2px;
   }
 
   @keyframes vendorsMarquee {

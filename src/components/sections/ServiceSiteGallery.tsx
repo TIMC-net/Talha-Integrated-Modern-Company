@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -30,9 +31,11 @@ export default function ServiceSiteGallery({
       <div className="container-site">
         <Reveal>
           <span className="section-eyebrow text-accent">Site Capability</span>
-          <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]">
-            {serviceName} In The Field
-          </h2>
+          <WriteOnScroll
+            as="h2"
+            text={`${serviceName} In The Field`}
+            className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]"
+          />
           <p className="mt-3 max-w-xl text-[15px] text-white/55">
             Representative works and settings aligned to this division —
             construction delivery, structural works, and built environments.

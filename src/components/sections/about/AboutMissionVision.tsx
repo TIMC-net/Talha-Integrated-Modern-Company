@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
 import { whoWeAre } from "@/lib/company";
 import { cn } from "@/lib/cn";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -22,9 +23,11 @@ export default function AboutMissionVision() {
       <div className="container-site">
         <Reveal>
           <span className="section-eyebrow text-accent">Who We Are</span>
-          <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-            Mission, Vision &amp; Values
-          </h2>
+          <WriteOnScroll
+                as="h2"
+                text="Mission, Vision & Values"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
           <p className="mt-4 max-w-2xl text-[15px] text-white/60">
             The principles that guide TIMC&apos;s engineering, construction, and
             integrated equipment delivery across Saudi Arabia and the GCC.

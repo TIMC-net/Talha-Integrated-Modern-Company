@@ -6,6 +6,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { testimonials } from "@/data/testimonials";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -38,9 +39,11 @@ export default function TestimonialCarousel() {
         <Reveal>
           <div className="mb-8 md:mb-10">
             <span className="section-eyebrow text-accent">Our Testimonial</span>
-            <h2 className="section-heading section-heading--on-dark mt-4 max-w-2xl text-2xl md:text-[36px]">
-              What Our Clients Say About Our Work
-            </h2>
+            <WriteOnScroll
+                as="h2"
+                text="What Our Clients Say About Our Work"
+                className="section-heading section-heading--on-dark mt-4 max-w-2xl text-2xl md:text-[36px]"
+              />
             <p className="mt-3 max-w-xl text-[14px] text-white/55">
               Feedback from project partners across TIMC&apos;s completed works
               in solar, power, housing, and industrial construction.
@@ -131,7 +134,7 @@ export default function TestimonialCarousel() {
                 type="button"
                 aria-label="Previous testimonial"
                 onClick={goPrev}
-                className="flex h-10 w-10 items-center justify-center border border-white/15 bg-navy-950 text-white transition hover:border-accent hover:bg-accent hover:text-brand-ink"
+                className="slider-nav-btn h-10 w-10"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -139,7 +142,7 @@ export default function TestimonialCarousel() {
                 type="button"
                 aria-label="Next testimonial"
                 onClick={goNext}
-                className="flex h-10 w-10 items-center justify-center bg-accent text-navy-950 transition hover:bg-accent-light"
+                className="slider-nav-btn h-10 w-10"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

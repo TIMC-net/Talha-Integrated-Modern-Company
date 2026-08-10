@@ -6,6 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import ProjectCategoryTabs from "@/components/sections/ProjectCategoryTabs";
 import { Button } from "@/components/ui/button";
 import { ongoingProjects } from "@/lib/company";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export default function OngoingProjectsPage() {
   return (
@@ -43,9 +44,11 @@ export default function OngoingProjectsPage() {
             <div className="mb-8 flex flex-col items-start justify-between gap-5 md:mb-10 md:flex-row md:items-end">
               <div>
                 <span className="section-eyebrow text-accent">Our Project</span>
-                <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-                  What We&rsquo;re Building
-                </h2>
+                <WriteOnScroll
+                as="h2"
+                text="What We're Building"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
                 <p className="mt-3 max-w-xl text-[15px] text-white/60">
                   Active contractor works underway across the Kingdom — tracked
                   with site supervision, HSE discipline, and progress reporting.

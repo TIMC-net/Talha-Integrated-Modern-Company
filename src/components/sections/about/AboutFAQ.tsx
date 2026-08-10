@@ -8,6 +8,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { aboutFaqs } from "@/data/about";
 import { cn } from "@/lib/cn";
 import { company } from "@/lib/company";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -22,9 +23,11 @@ export default function AboutFAQ() {
           <div className="flex h-full flex-col">
             <Reveal>
               <span className="section-eyebrow text-accent">Special Answer</span>
-              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-                Frequently Asked Questions
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="Frequently Asked Questions"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
             </Reveal>
 
             <RevealGroup className="mt-8 space-y-3">

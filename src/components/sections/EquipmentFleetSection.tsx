@@ -24,6 +24,7 @@ import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type SwiperClass from "swiper";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { useTheme } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,7 +37,7 @@ import { lockPageScroll } from "@/hooks/useLenis";
 
 import "swiper/css";
 
-const AUTOPLAY_MS = 4200;
+const AUTOPLAY_MS = 3000;
 const SLIDE_SPEED_MS = 700;
 
 const iconByCategory: Record<string, LucideIcon> = {
@@ -339,9 +340,12 @@ function CategoryFleetCarousel({
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
   const [progressKey, setProgressKey] = useState(0);
+  /** Bar only runs after the slide has settled — avoids start→restart on each change */
+  const [barReady, setBarReady] = useState(false);
   const Icon = iconByCategory[category.id] ?? Truck;
   const canLoop = category.items.length > 2;
   const autoplayActive = inView && !detailsOpen;
+  const progressRunning = autoplayActive && barReady;
 
   useEffect(() => {
     const el = rootRef.current;
@@ -357,8 +361,15 @@ function CategoryFleetCarousel({
   useEffect(() => {
     const swiper = swiperRef.current;
     if (!swiper?.autoplay) return;
-    if (autoplayActive) swiper.autoplay.start();
-    else swiper.autoplay.stop();
+    if (autoplayActive) {
+      swiper.autoplay.start();
+      // One clean bar run when autoplay (re)enables
+      setBarReady(true);
+      setProgressKey((k) => k + 1);
+    } else {
+      swiper.autoplay.stop();
+      setBarReady(false);
+    }
   }, [autoplayActive]);
 
   return (
@@ -399,7 +410,18 @@ function CategoryFleetCarousel({
           }}
           onSlideChange={(swiper) => {
             setActive(swiper.realIndex);
+            // Hold the bar until the slide motion ends (prevents start → restart)
+            setBarReady(false);
+          }}
+          onSlideChangeTransitionEnd={(swiper) => {
+            setActive(swiper.realIndex);
+            if (!autoplayActive) {
+              setBarReady(false);
+              return;
+            }
+            // Single animation start, timed with Swiper waitForTransition delay
             setProgressKey((k) => k + 1);
+            setBarReady(true);
           }}
           slidesPerView={1.7}
           spaceBetween={14}
@@ -413,6 +435,7 @@ function CategoryFleetCarousel({
             delay: AUTOPLAY_MS,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
+            waitForTransition: true,
           }}
           breakpoints={{
             480: { slidesPerView: 2.1, spaceBetween: 14 },
@@ -529,8 +552,17 @@ function CategoryFleetCarousel({
           ))}
         </Swiper>
 
-        <div className="mt-6 flex items-center justify-between gap-4 px-3 sm:px-2">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="mt-6 grid grid-cols-[auto_1fr_auto] items-center gap-3 px-3 sm:gap-4 sm:px-2">
+          <button
+            type="button"
+            aria-label={`Previous ${category.name} equipment`}
+            onClick={() => swiperRef.current?.slidePrev()}
+            className="slider-nav-btn h-10 w-10"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+
+          <div className="flex min-w-0 flex-wrap items-center justify-center gap-2">
             {category.items.map((item, index) => (
               <button
                 key={item.id}
@@ -552,32 +584,25 @@ function CategoryFleetCarousel({
                     key={progressKey}
                     className={cn(
                       "absolute inset-y-0 left-0 bg-accent",
-                      autoplayActive && "fleet-eq-progress-bar",
+                      progressRunning && "fleet-eq-progress-bar",
                     )}
-                    style={autoplayActive ? undefined : { width: "100%" }}
+                    style={
+                      progressRunning ? undefined : { width: autoplayActive ? "0%" : "100%" }
+                    }
                   />
                 )}
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              aria-label={`Previous ${category.name} equipment`}
-              onClick={() => swiperRef.current?.slidePrev()}
-              className="flex h-10 w-10 items-center justify-center border border-white/15 text-white transition hover:border-accent hover:bg-accent hover:text-brand-ink"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              aria-label={`Next ${category.name} equipment`}
-              onClick={() => swiperRef.current?.slideNext()}
-              className="flex h-10 w-10 items-center justify-center border border-white/15 text-white transition hover:border-accent hover:bg-accent hover:text-brand-ink"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
+
+          <button
+            type="button"
+            aria-label={`Next ${category.name} equipment`}
+            onClick={() => swiperRef.current?.slideNext()}
+            className="slider-nav-btn h-10 w-10"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </div>
@@ -599,9 +624,12 @@ export default function EquipmentFleetSection() {
           <p className="font-display text-[12px] font-semibold tracking-[2px] text-accent uppercase">
             Equipment Rental
           </p>
-          <h2 className="section-heading section-heading--on-dark mt-3 text-2xl md:text-[36px]">
-            Fleet Categories
-          </h2>
+          <WriteOnScroll
+            as="h2"
+            text="Fleet Categories"
+            className="section-heading section-heading--on-dark mt-3 text-2xl md:text-[36px]"
+            mode="write"
+          />
           <p className="mt-4 max-w-2xl text-[15px] text-white/60">
             Browse each division’s units by photo. Open any unit for capacity,
             application and typical use — no extra page hops required.

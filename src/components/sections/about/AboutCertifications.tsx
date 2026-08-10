@@ -2,6 +2,7 @@ import { Award, ClipboardCheck, FileBadge, Leaf, ShieldCheck } from "lucide-reac
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import AnimatedDarkCard from "@/components/ui/AnimatedDarkCard";
 import { certifications } from "@/lib/company";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 const iconMap = {
   iso9001: Award,
@@ -50,9 +51,11 @@ export default function AboutCertifications() {
       <div className="container-site">
         <Reveal>
           <span className="section-eyebrow text-accent">Credentials</span>
-          <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-            Certifications &amp; Registrations
-          </h2>
+          <WriteOnScroll
+                as="h2"
+                text="Certifications & Registrations"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
           <p className="mt-4 max-w-2xl text-[15px] text-white/60">
             Quality, environmental, and occupational health systems, together with
             commercial registration details and major vendor approvals.

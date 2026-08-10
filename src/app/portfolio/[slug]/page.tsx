@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import InternalPageHero from "@/components/InternalPageHero";
 import { getService } from "@/data/services";
 import { projects } from "@/data/projects";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -75,9 +76,11 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
               {service && (
                 <span className="section-eyebrow text-accent">{service.name}</span>
               )}
-              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]">
-                {project.title}
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text={project.title}
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]"
+              />
               <p className="mt-2 text-[14px] font-semibold tracking-wide text-white/55 uppercase">
                 {project.location}
               </p>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { deliveryProcess } from "@/data/services-page";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export default function DeliveryProcess() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -43,9 +44,11 @@ export default function DeliveryProcess() {
         <p className="font-display text-[12px] font-semibold tracking-[2.5px] text-accent uppercase">
           How We Deliver
         </p>
-        <h2 className="section-heading section-heading--on-dark mt-3 text-2xl md:text-[36px]">
-          Our Delivery Process
-        </h2>
+        <WriteOnScroll
+                as="h2"
+                text="Our Delivery Process"
+                className="section-heading section-heading--on-dark mt-3 text-2xl md:text-[36px]"
+              />
         <p className="mt-4 text-[15px] leading-relaxed text-white/60">
           A structured methodology that keeps every package safe, on time, and to
           specification.

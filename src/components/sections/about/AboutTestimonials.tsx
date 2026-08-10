@@ -10,6 +10,7 @@ import { testimonials } from "@/data/testimonials";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export default function AboutTestimonials() {
   const swiperRef = useRef<SwiperClass | null>(null);
@@ -22,9 +23,11 @@ export default function AboutTestimonials() {
           <div className="mb-10 flex flex-col items-start justify-between gap-5 md:mb-12 md:flex-row md:items-end">
             <div>
               <span className="section-eyebrow text-accent">Testimonials</span>
-              <h2 className="section-heading section-heading--on-dark mt-4 max-w-xl text-2xl md:text-[36px]">
-                What Our Clients Say About Our Work
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="What Our Clients Say About Our Work"
+                className="section-heading section-heading--on-dark mt-4 max-w-xl text-2xl md:text-[36px]"
+              />
               <p className="mt-3 max-w-xl text-[14px] text-white/55">
                 Project feedback from partners across TIMC&apos;s completed
                 works in the Kingdom.
@@ -40,7 +43,7 @@ export default function AboutTestimonials() {
                 type="button"
                 aria-label="Previous testimonial"
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="flex h-11 w-11 items-center justify-center border border-white/15 bg-navy-950 text-white transition hover:border-accent hover:bg-accent hover:text-brand-ink"
+                className="slider-nav-btn h-11 w-11"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -48,7 +51,7 @@ export default function AboutTestimonials() {
                 type="button"
                 aria-label="Next testimonial"
                 onClick={() => swiperRef.current?.slideNext()}
-                className="flex h-11 w-11 items-center justify-center bg-accent text-navy-950 transition hover:bg-accent-light"
+                className="slider-nav-btn h-11 w-11"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

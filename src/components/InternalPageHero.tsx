@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import type { HeroStat } from "@/data/services-page";
 import { scrollToId } from "@/hooks/useLenis";
 import { cn } from "@/lib/cn";
@@ -82,31 +83,58 @@ export default function InternalPageHero({
   const hasImage = Boolean(backgroundImage);
   const isSplit = layout === "split" && hasImage;
 
+  const titleClass = cn(
+    "max-w-3xl font-display text-4xl font-bold text-white uppercase md:text-5xl lg:text-[58px]",
+    hasImage
+      ? "[text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_2px_18px_rgba(0,0,0,0.55)]"
+      : "drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]",
+  );
+  const accentClass = cn(
+    "text-accent italic normal-case",
+    hasImage &&
+      "[text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_2px_14px_rgba(0,0,0,0.45)]",
+  );
+
   const titleNode = (
-    <h1 className="max-w-3xl font-display text-4xl font-bold text-white uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] md:text-5xl lg:text-[58px]">
+    <h1 className={titleClass}>
       {titleLead ? (
         <>
-          {titleLead}{" "}
+          <WriteOnScroll as="span" text={`${titleLead} `} className="inline" />
           {titleAccent ? (
-            <span className="text-accent italic normal-case">{titleAccent}</span>
+            <WriteOnScroll
+              as="span"
+              text={titleAccent}
+              className={cn("inline", accentClass)}
+              delay={0.06}
+            />
           ) : null}
           <br />
-          {title}
+          <WriteOnScroll as="span" text={title} className="inline" delay={0.1} />
         </>
       ) : titleAccent ? (
         <>
-          <span className="text-accent italic normal-case">{titleAccent}</span>
+          <WriteOnScroll
+            as="span"
+            text={titleAccent}
+            className={cn("inline", accentClass)}
+          />
           <br />
-          {title}
+          <WriteOnScroll as="span" text={title} className="inline" delay={0.08} />
         </>
       ) : (
-        title
+        <WriteOnScroll as="span" text={title} className="inline" />
       )}
     </h1>
   );
 
   const crumbsNode = (
-    <p className="breadcrumb mb-6">
+    <p
+      className={cn(
+        "breadcrumb mb-6",
+        hasImage &&
+          "[text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_1px_12px_rgba(0,0,0,0.4)]",
+      )}
+    >
       {crumbs.map((crumb, index) => {
         const isLast = index === crumbs.length - 1;
         return (
@@ -126,7 +154,13 @@ export default function InternalPageHero({
   );
 
   const eyebrowNode = eyebrow ? (
-    <p className="mb-4 font-display text-[11px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-[12px]">
+    <p
+      className={cn(
+        "mb-4 font-display text-[11px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-[12px]",
+        hasImage &&
+          "[text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_1px_10px_rgba(0,0,0,0.4)]",
+      )}
+    >
       {eyebrow}
     </p>
   ) : null;
@@ -258,9 +292,12 @@ export default function InternalPageHero({
             {crumbsNode}
             {eyebrowNode}
             {titleNode}
-            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-white/75 md:text-[17px]">
-              {description}
-            </p>
+            <WriteOnScroll
+              as="p"
+              text={description}
+              delay={0.14}
+              className="mt-5 max-w-xl text-[16px] leading-relaxed text-white/75 md:text-[17px]"
+            />
             {children}
             {actionsNode}
           </Reveal>
@@ -316,12 +353,12 @@ export default function InternalPageHero({
             )}
             sizes="100vw"
           />
-          {/* Soft left read-area only — no full-frame black / navy veil */}
+          {/* Minimal left edge only — keep photo bright/undulled */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent md:from-black/28 md:via-black/[0.06]"
+            className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent md:from-black/12"
           />
-          {/* Gentle bottom blend into next section (not darkening the photo) */}
+          {/* Short bottom blend into the next section */}
           {connectBottom ? (
             <div
               aria-hidden
@@ -346,23 +383,35 @@ export default function InternalPageHero({
         )}
       >
         <Reveal immediate>
-          {crumbsNode}
-          {eyebrowNode}
+          {/*
+            Photo heroes: solid dark read panel (no blur) so type is clear
+            while the full-bleed photo stays bright and sharp.
+          */}
           <div
             className={cn(
+              "relative",
+              hasImage &&
+                "max-w-3xl border-l-[3px] border-accent py-5 pl-5 sm:max-w-4xl sm:py-6 sm:pl-7 sm:pr-16 md:max-w-5xl md:pr-24 lg:max-w-6xl lg:pr-28",
+              hasImage &&
+                "bg-[linear-gradient(to_right,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.88)_52%,rgba(10,10,10,0.55)_78%,transparent_100%)]",
               !hasImage &&
                 "max-w-3xl border-l-2 border-accent/70 pl-5 sm:pl-6 md:pl-7",
             )}
           >
+            {crumbsNode}
+            {eyebrowNode}
             {titleNode}
-            <p
+            <WriteOnScroll
+              as="p"
+              text={description}
+              delay={0.14}
               className={cn(
-                "mt-5 max-w-xl text-[16px] leading-relaxed text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)] md:text-[17px]",
-                !hasImage && "max-w-2xl text-white/70 drop-shadow-none",
+                "mt-5 max-w-xl text-[16px] leading-relaxed md:text-[17px]",
+                hasImage
+                  ? "text-white/95 [text-shadow:0_1px_2px_rgba(0,0,0,0.55)]"
+                  : "max-w-2xl text-white/70",
               )}
-            >
-              {description}
-            </p>
+            />
           </div>
         </Reveal>
 

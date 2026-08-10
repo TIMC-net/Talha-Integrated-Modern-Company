@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { useTheme } from "@/components/theme/ThemeProvider";
 import { whyChooseUs } from "@/data/about";
 import { cn } from "@/lib/cn";
@@ -115,9 +116,11 @@ export default function WhyChooseUs() {
                 />
               </div>
 
-              <h2 className="mt-4 font-display text-2xl font-bold text-white uppercase md:text-[36px] md:leading-[1.15]">
-                Expertise and Experience
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="Expertise and Experience"
+                className="mt-4 font-display text-2xl font-bold text-white uppercase md:text-[36px] md:leading-[1.15]"
+              />
               <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/65">
                 Clients choose TIMC for integrated engineering and contracting,
                 a modern equipment fleet, experienced professionals, and

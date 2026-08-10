@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { vendors } from "@/data/vendors";
 
 function VendorCapsule({ serial, name }: { serial: string; name: string }) {
@@ -36,9 +37,11 @@ export default function AboutVendorsMarquee() {
             Approved Network
           </p>
         </div>
-        <h2 className="mt-4 font-display text-[28px] leading-none font-bold tracking-tight text-white uppercase md:text-[40px]">
-          Vendor List
-        </h2>
+        <WriteOnScroll
+          as="h2"
+          text="Vendor List"
+          className="mt-4 font-display text-[28px] leading-none font-bold tracking-tight text-white uppercase md:text-[40px]"
+        />
         <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/55 md:text-[16px]">
           Registered vendors and partners across contracting, engineering, and
           energy — serial references from our approved vendor register.

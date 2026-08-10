@@ -15,6 +15,7 @@ import { serviceGalleryFrames } from "@/data/services";
 import { deliveryProcess } from "@/data/services-page";
 import ServiceDivisionMedia from "@/components/sections/ServiceDivisionMedia";
 import ServiceSiteGallery from "@/components/sections/ServiceSiteGallery";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 const iconMap: Record<Service["icon"], LucideIcon> = {
   Truck,
@@ -52,9 +53,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
         <div className="container-site">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
             <div>
-              <h2 className="font-display text-2xl font-bold text-white uppercase md:text-[32px]">
-                {service.tagline}
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text={service.tagline}
+                className="font-display text-2xl font-bold text-white uppercase md:text-[32px]"
+              />
               <p className="mt-5 text-[16px] leading-relaxed text-white/65">
                 {service.fullDescription}
               </p>
@@ -103,9 +106,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
       <section data-dark-surface className="border-t border-white/10 bg-navy-900 py-14 md:py-20">
         <div className="container-site">
           <span className="section-eyebrow text-accent">Capabilities</span>
-          <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]">
-            Structured Service Offerings
-          </h2>
+          <WriteOnScroll
+                as="h2"
+                text="Structured Service Offerings"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]"
+              />
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             {service.subServices.map((item, index) => (
               <article
@@ -145,9 +150,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
             </div>
             <div>
               <span className="section-eyebrow text-accent">Delivery Process</span>
-              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]">
-                How We Execute This Division
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="How We Execute This Division"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[32px]"
+              />
               <ol className="mt-8 space-y-5">
                 {deliveryProcess.map((step) => (
                   <li
@@ -176,9 +183,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
       <section data-dark-surface className="bg-accent py-14 md:py-16">
         <div className="container-site flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <h2 className="font-display text-2xl font-bold text-navy-950 uppercase md:text-3xl">
-              Request {service.name} Services
-            </h2>
+            <WriteOnScroll
+              as="h2"
+              text={`Request ${service.name} Services`}
+              className="font-display text-2xl font-bold text-navy-950 uppercase md:text-3xl"
+            />
             <p className="mt-2 max-w-xl text-[15px] text-navy-950/75">
               Share your scope and we will prepare a technical and commercial
               response aligned to your project requirements.

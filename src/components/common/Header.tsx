@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { company } from "@/lib/company";
 import { cn } from "@/lib/cn";
 import { lockPageScroll } from "@/hooks/useLenis";
+import { handleSameRouteClick } from "@/lib/nav";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const MORPH = "duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]";
@@ -132,6 +133,9 @@ function DesktopNav({
             <Link
               href={item.href}
               tabIndex={interactive ? undefined : -1}
+              onClick={(e) => {
+                handleSameRouteClick(e, pathname, item.href);
+              }}
               className={cn(
                 "relative z-10 flex items-center gap-1 rounded-full px-3 py-2 font-display text-[12px] font-semibold tracking-wide whitespace-nowrap uppercase transition-colors xl:px-4 xl:text-[13px] 2xl:px-5 2xl:text-[14px]",
                 active || isOpen
@@ -162,6 +166,9 @@ function DesktopNav({
                     <Link
                       key={child.href}
                       href={child.href}
+                      onClick={(e) => {
+                        handleSameRouteClick(e, pathname, child.href);
+                      }}
                       className="block px-5 py-3 font-display text-[12px] font-semibold tracking-wide text-[#0a0a0a]/75 uppercase transition hover:bg-accent/10 hover:text-accent"
                     >
                       {child.label}
@@ -297,7 +304,13 @@ function CapsuleInner({
           size="sm"
           className="h-11 shrink-0 rounded-full px-4 text-xs tracking-wide whitespace-nowrap xl:h-12 xl:px-5"
         >
-          <Link href="/contact" tabIndex={interactive ? undefined : -1}>
+          <Link
+            href="/contact"
+            tabIndex={interactive ? undefined : -1}
+            onClick={(e) => {
+              handleSameRouteClick(e, pathname, "/contact");
+            }}
+          >
             Get A Quote
           </Link>
         </Button>
@@ -378,7 +391,10 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
                           <li key={child.href}>
                             <Link
                               href={child.href}
-                              onClick={onClose}
+                              onClick={(e) => {
+                                handleSameRouteClick(e, pathname, child.href);
+                                onClose();
+                              }}
                               className="block py-2.5 pl-4 font-display text-[13px] font-medium tracking-wide text-white/70 uppercase transition hover:text-accent"
                             >
                               {child.label}
@@ -392,7 +408,10 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
               ) : (
                 <Link
                   href={item.href}
-                  onClick={onClose}
+                  onClick={(e) => {
+                    handleSameRouteClick(e, pathname, item.href);
+                    onClose();
+                  }}
                   className={`block py-4 font-display text-[15px] font-semibold tracking-wide uppercase transition ${
                     active ? "text-accent" : "text-white"
                   }`}
@@ -428,7 +447,13 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
           {company.email}
         </a>
         <Button asChild className="mt-2 w-full justify-center rounded-full">
-          <Link href="/contact" onClick={onClose}>
+          <Link
+            href="/contact"
+            onClick={(e) => {
+              handleSameRouteClick(e, pathname, "/contact");
+              onClose();
+            }}
+          >
             Get A Quote
           </Link>
         </Button>

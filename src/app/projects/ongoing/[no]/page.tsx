@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import InternalPageHero from "@/components/InternalPageHero";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { Button } from "@/components/ui/button";
 import { ongoingProjects } from "@/lib/company";
 
@@ -106,9 +107,11 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
                   </span>
                 </div>
 
-                <h2 className="mt-5 font-display text-[26px] leading-[1.2] font-bold tracking-wide text-white uppercase sm:text-[32px] md:text-[36px]">
-                  {title}
-                </h2>
+                <WriteOnScroll
+                  as="h2"
+                  text={title}
+                  className="mt-5 font-display text-[26px] leading-[1.2] font-bold tracking-wide text-white uppercase sm:text-[32px] md:text-[36px]"
+                />
               </header>
             </Reveal>
 

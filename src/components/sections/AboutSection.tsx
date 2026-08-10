@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Cpu } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { aboutNarrative, company } from "@/lib/company";
 
 const yearsActive = new Date().getFullYear() - Number(company.established);
@@ -53,9 +54,11 @@ export default function AboutSection() {
           <div className="min-w-0">
             <Reveal>
               <span className="section-eyebrow text-accent">About Company</span>
-              <h2 className="section-heading section-heading--on-dark mt-4 text-xl leading-snug sm:text-2xl md:text-[36px]">
-                Building a Stronger Future Across Saudi Arabia
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="Building a Stronger Future Across Saudi Arabia"
+                className="section-heading section-heading--on-dark mt-4 text-xl leading-snug sm:text-2xl md:text-[36px]"
+              />
               <div className="mt-5 space-y-4 text-[14px] leading-relaxed text-white/65 sm:text-[15px] md:text-[16px]">
                 {aboutNarrative.slice(0, 2).map((paragraph) => (
                   <p key={paragraph.slice(0, 48)}>{paragraph}</p>

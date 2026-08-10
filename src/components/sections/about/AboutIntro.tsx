@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import { aboutNarrative, company } from "@/lib/company";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 const yearsActive = new Date().getFullYear() - Number(company.established);
 
@@ -82,9 +83,11 @@ export default function AboutIntro() {
           <div>
             <Reveal immediate>
               <span className="section-eyebrow text-accent">Building Company</span>
-              <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-                Building Your Visions Creating Reality
-              </h2>
+              <WriteOnScroll
+                as="h2"
+                text="Building Your Visions Creating Reality"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
               <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-white/65 md:text-[16px]">
                 {aboutNarrative.map((paragraph) => (
                   <p key={paragraph.slice(0, 48)}>{paragraph}</p>

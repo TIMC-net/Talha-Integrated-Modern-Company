@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { services } from "@/data/services";
 
 const iconMap = { Truck, Building2, Hammer, Zap };
@@ -36,9 +37,11 @@ export default function ServiceShowcase() {
             <span className="section-eyebrow justify-center text-accent">
               Our Divisions
             </span>
-            <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-              Contractor Capabilities Across the Kingdom
-            </h2>
+            <WriteOnScroll
+                as="h2"
+                text="Contractor Capabilities Across the Kingdom"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
             <p className="mt-4 text-[14px] leading-relaxed text-white/60 md:text-[15px]">
               Civil infrastructure, foundation engineering, and energy
               infrastructure — with equipment rental as an integrated supporting

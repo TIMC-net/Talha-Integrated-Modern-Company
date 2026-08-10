@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { company } from "@/lib/company";
+import { handleSameRouteClick } from "@/lib/nav";
 
 type LogoProps = {
   className?: string;
@@ -23,11 +27,15 @@ export default function Logo({
   markOnly = false,
   blend = false,
 }: LogoProps) {
+  const pathname = usePathname();
   const light = blend || variant === "light";
 
   return (
     <Link
       href="/"
+      onClick={(e) => {
+        handleSameRouteClick(e, pathname, "/");
+      }}
       className={`inline-flex shrink-0 items-center no-underline ${
         markOnly
           ? "gap-0"

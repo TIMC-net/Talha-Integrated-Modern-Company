@@ -2,6 +2,7 @@ import Link from "next/link";
 import Counter from "@/components/ui/Counter";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { stats } from "@/data/stats";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export default function AboutStats() {
   return (
@@ -12,9 +13,11 @@ export default function AboutStats() {
             <span className="section-eyebrow justify-center text-accent">
               Our Company Status
             </span>
-            <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-              Trusted & Reliable
-            </h2>
+            <WriteOnScroll
+                as="h2"
+                text="Trusted & Reliable"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
           </div>
         </Reveal>
 

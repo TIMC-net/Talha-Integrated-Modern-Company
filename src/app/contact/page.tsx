@@ -14,6 +14,7 @@ import { FormEvent, useState } from "react";
 import InternalPageHero from "@/components/InternalPageHero";
 import Pressable from "@/components/motion/Pressable";
 import { Reveal } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { services } from "@/data/services";
 import { company } from "@/lib/company";
 
@@ -206,9 +207,11 @@ export default function ContactPage() {
               </aside>
 
               <div className="bg-navy-950 px-5 py-8 sm:px-6 sm:py-10 md:px-10 md:py-12 lg:px-12 lg:py-14">
-                <h2 className="font-display text-xl font-bold text-white sm:text-2xl md:text-[32px]">
-                  Feel Free to Contact Us
-                </h2>
+                <WriteOnScroll
+                  as="h2"
+                  text="Feel Free to Contact Us"
+                  className="font-display text-xl font-bold text-white sm:text-2xl md:text-[32px]"
+                />
 
                 <AnimatePresence mode="wait">
                   {sent ? (

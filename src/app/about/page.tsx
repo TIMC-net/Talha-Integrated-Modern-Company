@@ -25,8 +25,8 @@ export default function AboutPage() {
         titleAccent="TIMC"
         title="Company"
         description="A Saudi engineering and contracting company delivering civil infrastructure, foundation engineering, energy infrastructure, and integrated equipment rental across the Kingdom and the GCC."
-        backgroundImage="/images/about-hero-hd.jpg"
-        imageClassName="object-cover object-[center_42%]"
+        backgroundImage="/images/about-page-hero-v3.jpg"
+        imageClassName="object-cover object-[center_38%]"
         connectBottom
       />
       <AboutIntro />

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { processSteps } from "@/data/process";
 
 export default function ProcessSection() {
@@ -108,9 +109,11 @@ export default function ProcessSection() {
             <span className="section-eyebrow justify-center text-accent">
               How To Process
             </span>
-            <h2 className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]">
-              Steps Of Construction Work Process
-            </h2>
+            <WriteOnScroll
+                as="h2"
+                text="Steps Of Construction Work Process"
+                className="section-heading section-heading--on-dark mt-4 text-2xl md:text-[36px]"
+              />
             <p className="mt-4 text-[14px] leading-relaxed text-white/60 md:text-[15px]">
               A clear delivery sequence from planning through handover — built for
               infrastructure and industrial contractor projects.

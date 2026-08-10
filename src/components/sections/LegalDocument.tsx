@@ -1,4 +1,5 @@
 import Link from "next/link";
+import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export type LegalSection = {
   title: string;
@@ -33,12 +34,12 @@ export default function LegalDocument({
           <div className="mt-10 space-y-10">
             {sections.map((section, index) => (
               <article key={section.title}>
-                <h2 className="font-display text-lg font-bold tracking-wide text-white uppercase md:text-xl">
-                  <span className="mr-2 text-accent">
+                <div className="flex flex-wrap items-baseline gap-x-2 font-display text-lg font-bold tracking-wide text-white uppercase md:text-xl">
+                  <span className="text-accent">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  {section.title}
-                </h2>
+                  <WriteOnScroll as="h2" text={section.title} className="inline" />
+                </div>
                 <div className="mt-4 space-y-3 text-[14px] leading-relaxed text-white/60 md:text-[15px]">
                   {section.paragraphs.map((p) => (
                     <p key={p.slice(0, 48)}>{p}</p>
