@@ -1265,8 +1265,18 @@ html[data-theme="light"] .phone-fab__pulse {
     animation-play-state: paused;
   }
 
+  .fleet-eq-swiper {
+    overflow: hidden !important;
+  }
+
+  .fleet-eq-swiper .swiper-wrapper {
+    /* Keep transform layers inside the clipped track */
+    will-change: transform;
+  }
+
   .fleet-eq-swiper .swiper-slide {
     height: auto;
+    overflow: hidden;
   }
 
   @media (hover: hover) and (pointer: fine) {

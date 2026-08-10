@@ -32,6 +32,7 @@ import {
   type FleetEquipment,
 } from "@/data/fleet";
 import { cn } from "@/lib/cn";
+import { lockPageScroll } from "@/hooks/useLenis";
 
 import "swiper/css";
 
@@ -66,21 +67,21 @@ function EquipmentDetailsPanel({
   const isLight = mounted && theme === "light";
 
   useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const unlock = lockPageScroll();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      unlock();
       window.removeEventListener("keydown", onKey);
     };
   }, [onClose]);
 
   return (
     <div
-      className="fleet-eq-detail-root fixed inset-0 z-[180] flex items-end justify-center sm:items-center sm:p-5 md:p-8"
+      data-lenis-prevent
+      className="fleet-eq-detail-root fixed inset-0 z-[180] flex items-end justify-center overscroll-none sm:items-center sm:p-5 md:p-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -205,7 +206,10 @@ function EquipmentDetailsPanel({
               <X className="h-4 w-4" strokeWidth={2} />
             </button>
 
-            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3.5 py-3.5 sm:px-6 sm:py-6 lg:px-7 lg:py-7">
+            <div
+              data-lenis-prevent
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3.5 py-3.5 touch-pan-y sm:px-6 sm:py-6 lg:px-7 lg:py-7"
+            >
               <p className="font-display text-[10px] font-semibold tracking-[0.18em] text-accent uppercase max-lg:sr-only">
                 {category.name}
               </p>
@@ -363,7 +367,7 @@ function CategoryFleetCarousel({
       id={`fleet-${category.id}`}
       data-fleet-carousel
       style={{ ["--fleet-eq-ms" as string]: `${AUTOPLAY_MS}ms` }}
-      className="scroll-mt-28 border border-white/10 bg-navy-900/60"
+      className="scroll-mt-28 overflow-hidden border border-white/10 bg-navy-900/60"
     >
       <div className="flex flex-col gap-4 border-b border-white/10 px-5 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6 md:px-8 md:py-6">
         <div className="flex min-w-0 items-start gap-4">
@@ -384,7 +388,8 @@ function CategoryFleetCarousel({
         </p>
       </div>
 
-      <div className="relative px-2 py-6 sm:px-4 md:px-5 md:py-8">
+      {/* Clip slides to this panel — no spill past the card edge while animating */}
+      <div className="relative overflow-hidden px-2 py-6 sm:px-4 sm:py-7 md:px-5 md:py-8">
         <Swiper
           modules={[Autoplay]}
           onSwiper={(swiper) => {
@@ -415,7 +420,7 @@ function CategoryFleetCarousel({
             960: { slidesPerView: 3.7, spaceBetween: 16 },
             1200: { slidesPerView: 4.4, spaceBetween: 18 },
           }}
-          className="fleet-eq-swiper !overflow-visible sm:!overflow-hidden"
+          className="fleet-eq-swiper !overflow-hidden"
         >
           {category.items.map((item) => (
             <SwiperSlide key={item.id} className="!h-auto">

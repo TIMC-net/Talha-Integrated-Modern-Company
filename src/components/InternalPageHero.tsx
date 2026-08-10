@@ -26,7 +26,11 @@ type InternalPageHeroProps = {
   /** Main title / second line (e.g. "Services") */
   title: string;
   description: string;
-  backgroundImage: string;
+  /**
+   * Full-bleed photo. Omit for a professional surface-only hero
+   * (typography + atmosphere, no image). Files stay on disk either way.
+   */
+  backgroundImage?: string;
   /** Extra classes for the background Image (object-position, etc.) */
   imageClassName?: string;
   /**
@@ -36,6 +40,7 @@ type InternalPageHeroProps = {
   /**
    * `split` places a sharp portrait/media panel beside the copy — use for
    * tall crew photos that break under full-bleed cover cropping.
+   * Requires `backgroundImage`.
    */
   layout?: "bleed" | "split";
   /** Optional page-specific jump tiles — omit on most pages */
@@ -47,6 +52,8 @@ type InternalPageHeroProps = {
    * (no hard seam / dividing line). Use on internal pages after home.
    */
   connectBottom?: boolean;
+  /** Optional small label above the title (e.g. "Since 2010 · Jeddah") */
+  eyebrow?: string;
   id?: string;
   className?: string;
   children?: ReactNode;
@@ -65,16 +72,18 @@ export default function InternalPageHero({
   actions,
   stats,
   connectBottom = false,
+  eyebrow,
   id,
   className,
   children,
 }: InternalPageHeroProps) {
   const showStats = Boolean(stats && stats.length > 0);
   const photoOverlay = overlay === "photo";
-  const isSplit = layout === "split";
+  const hasImage = Boolean(backgroundImage);
+  const isSplit = layout === "split" && hasImage;
 
   const titleNode = (
-    <h1 className="max-w-3xl font-display text-4xl font-bold text-white uppercase md:text-5xl lg:text-[58px]">
+    <h1 className="max-w-3xl font-display text-4xl font-bold text-white uppercase drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] md:text-5xl lg:text-[58px]">
       {titleLead ? (
         <>
           {titleLead}{" "}
@@ -115,6 +124,12 @@ export default function InternalPageHero({
       })}
     </p>
   );
+
+  const eyebrowNode = eyebrow ? (
+    <p className="mb-4 font-display text-[11px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-[12px]">
+      {eyebrow}
+    </p>
+  ) : null;
 
   const actionsNode =
     actions && actions.length > 0 ? (
@@ -187,7 +202,48 @@ export default function InternalPageHero({
     </div>
   ) : null;
 
-  if (isSplit) {
+  /** Atmospheric surface (no photo) — used when `backgroundImage` is omitted */
+  const surfaceBackdrop = (
+    <div className="absolute inset-0 overflow-hidden" aria-hidden>
+      <div className="absolute inset-0 bg-navy-950" />
+      <div
+        className="absolute -top-24 left-1/2 h-[520px] w-[min(1200px,140%)] -translate-x-1/2 opacity-90"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 50% at 50% 0%, rgba(255,107,53,0.14), transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute right-0 bottom-0 h-[50%] w-[55%] opacity-80"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 100% 100%, rgba(255,107,53,0.06), transparent 65%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(255,255,255,0.55) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.55) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+          maskImage:
+            "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+        }}
+      />
+      <div className="absolute top-[96px] right-6 hidden h-16 w-16 border-t border-r border-white/15 sm:top-[112px] sm:right-10 md:block lg:right-14" />
+      <div className="absolute bottom-10 left-6 hidden h-16 w-16 border-b border-l border-accent/35 sm:left-10 md:block lg:left-14" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-[-4%] flex justify-center overflow-hidden select-none">
+        <span className="font-display text-[18vw] leading-none font-bold tracking-tighter text-white/[0.035] uppercase sm:text-[15vw] lg:text-[12vw]">
+          TIMC
+        </span>
+      </div>
+      {connectBottom ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-navy-950 from-20% via-navy-950/90 via-55% to-transparent sm:h-32" />
+      ) : null}
+    </div>
+  );
+
+  if (isSplit && backgroundImage) {
     return (
       <section
         id={id}
@@ -200,6 +256,7 @@ export default function InternalPageHero({
         <div className="container-site relative z-10 grid items-center gap-10 pb-16 sm:pb-20 lg:grid-cols-2 lg:gap-14 lg:pb-24">
           <Reveal immediate>
             {crumbsNode}
+            {eyebrowNode}
             {titleNode}
             <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-white/75 md:text-[17px]">
               {description}
@@ -218,6 +275,7 @@ export default function InternalPageHero({
                 alt=""
                 fill
                 priority
+                quality={90}
                 className={cn(
                   "object-cover object-[center_18%]",
                   imageClassName,
@@ -236,59 +294,44 @@ export default function InternalPageHero({
     <section
       id={id}
       data-dark-surface
-      data-media
+      data-media={hasImage ? true : undefined}
       className={cn(
         "relative scroll-mt-20 overflow-x-clip bg-navy-950 pt-[100px] pb-0 sm:scroll-mt-24 sm:pt-[120px] lg:scroll-mt-28 lg:pt-[140px]",
         className,
       )}
     >
-      <div className="absolute inset-0">
-        <Image
-          src={backgroundImage}
-          alt=""
-          fill
-          priority
-          className={cn(
-            photoOverlay
-              ? "object-cover object-center"
-              : "object-cover object-[center_35%]",
-            imageClassName,
-          )}
-          sizes="100vw"
-        />
-        {photoOverlay ? (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-r from-navy-950/88 via-navy-950/45 to-navy-950/10" />
-            <div
-              className={cn(
-                "absolute inset-0 bg-gradient-to-t to-navy-950/25",
-                connectBottom
-                  ? "from-navy-950 via-navy-950/55 via-40%"
-                  : "from-navy-950/80 via-transparent",
-              )}
-            />
-          </>
-        ) : (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-r from-navy-950/78 via-navy-950/45 to-navy-950/20" />
-            <div
-              className={cn(
-                "absolute inset-0 bg-gradient-to-t to-navy-950/30",
-                connectBottom
-                  ? "from-navy-950 via-navy-950/70 via-45%"
-                  : "from-navy-950/95 via-navy-950/15",
-              )}
-            />
-          </>
-        )}
-        {/* Extra soft seam into the next section (matches navy-950 bands) */}
-        {connectBottom ? (
+      {hasImage && backgroundImage ? (
+        <div className="absolute inset-0">
+          <Image
+            src={backgroundImage}
+            alt=""
+            fill
+            priority
+            quality={90}
+            className={cn(
+              photoOverlay
+                ? "object-cover object-center"
+                : "object-cover object-[center_40%]",
+              imageClassName,
+            )}
+            sizes="100vw"
+          />
+          {/* Soft left read-area only — no full-frame black / navy veil */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-28 bg-gradient-to-t from-navy-950 from-15% via-navy-950/85 via-50% to-transparent sm:h-36 md:h-44"
+            className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent md:from-black/28 md:via-black/[0.06]"
           />
-        ) : null}
-      </div>
+          {/* Gentle bottom blend into next section (not darkening the photo) */}
+          {connectBottom ? (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-20 bg-gradient-to-t from-navy-950/80 via-navy-950/25 to-transparent sm:h-28 md:h-32"
+            />
+          ) : null}
+        </div>
+      ) : (
+        surfaceBackdrop
+      )}
 
       <div
         className={cn(
@@ -296,16 +339,31 @@ export default function InternalPageHero({
           showStats
             ? "pb-12 sm:pb-14 md:pb-16"
             : connectBottom
-              ? "pb-20 sm:pb-24 md:pb-28"
+              ? hasImage
+                ? "pb-20 sm:pb-24 md:pb-28"
+                : "pb-16 sm:pb-20 md:pb-24"
               : "pb-16 sm:pb-20 md:pb-24",
         )}
       >
         <Reveal immediate>
           {crumbsNode}
-          {titleNode}
-          <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-white/75 md:text-[17px]">
-            {description}
-          </p>
+          {eyebrowNode}
+          <div
+            className={cn(
+              !hasImage &&
+                "max-w-3xl border-l-2 border-accent/70 pl-5 sm:pl-6 md:pl-7",
+            )}
+          >
+            {titleNode}
+            <p
+              className={cn(
+                "mt-5 max-w-xl text-[16px] leading-relaxed text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)] md:text-[17px]",
+                !hasImage && "max-w-2xl text-white/70 drop-shadow-none",
+              )}
+            >
+              {description}
+            </p>
+          </div>
         </Reveal>
 
         {children}

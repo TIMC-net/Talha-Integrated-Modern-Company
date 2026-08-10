@@ -52,9 +52,6 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
   const titleAccent = titleWords.slice(0, 2).join(" ");
   const titleRest = titleWords.slice(2).join(" ") || "Details";
   const sponsorOrClient = project.sponsor || project.client;
-  // Detail hero is independent of the listing card cover
-  const heroImage =
-    details.heroImage ?? "/images/hero-construction.jpg";
 
   return (
     <>
@@ -67,7 +64,8 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
         titleAccent={titleAccent}
         title={titleRest}
         description={project.scope ?? details.overview}
-        backgroundImage={heroImage}
+        backgroundImage="/images/projects-page-hero-v3.jpg"
+        imageClassName="object-cover object-[center_40%]"
         connectBottom
       />
 

@@ -123,6 +123,58 @@ export function useLenis() {
 
 const HEADER_OFFSET = 100;
 
+/**
+ * Lock document scroll while a modal / sheet is open.
+ * Handles Lenis + iOS Safari (overflow:hidden alone still lets the page move).
+ * Returns an unlock function — call it in effect cleanup.
+ */
+export function lockPageScroll() {
+  const lenis = typeof window !== "undefined" ? window.timcLenis : undefined;
+  const scrollY =
+    lenis && typeof lenis.scroll === "number" ? lenis.scroll : window.scrollY;
+
+  const html = document.documentElement;
+  const body = document.body;
+
+  const prev = {
+    htmlOverflow: html.style.overflow,
+    bodyOverflow: body.style.overflow,
+    bodyPosition: body.style.position,
+    bodyTop: body.style.top,
+    bodyLeft: body.style.left,
+    bodyRight: body.style.right,
+    bodyWidth: body.style.width,
+    bodyTouchAction: body.style.touchAction,
+  };
+
+  html.style.overflow = "hidden";
+  body.style.overflow = "hidden";
+  body.style.position = "fixed";
+  body.style.top = `-${scrollY}px`;
+  body.style.left = "0";
+  body.style.right = "0";
+  body.style.width = "100%";
+  body.style.touchAction = "none";
+  lenis?.stop();
+
+  return () => {
+    html.style.overflow = prev.htmlOverflow;
+    body.style.overflow = prev.bodyOverflow;
+    body.style.position = prev.bodyPosition;
+    body.style.top = prev.bodyTop;
+    body.style.left = prev.bodyLeft;
+    body.style.right = prev.bodyRight;
+    body.style.width = prev.bodyWidth;
+    body.style.touchAction = prev.bodyTouchAction;
+    lenis?.start();
+    if (lenis) {
+      lenis.scrollTo(scrollY, { immediate: true });
+    } else {
+      window.scrollTo(0, scrollY);
+    }
+  };
+}
+
 /** Smooth-scroll to an element id using Lenis when available. */
 export function scrollToId(id: string, immediate = false) {
   const el = document.getElementById(id);

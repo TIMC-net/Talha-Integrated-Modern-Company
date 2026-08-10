@@ -43,7 +43,9 @@ export default function ServiceDetail({ service }: { service: Service }) {
         titleAccent={firstWord}
         title={restTitle === firstWord ? "Division" : restTitle}
         description={`${service.tagline}. ${service.description}`}
-        backgroundImage={cover}
+        backgroundImage="/images/services-page-hero-v3.jpg"
+        imageClassName="object-cover object-[center_40%]"
+        connectBottom
       />
 
       <section data-dark-surface className="bg-navy-950 py-14 md:py-20">

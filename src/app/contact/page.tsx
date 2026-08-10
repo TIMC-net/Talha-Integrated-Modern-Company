@@ -108,7 +108,8 @@ export default function ContactPage() {
         titleAccent="In"
         title="Touch"
         description="Share your project scope with the TIMC team in Jeddah — we prepare technical and commercial responses for civil, foundation, energy, and equipment rental requirements."
-        backgroundImage="/images/header-scaffolding.jpg"
+        backgroundImage="/images/contact-hero-hd.jpg"
+        imageClassName="object-cover object-[center_40%]"
         connectBottom
       />
 

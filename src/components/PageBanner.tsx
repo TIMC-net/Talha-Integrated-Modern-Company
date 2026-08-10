@@ -1,56 +1,31 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight, Home } from "lucide-react";
-import { useState } from "react";
 
 type PageBannerProps = {
   title: string;
   crumbs: { label: string; href?: string }[];
-  backgroundImage?: string;
 };
 
-const DEFAULT_BG = "/images/header-scrap.jpg";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function PageBanner({
-  title,
-  crumbs,
-  backgroundImage = DEFAULT_BG,
-}: PageBannerProps) {
-  const [loaded, setLoaded] = useState(false);
+export default function PageBanner({ title, crumbs }: PageBannerProps) {
   const reduce = useReducedMotion();
 
   return (
     <section
       data-dark-surface
-      data-media
-      className="group/banner relative flex min-h-[260px] items-end overflow-x-clip bg-ink-2 pt-[100px] pb-12 sm:min-h-[320px] sm:pt-[120px] sm:pb-16 md:min-h-[380px] md:pt-[140px] md:pb-20 lg:min-h-[400px] lg:pt-[150px]"
+      className="group/banner relative flex min-h-[260px] items-end overflow-x-clip bg-navy-950 pt-[100px] pb-12 sm:min-h-[320px] sm:pt-[120px] sm:pb-16 md:min-h-[380px] md:pt-[140px] md:pb-20 lg:min-h-[400px] lg:pt-[150px]"
     >
-      {/* Clip zoom inside the media plane so hover cannot bleed past the banner */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute inset-0"
-          initial={reduce ? false : { scale: 1.08, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.1, ease: EASE }}
-        >
-          <Image
-            src={backgroundImage}
-            alt=""
-            fill
-            priority
-            className={`object-cover object-center transition duration-700 ease-out will-change-transform [@media(hover:hover)_and_(pointer:fine)]:group-hover/banner:scale-[1.03] ${
-              loaded ? "opacity-100" : "opacity-0"
-            }`}
-            sizes="100vw"
-            onLoad={() => setLoaded(true)}
-          />
-        </motion.div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-2/90 via-ink-2/55 to-ink-2/25 transition-opacity duration-700 [@media(hover:hover)_and_(pointer:fine)]:group-hover/banner:opacity-90" />
-      </div>
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse 70% 55% at 18% 35%, rgba(255,107,53,0.10), transparent 58%), radial-gradient(ellipse 50% 40% at 85% 20%, rgba(12,45,92,0.45), transparent 55%)",
+        }}
+      />
 
       <div className="container-site relative z-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

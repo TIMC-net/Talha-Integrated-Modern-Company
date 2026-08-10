@@ -34,7 +34,6 @@ export async function POST(request: Request) {
     return Response.json({ ok: true });
   }
 
-  const to = process.env.CONTACT_TO_EMAIL ?? company.email;
   const subject = `TIMC Project Enquiry — ${data.service}`;
   const text = [
     `Name: ${data.name}`,
@@ -46,9 +45,54 @@ export async function POST(request: Request) {
   ].join("\n");
 
   try {
-    const resendKey = process.env.RESEND_API_KEY;
+    const web3Key = process.env.WEB3FORMS_ACCESS_KEY?.trim();
+    const resendKey = process.env.RESEND_API_KEY?.trim();
+
+    if (web3Key) {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: web3Key,
+          subject,
+          from_name: "TIMC Website",
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          service: data.service,
+          message: data.message,
+          // Ensures reply-to is the visitor when Web3Forms supports it
+          replyto: data.email,
+          botcheck: false,
+        }),
+      });
+
+      const raw = await res.text();
+      let payload: { success?: boolean; message?: string } | null = null;
+      try {
+        payload = JSON.parse(raw) as { success?: boolean; message?: string };
+      } catch {
+        payload = null;
+      }
+
+      if (!res.ok || payload?.success === false) {
+        console.error("Contact form Web3Forms error:", payload ?? raw);
+        return Response.json(
+          {
+            error: `Could not send your message. Please email ${company.email} directly.`,
+          },
+          { status: 502 },
+        );
+      }
+
+      return Response.json({ ok: true });
+    }
 
     if (resendKey) {
+      const to = process.env.CONTACT_TO_EMAIL ?? company.email;
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -73,41 +117,17 @@ export async function POST(request: Request) {
           { status: 502 },
         );
       }
-    } else {
-      // Default: deliver via FormSubmit (no mail client, no extra package)
-      const res = await fetch(
-        `https://formsubmit.co/ajax/${encodeURIComponent(to)}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            service: data.service,
-            message: data.message,
-            _subject: subject,
-            _template: "table",
-            _captcha: "false",
-          }),
-        },
-      );
 
-      if (!res.ok) {
-        console.error("Contact form FormSubmit error:", await res.text());
-        return Response.json(
-          {
-            error: `Could not send your message. Please email ${company.email} directly.`,
-          },
-          { status: 502 },
-        );
-      }
+      return Response.json({ ok: true });
     }
 
-    return Response.json({ ok: true });
+    return Response.json(
+      {
+        error:
+          "Contact form is not configured. Add WEB3FORMS_ACCESS_KEY to the environment.",
+      },
+      { status: 503 },
+    );
   } catch (error) {
     console.error("Contact form error:", error);
     return Response.json(

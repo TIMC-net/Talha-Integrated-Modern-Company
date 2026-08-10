@@ -1,11 +1,6 @@
 /** Shared stock fallbacks when a listed project has no `coverImage`. */
 export const listedProjectFallbackImages = [
   "/images/civil-construction.jpg",
-  "/images/header-contracting.jpg",
-  "/images/header-scaffolding.jpg",
-  "/images/hero-equipment.jpg",
-  "/images/hero-civil.jpg",
-  "/images/header-scrap.jpg",
   "/images/scaffolding.jpg",
   "/images/manpower-supply.jpg",
 ] as const;

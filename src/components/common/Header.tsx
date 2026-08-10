@@ -18,6 +18,7 @@ import { useTheme } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { company } from "@/lib/company";
 import { cn } from "@/lib/cn";
+import { lockPageScroll } from "@/hooks/useLenis";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const MORPH = "duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]";
@@ -469,18 +470,8 @@ export default function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    const lenis = window.timcLenis;
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-      lenis?.stop();
-    } else {
-      document.body.style.overflow = "";
-      lenis?.start();
-    }
-    return () => {
-      document.body.style.overflow = "";
-      window.timcLenis?.start();
-    };
+    if (!mobileOpen) return;
+    return lockPageScroll();
   }, [mobileOpen]);
 
   useEffect(() => {

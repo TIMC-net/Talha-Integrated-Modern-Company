@@ -47,7 +47,9 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
         titleAccent={accent}
         title={rest}
         description={`${project.description}${service ? ` Delivered under ${service.name}.` : ""} Location: ${project.location}.`}
-        backgroundImage={project.imageUrl}
+        backgroundImage="/images/projects-page-hero-v3.jpg"
+        imageClassName="object-cover object-[center_40%]"
+        connectBottom
       />
 
       <section data-dark-surface className="bg-navy-950 py-14 md:py-20">

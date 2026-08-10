@@ -17,7 +17,9 @@ export default function PortfolioPageContent() {
         titleAccent="Selected"
         title="Portfolio"
         description="A selection of TIMC contractor work across civil infrastructure, foundations, energy, and industrial sites throughout Saudi Arabia."
-        backgroundImage="/images/hero-civil.jpg"
+        backgroundImage="/images/projects-page-hero-v3.jpg"
+        imageClassName="object-cover object-[center_40%]"
+        connectBottom
       />
 
       <section

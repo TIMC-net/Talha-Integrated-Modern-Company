@@ -20,12 +20,13 @@ export default function AboutPage() {
     <>
       <InternalPageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "About Us" }]}
+        eyebrow="Est. 2010 · Headquartered in Jeddah"
         titleLead="About"
         titleAccent="TIMC"
         title="Company"
-        description="Established in 2010 and headquartered in Jeddah, TIMC delivers civil infrastructure, foundation engineering, energy infrastructure, and integrated equipment rental across Saudi Arabia and the GCC."
-        backgroundImage="/images/hero-equipment.jpg"
-        imageClassName="object-cover object-center"
+        description="A Saudi engineering and contracting company delivering civil infrastructure, foundation engineering, energy infrastructure, and integrated equipment rental across the Kingdom and the GCC."
+        backgroundImage="/images/about-hero-hd.jpg"
+        imageClassName="object-cover object-[center_42%]"
         connectBottom
       />
       <AboutIntro />

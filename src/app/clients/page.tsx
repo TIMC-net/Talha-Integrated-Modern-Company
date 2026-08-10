@@ -17,7 +17,8 @@ export default function ClientsPage() {
         titleAccent="Trusted"
         title="Clients"
         description="Official partners across contracting, engineering, and energy programmes in the Kingdom — organisations that rely on TIMC for disciplined site delivery."
-        backgroundImage="/images/who-section-bg.jpg"
+        backgroundImage="/images/clients-hero-hd.jpg"
+        imageClassName="object-cover object-[center_40%]"
         connectBottom
       />
 
