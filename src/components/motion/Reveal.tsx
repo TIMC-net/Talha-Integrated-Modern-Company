@@ -41,7 +41,9 @@ export function Reveal({
       className={className}
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15, margin: "0px 0px -40px 0px" }}
+      // Expand root upward so above-the-fold / just-below-hero content
+      // reveals on first paint (mobile IO was failing with the old -40px margin).
+      viewport={{ once: true, amount: 0.05, margin: "120px 0px 80px 0px" }}
       transition={{ duration: 0.65, delay, ease: EASE }}
     >
       {children}
@@ -80,7 +82,11 @@ export function RevealGroup({
         ? { animate: "show" as const }
         : {
             whileInView: "show" as const,
-            viewport: { once: true, amount: 0.12, margin: "0px 0px -40px 0px" },
+            viewport: {
+              once: true,
+              amount: 0.05,
+              margin: "120px 0px 80px 0px",
+            },
           })}
       variants={containerVariants}
     >

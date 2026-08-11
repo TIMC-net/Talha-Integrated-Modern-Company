@@ -25,7 +25,7 @@ export default function AboutSection() {
     <section data-dark-surface className="overflow-x-clip bg-navy-950 py-12 md:py-16">
       <div className="container-site">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal className="relative w-full min-w-0">
+          <Reveal immediate className="relative w-full min-w-0">
             <div
               data-media
               className="img-zoom group relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/4] md:aspect-[5/6]"
@@ -34,9 +34,9 @@ export default function AboutSection() {
                 src="/images/home-about-crew.webp"
                 alt="TIMC site crew in safety gear with drilling equipment on a project site in Saudi Arabia"
                 fill
+                priority
                 className="object-cover object-[center_30%] transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy-950/25 via-transparent to-transparent" />
             </div>
