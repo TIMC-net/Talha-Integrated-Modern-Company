@@ -16,42 +16,41 @@ import { services } from "@/data/services";
 import { scrollToId } from "@/hooks/useLenis";
 
 export default function ServicesPageContent() {
-  const [fleetOpen, setFleetOpen] = useState(true);
+  // Fleet categories stay collapsed until the user chooses to view them
+  const [fleetOpen, setFleetOpen] = useState(false);
 
   useEffect(() => {
+    // Deep links still work: /services#equipment-fleet
     if (window.location.hash === "#equipment-fleet") {
       setFleetOpen(true);
-      requestAnimationFrame(() => scrollToId("equipment-fleet", true));
+      // LenisWrapper also resolves hash — one gentle settle after mount
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() =>
+          scrollToId("equipment-fleet", true),
+        );
+      });
     }
   }, []);
 
-  const toggleFleet = () => {
-    if (fleetOpen) {
-      // Collapse in place — do not jump to the top of Equipment Rental
-      setFleetOpen(false);
-      if (
-        window.location.hash === "#equipment-fleet" ||
-        window.location.hash === "#equipment-rental"
-      ) {
-        window.history.replaceState(
-          null,
-          "",
-          `${window.location.pathname}${window.location.search}`,
-        );
-      }
-      return;
-    }
+  /** Mount fleet section only (spy handles its own scroll). */
+  const ensureFleetOpen = () => {
+    setFleetOpen(true);
+  };
 
+  /** "View Fleet Categories" button — open + scroll once. */
+  const openFleetCategories = () => {
     setFleetOpen(true);
     window.history.replaceState(null, "", "#equipment-fleet");
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => scrollToId("equipment-fleet"));
+      requestAnimationFrame(() =>
+        scrollToId("equipment-fleet", false, { duration: 1.55 }),
+      );
     });
   };
 
   return (
     <>
-      <ServicesScrollSpy />
+      <ServicesScrollSpy onEnsureFleet={ensureFleetOpen} />
 
       <InternalPageHero
         id="overview"
@@ -71,11 +70,8 @@ export default function ServicesPageContent() {
           key={service.id}
           service={service}
           index={index}
-          fleetOpen={
-            service.category === "integrated" ? fleetOpen : undefined
-          }
           onViewFleet={
-            service.category === "integrated" ? toggleFleet : undefined
+            service.category === "integrated" ? openFleetCategories : undefined
           }
         />
       ))}

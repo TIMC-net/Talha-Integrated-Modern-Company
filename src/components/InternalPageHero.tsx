@@ -204,6 +204,15 @@ export default function InternalPageHero({
     </p>
   ) : null;
 
+  const copyBlock = (
+    <>
+      {crumbsNode}
+      {eyebrowNode}
+      {titleNode}
+      <p className={cn(descriptionClass, "pb-0.5")}>{description}</p>
+    </>
+  );
+
   const actionsNode =
     actions && actions.length > 0 ? (
       <RevealGroup
@@ -316,32 +325,60 @@ export default function InternalPageHero({
     </div>
   );
 
+  const heroImageClass = cn(
+    photoOverlay
+      ? "object-cover object-center"
+      : "object-cover object-[center_40%]",
+    imageClassName,
+  );
+
   if (isSplit && backgroundImage) {
     return (
       <section
         id={id}
         data-dark-surface
+        data-media
         className={cn(
-          "relative scroll-mt-20 overflow-x-clip bg-navy-950 pt-[100px] sm:scroll-mt-24 sm:pt-[120px] lg:scroll-mt-28 lg:pt-[140px]",
+          "relative scroll-mt-20 overflow-x-clip bg-navy-950 sm:scroll-mt-24 lg:scroll-mt-28",
           className,
         )}
       >
-        <div className="container-site relative z-10 grid items-center gap-10 pb-16 sm:pb-20 lg:grid-cols-2 lg:gap-14 lg:pb-24">
-          <Reveal immediate className="overflow-visible">
-            {crumbsNode}
-            {eyebrowNode}
-            {titleNode}
-            <p className={cn(descriptionClass, "pb-0.5 text-white/75")}>
-              {description}
-            </p>
+        {/* Mobile only: full-bleed landscape photo first (matches home hero) */}
+        <div className="relative w-full sm:hidden">
+          <div
+            data-media
+            className="relative aspect-video w-full overflow-hidden bg-navy-900"
+          >
+            <Image
+              src={backgroundImage}
+              alt=""
+              fill
+              priority
+              quality={90}
+              className={cn(
+                "object-cover object-[center_18%]",
+                imageClassName,
+              )}
+              sizes="100vw"
+            />
+          </div>
+        </div>
+
+        <div className="container-site relative z-10 grid items-center gap-10 pb-16 sm:gap-10 sm:pb-20 sm:pt-[120px] lg:grid-cols-2 lg:gap-14 lg:pb-24 lg:pt-[140px]">
+          <Reveal immediate className="mt-0 overflow-visible pt-6 sm:mt-0 sm:pt-0">
+            {copyBlock}
             {children}
             {actionsNode}
           </Reveal>
 
-          <Reveal immediate delay={0.08} className="relative w-full min-w-0">
+          <Reveal
+            immediate
+            delay={0.08}
+            className="relative hidden w-full min-w-0 sm:block"
+          >
             <div
               data-media
-              className="relative aspect-[3/4] w-full overflow-hidden border border-white/10 bg-navy-900 sm:aspect-[4/5] lg:min-h-[520px] lg:aspect-auto"
+              className="relative aspect-[4/5] w-full overflow-hidden border border-white/10 bg-navy-900 lg:min-h-[520px] lg:aspect-auto"
             >
               <Image
                 src={backgroundImage}
@@ -369,38 +406,47 @@ export default function InternalPageHero({
       data-dark-surface
       data-media={hasImage ? true : undefined}
       className={cn(
-        "relative scroll-mt-20 overflow-x-clip bg-navy-950 pt-[100px] pb-0 sm:scroll-mt-24 sm:pt-[120px] lg:scroll-mt-28 lg:pt-[140px]",
+        "relative scroll-mt-20 overflow-x-clip bg-navy-950 pb-0 sm:scroll-mt-24 lg:scroll-mt-28",
+        // No image: keep nav clearance in flow. With image: home-style stack on
+        // mobile (media first), overlay + top pad from sm up.
+        !hasImage && "pt-[100px] sm:pt-[120px] lg:pt-[140px]",
+        hasImage && "sm:flex sm:min-h-[min(72svh,720px)] sm:items-end",
         className,
       )}
     >
       {hasImage && backgroundImage ? (
-        <div className="absolute inset-0">
-          <Image
-            src={backgroundImage}
-            alt=""
-            fill
-            priority
-            quality={90}
-            className={cn(
-              photoOverlay
-                ? "object-cover object-center"
-                : "object-cover object-[center_40%]",
-              imageClassName,
-            )}
-            sizes="100vw"
-          />
-          {/* Minimal left edge only — keep photo bright/undulled */}
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent md:from-black/12"
-          />
-          {/* Short bottom blend into the next section */}
-          {connectBottom ? (
+        /*
+          Mobile: in-flow 16:9 photo (full frame, no copy on top).
+          sm+: absolute full-bleed cover behind the copy.
+        */
+        <div className="relative w-full sm:absolute sm:inset-0">
+          <div className="relative aspect-video w-full overflow-hidden sm:absolute sm:inset-0 sm:aspect-auto sm:h-full">
+            <Image
+              src={backgroundImage}
+              alt=""
+              fill
+              priority
+              quality={90}
+              className={heroImageClass}
+              sizes="100vw"
+            />
+            {/* Mobile: no wash so the photo reads clear end-to-end.
+                sm+: light edge washes for text contrast over the image. */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-20 bg-gradient-to-t from-navy-950/80 via-navy-950/25 to-transparent sm:h-28 md:h-32"
+              className="absolute inset-0 hidden bg-gradient-to-b from-navy-950/10 via-transparent to-navy-950/70 sm:block"
             />
-          ) : null}
+            <div
+              aria-hidden
+              className="absolute inset-0 hidden bg-gradient-to-r from-black/20 via-transparent to-transparent sm:block md:from-black/12"
+            />
+            {connectBottom ? (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] hidden h-20 bg-gradient-to-t from-navy-950/80 via-navy-950/25 to-transparent sm:block sm:h-28 md:h-32"
+              />
+            ) : null}
+          </div>
         </div>
       ) : (
         surfaceBackdrop
@@ -408,32 +454,36 @@ export default function InternalPageHero({
 
       <div
         className={cn(
-          "container-site relative z-10",
-          showStats
-            ? "pb-12 sm:pb-14 md:pb-16"
-            : connectBottom
-              ? hasImage
-                ? "pb-20 sm:pb-24 md:pb-28"
-                : "pb-16 sm:pb-20 md:pb-24"
-              : "pb-16 sm:pb-20 md:pb-24",
+          "container-site relative w-full",
+          hasImage
+            ? cn(
+                // Mobile: stack under the photo (no overlap). sm+: float over bleed.
+                "z-auto mt-0 pt-6",
+                showStats
+                  ? "pb-0 sm:pb-14 md:pb-16"
+                  : "pb-0 sm:pb-16 md:pb-20",
+                "sm:z-10 sm:mt-0 sm:pt-[120px] lg:pt-[140px]",
+              )
+            : showStats
+              ? "pb-12 sm:pb-14 md:pb-16"
+              : connectBottom
+                ? "pb-10 sm:pb-16 md:pb-20"
+                : "pb-10 sm:pb-16 md:pb-20",
         )}
       >
         <Reveal immediate className="overflow-visible">
           {/*
             Photo heroes: solid plate under all copy + separate soft fade wing.
-            Text never sits under a transparent gradient edge (that hid last words).
+            Mobile plate sits fully below the image; sm+ plate overlays the photo.
           */}
           {hasImage ? (
             <div className="relative flex max-w-3xl items-stretch sm:max-w-4xl">
-              <div className="relative z-10 min-w-0 max-w-full border-l-[3px] border-accent bg-[rgba(28,28,28,0.82)] py-6 pl-5 pr-7 sm:py-8 sm:pl-7 sm:pr-10 md:pr-12">
-                {crumbsNode}
-                {eyebrowNode}
-                {titleNode}
-                <p className={cn(descriptionClass, "pb-0.5")}>{description}</p>
+              <div className="relative z-10 min-w-0 max-w-full border-l-[3px] border-accent bg-navy-950 py-5 pl-5 pr-7 sm:bg-[rgba(28,28,28,0.82)] sm:py-8 sm:pl-7 sm:pr-10 md:pr-12">
+                {copyBlock}
               </div>
               <div
                 aria-hidden
-                className="pointer-events-none w-10 shrink-0 bg-[linear-gradient(to_right,rgba(28,28,28,0.82)_0%,rgba(28,28,28,0.38)_55%,transparent_100%)] sm:w-16 md:w-24"
+                className="pointer-events-none hidden w-10 shrink-0 bg-[linear-gradient(to_right,rgba(28,28,28,0.82)_0%,rgba(28,28,28,0.38)_55%,transparent_100%)] sm:block sm:w-16 md:w-24"
               />
             </div>
           ) : (

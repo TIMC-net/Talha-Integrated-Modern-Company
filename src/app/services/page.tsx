@@ -5,7 +5,7 @@ import { company } from "@/lib/company";
 export const metadata: Metadata = {
   title: `Our Services | ${company.shortName}`,
   description:
-    "TIMC contractor services: Civil Infrastructure, Foundation Engineering, Energy Infrastructure, and integrated Equipment Rental.",
+    "TIMC contractor services: Equipment Rental, Civil Infrastructure, Foundation Engineering, and Energy Infrastructure.",
 };
 
 export default function ServicesIndexPage() {

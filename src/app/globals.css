@@ -1715,8 +1715,7 @@ html[data-theme="light"] .phone-fab__pulse {
 */
 html[data-scroll-locked] .site-floating-actions,
 html[data-scroll-locked] .site-section-spy,
-html[data-project-panel-open] .site-floating-actions,
-html[data-fleet-card-hover] .site-floating-actions {
+html[data-project-panel-open] .site-floating-actions {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;

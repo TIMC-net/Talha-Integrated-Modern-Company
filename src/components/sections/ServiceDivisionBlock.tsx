@@ -140,12 +140,10 @@ function EngineeringPanel({
 export default function ServiceDivisionBlock({
   service,
   index,
-  fleetOpen = false,
   onViewFleet,
 }: {
   service: Service;
   index: number;
-  fleetOpen?: boolean;
   onViewFleet?: () => void;
 }) {
   const reverse = index % 2 === 1;
@@ -247,9 +245,9 @@ export default function ServiceDivisionBlock({
                   variant="outline"
                   className="w-full border-white/20 text-white hover:border-accent hover:bg-accent hover:text-brand-ink sm:w-auto"
                   onClick={onViewFleet}
-                  aria-expanded={fleetOpen}
                 >
-                  {fleetOpen ? "Hide Fleet Categories" : "View Fleet Categories"}
+                  View Fleet Categories
+                  <ArrowRight className="h-4 w-4 shrink-0" />
                 </Button>
               )}
             </Reveal>

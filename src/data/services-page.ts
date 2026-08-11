@@ -1,4 +1,4 @@
-import { completedProjects, company, ongoingProjects } from "@/lib/company";
+import { company, ongoingProjects } from "@/lib/company";
 import { services } from "@/data/services";
 
 export type StandardBadge = {
@@ -77,7 +77,7 @@ export const siteHeroStats: HeroStat[] = [
     href: "/services",
   },
   {
-    value: String(completedProjects.length),
+    value: "60+",
     label: "Projects Completed",
     href: "/projects/completed",
   },

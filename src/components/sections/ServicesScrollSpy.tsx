@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  DualToneShell,
-} from "@/components/motion/DualToneShell";
+import { DualToneShell } from "@/components/motion/DualToneShell";
 import { scrollToId } from "@/hooks/useLenis";
-import { useSuppressChrome } from "@/hooks/useSuppressChrome";
+import { SCROLL_LOCK_ONLY, useSuppressChrome } from "@/hooks/useSuppressChrome";
 import { services } from "@/data/services";
 import { cn } from "@/lib/cn";
+
+const FLEET_SECTION_ID = "equipment-fleet";
 
 const navItems = [
   { id: "overview", label: "Services" },
@@ -15,22 +15,36 @@ const navItems = [
     id: service.slug,
     label: service.name,
   })),
+  { id: FLEET_SECTION_ID, label: "Fleet Categories" },
   { id: "process", label: "Process" },
 ];
 
 const ROW_H = 44; // h-11
 const ROW_GAP = 12; // gap-3
+/** Hold spy on click target while Lenis eases — matches scroll duration */
+const PROGRAMMATIC_PIN_MS = 1600;
+const SPY_SCROLL_DURATION = 1.55;
 
 function getActiveSectionId() {
-  // Activate a section once its top crosses the upper third of the viewport
-  // so the spy matches what the user is actually reading.
-  const marker = Math.round(Math.min(220, window.innerHeight * 0.32));
+  // Section that currently owns the reading line (below sticky header).
+  // Stays on the active block until the next one's content actually takes
+  // that line — stops the spy racing ahead of what the user is viewing.
+  const probeY = Math.round(
+    Math.min(Math.max(window.innerHeight * 0.42, 160), 320),
+  );
   let current = navItems[0].id;
 
   for (const item of navItems) {
     const el = document.getElementById(item.id);
     if (!el) continue;
-    if (el.getBoundingClientRect().top - marker <= 0) {
+
+    const rect = el.getBoundingClientRect();
+    // Prefer the section that literally contains the probe line
+    if (rect.top <= probeY && rect.bottom > probeY + 48) {
+      return item.id;
+    }
+    // Gaps between sections: last section that has entered the reading zone
+    if (rect.top <= probeY) {
       current = item.id;
     }
   }
@@ -76,17 +90,27 @@ function DotGlyph({
   );
 }
 
-export default function ServicesScrollSpy() {
+export default function ServicesScrollSpy({
+  onEnsureFleet,
+}: {
+  /** Mount Fleet Categories when still collapsed (spy / deep link scroll) */
+  onEnsureFleet?: () => void;
+}) {
   const [activeId, setActiveId] = useState(navItems[0].id);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const suppress = useSuppressChrome();
+  const pinUntilRef = useRef(0);
+  const suppress = useSuppressChrome(SCROLL_LOCK_ONLY);
 
   useEffect(() => {
     let ticking = false;
 
     const update = () => {
+      if (performance.now() < pinUntilRef.current) {
+        ticking = false;
+        return;
+      }
       const next = getActiveSectionId();
       setActiveId((prev) => (prev === next ? prev : next));
       ticking = false;
@@ -103,11 +127,6 @@ export default function ServicesScrollSpy() {
     window.addEventListener("timc:scroll", onScroll);
     window.addEventListener("resize", onScroll, { passive: true });
 
-    const hash = window.location.hash.replace(/^#/, "");
-    if (hash && document.getElementById(hash)) {
-      requestAnimationFrame(() => scrollToId(hash, true));
-    }
-
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("timc:scroll", onScroll);
@@ -118,7 +137,22 @@ export default function ServicesScrollSpy() {
   const scrollTo = (id: string) => {
     setHoveredId(null);
     setActiveId(id);
-    scrollToId(id);
+    pinUntilRef.current = performance.now() + PROGRAMMATIC_PIN_MS;
+
+    const go = () =>
+      scrollToId(id, false, { duration: SPY_SCROLL_DURATION });
+
+    if (id === FLEET_SECTION_ID) {
+      onEnsureFleet?.();
+      window.history.replaceState(null, "", `#${FLEET_SECTION_ID}`);
+      // Fleet may mount after ensure — wait for #equipment-fleet, then one scroll
+      requestAnimationFrame(() => {
+        requestAnimationFrame(go);
+      });
+      return;
+    }
+
+    go();
     window.history.replaceState(null, "", `#${id}`);
   };
 
@@ -170,7 +204,7 @@ export default function ServicesScrollSpy() {
       <div className="pointer-events-auto relative">
         {labelItem ? (
           <div
-            className="pointer-events-none absolute right-full z-20 mr-3 -translate-y-1/2 transition-[top,opacity] duration-150"
+            className="pointer-events-none absolute right-full z-20 mr-3 -translate-y-1/2 transition-[top,opacity] duration-300 ease-out"
             style={{ top: labelTop }}
           >
             <div className="relative rounded bg-[#0a0a0a] px-3 py-1.5 shadow-lg">

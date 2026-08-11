@@ -354,8 +354,11 @@ function ProjectHoverCard({
 }
 
 export default function ProjectGrid({ projects, status }: ProjectGridProps) {
-  const centerLastOnDesktop =
-    projects.length % 3 === 1 && projects.length > 3;
+  const remLg = projects.length % 3;
+  /** Last incomplete row on 3-col desktop — center 1 or 2 leftover cards */
+  const centerLastRowDesktop = remLg !== 0 && projects.length > 3;
+  const lastRowStart =
+    centerLastRowDesktop ? projects.length - remLg : projects.length;
   const [hoveredNo, setHoveredNo] = useState<number | null>(null);
   const [openNo, setOpenNo] = useState<number | null>(null);
 
@@ -369,35 +372,60 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
     };
   }, [chromeBlocked]);
 
+  const renderCard = (project: (typeof projects)[number], i: number) => {
+    const image = listedProjectImage(project, i);
+    return (
+      <ProjectHoverCard
+        project={project}
+        image={image}
+        status={status}
+        // First desktop row (3) loads with priority; rest stay lazy
+        priority={i < 3}
+        isDimmed={hoveredNo !== null && hoveredNo !== project.no}
+        onHoverChange={(active) => setHoveredNo(active ? project.no : null)}
+        onOpenChange={(open) => setOpenNo(open ? project.no : null)}
+      />
+    );
+  };
+
   return (
     <RevealGroup
       immediate
       className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
     >
       {projects.map((project, i) => {
-        const image = listedProjectImage(project, i);
-        const isLastOrphan =
-          centerLastOnDesktop && i === projects.length - 1;
+        if (centerLastRowDesktop && i >= lastRowStart) {
+          // Render only the leading cell of the final incomplete row
+          if (i !== lastRowStart) return null;
+
+          const lastProjects = projects.slice(lastRowStart);
+          // Card width matches full 3-col track so two centered cards line up
+          // under the outer edges of columns 1–2 / 2–3 pair centered in the row.
+          const cardWidth =
+            "w-full sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]";
+
+          return (
+            <RevealItem
+              key={`${status}-last-row`}
+              className="sm:col-span-2 lg:col-span-3"
+            >
+              <div className="flex flex-col items-stretch gap-5 sm:flex-row sm:flex-wrap sm:items-stretch sm:justify-center sm:gap-6">
+                {lastProjects.map((p, j) => {
+                  const idx = lastRowStart + j;
+                  return (
+                    <div key={`${status}-${p.no}`} className={cardWidth}>
+                      {renderCard(p, idx)}
+                    </div>
+                  );
+                })}
+              </div>
+            </RevealItem>
+          );
+        }
 
         return (
-          <RevealItem
-            key={`${status}-${project.no}`}
-            className={isLastOrphan ? "lg:col-start-2" : undefined}
-          >
-            <ProjectHoverCard
-              project={project}
-              image={image}
-              status={status}
-              // First desktop row (3) loads with priority; rest stay lazy
-              priority={i < 3}
-              isDimmed={hoveredNo !== null && hoveredNo !== project.no}
-              onHoverChange={(active) =>
-                setHoveredNo(active ? project.no : null)
-              }
-              onOpenChange={(open) =>
-                setOpenNo(open ? project.no : null)
-              }
-            />
+          <RevealItem key={`${status}-${project.no}`}>
+            {renderCard(project, i)}
           </RevealItem>
         );
       })}

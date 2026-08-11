@@ -476,6 +476,8 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
+  /** Bumps on every route change so menu unlock can skip restoring scroll */
+  const routeGenRef = useRef(0);
   const isLightTheme = themeMounted && theme === "light";
   const ThemeIcon = isLightTheme ? Moon : Sun;
 
@@ -491,12 +493,19 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    routeGenRef.current += 1;
     setMobileOpen(false);
   }, [pathname]);
 
   useEffect(() => {
     if (!mobileOpen) return;
-    return lockPageScroll();
+    const openGen = routeGenRef.current;
+    const unlock = lockPageScroll();
+    return () => {
+      // Navbar tap while menu open: do NOT restore the old page's scroll onto the new one
+      const navigated = openGen !== routeGenRef.current;
+      unlock({ restore: !navigated });
+    };
   }, [mobileOpen]);
 
   useEffect(() => {

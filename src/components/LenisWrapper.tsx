@@ -3,26 +3,34 @@
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { scrollToId, useLenis } from "@/hooks/useLenis";
+import {
+  disableNativeScrollRestoration,
+  scrollPageToTop,
+  scrollToId,
+  useLenis,
+} from "@/hooks/useLenis";
 import { ScrollTrigger } from "@/lib/gsap-config";
 
 export default function LenisWrapper({ children }: { children: ReactNode }) {
   useLenis();
   const pathname = usePathname();
 
+  // Browser "restore last scroll" fights soft-nav to a new page on mobile
+  useEffect(() => {
+    disableNativeScrollRestoration();
+  }, []);
+
   // On route change: either jump to hash target or reset to top
   useEffect(() => {
     const hash = window.location.hash.replace(/^#/, "");
-    const lenis = window.timcLenis;
 
     const settleLayout = () => {
-      lenis?.resize();
+      window.timcLenis?.resize();
       ScrollTrigger.refresh();
     };
 
     if (hash) {
       // Allow the new page (and images) to measure, then scroll to the section.
-      // Immediate once, then a short re-try after layout settles.
       const go = (immediate: boolean) => scrollToId(hash, immediate);
 
       requestAnimationFrame(() => {
@@ -38,12 +46,20 @@ export default function LenisWrapper({ children }: { children: ReactNode }) {
       return () => window.clearTimeout(retry);
     }
 
-    if (lenis) {
-      lenis.scrollTo(0, { immediate: true });
-      requestAnimationFrame(settleLayout);
-    } else {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    }
+    // Force page start. Mobile menu unlock + layout refresh can re-apply the
+    // previous page's offset after the first scrollTo(0) — reassert top over a
+    // short window while the new route paints.
+    scrollPageToTop();
+    const timers = [0, 16, 64, 180, 360].map((ms) =>
+      window.setTimeout(() => {
+        scrollPageToTop();
+        if (ms === 180 || ms === 360) settleLayout();
+      }, ms),
+    );
+
+    return () => {
+      timers.forEach((id) => window.clearTimeout(id));
+    };
   }, [pathname]);
 
   return <>{children}</>;

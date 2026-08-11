@@ -83,11 +83,6 @@ function EquipmentDetailsPanel({
   }, []);
 
   useEffect(() => {
-    // Drop any stuck hover flag while the dialog is open
-    document.documentElement.removeAttribute("data-fleet-card-hover");
-  }, []);
-
-  useEffect(() => {
     const unlock = lockPageScroll();
     const previouslyFocused =
       document.activeElement instanceof HTMLElement
@@ -649,14 +644,6 @@ function CategoryFleetCarousel({
   /** True autoplay engine allowed to run (starts/resumes between pauses) */
   const engineAllowed = inView && !detailsOpen;
 
-  const syncChromeFlag = (hasOpen: boolean) => {
-    if (hasOpen) {
-      document.documentElement.setAttribute("data-fleet-card-hover", "");
-    } else {
-      document.documentElement.removeAttribute("data-fleet-card-hover");
-    }
-  };
-
   /** Soft pause — keeps Swiper delay progress so resume continues mid-slide */
   const pauseAutoplaySoft = useCallback(() => {
     const s = swiperRef.current;
@@ -707,7 +694,6 @@ function CategoryFleetCarousel({
         if (open) next.add(itemId);
         else next.delete(itemId);
         const hasOpen = next.size > 0;
-        syncChromeFlag(hasOpen);
         // Soft-pause mid-timer; do NOT reset progressKey / barReady
         if (hasOpen) {
           pauseAutoplaySoft();
@@ -925,12 +911,6 @@ export default function EquipmentFleetSection() {
   const [selected, setSelected] = useState<SelectedUnit | null>(null);
   const detailsOpen = selected !== null;
   const closeDetails = useCallback(() => setSelected(null), []);
-
-  useEffect(() => {
-    return () => {
-      document.documentElement.removeAttribute("data-fleet-card-hover");
-    };
-  }, []);
 
   return (
     <section

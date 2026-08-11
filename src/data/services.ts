@@ -33,9 +33,85 @@ export function serviceGalleryFrames(service: Pick<Service, "image" | "images">)
   return service.image ? [service.image] : [];
 }
 
-// Four equal divisions — Equipment Rental is one integrated offering
-// alongside the three core contractor disciplines, not the lead service.
+// Four equal divisions — display order:
+// 1) Equipment Rental, 2) Civil Infrastructure,
+// 3) Foundation Engineering, 4) Energy Infrastructure.
 export const services: Service[] = [
+  {
+    id: "equipment-rental",
+    slug: "equipment-rental",
+    name: "Equipment Rental",
+    tagline: "Integrated Equipment Support for Contractors",
+    description: "Integrated equipment support for all project phases.",
+    fullDescription:
+      "As a contractor company, TIMC provides integrated equipment rental services to support all project phases. Our fleet of modern, well-maintained equipment complements our core contractor services, ensuring project efficiency and cost optimization. Equipment rental is one of our integrated service offerings, designed to work seamlessly with our infrastructure and foundation engineering expertise.",
+    icon: "Truck",
+    color: "#FF6B35",
+    category: "integrated",
+    image: "/images/services/equipment-rental/01-cover-v1.webp",
+    images: [
+      "/images/services/equipment-rental/01-cover-v1.webp",
+      "/images/services/equipment-rental/02-v1.webp",
+      "/images/services/equipment-rental/03-v1.webp",
+      "/images/services/equipment-rental/04-v1.webp",
+      "/images/services/equipment-rental/05-v1.webp",
+      "/images/services/equipment-rental/06-v1.webp",
+      "/images/services/equipment-rental/07-v1.webp",
+    ],
+    highlights: [
+      "Modern, well-maintained heavy fleet",
+      "Project-phase equipment packages",
+      "Operator support & logistics",
+    ],
+    capabilities: [
+      "Heavy equipment rental",
+      "Fleet maintenance and support",
+      "Project-specific equipment solutions",
+      "Cost-effective rental packages",
+      "Emergency equipment availability",
+      "Flexible lease terms",
+      "Equipment operator support",
+      "Integrated logistics",
+    ],
+    subServices: [
+      {
+        title: "Lifting & Mobile Cranes",
+        description:
+          "Mobile, rough terrain, all-terrain, crawler, boom, tower and spider cranes for heavy and utility lifts.",
+      },
+      {
+        title: "Civil, Earthmoving & Compaction",
+        description:
+          "Excavators, dozers, loaders, graders, skid steers and rollers for earthworks and compaction.",
+      },
+      {
+        title: "Transportation & Heavy Haulage",
+        description:
+          "Flatbeds, lowbeds, satah and pipe trailers, dump trucks and water or fuel tankers.",
+      },
+      {
+        title: "Rigging & Material Handling",
+        description:
+          "Forklifts, telehandlers, reach stackers, winches and spreader beams for yard logistics.",
+      },
+      {
+        title: "Aerial & Access",
+        description:
+          "Scissor lifts, articulating and telescopic booms, spider lifts and manlifts for elevated work.",
+      },
+      {
+        title: "Power, Air & Utilities",
+        description:
+          "Generators, ATS, distribution panels, air compressors and LED lighting towers.",
+      },
+      {
+        title: "Site Support & Specialty",
+        description:
+          "Office cabins, accommodation, storage containers, fencing and concrete barriers.",
+      },
+    ],
+    industries: ["Construction", "Infrastructure", "Foundation Work", "Energy Projects"],
+  },
   {
     id: "civil-infrastructure",
     slug: "civil-infrastructure",
@@ -216,82 +292,7 @@ export const services: Service[] = [
       },
     ],
     industries: ["Energy", "Power", "Renewable", "Utility"],
-  },
-  {
-    id: "equipment-rental",
-    slug: "equipment-rental",
-    name: "Equipment Rental",
-    tagline: "Integrated Equipment Support for Contractors",
-    description: "Integrated equipment support for all project phases.",
-    fullDescription:
-      "As a contractor company, TIMC provides integrated equipment rental services to support all project phases. Our fleet of modern, well-maintained equipment complements our core contractor services, ensuring project efficiency and cost optimization. Equipment rental is one of our integrated service offerings, designed to work seamlessly with our infrastructure and foundation engineering expertise.",
-    icon: "Truck",
-    color: "#FF6B35",
-    category: "integrated",
-    image: "/images/services/equipment-rental/01-cover-v1.webp",
-    images: [
-      "/images/services/equipment-rental/01-cover-v1.webp",
-      "/images/services/equipment-rental/02-v1.webp",
-      "/images/services/equipment-rental/03-v1.webp",
-      "/images/services/equipment-rental/04-v1.webp",
-      "/images/services/equipment-rental/05-v1.webp",
-      "/images/services/equipment-rental/06-v1.webp",
-      "/images/services/equipment-rental/07-v1.webp",
-    ],
-    highlights: [
-      "Modern, well-maintained heavy fleet",
-      "Project-phase equipment packages",
-      "Operator support & logistics",
-    ],
-    capabilities: [
-      "Heavy equipment rental",
-      "Fleet maintenance and support",
-      "Project-specific equipment solutions",
-      "Cost-effective rental packages",
-      "Emergency equipment availability",
-      "Flexible lease terms",
-      "Equipment operator support",
-      "Integrated logistics",
-    ],
-    subServices: [
-      {
-        title: "Lifting & Mobile Cranes",
-        description:
-          "Mobile, rough terrain, all-terrain, crawler, boom, tower and spider cranes for heavy and utility lifts.",
-      },
-      {
-        title: "Civil, Earthmoving & Compaction",
-        description:
-          "Excavators, dozers, loaders, graders, skid steers and rollers for earthworks and compaction.",
-      },
-      {
-        title: "Transportation & Heavy Haulage",
-        description:
-          "Flatbeds, lowbeds, satah and pipe trailers, dump trucks and water or fuel tankers.",
-      },
-      {
-        title: "Rigging & Material Handling",
-        description:
-          "Forklifts, telehandlers, reach stackers, winches and spreader beams for yard logistics.",
-      },
-      {
-        title: "Aerial & Access",
-        description:
-          "Scissor lifts, articulating and telescopic booms, spider lifts and manlifts for elevated work.",
-      },
-      {
-        title: "Power, Air & Utilities",
-        description:
-          "Generators, ATS, distribution panels, air compressors and LED lighting towers.",
-      },
-      {
-        title: "Site Support & Specialty",
-        description:
-          "Office cabins, accommodation, storage containers, fencing and concrete barriers.",
-      },
-    ],
-    industries: ["Construction", "Infrastructure", "Foundation Work", "Energy Projects"],
-  },
+  }
 ];
 
 export function getService(slug: string) {

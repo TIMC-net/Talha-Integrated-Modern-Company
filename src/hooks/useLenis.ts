@@ -48,6 +48,25 @@ function writeScrollY(y: number, lenis?: Lenis | null) {
   document.body.scrollTop = top;
 }
 
+/** Hard reset to the top of the document (Lenis + native). */
+export function scrollPageToTop() {
+  if (typeof window === "undefined") return;
+  const lenis = window.timcLenis;
+  writeScrollY(0, lenis);
+}
+
+/** Disable browser scroll-restoration so soft route changes always start at top. */
+export function disableNativeScrollRestoration() {
+  if (typeof window === "undefined") return;
+  try {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
 /** Initializes Lenis smooth scroll and keeps it in lockstep with GSAP's
  * ticker so ScrollTrigger positions stay accurate. Returns the live
  * instance (null until mounted / if the user prefers reduced motion). */
@@ -176,6 +195,10 @@ const HEADER_OFFSET = 100;
  * Handles Lenis + iOS Safari (overflow:hidden alone still lets the page move).
  * Returns an unlock function — call it in effect cleanup.
  *
+ * Pass `{ restore: false }` when unlock happens because the route changed
+ * (e.g. mobile menu + navbar navigate): restoring the pre-lock offset makes
+ * the new page open mid-scroll instead of at the top.
+ *
  * Windows Chromium note: clearing body position:fixed often resets scroll to 0
  * unless we re-apply the saved offset immediately and again on the next frames.
  */
@@ -220,9 +243,12 @@ export function lockPageScroll() {
 
   let unlocked = false;
 
-  return () => {
+  return (options?: { restore?: boolean }) => {
     if (unlocked) return;
     unlocked = true;
+
+    const restore = options?.restore !== false;
+    const targetY = restore ? scrollY : 0;
 
     html.removeAttribute("data-scroll-locked");
     html.style.overflow = prev.htmlOverflow;
@@ -237,30 +263,34 @@ export function lockPageScroll() {
 
     // Resume Lenis before writing scroll so its internal offset is usable
     lenis?.start();
-    writeScrollY(scrollY, lenis);
+    writeScrollY(targetY, lenis);
 
-    // Windows Chromium often reapplies scroll:0 after style flush — reassert
-    // the saved position across the next two frames after layout settles.
+    // Windows Chromium often reapplies wrong scroll after style flush — reassert
     requestAnimationFrame(() => {
-      writeScrollY(scrollY, lenis);
+      writeScrollY(targetY, lenis);
       requestAnimationFrame(() => {
-        writeScrollY(scrollY, lenis);
+        writeScrollY(targetY, lenis);
       });
     });
   };
 }
 
 /** Smooth-scroll to an element id using Lenis when available. */
-export function scrollToId(id: string, immediate = false) {
+export function scrollToId(
+  id: string,
+  immediate = false,
+  options?: { duration?: number },
+) {
   const el = document.getElementById(id);
   if (!el) return;
 
+  const duration = options?.duration ?? 1.2;
   const lenis = window.timcLenis;
   if (lenis) {
     lenis.scrollTo(el, {
       offset: -HEADER_OFFSET,
       immediate,
-      duration: 1.2,
+      duration,
     });
     return;
   }

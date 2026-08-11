@@ -1,6 +1,5 @@
 import {
   company,
-  completedProjects,
   ongoingProjects,
 } from "@/lib/company";
 import { vendors } from "@/data/vendors";
@@ -21,9 +20,9 @@ const yearsExperience =
 export const stats: Stat[] = [
   {
     id: "completed",
-    value: completedProjects.length,
+    value: 60,
     label: "Completed Projects",
-    suffix: "",
+    suffix: "+",
     icon: "Briefcase",
     color: "#FF6B35",
     href: "/projects/completed",
