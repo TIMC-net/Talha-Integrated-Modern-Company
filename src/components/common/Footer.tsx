@@ -1,14 +1,22 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Mail, MapPin, Phone } from "lucide-react";
 import { services } from "@/data/services";
 import { company } from "@/lib/company";
+import { cn } from "@/lib/cn";
 
 const projectLinks = [
   { label: "Ongoing Projects", href: "/projects/ongoing" },
   { label: "Completed Projects", href: "/projects/completed" },
+];
+
+const companyLinks = [
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Clients", href: "/clients" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const socialLinks = [
@@ -24,7 +32,18 @@ const socialLinks = [
   },
 ];
 
-function FooterNavGroup({
+function FooterLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="text-[14px] leading-snug text-white/55 transition-colors duration-200 hover:text-accent"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function FooterColumn({
   title,
   children,
 }: {
@@ -32,200 +51,218 @@ function FooterNavGroup({
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const panelId = useId();
 
   return (
-    <div className="min-w-0 border-b border-white/10 pb-4 md:border-0 md:pb-0">
+    <div className="min-w-0 border-b border-white/[0.08] last:border-b-0 md:border-0">
       <button
         type="button"
-        className="flex w-full items-center justify-between gap-3 text-left md:pointer-events-none"
+        className="flex w-full items-center gap-2.5 py-3.5 text-left md:pointer-events-none md:cursor-default md:gap-0 md:py-0"
         aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
+        aria-controls={panelId}
+        onClick={() => setOpen((v) => !v)}
       >
-        <h4 className="font-display text-[13px] font-bold tracking-[2px] text-white uppercase">
-          {title}
-        </h4>
+        {/* Chevron on the left on mobile so it never sits under FAB / call controls */}
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-accent transition-transform duration-300 md:hidden ${
-            open ? "rotate-180" : ""
-          }`}
+          className={cn(
+            "h-4 w-4 shrink-0 text-white/40 transition-transform duration-300 md:hidden",
+            open && "rotate-180 text-accent",
+          )}
           aria-hidden
         />
+        <h3 className="font-display text-[11px] font-bold tracking-[0.18em] text-white/90 uppercase">
+          {title}
+        </h3>
       </button>
-      <ul
-        className={`mt-4 space-y-3 md:mt-5 md:block ${
-          open ? "block" : "hidden"
-        }`}
+      <div
+        id={panelId}
+        className={cn(
+          "md:mt-5 md:block",
+          open ? "block pb-3.5 pl-6 md:pl-0" : "hidden",
+        )}
       >
-        {children}
-      </ul>
+        <ul className="space-y-2.5">{children}</ul>
+      </div>
     </div>
   );
 }
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const linkedIn = socialLinks[0];
 
   return (
-    <footer data-dark-surface className="mt-auto border-t border-white/10 bg-navy-950">
-      <div className="container-site py-14 md:py-16">
-        <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-x-12 md:gap-y-12 lg:grid-cols-[minmax(0,1.35fr)_auto_auto_minmax(0,1.15fr)] lg:gap-x-14 xl:gap-x-16">
+    <footer
+      data-dark-surface
+      className="relative mt-auto border-t border-white/10 bg-navy-950"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/45 to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 40% at 0% 0%, rgba(255,107,53,0.06), transparent 50%)",
+        }}
+      />
+
+      <div className="container-site relative pt-10 pb-2 md:pt-14 md:pb-4">
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-start lg:gap-x-16 xl:gap-x-24">
+          {/* Brand + contact */}
           <div className="min-w-0">
-            <p className="font-display text-lg font-bold tracking-wide text-white uppercase text-balance">
+            <p className="font-display text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
+              {company.shortName}
+            </p>
+            <p className="mt-1.5 max-w-[18rem] font-display text-[1.05rem] leading-snug font-bold tracking-wide text-white uppercase sm:max-w-md sm:text-xl">
               {company.name}
             </p>
-            <p className="mt-4 text-[14px] leading-relaxed text-white/55">
-              A Saudi Arabian engineering and contracting company delivering civil
-              infrastructure, foundation engineering, energy infrastructure and
-              integrated equipment rental across the Kingdom of Saudi Arabia.
+
+            <p className="mt-3 max-w-sm text-[13px] leading-relaxed text-white/48 sm:text-[14px]">
+              Civil infrastructure, foundation engineering, energy, and equipment
+              rental across Saudi Arabia.
             </p>
-            <div className="mt-6 hidden items-center gap-3 md:flex">
-              {socialLinks.map(({ label, href, network, icon }) => (
+
+            <div className="mt-5 flex items-center gap-3 sm:mt-6">
+              <Link
+                href="/contact"
+                className="group/cta inline-flex h-11 min-w-0 flex-1 items-center justify-center gap-2 bg-accent px-5 font-display text-[12px] font-bold tracking-[0.14em] text-brand-ink uppercase transition-[background-color,transform] duration-300 hover:bg-[#ff7d4d] sm:flex-none sm:px-6"
+              >
+                Contact Us
+                <ArrowRight
+                  className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-0.5"
+                  strokeWidth={2.25}
+                />
+              </Link>
+              {/* Desktop: LinkedIn sits right of Contact Us */}
+              <span className="hidden shrink-0 md:inline-flex">
                 <a
-                  key={label}
-                  href={href}
+                  href={linkedIn.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={label}
-                  data-social={network}
-                  className="social-icon-btn"
+                  aria-label="TIMC on LinkedIn"
+                  data-social={linkedIn.network}
+                  className="social-icon-btn !h-11 !w-11"
                 >
-                  <span className="social-icon">{icon}</span>
+                  <span className="social-icon">{linkedIn.icon}</span>
                 </a>
-              ))}
+              </span>
             </div>
-          </div>
 
-          <FooterNavGroup title="Services">
-            {services.map((service) => (
-              <li key={service.slug}>
-                <Link
-                  href={`/services#${service.slug}`}
-                  className="text-[14px] text-white/55 transition hover:text-accent"
+            <ul className="mt-6 space-y-3.5 border-t border-white/[0.08] pt-6 text-[13px] sm:text-[14px]">
+              <li>
+                <a
+                  href={`tel:${company.phone}`}
+                  className="group flex items-center gap-3 text-white/70 transition-colors hover:text-accent"
                 >
-                  {service.name}
-                </Link>
-              </li>
-            ))}
-          </FooterNavGroup>
-
-          <FooterNavGroup title="Projects">
-            {projectLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-[14px] text-white/55 transition hover:text-accent"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </FooterNavGroup>
-
-          <div className="min-w-0">
-            <h4 className="font-display text-[13px] font-bold tracking-[2px] text-white uppercase">
-              Get in Touch
-            </h4>
-            <ul className="mt-5 space-y-4 text-[14px] text-white/55">
-              <li className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                <a href={`tel:${company.phone}`} className="transition hover:text-accent">
-                  {company.phone}
+                  <Phone
+                    className="h-4 w-4 shrink-0 text-accent"
+                    strokeWidth={1.75}
+                  />
+                  <span>{company.phone}</span>
                 </a>
               </li>
-              <li className="flex items-start gap-3">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                <a href={`mailto:${company.email}`} className="transition hover:text-accent">
-                  {company.email}
+              <li>
+                <a
+                  href={`mailto:${company.email}`}
+                  className="group flex items-center gap-3 text-white/70 transition-colors hover:text-accent"
+                >
+                  <Mail
+                    className="h-4 w-4 shrink-0 text-accent"
+                    strokeWidth={1.75}
+                  />
+                  <span className="break-all">{company.email}</span>
                 </a>
               </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+              <li>
                 <a
                   href={company.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition hover:text-accent"
+                  className="group flex items-start gap-3 text-white/70 transition-colors hover:text-accent"
                 >
-                  {company.address}
+                  <MapPin
+                    className="mt-0.5 h-4 w-4 shrink-0 text-accent"
+                    strokeWidth={1.75}
+                  />
+                  <span className="leading-snug">{company.address}</span>
                 </a>
               </li>
-              {/* Mobile: LinkedIn sits directly under location */}
-              <li className="flex items-center gap-3 pt-1 md:hidden">
-                {socialLinks.map(({ label, href, network, icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    data-social={network}
-                    className="social-icon-btn"
-                  >
-                    <span className="social-icon">{icon}</span>
-                  </a>
-                ))}
-              </li>
             </ul>
-            <dl className="mt-5 space-y-0 border border-white/10 bg-white/[0.03] px-3.5 py-3">
-              <div className="flex items-baseline justify-between gap-4 border-b border-white/10 pb-2.5">
-                <dt className="font-display text-[10px] font-semibold tracking-[0.16em] text-white/40 uppercase">
-                  CR No.
-                </dt>
-                <dd className="font-display text-[12px] font-semibold tracking-wide text-white/75 tabular-nums">
-                  {company.commercialRegistration}
-                </dd>
-              </div>
-              <div className="flex items-baseline justify-between gap-4 pt-2.5">
-                <dt className="font-display text-[10px] font-semibold tracking-[0.16em] text-white/40 uppercase">
-                  VAT No.
-                </dt>
-                <dd className="font-display text-[12px] font-semibold tracking-wide text-white/75 tabular-nums">
-                  {company.vatNumber}
-                </dd>
-              </div>
-            </dl>
-            <Link
-              href="/contact"
-              className="group/cta relative mt-6 inline-flex h-11 items-center gap-2.5 overflow-hidden bg-accent px-6 font-display text-[12px] font-bold tracking-[0.16em] text-brand-ink uppercase shadow-[0_14px_32px_-16px_rgba(255,107,53,0.8)] transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#ff7d4d] hover:shadow-[0_18px_40px_-14px_rgba(255,107,53,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:translate-y-px"
-            >
-              {/* Shine sweep */}
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover/cta:translate-x-[120%]"
-              />
-              {/* Soft pulse ring on hover */}
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/cta:opacity-100"
-                style={{
-                  boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.28)",
-                }}
-              />
-              <span className="relative">Contact Us</span>
-              <ArrowRight
-                className="relative h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cta:translate-x-1"
-                strokeWidth={2.25}
-              />
-            </Link>
+
+            <div className="mt-5 flex items-center justify-between gap-3 pr-14 md:pr-0">
+              <p className="min-w-0 font-display text-[11px] tracking-wide text-white/28">
+                CR {company.commercialRegistration}
+                <span className="mx-2 text-white/12" aria-hidden>
+                  ·
+                </span>
+                VAT {company.vatNumber}
+              </p>
+              {/* Mobile: LinkedIn on the CR / VAT row */}
+              <span className="inline-flex shrink-0 md:hidden">
+                <a
+                  href={linkedIn.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="TIMC on LinkedIn"
+                  data-social={linkedIn.network}
+                  className="social-icon-btn !h-8 !w-8"
+                >
+                  <span className="social-icon scale-90">{linkedIn.icon}</span>
+                </a>
+              </span>
+            </div>
           </div>
+
+          {/* Nav — collapsed by default on mobile; extra right pad clears FABs */}
+          <nav
+            aria-label="Footer"
+            className="min-w-0 border-t border-white/[0.08] pr-14 md:border-t-0 md:pr-0"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 lg:gap-10">
+              <FooterColumn title="Services">
+                {services.map((service) => (
+                  <li key={service.slug}>
+                    <FooterLink href={`/services#${service.slug}`}>
+                      {service.name}
+                    </FooterLink>
+                  </li>
+                ))}
+              </FooterColumn>
+
+              <FooterColumn title="Projects">
+                {projectLinks.map((link) => (
+                  <li key={link.href}>
+                    <FooterLink href={link.href}>{link.label}</FooterLink>
+                  </li>
+                ))}
+              </FooterColumn>
+
+              <FooterColumn title="Company">
+                {companyLinks.map((link) => (
+                  <li key={link.href}>
+                    <FooterLink href={link.href}>{link.label}</FooterLink>
+                  </li>
+                ))}
+              </FooterColumn>
+            </div>
+          </nav>
         </div>
       </div>
 
-      <div className="border-t border-white/10 bg-black/40 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:pb-5">
-        <div className="container-site flex flex-col gap-2 text-[13px] sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-white/45">
-            © {year} Talha Integrated Modern Company ({company.shortName}). All
-            rights reserved.
+      <div className="relative border-t border-white/[0.08] bg-black/30">
+        <div className="container-site flex flex-col gap-2.5 py-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-4 sm:pb-4">
+          <p className="text-[12px] text-white/38 sm:text-[13px]">
+            © {year} {company.shortName}. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-4 text-white/40">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-white/32 sm:text-[13px]">
             <Link href="/privacy" className="transition hover:text-accent">
-              Privacy Policy
+              Privacy
             </Link>
             <Link href="/terms" className="transition hover:text-accent">
-              Terms of Use
-            </Link>
-            <Link href="/clients" className="transition hover:text-accent">
-              Clients
+              Terms
             </Link>
           </div>
         </div>
@@ -233,3 +270,4 @@ export default function Footer() {
     </footer>
   );
 }
+
