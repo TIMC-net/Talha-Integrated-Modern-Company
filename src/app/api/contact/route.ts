@@ -11,6 +11,14 @@ const contactSchema = z.object({
   company_website: z.string().optional(),
 });
 
+function isCloudflareChallenge(body: string) {
+  return (
+    body.includes("Just a moment") ||
+    body.includes("cf-browser-verification") ||
+    body.includes("challenge-platform")
+  );
+}
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
@@ -49,25 +57,27 @@ export async function POST(request: Request) {
     const resendKey = process.env.RESEND_API_KEY?.trim();
 
     if (web3Key) {
+      // Prefer form-urlencoded — more reliable than JSON for some Web3Forms/Cloudflare paths
+      const form = new URLSearchParams({
+        access_key: web3Key,
+        subject,
+        from_name: "TIMC Website",
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        service: data.service,
+        message: text,
+        replyto: data.email,
+      });
+
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
           Accept: "application/json",
+          "User-Agent": "TIMC-ContactForm/1.0 (+https://trsco.net)",
         },
-        body: JSON.stringify({
-          access_key: web3Key,
-          subject,
-          from_name: "TIMC Website",
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          service: data.service,
-          message: data.message,
-          // Ensures reply-to is the visitor when Web3Forms supports it
-          replyto: data.email,
-          botcheck: false,
-        }),
+        body: form.toString(),
       });
 
       const raw = await res.text();
@@ -78,17 +88,53 @@ export async function POST(request: Request) {
         payload = null;
       }
 
-      if (!res.ok || payload?.success === false) {
-        console.error("Contact form Web3Forms error:", payload ?? raw);
+      if (payload?.success === true) {
+        return Response.json({ ok: true });
+      }
+
+      // JSON rejected by Web3Forms (invalid key, domain lock, quota, etc.)
+      if (payload && payload.success === false) {
+        console.error("Contact form Web3Forms error:", payload.message ?? payload);
+        const detail =
+          process.env.NODE_ENV === "development" && payload.message
+            ? ` (${payload.message})`
+            : "";
         return Response.json(
           {
-            error: `Could not send your message. Please email ${company.email} directly.`,
+            error: `Could not send your message. Please email ${company.email} directly.${detail}`,
           },
           { status: 502 },
         );
       }
 
-      return Response.json({ ok: true });
+      // Cloudflare bot challenge HTML (common on local / some network IPs)
+      if (isCloudflareChallenge(raw) || raw.trimStart().startsWith("<!")) {
+        console.error(
+          "Contact form Web3Forms blocked by Cloudflare challenge (not a form-field error).",
+        );
+        const detail =
+          process.env.NODE_ENV === "development"
+            ? " (Web3Forms was blocked by Cloudflare from this network — redeploy with WEB3FORMS_ACCESS_KEY on Vercel and test the live site, or try another network.)"
+            : "";
+        return Response.json(
+          {
+            error: `Could not send your message. Please email ${company.email} directly.${detail}`,
+          },
+          { status: 502 },
+        );
+      }
+
+      console.error(
+        "Contact form Web3Forms unexpected response:",
+        res.status,
+        raw.slice(0, 400),
+      );
+      return Response.json(
+        {
+          error: `Could not send your message. Please email ${company.email} directly.`,
+        },
+        { status: 502 },
+      );
     }
 
     if (resendKey) {
