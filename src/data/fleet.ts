@@ -38,7 +38,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "General heavy lifting",
         description:
           "Truck-mounted mobile crane for general heavy lifts on prepared industrial and infrastructure sites. Fast mobilisation for equipment placement, structural loads and multi-purpose construction lifting.",
-        image: "/images/equipment/categories/cranes/mobile-crane-v1.jpg",
+        image: "/images/equipment/categories/cranes/mobile-crane-v1.webp",
       },
       {
         id: "lc-rt",
@@ -48,7 +48,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Uneven terrain",
         description:
           "All-wheel-drive rough terrain crane designed for uneven, unprepared ground. Suited to remote sites, civil yards and projects where outriggers and site grades demand specialised mobility.",
-        image: "/images/equipment/categories/cranes/rough-terrain-crane-v1.jpg",
+        image: "/images/equipment/categories/cranes/rough-terrain-crane-v1.webp",
       },
       {
         id: "lc-at",
@@ -58,7 +58,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Road/site lifting",
         description:
           "Road-legal all-terrain crane combining highway travel with high on-site lifting capacity. Used for larger industrial packages, plant installation and road-to-site heavy lifts.",
-        image: "/images/equipment/categories/cranes/all-terrain-crane-v1.jpg",
+        image: "/images/equipment/categories/cranes/all-terrain-crane-v1.webp",
       },
       {
         id: "lc-crawler",
@@ -68,7 +68,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Mega projects",
         description:
           "Tracked crawler crane for sustained heavy lifts on mega-projects. Delivers stability and high capacity for structural erection, major plant packages and long-duration critical lifts.",
-        image: "/images/equipment/categories/cranes/crawler-crane-v1.jpg",
+        image: "/images/equipment/categories/cranes/crawler-crane-v1.webp",
       },
       {
         id: "lc-boom",
@@ -78,7 +78,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Utility lifting",
         description:
           "Boom truck for utility and materials lifting at moderate tonnage. Ideal for day-to-day site logistics, smaller components and service works requiring rapid, flexible crane support.",
-        image: "/images/equipment/categories/cranes/boom-truck-v1.jpg",
+        image: "/images/equipment/categories/cranes/boom-truck-v1.webp",
       },
       {
         id: "lc-tower",
@@ -88,7 +88,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "High-rise",
         description:
           "Tower crane for high-rise and multi-storey construction. Provides continuous vertical lifting capacity for structure, formwork and materials over long project cycles.",
-        image: "/images/equipment/categories/cranes/tower-crane-v1.jpg",
+        image: "/images/equipment/categories/cranes/tower-crane-v1.webp",
       },
       {
         id: "lc-spider",
@@ -98,7 +98,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Confined spaces",
         description:
           "Compact spider crane for confined and restricted-access lifts. Moves into basements, plant rooms and tight industrial spaces where conventional mobile cranes cannot operate.",
-        image: "/images/equipment/categories/cranes/spider-crane-v1.jpg",
+        image: "/images/equipment/categories/cranes/spider-crane-v1.webp",
       },
     ],
   },
@@ -118,7 +118,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Hydraulic excavator for mass excavation, trenching, foundations and bulk civil work. Core plant for pads, utilities corridors and structural digs across TIMC packages.",
         image:
-          "/images/equipment/categories/earth-moving/excavator-v1.png",
+          "/images/equipment/categories/earth-moving/excavator-v1.webp",
       },
       {
         id: "cv-mini",
@@ -129,7 +129,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Compact excavator for urban and access-restricted works. Suited to finishing digs, trench repairs and sites where full-size excavators cannot manoeuvre.",
         image:
-          "/images/equipment/categories/earth-moving/mini-excavator-v1.png",
+          "/images/equipment/categories/earth-moving/mini-excavator-v1.webp",
       },
       {
         id: "cv-dozer",
@@ -140,7 +140,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Blade dozer for clearing, rough grading and bulk earthshifting. Used on site opening packages, embankments and large-area preparation.",
         image:
-          "/images/equipment/categories/earth-moving/bulldozer-v1.png",
+          "/images/equipment/categories/earth-moving/bulldozer-v1.webp",
       },
       {
         id: "cv-loader",
@@ -151,7 +151,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Front-end wheel loader for stockpile management, loading and material transfer. Supports dump-truck cycles, backfill logistics and compound material handling.",
         image:
-          "/images/equipment/categories/earth-moving/wheel-loader-v1.png",
+          "/images/equipment/categories/earth-moving/wheel-loader-v1.webp",
       },
       {
         id: "cv-backhoe",
@@ -161,7 +161,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "General works",
         description:
           "Backhoe loader for versatile dig-and-load tasks. Practical for utilities, small trenches and general site works requiring multipurpose plant.",
-        image: "/images/equipment/categories/earth-moving/backhoe-v1.png",
+        image: "/images/equipment/categories/earth-moving/backhoe-v1.webp",
       },
       {
         id: "cv-grader",
@@ -172,7 +172,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Motor grader for fine and coarse grading of roads, pads and formation levels. Essential for access roads and finished grade control on civil packages.",
         image:
-          "/images/equipment/categories/earth-moving/motor-grader-v1.png",
+          "/images/equipment/categories/earth-moving/motor-grader-v1.webp",
       },
       {
         id: "cv-skid",
@@ -183,7 +183,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Skid-steer loader with multi-attachment capability for tight-site materials handling, cleanup and compact earthworks support.",
         image:
-          "/images/equipment/categories/earth-moving/skid-steer-v1.png",
+          "/images/equipment/categories/earth-moving/skid-steer-v1.webp",
       },
       {
         id: "cv-sdr",
@@ -194,7 +194,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Single-drum roller for soil compaction on embankments, subgrade and structural fills. Delivers controlled layer density for civil earthworks.",
         image:
-          "/images/equipment/categories/compaction-paving/single-drum-roller-v1.png",
+          "/images/equipment/categories/compaction-paving/single-drum-roller-v1.webp",
       },
       {
         id: "cv-ddr",
@@ -205,7 +205,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Double-drum roller for asphalt and base compaction on paving packages. Used for roads, yards and finished hardstanding.",
         image:
-          "/images/equipment/categories/compaction-paving/double-drum-roller-v1.png",
+          "/images/equipment/categories/compaction-paving/double-drum-roller-v1.webp",
       },
       {
         id: "cv-pr",
@@ -216,7 +216,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Pneumatic multi-tyre roller for finishing and chipseal compaction. Improves surface density and finish quality on pavement packages.",
         image:
-          "/images/equipment/categories/compaction-paving/pneumatic-roller-v1.png",
+          "/images/equipment/categories/compaction-paving/pneumatic-roller-v1.webp",
       },
     ],
   },
@@ -235,7 +235,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "General",
         description:
           "Open flatbed trailer for general plant and materials haulage. Standard platform for construction logistics across regional project routes.",
-        image: "/images/equipment/categories/transport/flatbed-v1.png",
+        image: "/images/equipment/categories/transport/flatbed-v1.webp",
       },
       {
         id: "tr-low",
@@ -245,7 +245,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Machinery",
         description:
           "Lowbed trailer for oversized and overweight machinery moves. Designed for heavy excavators, cranes and capital plant mobilisation.",
-        image: "/images/equipment/categories/transport/lowbed-v1.png",
+        image: "/images/equipment/categories/transport/lowbed-v1.webp",
       },
       {
         id: "tr-satah",
@@ -256,7 +256,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Extendable satah trailer for long steel, pipes and modular loads that exceed standard deck lengths. Supports energy and industrial linear cargo.",
         image:
-          "/images/equipment/categories/transport/extendable-trailer-satah-v1.png",
+          "/images/equipment/categories/transport/extendable-trailer-satah-v1.webp",
       },
       {
         id: "tr-pipe",
@@ -266,7 +266,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Pipes",
         description:
           "Purpose-built pipe trailer for utility and energy corridor pipe transport. Secure carriage for long tubular materials.",
-        image: "/images/equipment/categories/transport/pipe-trailer-v1.png",
+        image: "/images/equipment/categories/transport/pipe-trailer-v1.webp",
       },
       {
         id: "tr-dump",
@@ -276,7 +276,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Bulk",
         description:
           "Dump truck for bulk spoil, aggregate and quarry materials. Supports excavator and loader cycles on continuous earthworks packages.",
-        image: "/images/equipment/categories/transport/dump-truck-v1.png",
+        image: "/images/equipment/categories/transport/dump-truck-v1.webp",
       },
       {
         id: "tr-water",
@@ -286,7 +286,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Dust",
         description:
           "Water tanker for dust suppression and site water supply. Essential HSE and environmental control support on dry and desert sites.",
-        image: "/images/equipment/categories/transport/water-tanker-v1.png",
+        image: "/images/equipment/categories/transport/water-tanker-v1.webp",
       },
       {
         id: "tr-fuel",
@@ -296,7 +296,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Fuel",
         description:
           "Fuel tanker for on-site fuel logistics serving plant fleets. Keeps generators, earthmoving and transport assets supplied during remote works.",
-        image: "/images/equipment/categories/transport/fuel-tanker-v1.png",
+        image: "/images/equipment/categories/transport/fuel-tanker-v1.webp",
       },
     ],
   },
@@ -316,7 +316,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Diesel forklift for outdoor and industrial yard handling of heavy palletised and containerised loads. Built for continuous compound logistics.",
         image:
-          "/images/equipment/categories/material-handling/diesel-forklift-v1.png",
+          "/images/equipment/categories/material-handling/diesel-forklift-v1.webp",
       },
       {
         id: "rg-ef",
@@ -327,7 +327,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Electric forklift for clean indoor warehouse environments. Suited to covered stores and materials hubs with emissions-sensitive zones.",
         image:
-          "/images/equipment/categories/material-handling/electric-forklift-v1.png",
+          "/images/equipment/categories/material-handling/electric-forklift-v1.webp",
       },
       {
         id: "rg-tele",
@@ -338,7 +338,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Telescopic handler for height placement of materials on construction sites. Combines reach and lift for scaffold, formwork and fit-out logistics.",
         image:
-          "/images/equipment/categories/material-handling/telehandler-v1.png",
+          "/images/equipment/categories/material-handling/telehandler-v1.webp",
       },
       {
         id: "rg-rt",
@@ -349,7 +349,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Reach truck for narrow-aisle racking and warehouse retrieval. Optimised for high-density storage operations.",
         image:
-          "/images/equipment/categories/material-handling/reach-truck-v1.png",
+          "/images/equipment/categories/material-handling/reach-truck-v1.webp",
       },
       {
         id: "rg-rs",
@@ -360,7 +360,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Reach stacker for container and heavy unit stacking in yards and logistics hubs. Supports multimodule plant and container programmes.",
         image:
-          "/images/equipment/categories/material-handling/reach-stacker-v1.png",
+          "/images/equipment/categories/material-handling/reach-stacker-v1.webp",
       },
       {
         id: "rg-winch",
@@ -371,7 +371,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Winch systems for pulling, recovery and controlled tensioning. Used in install, salvage and specialised material positioning tasks.",
         image:
-          "/images/equipment/categories/material-handling/winches-v1.png",
+          "/images/equipment/categories/material-handling/winches-v1.webp",
       },
       {
         id: "rg-beam",
@@ -382,7 +382,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Below-the-hook spreader beams for safe multi-point lifts. Essential rigging accessories for balanced heavy and lengthy loads.",
         image:
-          "/images/equipment/categories/material-handling/spreader-beams-v1.png",
+          "/images/equipment/categories/material-handling/spreader-beams-v1.webp",
       },
     ],
   },
@@ -401,7 +401,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Vertical",
         description:
           "Scissor lift for vertical access during fit-out, M&E and finishing works. Stable platform for crews on flat, prepared floors.",
-        image: "/images/equipment/categories/aerial/scissor-lift-v1.png",
+        image: "/images/equipment/categories/aerial/scissor-lift-v1.webp",
       },
       {
         id: "ae-art",
@@ -412,7 +412,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Articulating boom lift for up-and-over access around obstacles and complex structures. Ideal for industrial plants and building envelopes.",
         image:
-          "/images/equipment/categories/aerial/articulating-boom-v1.png",
+          "/images/equipment/categories/aerial/articulating-boom-v1.webp",
       },
       {
         id: "ae-tele",
@@ -423,7 +423,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Telescopic boom lift for long reach at height. Used for façade, steel, and high exterior work requiring extended outreach.",
         image:
-          "/images/equipment/categories/aerial/telescopic-boom-v1.png",
+          "/images/equipment/categories/aerial/telescopic-boom-v1.webp",
       },
       {
         id: "ae-spider",
@@ -434,7 +434,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Tracked spider lift for confined or sensitive floors where standard booms cannot access. Compact footprint with elevated reach.",
         image:
-          "/images/equipment/categories/aerial/spider-lift-v1.png",
+          "/images/equipment/categories/aerial/spider-lift-v1.webp",
       },
       {
         id: "ae-man",
@@ -444,7 +444,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Maintenance",
         description:
           "Personnel manlift for maintenance and industrial access packages. Provides safe elevated working for inspection and service crews.",
-        image: "/images/equipment/categories/aerial/manlift-v1.png",
+        image: "/images/equipment/categories/aerial/manlift-v1.webp",
       },
     ],
   },
@@ -464,7 +464,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Weather-protected canopy generator for continuous or standby construction power. Suited to general site supply across a wide kVA band.",
         image:
-          "/images/equipment/categories/power-generation/canopy-generator-v2.png",
+          "/images/equipment/categories/power-generation/canopy-generator-v2.webp",
       },
       {
         id: "pw-open",
@@ -475,7 +475,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Open-frame industrial generator for large temporary power demand. Used on industrial compounds and heavy temporary load packages.",
         image:
-          "/images/equipment/categories/power-generation/open-generator-v1.png",
+          "/images/equipment/categories/power-generation/open-generator-v1.webp",
       },
       {
         id: "pw-ats",
@@ -485,7 +485,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Transfer",
         description:
           "Automatic transfer switch for critical temporary power changeover. Protects essential loads during generator / grid source switching.",
-        image: "/images/equipment/categories/power-generation/ats-v1.png",
+        image: "/images/equipment/categories/power-generation/ats-v1.webp",
       },
       {
         id: "pw-panel",
@@ -496,7 +496,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Site power distribution and protection panels. Route and protect temporary electrical supply to multi-zone construction loads.",
         image:
-          "/images/equipment/categories/power-generation/distribution-panels-v1.png",
+          "/images/equipment/categories/power-generation/distribution-panels-v1.webp",
       },
       {
         id: "pw-air",
@@ -507,7 +507,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Air compressor for tools, testing and industrial air demand. Supports civil, mechanical and commissioning activities on site.",
         image:
-          "/images/equipment/categories/air-compressor/air-compressor-v1.png",
+          "/images/equipment/categories/air-compressor/air-compressor-v1.webp",
       },
       {
         id: "pw-light",
@@ -518,7 +518,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Mobile LED lighting tower for night works and secure-area illumination. Improves visibility and safety during extended shifts.",
         image:
-          "/images/equipment/categories/electrical/lighting-tower-v1.png",
+          "/images/equipment/categories/electrical/lighting-tower-v1.webp",
       },
     ],
   },
@@ -538,7 +538,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Portable office cabin for site supervision and client teams. Rapid establishment of project offices on temporary compounds.",
         image:
-          "/images/equipment/categories/site-support/office-cabin-v2.png",
+          "/images/equipment/categories/site-support/office-cabin-v2.webp",
       },
       {
         id: "ss-acc",
@@ -549,7 +549,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Workforce accommodation modules for remote packages. Supports camp housing requirements for multi-shift site crews.",
         image:
-          "/images/equipment/categories/site-support/accommodation-v2.png",
+          "/images/equipment/categories/site-support/accommodation-v2.webp",
       },
       {
         id: "ss-store",
@@ -560,7 +560,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Secure storage container for tools and materials. Standard ISO-style site storage across 10–40 ft lengths.",
         image:
-          "/images/equipment/categories/site-support/storage-container-v1.png",
+          "/images/equipment/categories/site-support/storage-container-v1.webp",
       },
       {
         id: "ss-fence",
@@ -570,7 +570,7 @@ export const fleetCategories: FleetCategory[] = [
         application: "Security",
         description:
           "Temporary fencing for perimeter control and site security. Defines secure works zones and public interface boundaries.",
-        image: "/images/equipment/categories/site-support/fencing-v1.png",
+        image: "/images/equipment/categories/site-support/fencing-v1.webp",
       },
       {
         id: "ss-barrier",
@@ -581,7 +581,7 @@ export const fleetCategories: FleetCategory[] = [
         description:
           "Concrete traffic and worksite separation barriers. Protects work areas and manages vehicle separation on active roads and sites.",
         image:
-          "/images/equipment/categories/site-support/concrete-barrier-v1.png",
+          "/images/equipment/categories/site-support/concrete-barrier-v1.webp",
       },
     ],
   },

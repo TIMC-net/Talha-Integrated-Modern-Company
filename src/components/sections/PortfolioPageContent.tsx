@@ -18,7 +18,7 @@ export default function PortfolioPageContent() {
         titleAccent="Selected"
         title="Portfolio"
         description="A selection of TIMC contractor work across civil infrastructure, foundations, energy, and industrial sites throughout Saudi Arabia."
-        backgroundImage="/images/projects-page-hero-v3.jpg"
+        backgroundImage="/images/projects-page-hero-v3.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />
@@ -70,10 +70,10 @@ export default function PortfolioPageContent() {
           </Reveal>
 
           <RevealGroup immediate className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
+            {projects.map((project, i) => (
               <RevealItem key={project.id}>
                 <div className="overflow-hidden border border-white/10 transition duration-500 hover:border-accent/60 [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_24px_50px_-28px_rgba(255,107,53,0.45)]">
-                  <PortfolioCard project={project} />
+                  <PortfolioCard project={project} priority={i < 3} />
                 </div>
               </RevealItem>
             ))}

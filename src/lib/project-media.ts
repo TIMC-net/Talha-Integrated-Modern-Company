@@ -1,8 +1,8 @@
 /** Shared stock fallbacks when a listed project has no `coverImage`. */
 export const listedProjectFallbackImages = [
-  "/images/civil-construction.jpg",
-  "/images/scaffolding.jpg",
-  "/images/manpower-supply.jpg",
+  "/images/civil-construction.webp",
+  "/images/scaffolding.webp",
+  "/images/manpower-supply.webp",
 ] as const;
 
 /** Cover for a completed/ongoing listing card — prefer dedicated cover. */

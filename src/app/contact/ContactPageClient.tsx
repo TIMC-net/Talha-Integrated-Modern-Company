@@ -157,7 +157,7 @@ export default function ContactPageClient({ web3formsAccessKey }: Props) {
         titleAccent="In"
         title="Touch"
         description="Share your project scope with the TIMC team in Jeddah — we prepare technical and commercial responses for civil, foundation, energy, and equipment rental requirements."
-        backgroundImage="/images/contact-hero-hd.jpg"
+        backgroundImage="/images/contact-hero-hd.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />

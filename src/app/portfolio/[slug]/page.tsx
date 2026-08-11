@@ -48,7 +48,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
         titleAccent={accent}
         title={rest}
         description={`${project.description}${service ? ` Delivered under ${service.name}.` : ""} Location: ${project.location}.`}
-        backgroundImage="/images/projects-page-hero-v3.jpg"
+        backgroundImage="/images/projects-page-hero-v3.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />

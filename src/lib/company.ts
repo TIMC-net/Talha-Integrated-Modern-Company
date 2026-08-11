@@ -173,10 +173,10 @@ export const ongoingProjects: ListedProject[] = [
     client: "Civil & Electrical Projects Contracting Co.",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/1/cover-v3.jpg",
+    coverImage: "/images/projects/ongoing/1/cover-v3.webp",
     details: {
       fullName: "Starah Central Road Access Project",
-      heroImage: "/images/projects/ongoing/1/details-hero-v1.jpg",
+      heroImage: "/images/projects/ongoing/1/details-hero-v1.webp",
       overview:
         "The project involves the construction and preparation of civil infrastructure works for the project site in full compliance with Saudi Electricity Company (SEC) standards. The scope includes the supply of all required materials, earthworks, backfilling, grading, and compaction to ensure a stable foundation for the project facilities.",
       scopeItems: [
@@ -188,9 +188,9 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "All works are executed in accordance with the latest Saudi Electricity Company (SEC) standards, ensuring quality, durability, safety, and timely project completion.",
       images: [
-        "/images/projects/ongoing/1/gallery-1.jpg",
-        "/images/projects/ongoing/1/gallery-2.jpg",
-        "/images/projects/ongoing/1/gallery-3.jpg",
+        "/images/projects/ongoing/1/gallery-1.webp",
+        "/images/projects/ongoing/1/gallery-2.webp",
+        "/images/projects/ongoing/1/gallery-3.webp",
       ],
     },
   },
@@ -204,10 +204,10 @@ export const ongoingProjects: ListedProject[] = [
     client: "Civil & Electrical Projects Contracting Co.",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/2/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/2/cover-v2.webp",
     details: {
       fullName: "Starah Independent Power Plant — 2GW Onshore Wind Project",
-      heroImage: "/images/projects/ongoing/2/12.jpg",
+      heroImage: "/images/projects/ongoing/2/12.webp",
       overview:
         "The project involves the supply, construction, and execution of reinforced concrete (RC) bored cast-in-situ pile foundations for both Suspension Towers and Tension Towers, in full compliance with project specifications and international construction standards.",
       scopeItems: [
@@ -219,18 +219,18 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "All piling activities are carried out in accordance with the approved engineering drawings, project specifications, and applicable international standards, delivering durable and reliable foundations for high-voltage transmission tower infrastructure.",
       images: [
-        "/images/projects/ongoing/2/01.jpg",
-        "/images/projects/ongoing/2/02-v2.jpg",
-        "/images/projects/ongoing/2/03-v2.jpg",
-        "/images/projects/ongoing/2/04.jpg",
-        "/images/projects/ongoing/2/05.jpg",
-        "/images/projects/ongoing/2/06.jpg",
-        "/images/projects/ongoing/2/07.jpg",
-        "/images/projects/ongoing/2/08.jpg",
-        "/images/projects/ongoing/2/09.jpg",
-        "/images/projects/ongoing/2/10.jpg",
-        "/images/projects/ongoing/2/11.jpg",
-        "/images/projects/ongoing/2/12.jpg",
+        "/images/projects/ongoing/2/01.webp",
+        "/images/projects/ongoing/2/02-v2.webp",
+        "/images/projects/ongoing/2/03-v2.webp",
+        "/images/projects/ongoing/2/04.webp",
+        "/images/projects/ongoing/2/05.webp",
+        "/images/projects/ongoing/2/06.webp",
+        "/images/projects/ongoing/2/07.webp",
+        "/images/projects/ongoing/2/08.webp",
+        "/images/projects/ongoing/2/09.webp",
+        "/images/projects/ongoing/2/10.webp",
+        "/images/projects/ongoing/2/11.webp",
+        "/images/projects/ongoing/2/12.webp",
       ],
     },
   },
@@ -244,11 +244,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "Branch of Elsewedy Electric Power Systems Projects",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/3/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/3/cover-v2.webp",
     details: {
       fullName:
         "Reinforcement of Rabigh Power Plant 1.2GW SCC6-5000F 3+1 Project",
-      heroImage: "/images/projects/ongoing/3/03.jpg",
+      heroImage: "/images/projects/ongoing/3/03.webp",
       overview:
         "Our team successfully delivered comprehensive power generation, heavy equipment rental, and maintenance services for major industrial and infrastructure projects, providing reliable solutions that ensured uninterrupted operations, high safety standards, and efficient project execution.",
       scopeItems: [
@@ -260,13 +260,13 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "Through integrated power generation and heavy equipment solutions, we delivered safe, reliable, and cost-effective services that supported major industrial and infrastructure projects while maintaining the highest standards of quality, operational excellence, and customer satisfaction.",
       images: [
-        "/images/projects/ongoing/3/01.jpg",
-        "/images/projects/ongoing/3/02.jpg",
-        "/images/projects/ongoing/3/03.jpg",
-        "/images/projects/ongoing/3/04.jpg",
-        "/images/projects/ongoing/3/05.jpg",
-        "/images/projects/ongoing/3/06.jpg",
-        "/images/projects/ongoing/3/07.jpg",
+        "/images/projects/ongoing/3/01.webp",
+        "/images/projects/ongoing/3/02.webp",
+        "/images/projects/ongoing/3/03.webp",
+        "/images/projects/ongoing/3/04.webp",
+        "/images/projects/ongoing/3/05.webp",
+        "/images/projects/ongoing/3/06.webp",
+        "/images/projects/ongoing/3/07.webp",
       ],
     },
   },
@@ -280,10 +280,10 @@ export const ongoingProjects: ListedProject[] = [
     client: "Mkhavi Arabia Contracting Company",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/4/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/4/cover-v2.webp",
     details: {
       fullName: "FA20 Power and Water Project PE-318 — Sabia Jazan",
-      heroImage: "/images/projects/ongoing/4/03.jpg",
+      heroImage: "/images/projects/ongoing/4/03.webp",
       overview:
         "Successfully delivered comprehensive heavy equipment rental, power generation, and maintenance solutions to Mkhavi Arabia Contracting in support of major construction and infrastructure projects across Saudi Arabia.",
       scopeItems: [
@@ -296,11 +296,11 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "Throughout the project, our commitment to quality, safety, and operational excellence enabled Mkhavi Arabia Contracting to maintain uninterrupted project progress while meeting demanding construction schedules and the highest industry standards.",
       images: [
-        "/images/projects/ongoing/4/01.jpg",
-        "/images/projects/ongoing/4/02.jpg",
-        "/images/projects/ongoing/4/03.jpg",
-        "/images/projects/ongoing/4/04.jpg",
-        "/images/projects/ongoing/4/05.jpg",
+        "/images/projects/ongoing/4/01.webp",
+        "/images/projects/ongoing/4/02.webp",
+        "/images/projects/ongoing/4/03.webp",
+        "/images/projects/ongoing/4/04.webp",
+        "/images/projects/ongoing/4/05.webp",
       ],
     },
   },
@@ -314,11 +314,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "Tran Ji Trading and Contracting Company",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/5/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/5/cover-v2.webp",
     details: {
       fullName:
         "Al Shuaibah 1 & 2 Solar Photovoltaic Independent Power Plant (IPP)",
-      heroImage: "/images/projects/ongoing/5/02.jpg",
+      heroImage: "/images/projects/ongoing/5/02.webp",
       overview:
         "Successfully delivered comprehensive power generation, heavy equipment rental, and maintenance services for the Al Shuaibah 1 & 2 Solar Photovoltaic Independent Power Plant (IPP) in support of Tran Ji Trading Company during the construction phase.",
       scopeItems: [
@@ -330,8 +330,8 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "Through our commitment to quality, safety, and operational excellence, we ensured reliable equipment availability, uninterrupted project progress, and efficient execution of one of Saudi Arabia’s landmark renewable energy developments.",
       images: [
-        "/images/projects/ongoing/5/01.jpg",
-        "/images/projects/ongoing/5/02.jpg",
+        "/images/projects/ongoing/5/01.webp",
+        "/images/projects/ongoing/5/02.webp",
       ],
     },
   },
@@ -346,11 +346,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "JV Elsewedy Electric / Sinohydro Corporation Limited",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/6/cover-v3.jpg",
+    coverImage: "/images/projects/ongoing/6/cover-v3.webp",
     details: {
       fullName:
         "Expansion of the Rabigh 2 IPP Power Plant by an Additional Capacity of 2200MW",
-      heroImage: "/images/projects/ongoing/6/07-v2.jpg",
+      heroImage: "/images/projects/ongoing/6/07-v2.webp",
       overview:
         "Successfully delivered integrated temporary power generation, heavy equipment rental, and maintenance services in support of a large-scale renewable energy and infrastructure project. Our comprehensive solutions ensured uninterrupted site operations, safe material handling, and efficient project execution throughout the construction period.",
       scopeItems: [
@@ -362,13 +362,13 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "Our integrated temporary power and heavy equipment solutions supported uninterrupted site operations and efficient project execution throughout the construction period.",
       images: [
-        "/images/projects/ongoing/6/01-v2.jpg",
-        "/images/projects/ongoing/6/02-v2.jpg",
-        "/images/projects/ongoing/6/03-v2.jpg",
-        "/images/projects/ongoing/6/04-v2.jpg",
-        "/images/projects/ongoing/6/05-v2.jpg",
-        "/images/projects/ongoing/6/06-v2.jpg",
-        "/images/projects/ongoing/6/07-v2.jpg",
+        "/images/projects/ongoing/6/01-v2.webp",
+        "/images/projects/ongoing/6/02-v2.webp",
+        "/images/projects/ongoing/6/03-v2.webp",
+        "/images/projects/ongoing/6/04-v2.webp",
+        "/images/projects/ongoing/6/05-v2.webp",
+        "/images/projects/ongoing/6/06-v2.webp",
+        "/images/projects/ongoing/6/07-v2.webp",
       ],
     },
   },
@@ -382,11 +382,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "Branch of Elsewedy Electric Power Systems Projects",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/7/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/7/cover-v2.webp",
     details: {
       fullName:
         "Construction of 13.8kV Substation for National Aquaculture Group (NAQUA), Allith City",
-      heroImage: "/images/projects/ongoing/7/02.jpg",
+      heroImage: "/images/projects/ongoing/7/02.webp",
       overview:
         "Successfully delivered integrated temporary power generation, heavy equipment rental, and maintenance services in support of a large-scale renewable energy and infrastructure project. Our comprehensive solutions ensured uninterrupted site operations, safe material handling, and efficient project execution throughout the construction period.",
       scopeItems: [
@@ -397,8 +397,8 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "Our integrated temporary power and heavy equipment solutions supported uninterrupted site operations and efficient project execution throughout the construction period.",
       images: [
-        "/images/projects/ongoing/7/01.jpg",
-        "/images/projects/ongoing/7/02.jpg",
+        "/images/projects/ongoing/7/01.webp",
+        "/images/projects/ongoing/7/02.webp",
       ],
     },
   },
@@ -412,11 +412,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "Alfanar Company",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/8/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/8/cover-v2.webp",
     details: {
       fullName:
         "Design & Construction of Source OHTL Supporting 1A Substation — Jazan",
-      heroImage: "/images/projects/ongoing/8/02.jpg",
+      heroImage: "/images/projects/ongoing/8/02.webp",
       overview:
         "Construction of high-quality access roads, finger roads, and structural pads for power, industrial, and infrastructure works in full compliance with approved engineering designs, project specifications, and Saudi Electricity Company (SEC) standards.",
       scopeItems: [
@@ -427,10 +427,10 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "All works are executed in accordance with approved engineering drawings and specifications, SEC standards, approved materials, project QA/QC procedures, HSE regulations, and industry best practices — delivering durable infrastructure for substations, power plants, renewable energy facilities, and industrial developments across Saudi Arabia.",
       images: [
-        "/images/projects/ongoing/8/01.jpg",
-        "/images/projects/ongoing/8/02.jpg",
-        "/images/projects/ongoing/8/03.jpg",
-        "/images/projects/ongoing/8/04.jpg",
+        "/images/projects/ongoing/8/01.webp",
+        "/images/projects/ongoing/8/02.webp",
+        "/images/projects/ongoing/8/03.webp",
+        "/images/projects/ongoing/8/04.webp",
       ],
     },
   },
@@ -444,11 +444,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "Engineering and Construction Company",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/9/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/9/cover-v2.webp",
     details: {
       fullName:
         "Design & Construction of Source OHTL Supporting 1A Substation — Structure Pads (Jazan)",
-      heroImage: "/images/projects/ongoing/9/details-hero-v1.jpg",
+      heroImage: "/images/projects/ongoing/9/details-hero-v1.webp",
       overview:
         "Delivery of structural foundation pads for the Source OHTL supporting 1A substation package in the Jazan region. Works cover earthworks, fill placement, layer compaction, and finished pad surfaces prepared to receive tower and equipment foundations in normal soil conditions, aligned with approved engineering drawings and SEC civil requirements.",
       scopeItems: [
@@ -463,11 +463,11 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "Executed under approved engineering drawings, SEC specifications, project QA/QC procedures, and HSE requirements — delivering durable foundation pads for OHTL and substation infrastructure in the Jazan region.",
       images: [
-        "/images/projects/ongoing/9/site-01.jpg",
-        "/images/projects/ongoing/9/site-02.jpg",
-        "/images/projects/ongoing/9/site-03.jpg",
-        "/images/projects/ongoing/9/site-04.jpg",
-        "/images/projects/ongoing/9/site-05.jpg",
+        "/images/projects/ongoing/9/site-01.webp",
+        "/images/projects/ongoing/9/site-02.webp",
+        "/images/projects/ongoing/9/site-03.webp",
+        "/images/projects/ongoing/9/site-04.webp",
+        "/images/projects/ongoing/9/site-05.webp",
       ],
     },
   },
@@ -482,11 +482,11 @@ export const ongoingProjects: ListedProject[] = [
     client: "National Contracting Company Ltd.",
     contractor: "TIMC",
     location: "KSA",
-    coverImage: "/images/projects/ongoing/10/cover-v2.jpg",
+    coverImage: "/images/projects/ongoing/10/cover-v2.webp",
     details: {
       fullName:
         "380kV OHTL from Jillah BSP #9063 to Layla BSP #9049 — Access Roads & Structure Pads",
-      heroImage: "/images/projects/ongoing/10/details-hero-v1.jpg",
+      heroImage: "/images/projects/ongoing/10/details-hero-v1.webp",
       overview:
         "Civil support works for the 380kV overhead transmission line corridor linking Jillah Bulk Supply Point (BSP #9063) and Layla Bulk Supply Point (BSP #9049). The package focuses on building safe, all-weather site access and durable structure pads that enable tower foundation and stringing activities under National Contracting Company Ltd. (Transmission & Distribution) supervision.",
       scopeItems: [
@@ -500,9 +500,9 @@ export const ongoingProjects: ListedProject[] = [
       standardsNote:
         "Works follow approved route and civil drawings, NCC / SEC project specifications, QA/QC hold points, and HSE rules for transmission line construction across the Jillah–Layla corridor.",
       images: [
-        "/images/projects/ongoing/10/site-01.jpg",
-        "/images/projects/ongoing/10/site-02.jpg",
-        "/images/projects/ongoing/10/site-03.jpg",
+        "/images/projects/ongoing/10/site-01.webp",
+        "/images/projects/ongoing/10/site-02.webp",
+        "/images/projects/ongoing/10/site-03.webp",
       ],
     },
   },
@@ -520,7 +520,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/1/cover-v1.jpg",
+    coverImage: "/images/projects/completed/1/cover-v1.webp",
   },
   {
     no: 2,
@@ -532,7 +532,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/2/cover-v1.jpg",
+    coverImage: "/images/projects/completed/2/cover-v1.webp",
   },
   {
     no: 3,
@@ -544,7 +544,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/3/cover-v1.jpg",
+    coverImage: "/images/projects/completed/3/cover-v1.webp",
   },
   {
     no: 4,
@@ -556,7 +556,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/4/cover-v1.jpg",
+    coverImage: "/images/projects/completed/4/cover-v1.webp",
   },
   {
     no: 5,
@@ -568,7 +568,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/5/cover-v1.jpg",
+    coverImage: "/images/projects/completed/5/cover-v1.webp",
   },
   {
     no: 6,
@@ -580,7 +580,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/6/cover-v1.jpg",
+    coverImage: "/images/projects/completed/6/cover-v1.webp",
   },
   {
     no: 7,
@@ -614,7 +614,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/9/cover-v1.jpg",
+    coverImage: "/images/projects/completed/9/cover-v1.webp",
   },
   {
     no: 10,
@@ -626,7 +626,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/10/cover-v1.jpg",
+    coverImage: "/images/projects/completed/10/cover-v1.webp",
   },
   {
     no: 11,
@@ -638,7 +638,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/11/cover-v1.jpg",
+    coverImage: "/images/projects/completed/11/cover-v1.webp",
   },
   {
     no: 12,
@@ -650,7 +650,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/12/cover-v1.jpg",
+    coverImage: "/images/projects/completed/12/cover-v1.webp",
   },
   {
     no: 13,
@@ -662,7 +662,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/13/cover-v1.jpg",
+    coverImage: "/images/projects/completed/13/cover-v1.webp",
   },
   {
     no: 14,
@@ -674,7 +674,7 @@ export const completedProjects: ListedProject[] = [
     contractor: "TIMC",
     location: "KSA",
     notes: "Completed",
-    coverImage: "/images/projects/completed/14/cover-v1.jpg",
+    coverImage: "/images/projects/completed/14/cover-v1.webp",
   },
 ];
 
@@ -696,71 +696,71 @@ export const clients: ClientEntry[] = [
   {
     name: "Alfanar",
     shortName: "Alfanar",
-    logo: "/images/clients/alfanar.png",
+    logo: "/images/clients/alfanar.webp",
   },
   {
     name: "Almajdouie Logistics Company L.L.C.",
     shortName: "Almajdouie",
-    logo: "/images/clients/almajdouie.png",
+    logo: "/images/clients/almajdouie.webp",
   },
   {
     name: "Elsewedy Electric",
     shortName: "Elsewedy Electric",
-    logo: "/images/clients/elsewedy-electric.png",
+    logo: "/images/clients/elsewedy-electric.webp",
   },
   {
     name: "CEPCO",
     shortName: "CEPCO",
-    logo: "/images/clients/cepco.png",
+    logo: "/images/clients/cepco.webp",
   },
   {
     name: "Energia",
     shortName: "Energia",
-    logo: "/images/clients/energia.png",
+    logo: "/images/clients/energia.webp",
   },
   {
     name: "Makhavi Machinery and Equipment Rental",
     shortName: "Makhavi",
-    logo: "/images/clients/makhavi.png",
+    logo: "/images/clients/makhavi.webp",
   },
   {
     name: "Larsen & Toubro Limited Construction",
     shortName: "Larsen & Toubro",
-    logo: "/images/clients/larsen-toubro.png",
+    logo: "/images/clients/larsen-toubro.webp",
   },
   {
     name: "Gas Arabian Services",
     shortName: "GAS",
-    logo: "/images/clients/gas-arabian.png",
+    logo: "/images/clients/gas-arabian.webp",
   },
   {
     name: "SSQ",
     shortName: "SSQ",
-    logo: "/images/clients/ssq.png",
+    logo: "/images/clients/ssq.webp",
   },
   {
     name: "Zamil Construction",
     shortName: "Zamil",
-    logo: "/images/clients/zamil-construction.png",
+    logo: "/images/clients/zamil-construction.webp",
   },
   {
     name: "SANY Alameriah Co.",
     shortName: "SANY Alameriah",
-    logo: "/images/clients/sany-alameriah.png",
+    logo: "/images/clients/sany-alameriah.webp",
   },
   {
     name: "GPI",
     shortName: "GPI",
-    logo: "/images/clients/gpi.png",
+    logo: "/images/clients/gpi.webp",
   },
   {
     name: "TranJi for Trading and Contracting Company",
     shortName: "TranJi",
-    logo: "/images/clients/tranji.png",
+    logo: "/images/clients/tranji.webp",
   },
   {
     name: "SINOHYDRO",
     shortName: "SINOHYDRO",
-    logo: "/images/clients/sinohydro.png",
+    logo: "/images/clients/sinohydro.webp",
   },
 ];

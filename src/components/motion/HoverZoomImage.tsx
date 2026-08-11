@@ -46,8 +46,10 @@ export default function HoverZoomImage({
           alt={alt}
           fill
           priority={priority}
-          className={`object-cover object-center transition-opacity duration-700 ease-out ${
-            loaded ? "opacity-100" : "opacity-0"
+          quality={70}
+          loading={priority ? "eager" : "lazy"}
+          className={`object-cover object-center bg-navy-900 transition-opacity duration-500 ease-out ${
+            loaded ? "opacity-100" : "opacity-60"
           }`}
           sizes={sizes}
           onLoad={() => setLoaded(true)}

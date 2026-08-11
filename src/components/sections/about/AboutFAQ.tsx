@@ -177,7 +177,7 @@ export default function AboutFAQ() {
               />
 
               <Image
-                src="/images/about-faq-crew.jpg"
+                src="/images/about-faq-crew.webp"
                 alt="TIMC project crew with foundation drilling equipment on site"
                 fill
                 className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"

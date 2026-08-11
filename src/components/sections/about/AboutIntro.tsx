@@ -56,7 +56,7 @@ export default function AboutIntro() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/images/about-us-img.jpg"
+                poster="/images/about-us-img.webp"
               >
                 <source src="/videos/about-company.mp4" type="video/mp4" />
               </video>

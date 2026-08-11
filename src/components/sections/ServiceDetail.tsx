@@ -44,7 +44,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
         titleAccent={firstWord}
         title={restTitle === firstWord ? "Division" : restTitle}
         description={`${service.tagline}. ${service.description}`}
-        backgroundImage="/images/services-page-hero-v3.jpg"
+        backgroundImage="/images/services-page-hero-v3.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />

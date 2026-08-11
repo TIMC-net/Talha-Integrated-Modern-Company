@@ -18,7 +18,7 @@ export default function TermsOfUsePage() {
         titleAccent="of"
         title="Use"
         description={`Conditions that govern access to the ${company.shortName} website and online enquiries for contracting and equipment rental services.`}
-        backgroundImage="/images/terms-hero-hd.jpg"
+        backgroundImage="/images/terms-hero-hd.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />

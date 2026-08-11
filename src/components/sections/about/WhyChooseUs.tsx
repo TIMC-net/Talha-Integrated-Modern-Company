@@ -39,7 +39,7 @@ export default function WhyChooseUs() {
 
               <div data-media className="img-zoom absolute inset-0">
                 <Image
-                  src="/images/why-choose-us-crew.jpg"
+                  src="/images/why-choose-us-crew.webp"
                   alt="TIMC team with drilling equipment on a project site"
                   fill
                   className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"

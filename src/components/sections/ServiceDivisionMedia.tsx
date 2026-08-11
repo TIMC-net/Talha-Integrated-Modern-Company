@@ -117,8 +117,9 @@ export default function ServiceDivisionMedia({
             alt={multi ? `${alt} — site ${index + 1}` : alt}
             fill
             priority={priority && index === 0}
-            className="object-cover object-center opacity-70"
+            quality={75}
             sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover object-center bg-navy-900 opacity-70"
           />
         </motion.div>
       </AnimatePresence>

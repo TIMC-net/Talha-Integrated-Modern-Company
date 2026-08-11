@@ -476,6 +476,7 @@ function FleetEquipmentCard({
             className="fleet-eq-photo object-cover object-center"
             loading="lazy"
             decoding="async"
+            quality={70}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[#141414]">

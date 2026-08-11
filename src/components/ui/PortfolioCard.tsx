@@ -4,20 +4,29 @@ import { ArrowRight } from "lucide-react";
 import { getService } from "@/data/services";
 import type { Project } from "@/data/projects";
 
-export default function PortfolioCard({ project }: { project: Project }) {
+export default function PortfolioCard({
+  project,
+  priority = false,
+}: {
+  project: Project;
+  priority?: boolean;
+}) {
   const service = getService(project.service);
 
   return (
     <Link
       href={`/portfolio/${project.slug}`}
       data-media
-      className="group relative block aspect-video overflow-hidden"
+      className="group relative block aspect-video overflow-hidden bg-navy-900"
     >
       <Image
         src={project.imageUrl}
         alt={project.title}
         fill
         sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+        quality={70}
+        priority={priority}
+        loading={priority ? "eager" : "lazy"}
         className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/25 to-transparent" />

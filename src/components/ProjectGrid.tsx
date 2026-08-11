@@ -103,6 +103,7 @@ function ProjectHoverCard({
   image,
   status,
   isDimmed,
+  priority = false,
   onHoverChange,
   onOpenChange,
 }: {
@@ -110,6 +111,8 @@ function ProjectHoverCard({
   image: string;
   status: "ongoing" | "completed";
   isDimmed: boolean;
+  /** First row only — improves LCP on project listing pages */
+  priority?: boolean;
   onHoverChange: (active: boolean) => void;
   onOpenChange: (open: boolean) => void;
 }) {
@@ -200,8 +203,10 @@ function ProjectHoverCard({
           alt=""
           fill
           sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
-          className="object-cover object-center"
-          loading="lazy"
+          className="object-cover object-center bg-navy-900"
+          quality={70}
+          priority={priority}
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
         />
       </div>
@@ -383,6 +388,8 @@ export default function ProjectGrid({ projects, status }: ProjectGridProps) {
               project={project}
               image={image}
               status={status}
+              // First desktop row (3) loads with priority; rest stay lazy
+              priority={i < 3}
               isDimmed={hoveredNo !== null && hoveredNo !== project.no}
               onHoverChange={(active) =>
                 setHoveredNo(active ? project.no : null)

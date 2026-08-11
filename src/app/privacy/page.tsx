@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
         titleAccent="Privacy"
         title="Policy"
         description={`How ${company.shortName} collects, uses, and protects personal information when you visit our website or submit an enquiry.`}
-        backgroundImage="/images/privacy-hero-hd.jpg"
+        backgroundImage="/images/privacy-hero-hd.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />

@@ -65,7 +65,7 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
         titleAccent={titleAccent}
         title={titleRest}
         description={project.scope ?? details.overview}
-        backgroundImage="/images/projects-page-hero-v3.jpg"
+        backgroundImage="/images/projects-page-hero-v3.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />
@@ -212,7 +212,9 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
                       alt={`${project.name} site photo ${i + 1}`}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
+                      quality={70}
+                      loading={i < 2 ? "eager" : "lazy"}
+                      className="object-cover bg-navy-900"
                     />
                   </div>
                 ))}

@@ -22,7 +22,7 @@ export default function ServiceShowcase() {
     <section data-dark-surface data-media className="relative overflow-x-clip bg-navy-900 py-12 md:py-16">
       <div className="absolute inset-0">
         <Image
-          src="/images/header-contracting.jpg"
+          src="/images/header-contracting.webp"
           alt=""
           fill
             className="object-cover opacity-45"

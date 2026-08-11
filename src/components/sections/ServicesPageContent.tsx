@@ -60,7 +60,7 @@ export default function ServicesPageContent() {
         titleAccent="Contractor"
         title="Services"
         description="Comprehensive contractor solutions — from civil infrastructure and foundation engineering to energy infrastructure, with integrated equipment rental supporting every project phase."
-        backgroundImage="/images/services-page-hero-v3.jpg"
+        backgroundImage="/images/services-page-hero-v3.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom
       />

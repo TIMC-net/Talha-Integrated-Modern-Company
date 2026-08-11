@@ -55,7 +55,9 @@ export default function ServiceSiteGallery({
               src={feature}
               alt={`${serviceName} primary site`}
               fill
-              className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
+              loading="lazy"
+              quality={70}
+              className="object-cover object-center bg-navy-900 transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
               sizes="(max-width: 1024px) 100vw, 58vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy-950/50 via-transparent to-transparent" />
@@ -74,7 +76,9 @@ export default function ServiceSiteGallery({
                 src={src}
                 alt={`${serviceName} site ${i + 2}`}
                 fill
-                className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
+                loading="lazy"
+                quality={70}
+                className="object-cover object-center bg-navy-900 transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 42vw"
               />
             </motion.div>
@@ -96,7 +100,9 @@ export default function ServiceSiteGallery({
                   src={src}
                   alt={`${serviceName} site ${i + 4}`}
                   fill
-                  className="object-cover object-center transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
+                  loading="lazy"
+                  quality={70}
+                  className="object-cover object-center bg-navy-900 transition duration-700 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
               </motion.div>
@@ -104,17 +110,19 @@ export default function ServiceSiteGallery({
           </div>
         )}
 
-        {/* Mobile snap strip */}
+        {/* Mobile snap strip — cap frames so we don't fetch 10+ large images at once */}
         <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 md:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {images.map((src, i) => (
+          {images.slice(0, 6).map((src, i) => (
             <div
               key={src}
-              className="relative aspect-[4/3] w-[82vw] max-w-[340px] shrink-0 snap-start overflow-hidden border border-white/10"
+              className="relative aspect-[4/3] w-[82vw] max-w-[340px] shrink-0 snap-start overflow-hidden border border-white/10 bg-navy-900"
             >
               <Image
                 src={src}
                 alt={`${serviceName} site ${i + 1}`}
                 fill
+                loading="lazy"
+                quality={70}
                 className="object-cover object-center"
                 sizes="82vw"
               />
