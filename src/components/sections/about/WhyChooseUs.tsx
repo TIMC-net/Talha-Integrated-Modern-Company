@@ -24,7 +24,7 @@ export default function WhyChooseUs() {
       className="relative overflow-x-clip bg-navy-950 py-16 md:py-24"
     >
       <div className="container-site relative z-10">
-        <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-10 xl:gap-16">
           <Reveal className="h-full min-h-[360px] lg:min-h-0">
             <div className="group relative h-full min-h-[360px] overflow-hidden border border-white/10 lg:min-h-full">
               {/* Accent edge draws on hover */}

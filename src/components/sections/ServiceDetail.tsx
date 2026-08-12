@@ -51,7 +51,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
 
       <section data-dark-surface className="bg-navy-950 py-14 md:py-20">
         <div className="container-site">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 xl:gap-14">
             <div>
               <WriteOnScroll
                 as="h2"
@@ -138,7 +138,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
 
       <section data-dark-surface className="border-t border-white/10 bg-navy-950 py-14 md:py-20">
         <div className="container-site">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-10 xl:gap-14">
             <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[4/3]">
               <Image
                 src={processImage}

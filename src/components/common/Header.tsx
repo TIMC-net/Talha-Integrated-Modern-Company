@@ -97,7 +97,7 @@ function DesktopNav({
   return (
     <ul
       ref={listRef}
-      className="relative flex items-center gap-1 xl:gap-2"
+      className="relative flex items-center gap-0.5 xl:gap-2"
       onMouseLeave={() => {
         if (!interactive) return;
         setOpen(null);
@@ -137,7 +137,7 @@ function DesktopNav({
                 handleSameRouteClick(e, pathname, item.href);
               }}
               className={cn(
-                "relative z-10 flex items-center gap-1 rounded-full px-3 py-2 font-display text-[12px] font-semibold tracking-wide whitespace-nowrap uppercase transition-colors xl:px-4 xl:text-[13px] 2xl:px-5 2xl:text-[14px]",
+                "relative z-10 flex items-center gap-1 rounded-full px-2 py-2 font-display text-[11px] font-semibold tracking-wide whitespace-nowrap uppercase transition-colors lg:px-2.5 xl:px-4 xl:text-[13px] 2xl:px-5 2xl:text-[14px]",
                 active || isOpen
                   ? "bg-accent text-[#0a0a0a]"
                   : onDark
@@ -288,7 +288,7 @@ function CapsuleInner({
           rel="noopener noreferrer"
           tabIndex={interactive ? undefined : -1}
           className={cn(
-            "whitespace-nowrap font-display text-[12px] font-semibold tracking-wide uppercase transition-[max-width,opacity,margin,padding,color] duration-300 hover:text-accent lg:inline-flex 2xl:text-[13px]",
+            "whitespace-nowrap font-display text-[12px] font-semibold tracking-wide uppercase transition-[max-width,opacity,margin,padding,color] duration-300 hover:text-accent hidden xl:inline-flex 2xl:text-[13px]",
             MORPH,
             onDark ? "text-[#0a0a0a]/80" : "text-[#ffffff]/85",
             collapsed
@@ -302,7 +302,7 @@ function CapsuleInner({
         <Button
           asChild
           size="sm"
-          className="h-11 shrink-0 rounded-full px-4 text-xs tracking-wide whitespace-nowrap xl:h-12 xl:px-5"
+          className="h-10 shrink-0 rounded-full px-3 text-[11px] tracking-wide whitespace-nowrap xl:h-12 xl:px-5 xl:text-xs"
         >
           <Link
             href="/contact"
@@ -574,8 +574,8 @@ export default function Header() {
   }, [collapsed, pathname]);
 
   const capsulePad = collapsed
-    ? "justify-between gap-3 pr-2.5 pl-5 sm:gap-4 sm:pr-3 sm:pl-6 lg:pr-3 lg:pl-6 xl:pr-3.5 xl:pl-7"
-    : "justify-between gap-3 px-3 sm:px-4 md:px-5 lg:px-6 xl:px-7";
+    ? "justify-between gap-3 pr-2.5 pl-5 sm:gap-4 sm:pr-3 sm:pl-6 lg:pr-2.5 lg:pl-5 xl:pr-3.5 xl:pl-7"
+    : "justify-between gap-2 px-3 sm:gap-3 sm:px-4 md:px-5 lg:gap-2.5 lg:px-4 xl:gap-3 xl:px-7";
 
   return (
     <>
@@ -630,7 +630,7 @@ export default function Header() {
           className={cn(
             "pointer-events-none relative w-[94vw] transition-[max-width] will-change-[max-width]",
             MORPH,
-            collapsed ? "max-w-[600px]" : "max-w-[1280px]",
+            collapsed ? "max-w-[600px]" : "max-w-[min(96vw,1180px)] xl:max-w-[1280px]",
           )}
         >
           <DualToneShell
@@ -643,7 +643,7 @@ export default function Header() {
                 className={cn(
                   "flex w-full items-center overflow-hidden rounded-[130px] border border-white/12 bg-[#0a0a0a]/70 text-[#ffffff] shadow-lg backdrop-blur-xl",
                   MORPH,
-                  "min-h-[68px] py-3 transition-[padding,gap,box-shadow] sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
+                  "min-h-[68px] py-3 transition-[padding,gap,box-shadow] sm:min-h-[72px] lg:min-h-[72px] xl:min-h-[84px] xl:py-3.5",
                   capsulePad,
                 )}
               >
@@ -659,7 +659,7 @@ export default function Header() {
               <nav
                 className={cn(
                   "flex h-full w-full items-center overflow-hidden rounded-[130px] border border-black/10 bg-[#ffffff]/75 text-[#0a0a0a] shadow-lg backdrop-blur-xl",
-                  "min-h-[68px] py-3 sm:min-h-[72px] lg:min-h-[78px] xl:min-h-[84px] xl:py-3.5",
+                  "min-h-[68px] py-3 sm:min-h-[72px] lg:min-h-[72px] xl:min-h-[84px] xl:py-3.5",
                   capsulePad,
                 )}
               >

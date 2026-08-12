@@ -165,7 +165,7 @@ export default function ContactPageClient({ web3formsAccessKey }: Props) {
       <section data-dark-surface className="bg-navy-950 pt-6 pb-14 md:pt-8 md:pb-20">
         <div id="contact-form" className="container-site scroll-mt-28">
           <Reveal immediate>
-            <div className="grid overflow-hidden border border-white/10 lg:grid-cols-[0.9fr_1.35fr]">
+            <div className="grid overflow-hidden border border-white/10 lg:grid-cols-1 xl:grid-cols-[0.9fr_1.35fr]">
               <aside className="relative bg-navy-900 px-5 py-8 text-white sm:px-8 sm:py-10 md:px-10 md:py-12 lg:px-12 lg:py-14">
                 <div className="absolute top-8 bottom-8 left-0 hidden items-center sm:flex">
                   <span className="h-full w-[3px] bg-accent" />

@@ -44,7 +44,7 @@ export default function AboutIntro() {
       className="scroll-mt-24 overflow-x-clip bg-navy-950 pt-6 pb-16 md:pt-8 md:pb-24"
     >
       <div className="container-site">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-10 xl:gap-14">
           <Reveal immediate className="relative w-full min-w-0">
             <div className="group relative mx-auto aspect-video w-full max-w-full overflow-hidden bg-navy-900 sm:aspect-[16/10] md:aspect-[4/3] lg:aspect-[5/6]">
               <video

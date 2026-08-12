@@ -24,7 +24,7 @@ export default function AboutSection() {
   return (
     <section data-dark-surface className="overflow-x-clip bg-navy-950 py-12 md:py-16">
       <div className="container-site">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-center gap-10 lg:gap-10 xl:gap-16 lg:grid-cols-2">
           <Reveal immediate className="relative w-full min-w-0">
             <div
               data-media

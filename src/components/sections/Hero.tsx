@@ -82,7 +82,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="container-site relative z-10 w-full -mt-10 pt-0 pb-10 sm:mt-0 sm:pt-[100px] sm:pb-14 lg:pt-[120px] lg:pb-16">
+      <div className="container-site relative z-10 w-full -mt-10 pt-0 pb-10 sm:mt-0 sm:pt-[100px] sm:pb-14 lg:pt-[110px] lg:pb-14 xl:pt-[120px] xl:pb-16">
         <div className="max-w-3xl">
           <p className="mb-3 inline-flex items-center gap-3 font-display text-[11px] font-semibold tracking-[2.5px] text-accent uppercase sm:mb-4 sm:text-[12px] sm:tracking-[3px]">
             <span className="inline-block h-[2px] w-7 bg-accent" aria-hidden />
@@ -93,14 +93,14 @@ export default function Hero() {
             as="h1"
             text={BRAND}
             mode="write"
-            className="font-display text-[2.25rem] leading-none font-bold tracking-wide text-white uppercase sm:text-5xl md:text-6xl lg:text-[72px]"
+            className="font-display text-[2.25rem] leading-none font-bold tracking-wide text-white uppercase sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[72px]"
           />
 
           <WriteOnScroll
             as="p"
             text={HEADLINE}
             delay={0.12}
-            className="mt-3 font-display text-[15px] leading-snug font-semibold text-white/90 uppercase sm:mt-5 sm:text-xl md:text-2xl lg:text-[32px] lg:leading-[1.2]"
+            className="mt-3 font-display text-[15px] leading-snug font-semibold text-white/90 uppercase sm:mt-5 sm:text-xl md:text-2xl lg:text-2xl lg:leading-[1.2] xl:text-[32px]"
           />
 
           <WriteOnScroll

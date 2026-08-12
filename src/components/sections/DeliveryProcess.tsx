@@ -106,7 +106,7 @@ export default function DeliveryProcess() {
       </div>
 
       <div
-        className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-3"
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 lg:gap-3"
         onMouseLeave={() => setPaused(false)}
       >
         {deliveryProcess.map((step, index) => {

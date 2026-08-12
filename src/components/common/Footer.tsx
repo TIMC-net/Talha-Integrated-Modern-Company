@@ -110,7 +110,7 @@ export default function Footer() {
       />
 
       <div className="container-site relative pt-10 pb-2 md:pt-14 md:pb-4">
-        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-start lg:gap-x-16 xl:gap-x-24">
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-start lg:gap-x-10 xl:gap-x-16 2xl:gap-x-24">
           {/* Brand + contact */}
           <div className="min-w-0">
             <p className="font-display text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
