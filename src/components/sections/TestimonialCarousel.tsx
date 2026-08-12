@@ -51,7 +51,7 @@ export default function TestimonialCarousel() {
           </div>
         </Reveal>
 
-        <div className="grid items-stretch gap-5 lg:grid-cols-1 xl:grid-cols-[0.85fr_1.15fr] lg:gap-5 xl:gap-6">
+        <div className="grid items-stretch gap-5 lg:grid-cols-1 xl:grid-cols-[0.85fr_1.15fr] lg:gap-5 2xl:gap-6">
           <div className="flex min-h-0 flex-col justify-between bg-accent p-6 text-navy-950 sm:p-8 md:min-h-[420px] md:p-10">
             <div>
               <h3 className="font-display text-2xl font-bold uppercase sm:text-3xl md:text-[40px]">

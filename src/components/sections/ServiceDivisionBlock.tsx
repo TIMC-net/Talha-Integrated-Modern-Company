@@ -156,7 +156,7 @@ export default function ServiceDivisionBlock({
     <section
       id={service.slug}
       data-dark-surface
-      className={`relative scroll-mt-24 overflow-x-clip py-12 md:scroll-mt-28 md:py-16 lg:py-16 xl:py-24 ${
+      className={`relative scroll-mt-24 overflow-x-clip py-12 md:scroll-mt-28 md:py-16 lg:py-16 2xl:py-24 ${
         index === 0 ? "border-t-0 pt-6 md:pt-8 lg:pt-12" : "border-t border-white/10"
       } ${reverse ? "bg-navy-900" : "bg-navy-950"}`}
     >
@@ -171,7 +171,7 @@ export default function ServiceDivisionBlock({
 
       <div className="container-site relative z-10">
         <div
-          className={`grid items-stretch gap-8 lg:gap-10 xl:gap-14 lg:grid-cols-2 ${
+          className={`grid items-stretch gap-8 lg:gap-10 2xl:gap-14 lg:grid-cols-2 ${
             reverse ? "lg:[&>*:first-child]:order-2" : ""
           }`}
         >

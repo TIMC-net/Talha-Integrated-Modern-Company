@@ -84,7 +84,7 @@ export default function InternalPageHero({
   const isSplit = layout === "split" && hasImage;
 
   const titleClass = cn(
-    "max-w-xl font-display text-4xl font-bold leading-[1.15] text-white uppercase sm:max-w-2xl md:text-5xl md:leading-[1.12] lg:text-4xl lg:leading-[1.12] xl:text-[56px]",
+    "max-w-xl font-display text-4xl font-bold leading-[1.15] text-white uppercase sm:max-w-2xl md:text-5xl md:leading-[1.12] lg:text-4xl lg:leading-[1.12] xl:text-[42px] 2xl:text-[56px]",
     hasImage
       ? "[text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_2px_18px_rgba(0,0,0,0.55)]"
       : "drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]",
@@ -256,7 +256,7 @@ export default function InternalPageHero({
         {stats!.map((stat) => {
           const body = (
             <>
-              <p className="font-display text-3xl font-bold text-accent md:text-4xl lg:text-[42px]">
+              <p className="font-display text-3xl font-bold text-accent md:text-4xl lg:text-4xl 2xl:text-[42px]">
                 {stat.value}
               </p>
               <p className="mt-1.5 text-[12px] tracking-wide text-white/65 uppercase transition group-hover:text-accent sm:text-[13px]">
@@ -364,7 +364,7 @@ export default function InternalPageHero({
           </div>
         </div>
 
-        <div className="container-site relative z-10 grid items-center gap-10 pb-16 sm:gap-10 sm:pb-20 sm:pt-[120px] lg:grid-cols-2 lg:gap-10 lg:pb-20 lg:pt-[120px] xl:gap-14 xl:pb-24 xl:pt-[140px]">
+        <div className="container-site relative z-10 grid items-center gap-10 pb-16 sm:gap-10 sm:pb-20 sm:pt-[120px] lg:grid-cols-2 lg:gap-10 lg:pb-20 lg:pt-[120px] 2xl:gap-14 2xl:pb-24 2xl:pt-[140px]">
           <Reveal immediate className="mt-0 overflow-visible pt-6 sm:mt-0 sm:pt-0">
             {copyBlock}
             {children}
@@ -409,7 +409,7 @@ export default function InternalPageHero({
         "relative scroll-mt-20 overflow-x-clip bg-navy-950 pb-0 sm:scroll-mt-24 lg:scroll-mt-28",
         // No image: keep nav clearance in flow. With image: home-style stack on
         // mobile (media first), overlay + top pad from sm up.
-        !hasImage && "pt-[100px] sm:pt-[120px] lg:pt-[120px] xl:pt-[140px]",
+        !hasImage && "pt-[100px] sm:pt-[120px] lg:pt-[120px] 2xl:pt-[140px]",
         hasImage && "sm:flex sm:min-h-[min(72svh,720px)] sm:items-end",
         className,
       )}
@@ -462,7 +462,7 @@ export default function InternalPageHero({
                 showStats
                   ? "pb-0 sm:pb-14 md:pb-16"
                   : "pb-0 sm:pb-16 md:pb-20",
-                "sm:z-10 sm:mt-0 sm:pt-[120px] lg:pt-[120px] xl:pt-[140px]",
+                "sm:z-10 sm:mt-0 sm:pt-[120px] lg:pt-[120px] 2xl:pt-[140px]",
               )
             : showStats
               ? "pb-12 sm:pb-14 md:pb-16"

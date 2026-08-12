@@ -121,7 +121,7 @@ export default function ProcessSection() {
           </div>
         </Reveal>
 
-        <RevealGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 lg:gap-5 xl:gap-6">
+        <RevealGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-4 lg:gap-5 2xl:gap-6">
           {topSteps.map((step, index) => (
             <RevealItem key={step.id}>{renderCard(step, index)}</RevealItem>
           ))}
@@ -134,7 +134,7 @@ export default function ProcessSection() {
               return (
                 <RevealItem
                   key={step.id}
-                  className="w-full sm:max-w-[calc(50%-0.625rem)] lg:w-[calc((100%-1.25rem)/2)] lg:max-w-none xl:w-[calc((100%-4.5rem)/4)]"
+                  className="w-full sm:max-w-[calc(50%-0.625rem)] lg:w-[calc((100%-1.25rem)/2)] lg:max-w-none 2xl:w-[calc((100%-4.5rem)/4)]"
                 >
                   {renderCard(step, index)}
                 </RevealItem>

@@ -199,7 +199,7 @@ export default function ServicesScrollSpy({
   return (
     <nav
       aria-label="Page sections"
-      className="site-section-spy pointer-events-none fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 md:right-6 xl:block xl:right-8"
+      className="site-section-spy pointer-events-none fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 md:right-6 2xl:block 2xl:right-8"
     >
       <div className="pointer-events-auto relative">
         {labelItem ? (

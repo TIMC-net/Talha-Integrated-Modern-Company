@@ -112,7 +112,7 @@ export default function ServiceShowcase() {
             transition={{ duration: 0.4, ease: EASE }}
             className="grid overflow-hidden border border-white/10 bg-navy-900 lg:grid-cols-2"
           >
-            <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[16/10] sm:min-h-0 lg:aspect-auto lg:min-h-[360px] xl:min-h-[440px]">
+            <div className="img-zoom group relative aspect-[16/11] w-full overflow-hidden sm:aspect-[16/10] sm:min-h-0 lg:aspect-auto lg:min-h-[360px] 2xl:min-h-[440px]">
               <Image
                 src={service.image}
                 alt={service.name}
@@ -132,7 +132,7 @@ export default function ServiceShowcase() {
               </motion.div>
             </div>
 
-            <div className="flex flex-col justify-center p-5 sm:p-7 md:p-10 lg:p-8 xl:p-12">
+            <div className="flex flex-col justify-center p-5 sm:p-7 md:p-10 lg:p-8 2xl:p-12">
               <p className="font-display text-[11px] font-semibold tracking-[2px] text-accent uppercase sm:text-[12px]">
                 {service.tagline}
               </p>

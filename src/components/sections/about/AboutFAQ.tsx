@@ -19,7 +19,7 @@ export default function AboutFAQ() {
   return (
     <section data-dark-surface className="bg-navy-950 py-16 md:py-24">
       <div className="container-site">
-        <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-10 xl:gap-14">
+        <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-10 2xl:gap-14">
           <div className="flex h-full flex-col">
             <Reveal>
               <span className="section-eyebrow text-accent">Special Answer</span>

@@ -98,7 +98,7 @@ export default function CTASection() {
   return (
     <section data-dark-surface className="border-t border-white/10 bg-navy-900 py-12 md:py-14">
       <div className="container-site">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-16">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-10 2xl:gap-16">
           <Reveal>
             <div>
               <span className="section-eyebrow text-accent">Contact Us</span>

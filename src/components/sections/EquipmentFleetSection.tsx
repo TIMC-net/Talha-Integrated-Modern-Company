@@ -270,7 +270,7 @@ function EquipmentDetailsPanel({
               <h3
                 id={titleId}
                 className={cn(
-                  "font-display text-lg font-bold tracking-wide uppercase sm:text-xl lg:mt-1.5 lg:pr-8 lg:text-xl lg:leading-tight xl:pr-11 xl:text-[24px]",
+                  "font-display text-lg font-bold tracking-wide uppercase sm:text-xl lg:mt-1.5 lg:pr-8 lg:text-xl lg:leading-tight 2xl:pr-11 2xl:text-[24px]",
                   "max-lg:sr-only",
                   isLight ? "text-[#0a0a0a]" : "text-[#ffffff]",
                 )}

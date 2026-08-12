@@ -62,7 +62,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
             <ArrowLeft className="h-4 w-4" /> Back to Portfolio
           </Link>
 
-          <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-10 xl:gap-14">
+          <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-10 2xl:gap-14">
             <div className="img-zoom group relative aspect-video border border-white/10">
               <Image
                 src={project.imageUrl}

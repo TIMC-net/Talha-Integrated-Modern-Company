@@ -57,7 +57,7 @@ export default function Logo({
               ? "h-9 max-h-9 sm:h-10 sm:max-h-10"
               : compact
                 ? "h-8 max-h-8 sm:h-9 sm:max-h-9"
-                : "h-10 max-h-10 sm:h-11 sm:max-h-11 lg:h-11 lg:max-h-11 xl:h-12 xl:max-h-12"
+                : "h-10 max-h-10 sm:h-11 sm:max-h-11 lg:h-11 lg:max-h-11 2xl:h-12 2xl:max-h-12"
           }`}
         />
       </span>
@@ -67,7 +67,7 @@ export default function Logo({
             className={`font-display font-bold tracking-wide uppercase ${
               compact
                 ? "text-[13px] sm:text-[15px]"
-                : "text-[15px] sm:text-base lg:text-[15px] xl:text-lg"
+                : "text-[15px] sm:text-base lg:text-[15px] 2xl:text-lg"
             } ${light ? "text-[#ffffff]" : "text-[#0a0a0a]"}`}
           >
             TALHA
@@ -76,7 +76,7 @@ export default function Logo({
             <span
               className={`mt-1 font-semibold tracking-[0.12em] uppercase ${
                 light ? "text-[#ffffff]/65" : "text-[#0a0a0a]/55"
-              } text-[7px] sm:text-[8px] lg:text-[8px] xl:text-[9px]`}
+              } text-[7px] sm:text-[8px] lg:text-[8px] 2xl:text-[9px]`}
             >
               Integrated Modern Co. (TIMC)
             </span>
