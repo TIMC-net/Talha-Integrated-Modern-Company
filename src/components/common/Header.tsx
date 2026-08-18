@@ -284,8 +284,7 @@ function CapsuleInner({
         <NavThemeToggle tone={tone} />
         <a
           href="/company-profile.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
+          download="TIMC-Company-Profile.pdf"
           tabIndex={interactive ? undefined : -1}
           className={cn(
             "whitespace-nowrap font-display text-[12px] font-semibold tracking-wide uppercase transition-[max-width,opacity,margin,padding,color] duration-300 hover:text-accent hidden 2xl:inline-flex 2xl:text-[13px]",
@@ -426,8 +425,7 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
         <motion.div variants={itemVariants} className="border-b border-white/10">
           <a
             href="/company-profile.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            download="TIMC-Company-Profile.pdf"
             onClick={onClose}
             className="block py-4 font-display text-[15px] font-semibold tracking-wide text-white uppercase"
           >

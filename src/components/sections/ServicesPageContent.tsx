@@ -119,7 +119,7 @@ export default function ServicesPageContent() {
               variant="outline"
               className="w-full justify-center whitespace-normal border-navy-950/30 text-navy-950 hover:border-navy-950 hover:bg-navy-950/10 sm:w-auto"
             >
-              <a href="/company-profile.pdf" target="_blank" rel="noopener noreferrer">
+              <a href="/company-profile.pdf" download="TIMC-Company-Profile.pdf">
                 Download Company Profile
               </a>
             </Button>
