@@ -7,13 +7,17 @@ import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import ClientsMarquee from "@/components/sections/ClientsMarquee";
 import { Button } from "@/components/ui/button";
 import { clients } from "@/lib/company";
+import { cn } from "@/lib/cn";
 
-export default function ClientsSection() {
+export default function ClientsSection({ lite = false }: { lite?: boolean }) {
   return (
     <section
       id="clients"
       data-dark-surface
-      className="relative scroll-mt-24 overflow-x-clip border-t border-white/10 bg-navy-950 py-12 md:py-16"
+      className={cn(
+        "relative scroll-mt-24 overflow-x-clip border-t border-white/10 bg-navy-950",
+        lite ? "pt-6 pb-12 md:pt-7 md:pb-14" : "py-12 md:py-16",
+      )}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-40"
@@ -25,7 +29,12 @@ export default function ClientsSection() {
 
       <div className="container-site relative z-10">
         <Reveal>
-          <div className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+          <div
+            className={cn(
+              "mx-auto max-w-2xl text-center",
+              lite ? "mb-8 md:mb-9" : "mb-10 md:mb-12",
+            )}
+          >
             <span className="section-eyebrow justify-center text-accent">
               Trusted Partners
             </span>
@@ -43,7 +52,7 @@ export default function ClientsSection() {
       </div>
 
       <Reveal delay={0.08}>
-        <ClientsMarquee clients={clients} />
+        <ClientsMarquee clients={clients} lite={lite} />
       </Reveal>
 
       <div className="container-site relative z-10">

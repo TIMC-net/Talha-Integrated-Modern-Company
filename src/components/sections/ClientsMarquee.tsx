@@ -82,15 +82,18 @@ function ClientLogoTile({
 
 type ClientsMarqueeProps = {
   clients: ClientEntry[];
+  /** Keep the scrolling row, but skip per-logo bounce (smoother with Lenis) */
+  lite?: boolean;
 };
 
 /**
  * Single-row logo marquee with per-logo float — compact height,
  * no duplicate reverse lane.
  */
-export default function ClientsMarquee({ clients }: ClientsMarqueeProps) {
+export default function ClientsMarquee({ clients, lite = false }: ClientsMarqueeProps) {
   const reduce = useReducedMotion();
   const [paused, setPaused] = useState(false);
+  const allowFloat = !lite && !reduce;
 
   if (reduce) {
     return (
@@ -125,6 +128,7 @@ export default function ClientsMarquee({ clients }: ClientsMarqueeProps) {
               key={`a-${client.shortName}-${index}`}
               client={client}
               index={index}
+              float={allowFloat}
             />
           ))}
         </div>
@@ -134,6 +138,7 @@ export default function ClientsMarquee({ clients }: ClientsMarqueeProps) {
               key={`b-${client.shortName}-${index}`}
               client={client}
               index={index + half.length}
+              float={allowFloat}
             />
           ))}
         </div>

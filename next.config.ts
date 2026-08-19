@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LEGACY_EXACT_REDIRECTS } from "./src/lib/legacyRedirects";
 
 const nextConfig: NextConfig = {
   images: {
@@ -25,6 +26,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      ...LEGACY_EXACT_REDIRECTS.map((item) => ({
+        source: item.source,
+        destination: item.destination,
+        permanent: true as const,
+      })),
       {
         source: "/services/scaffolding",
         destination: "/services",
