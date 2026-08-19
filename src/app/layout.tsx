@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Open_Sans, Raleway } from "next/font/google";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import LenisWrapper from "@/components/LenisWrapper";
 import FloatingActions from "@/components/motion/FloatingActions";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -47,6 +48,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="flex min-h-full flex-col antialiased">
+        <GoogleAnalytics />
         <ThemeProvider>
           <LenisWrapper>
             <Header />
