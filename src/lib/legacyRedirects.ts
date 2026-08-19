@@ -1,5 +1,6 @@
 /**
  * Maps URLs from the discarded PHP site (trsco.net) onto the current TIMC routes.
+ * Exact list was checked against the old site zip (public .php/.html pages + includes).
  * Exact paths are also emitted as 301s from next.config.ts for crawlers.
  * Unknown paths stay unmatched so Next.js can render the 404 page.
  */
@@ -12,9 +13,21 @@ export type LegacyRedirect = {
 export const LEGACY_EXACT_REDIRECTS: LegacyRedirect[] = [
   { source: "/index.php", destination: "/" },
   { source: "/index.html", destination: "/" },
+  { source: "/default.html", destination: "/" },
+  { source: "/default-bak.html", destination: "/" },
   { source: "/home", destination: "/" },
   { source: "/home.php", destination: "/" },
   { source: "/cgi-sys/suspendedpage.cgi", destination: "/" },
+  { source: "/header.php", destination: "/" },
+  { source: "/footer.php", destination: "/" },
+  { source: "/bottom.php", destination: "/" },
+  { source: "/left-panel.php", destination: "/" },
+  { source: "/timezone.php", destination: "/" },
+  { source: "/400.shtml", destination: "/" },
+  { source: "/401.shtml", destination: "/" },
+  { source: "/403.shtml", destination: "/" },
+  { source: "/500.php", destination: "/" },
+  { source: "/500.shtml", destination: "/" },
 
   { source: "/about-us.php", destination: "/about" },
   { source: "/about-us", destination: "/about" },
@@ -31,6 +44,10 @@ export const LEGACY_EXACT_REDIRECTS: LegacyRedirect[] = [
   { source: "/enquiry.php", destination: "/contact" },
   { source: "/get-a-quote", destination: "/contact" },
   { source: "/quote", destination: "/contact" },
+  { source: "/thank-you.php", destination: "/contact" },
+  { source: "/thank-you", destination: "/contact" },
+  { source: "/thankyou.php", destination: "/contact" },
+  { source: "/lead-form-handler.php", destination: "/contact" },
 
   { source: "/our-services.php", destination: "/services" },
   { source: "/our-services", destination: "/services" },
@@ -113,7 +130,7 @@ function matchKeywords(path: string): string | null {
 
   if (/\bprivacy\b/.test(text)) return "/privacy";
   if (/\bterms\b/.test(text)) return "/terms";
-  if (/\b(contact|enquiry|inquiry|quote)\b/.test(text)) return "/contact";
+  if (/\b(contact|enquiry|inquiry|quote|thank)\b/.test(text)) return "/contact";
   if (/\babout\b/.test(text)) return "/about";
   if (/\bclient\b/.test(text)) return "/clients";
   if (/\b(rental|equipment|crane|excavator|fleet)\b/.test(text)) {
