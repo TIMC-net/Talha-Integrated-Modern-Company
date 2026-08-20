@@ -67,7 +67,7 @@ export default function TestimonialCarousel() {
               <Button
                 asChild
                 size="lg"
-                className="w-full bg-navy-950 text-white hover:bg-navy-900 sm:w-auto"
+                className="w-full bg-navy-950 text-white hover:bg-navy-900 hover:text-white sm:w-auto"
               >
                 <Link href="/contact">
                   Get Started Now <ArrowRight className="h-4 w-4" />
