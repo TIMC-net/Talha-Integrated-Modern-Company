@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TIMC Website SEO Audit Report</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #1c1c1c;
+      font-size: 11pt;
+      line-height: 1.45;
+      margin: 0;
+    }
+    h1 {
+      font-size: 22pt;
+      margin: 0 0 6px;
+      letter-spacing: 0.02em;
+    }
+    h2 {
+      font-size: 13pt;
+      margin: 22px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #ff6b35;
+      color: #111;
+    }
+    h3 {
+      font-size: 11.5pt;
+      margin: 14px 0 6px;
+      color: #222;
+    }
+    p { margin: 0 0 8px; }
+    .meta {
+      color: #555;
+      font-size: 10pt;
+      margin-bottom: 16px;
+    }
+    .banner {
+      background: #111;
+      color: #fff;
+      padding: 14px 16px;
+      margin: 12px 0 18px;
+    }
+    .banner strong { color: #ff6b35; }
+    .stats {
+      display: flex;
+      gap: 10px;
+      margin: 14px 0 8px;
+    }
+    .stat {
+      flex: 1;
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat .n {
+      font-size: 20pt;
+      font-weight: 700;
+      display: block;
+    }
+    .stat .l {
+      font-size: 8.5pt;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 9.5pt;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 7px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #f4f4f4;
+      font-weight: 700;
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .high { background: #fff4e5; color: #9a3412; }
+    .medium { background: #eef6ff; color: #1e40af; }
+    .low { background: #f3f4f6; color: #374151; }
+    .done { background: #ecfdf5; color: #065f46; }
+    .open { background: #fff7ed; color: #9a3412; }
+    .was { background: #fde8e8; color: #9b1c1c; }
+    .now { background: #ecfdf5; color: #065f46; }
+    ul { margin: 6px 0 10px 18px; padding: 0; }
+    li { margin-bottom: 4px; }
+    .footer-note {
+      margin-top: 24px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+      font-size: 8.5pt;
+      color: #666;
+    }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+    .col-was { width: 38%; }
+    .col-now { width: 38%; }
+  </style>
+</head>
+<body>
+  <h1>TIMC Website SEO Audit Report</h1>
+  <p class="meta">
+    Prepared for Talha Integrated Modern Company (TIMC)<br />
+    Domain: https://www.trsco.net<br />
+    Report date: 20 August 2026<br />
+    Revision: v1.2 — remaining opportunities implemented + gap difference table<br />
+    Prepared by: WeRQA
+  </p>
+
+  <div class="banner">
+    <strong>Executive summary.</strong>
+    The TIMC Next.js site now has a complete technical SEO foundation plus the
+    follow-up polish called out in earlier report versions: natural Jeddah / KSA
+    keywords, a topical home H1, descriptive image alts on heroes and project
+    cards, compressed hero/about videos and a large page hero image, and
+    consistent TIMC brand naming in company metadata. Client-side work that
+    remains is Search Console monitoring (submit sitemap, request indexing).
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="n">6</span><span class="l">High items done</span></div>
+    <div class="stat"><span class="n">6</span><span class="l">Medium items done</span></div>
+    <div class="stat"><span class="n">1</span><span class="l">Low media improved</span></div>
+    <div class="stat"><span class="n">1</span><span class="l">Client GSC action</span></div>
+  </div>
+
+  <h2>1. Gap difference — what was missing vs what we added</h2>
+  <p>
+    This table is the difference view: earlier audit gaps on the left, what was
+    shipped into the project on the right.
+  </p>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width:10%">ID</th>
+        <th class="col-was">Earlier gap (missing / weak)</th>
+        <th class="col-now">What we added in the project</th>
+        <th style="width:14%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>H1</td>
+        <td><span class="tag was">Missing</span> No robots.txt / sitemap.xml</td>
+        <td><span class="tag now">Added</span> <code>/robots.txt</code> + <code>/sitemap.xml</code> (App Router)</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>H2</td>
+        <td><span class="tag was">Missing</span> Unique titles on Clients / Contact / Projects</td>
+        <td><span class="tag now">Added</span> Unique title + description per route</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>H3</td>
+        <td><span class="tag was">Missing</span> metadataBase, OG, Twitter, canonicals</td>
+        <td><span class="tag now">Added</span> Sitewide + page OG/Twitter/canonical helpers</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>H4</td>
+        <td><span class="tag was">Missing</span> Organization / Service / Breadcrumb schema</td>
+        <td><span class="tag now">Added</span> JSON-LD on root, services, portfolio, projects</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>H5</td>
+        <td><span class="tag was">Weak</span> Services linked as hashes only</td>
+        <td><span class="tag now">Added</span> Real <code>/services/[slug]</code> internal links</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>H6</td>
+        <td><span class="tag was">Heavy</span> Profile PDF ~49 MB</td>
+        <td><span class="tag now">Added</span> Compressed profile PDF ~5.4 MB</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>M1</td>
+        <td><span class="tag was">Wrong</span> Canonical domain pointed at talhaimc.com</td>
+        <td><span class="tag now">Fixed</span> Canonical = https://www.trsco.net</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>M2</td>
+        <td><span class="tag was">Weak</span> Long / ALL-CAPS title patterns</td>
+        <td><span class="tag now">Improved</span> Shorter professional titles + template</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>M3</td>
+        <td><span class="tag was">Inconsistent</span> ALL-CAPS legal company string in metadata</td>
+        <td><span class="tag now">Fixed</span> Title-case “Talha Integrated Modern Company” in company data / schema</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>M4</td>
+        <td><span class="tag was">Weak</span> “Before public launch” legal disclaimers</td>
+        <td><span class="tag now">Cleaned</span> Privacy / Terms launch wording removed</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>M5</td>
+        <td><span class="tag was">Missing</span> Home H1 was brand-only (“TIMC”); empty alts on heroes / project cards</td>
+        <td><span class="tag now">Added</span> H1 = TIMC + “General Contractor in Saudi Arabia”; descriptive alts on internal heroes, project cards, services showcase, 404</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>M6</td>
+        <td><span class="tag was">Weak</span> Limited Jeddah / KSA phrasing</td>
+        <td><span class="tag now">Added</span> Keyword pass on meta, hero, services intro, FAQ (no layout change)</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>L1</td>
+        <td><span class="tag was">Heavy</span> Hero video ~8.0 MB; about video ~8.6 MB; projects hero WebP ~927 KB</td>
+        <td><span class="tag now">Compressed</span> Hero ~3.0 MB; about ~6.2 MB; projects hero WebP ~472 KB</td>
+        <td><span class="tag done">Done</span></td>
+      </tr>
+      <tr>
+        <td>L2</td>
+        <td><span class="tag open">Monitor</span> Legacy GTM vs GA4 continuity</td>
+        <td>GA4 wired in app; Search Console file live — TIMC should keep GA4 as source of truth</td>
+        <td><span class="tag open">Monitor</span></td>
+      </tr>
+      <tr>
+        <td>GSC</td>
+        <td><span class="tag open">Client</span> Sitemap submit / URL inspection</td>
+        <td>Code ready; TIMC must submit sitemap in Google Search Console</td>
+        <td><span class="tag open">Client</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. What was implemented in this revision (v1.2)</h2>
+  <ul>
+    <li><strong>Home H1 topical clarity</strong> — single H1 keeps TIMC large and adds “General Contractor in Saudi Arabia” as the second H1 line.</li>
+    <li><strong>Image alt coverage</strong> — InternalPageHero defaults descriptive alts; ProjectGrid uses project name + location; ServiceShowcase + 404 heroes labelled; logo mark stays decorative when wordmark is present.</li>
+    <li><strong>Media compression</strong> — home hero MP4 8.0→3.0 MB; about MP4 8.6→6.2 MB; projects-page-hero WebP 927→472 KB.</li>
+    <li><strong>Brand string</strong> — company legal/display name normalised to title case for schema and metadata consumers.</li>
+  </ul>
+
+  <h2>3. Earlier foundation (still in place from v1.0–v1.1)</h2>
+  <ul>
+    <li>Canonical domain https://www.trsco.net</li>
+    <li>Root + page metadata, Open Graph, Twitter, robots</li>
+    <li>/robots.txt and /sitemap.xml</li>
+    <li>Organization / Service / Breadcrumb / CreativeWork JSON-LD</li>
+    <li>OG default image 1200×630; profile PDF ~5.4 MB</li>
+    <li>Service detail URLs linked from footer / cards</li>
+    <li>Jeddah / KSA keyword targeting pass</li>
+    <li>Legacy PHP redirects; GA4; Search Console verification file</li>
+    <li>Footer: Developed by WeRQA</li>
+  </ul>
+
+  <h2>4. Metadata coverage matrix</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Route</th>
+        <th>Unique title / description</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>/</td><td>Yes</td><td>Topical H1 + Jeddah/KSA meta</td></tr>
+      <tr><td>/about</td><td>Yes</td><td>Keyword-enriched; hero alt set</td></tr>
+      <tr><td>/services</td><td>Yes</td><td>Keyword-enriched; hero alt set</td></tr>
+      <tr><td>/services/[slug]</td><td>Yes (dynamic)</td><td>Schema + localised meta</td></tr>
+      <tr><td>/clients</td><td>Yes</td><td>Fixed + keyword pass</td></tr>
+      <tr><td>/contact</td><td>Yes</td><td>Fixed + keyword pass</td></tr>
+      <tr><td>/projects/ongoing</td><td>Yes</td><td>Project card alts added</td></tr>
+      <tr><td>/projects/completed</td><td>Yes</td><td>Project card alts added</td></tr>
+      <tr><td>/portfolio</td><td>Yes</td><td>Good</td></tr>
+      <tr><td>/portfolio/[slug]</td><td>Yes (dynamic)</td><td>Schema added</td></tr>
+      <tr><td>/privacy</td><td>Yes</td><td>Disclaimer cleaned</td></tr>
+      <tr><td>/terms</td><td>Yes</td><td>Disclaimer cleaned</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. What is still outside the codebase</h2>
+  <ol>
+    <li>
+      <strong>Google Search Console (TIMC action)</strong>
+      <ul>
+        <li>Confirm https://www.trsco.net/robots.txt and /sitemap.xml</li>
+        <li>Submit https://www.trsco.net/sitemap.xml</li>
+        <li>URL Inspection → Request indexing on Home, Services, Contact, key projects</li>
+        <li>Monitor Page Indexing for ~30 days</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Analytics continuity</strong> — treat GA4 as the live measurement source; retire or ignore legacy GTM if it is no longer firing.
+    </li>
+  </ol>
+
+  <h2>6. Ranking expectation (honest)</h2>
+  <p>
+    These changes improve crawlability, relevance signals, and page experience for
+    realistic local queries (contractor Jeddah, equipment rental Saudi Arabia,
+    TIMC services). They do <strong>not</strong> guarantee #1 ranking for broad
+    terms such as “construction company.” Ranking also depends on backlinks,
+    competition, and ongoing content — not only on-site SEO.
+  </p>
+
+  <h2>7. Recommended next actions for TIMC</h2>
+  <ol>
+    <li>Deploy / confirm latest build is live on www.trsco.net.</li>
+    <li>Submit the sitemap in Google Search Console.</li>
+    <li>Request indexing for priority URLs.</li>
+    <li>Review Search Console coverage after 2–4 weeks.</li>
+  </ol>
+
+  <div class="footer-note">
+    Confidential — prepared for TIMC client review.<br />
+    This is a technical SEO audit and implementation summary, not a paid media or content-marketing plan.<br />
+    Developed by WeRQA · 20 August 2026 · Report revision v1.2
+  </div>
+</body>
+</html>

@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { fadeInUp } from "@/lib/gsap-config";
 
 const BRAND = "TIMC";
-const HEADLINE = "General Contractor for Critical Infrastructure";
+/** Second line of the H1 — topical SEO without overpowering the brand. */
+const H1_POSITIONING = "General Contractor in Saudi Arabia";
 const SUBHEADING =
-  "Jeddah-based civil infrastructure, foundation engineering, and energy infrastructure — with integrated heavy equipment rental supporting every project phase across Saudi Arabia.";
+  "Jeddah-based civil infrastructure, foundation engineering, and energy infrastructure — with integrated heavy equipment rental supporting every project phase across the Kingdom.";
 
 export default function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -89,25 +90,26 @@ export default function Hero() {
             Kingdom of Saudi Arabia
           </p>
 
-          <WriteOnScroll
-            as="h1"
-            text={BRAND}
-            mode="write"
-            className="font-display text-[2.25rem] leading-none font-bold tracking-wide text-white uppercase sm:text-5xl md:text-6xl lg:text-[48px] xl:text-[56px] 2xl:text-[72px]"
-          />
-
-          <WriteOnScroll
-            as="p"
-            text={HEADLINE}
-            delay={0.12}
-            className="mt-3 font-display text-[15px] leading-snug font-semibold text-white/90 uppercase sm:mt-5 sm:text-xl md:text-2xl lg:text-2xl lg:leading-[1.2] xl:text-[28px] 2xl:text-[32px]"
-          />
+          <h1 className="font-display text-white uppercase">
+            <WriteOnScroll
+              as="span"
+              text={BRAND}
+              mode="write"
+              className="block text-[2.25rem] leading-none font-bold tracking-wide sm:text-5xl md:text-6xl lg:text-[48px] xl:text-[56px] 2xl:text-[72px]"
+            />
+            <WriteOnScroll
+              as="span"
+              text={H1_POSITIONING}
+              delay={0.12}
+              className="mt-3 block text-[15px] leading-snug font-semibold text-white/90 sm:mt-5 sm:text-xl md:text-2xl lg:text-2xl lg:leading-[1.2] xl:text-[28px] 2xl:text-[32px]"
+            />
+          </h1>
 
           <WriteOnScroll
             as="p"
             text={SUBHEADING}
             delay={0.22}
-            className="mt-3 max-w-xl text-[13px] leading-relaxed text-white/75 sm:mt-6 sm:text-[16px] md:text-[18px]"
+            className="mt-3 max-w-xl text-[13px] leading-relaxed text-white/75 normal-case sm:mt-6 sm:text-[16px] md:text-[18px]"
           />
 
           <div

@@ -1,5 +1,5 @@
 export const company = {
-  name: "TALHA INTEGRATED MODERN COMPANY",
+  name: "Talha Integrated Modern Company",
   shortName: "TIMC",
   tagline: "Engineering, Contracting & Integrated Equipment Solutions",
   phone: "+966 50 197 9045",

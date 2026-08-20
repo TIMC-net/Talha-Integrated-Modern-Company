@@ -200,7 +200,7 @@ function ProjectHoverCard({
       >
         <Image
           src={image}
-          alt=""
+          alt={`${project.name} — TIMC ${status} project in ${project.location}`}
           fill
           sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
           className="object-cover object-center bg-navy-900"

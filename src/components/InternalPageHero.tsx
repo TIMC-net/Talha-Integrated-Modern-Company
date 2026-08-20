@@ -32,6 +32,8 @@ type InternalPageHeroProps = {
    * (typography + atmosphere, no image). Files stay on disk either way.
    */
   backgroundImage?: string;
+  /** Accessible description for the hero photo (defaults from page title). */
+  imageAlt?: string;
   /** Extra classes for the background Image (object-position, etc.) */
   imageClassName?: string;
   /**
@@ -67,6 +69,7 @@ export default function InternalPageHero({
   title,
   description,
   backgroundImage,
+  imageAlt,
   imageClassName,
   overlay = "default",
   layout = "bleed",
@@ -78,6 +81,12 @@ export default function InternalPageHero({
   className,
   children,
 }: InternalPageHeroProps) {
+  const resolvedImageAlt =
+    imageAlt ??
+    `TIMC ${[titleLead, titleAccent, title].filter(Boolean).join(" ")}`.replace(
+      /\s+/g,
+      " ",
+    ).trim();
   const showStats = Boolean(stats && stats.length > 0);
   const photoOverlay = overlay === "photo";
   const hasImage = Boolean(backgroundImage);
@@ -351,7 +360,7 @@ export default function InternalPageHero({
           >
             <Image
               src={backgroundImage}
-              alt=""
+              alt={resolvedImageAlt}
               fill
               priority
               quality={90}
@@ -382,7 +391,7 @@ export default function InternalPageHero({
             >
               <Image
                 src={backgroundImage}
-                alt=""
+                alt={resolvedImageAlt}
                 fill
                 priority
                 quality={90}
@@ -423,7 +432,7 @@ export default function InternalPageHero({
           <div className="relative aspect-video w-full overflow-hidden sm:absolute sm:inset-0 sm:aspect-auto sm:h-full">
             <Image
               src={backgroundImage}
-              alt=""
+              alt={resolvedImageAlt}
               fill
               priority
               quality={90}

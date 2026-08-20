@@ -16,7 +16,7 @@ export default function NotFound() {
           <div className="relative aspect-[21/10] w-full overflow-hidden sm:absolute sm:inset-0 sm:aspect-auto sm:h-full">
             <Image
               src="/images/broken-crane-v6.webp"
-              alt=""
+              alt="TIMC construction crane on a project site in Saudi Arabia"
               fill
               priority
               quality={90}

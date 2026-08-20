@@ -23,7 +23,7 @@ export default function ServiceShowcase() {
       <div className="absolute inset-0">
         <Image
           src="/images/header-contracting.webp"
-          alt=""
+          alt="TIMC heavy equipment and contracting operations in Saudi Arabia"
           fill
             className="object-cover opacity-45"
           sizes="100vw"
