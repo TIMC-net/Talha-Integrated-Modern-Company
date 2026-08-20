@@ -4,9 +4,10 @@ import LegalDocument from "@/components/sections/LegalDocument";
 import { company } from "@/lib/company";
 
 export const metadata: Metadata = {
-  title: `Terms of Use | ${company.shortName}`,
+  title: "Terms of Use",
   description:
     "Terms governing use of the Talha Integrated Modern Company website and general conditions applicable to online enquiries.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsOfUsePage() {
@@ -24,7 +25,7 @@ export default function TermsOfUsePage() {
       />
       <LegalDocument
         lastUpdated="3 August 2026"
-        intro={`These Terms of Use (“Terms”) govern your access to and use of the website operated by ${company.name} (“${company.shortName}”, “we”, “us”, or “our”) at ${company.website}. By using this website you agree to these Terms. This page contains standard stock terms for a Saudi contracting company website and should be reviewed by TIMC’s legal advisor before public launch.`}
+        intro={`These Terms of Use (“Terms”) govern your access to and use of the website operated by ${company.name} (“${company.shortName}”, “we”, “us”, or “our”) at ${company.website}. By using this website you agree to these Terms.`}
         contactNote="Questions about these Terms can be sent through our"
         sections={[
           {

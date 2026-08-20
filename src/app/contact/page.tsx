@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import ContactPageClient from "./ContactPageClient";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Us",
+  description:
+    "Contact TIMC in Jeddah for contracting, civil infrastructure, foundation engineering, energy projects, and heavy equipment rental enquiries across Saudi Arabia.",
+  path: "/contact",
+});
 
 /**
  * Server component: reads the Web3Forms key from env and passes it into the

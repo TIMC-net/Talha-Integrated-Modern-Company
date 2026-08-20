@@ -4,9 +4,10 @@ import LegalDocument from "@/components/sections/LegalDocument";
 import { company } from "@/lib/company";
 
 export const metadata: Metadata = {
-  title: `Privacy Policy | ${company.shortName}`,
+  title: "Privacy Policy",
   description:
     "How Talha Integrated Modern Company collects, uses, and protects personal information submitted through our website and enquiry channels.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPolicyPage() {
@@ -24,7 +25,7 @@ export default function PrivacyPolicyPage() {
       />
       <LegalDocument
         lastUpdated="3 August 2026"
-        intro={`This Privacy Policy explains how ${company.name} (“${company.shortName}”, “we”, “us”, or “our”) handles personal information when you visit ${company.website.replace("https://", "")}, contact us by phone or email, or submit an enquiry about our contracting and equipment rental services. This page uses standard website privacy language and should be reviewed by TIMC before public launch.`}
+        intro={`This Privacy Policy explains how ${company.name} (“${company.shortName}”, “we”, “us”, or “our”) handles personal information when you visit ${company.website.replace("https://", "")}, contact us by phone or email, or submit an enquiry about our contracting and equipment rental services.`}
         contactNote="If you have questions about this Privacy Policy or wish to exercise a privacy request, please reach us via"
         sections={[
           {

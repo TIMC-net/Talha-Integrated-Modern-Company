@@ -5,7 +5,7 @@ export const company = {
   phone: "+966 50 197 9045",
   mobile: "+966 59 158 3779",
   email: "trs@trsco.net",
-  website: "https://www.talhaimc.com",
+  website: "https://www.trsco.net",
   location: "Jeddah, Kingdom of Saudi Arabia",
   address:
     "6933 Muteb St, Al Rehab Dist., 3525 - 23343, Jeddah, Kingdom of Saudi Arabia",

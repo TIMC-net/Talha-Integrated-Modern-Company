@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import ServicesPageContent from "@/components/sections/ServicesPageContent";
-import { company } from "@/lib/company";
 
 export const metadata: Metadata = {
-  title: `Our Services | ${company.shortName}`,
+  title: "Our Services",
   description:
     "TIMC contractor services: Equipment Rental, Civil Infrastructure, Foundation Engineering, and Energy Infrastructure.",
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesIndexPage() {

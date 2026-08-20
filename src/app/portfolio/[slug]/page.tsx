@@ -3,10 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import JsonLd from "@/components/JsonLd";
 import InternalPageHero from "@/components/InternalPageHero";
 import { getService } from "@/data/services";
 import { projects } from "@/data/projects";
 import WriteOnScroll from "@/components/motion/WriteOnScroll";
+import { company } from "@/lib/company";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  creativeWorkJsonLd,
+} from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -19,10 +26,25 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((item) => item.slug === slug);
-  if (!project) return { title: "Project Not Found | TIMC" };
+  if (!project) return { title: "Project Not Found" };
+  const url = absoluteUrl(`/portfolio/${slug}`);
+  const image = absoluteUrl(project.imageUrl);
   return {
-    title: `${project.title} | TIMC Portfolio`,
+    title: project.title,
     description: project.description,
+    alternates: { canonical: `/portfolio/${slug}` },
+    openGraph: {
+      title: `${project.title} | ${company.shortName}`,
+      description: project.description,
+      url,
+      images: [{ url: image, alt: project.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | ${company.shortName}`,
+      description: project.description,
+      images: [image],
+    },
   };
 }
 
@@ -38,6 +60,21 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Portfolio", path: "/portfolio" },
+            { name: project.title, path: `/portfolio/${project.slug}` },
+          ]),
+          creativeWorkJsonLd({
+            name: project.title,
+            description: project.description,
+            path: `/portfolio/${project.slug}`,
+            image: project.imageUrl,
+          }),
+        ]}
+      />
       <InternalPageHero
         crumbs={[
           { label: "Home", href: "/" },

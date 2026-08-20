@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import InternalPageHero from "@/components/InternalPageHero";
@@ -6,7 +7,15 @@ import { Reveal } from "@/components/motion/Reveal";
 import ProjectCategoryTabs from "@/components/sections/ProjectCategoryTabs";
 import { Button } from "@/components/ui/button";
 import { ongoingProjects } from "@/lib/company";
+import { pageMetadata } from "@/lib/seo";
 import WriteOnScroll from "@/components/motion/WriteOnScroll";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Ongoing Projects",
+  description:
+    "Current TIMC project delivery across Saudi Arabia — access roads, foundations, power generation support, and heavy equipment packages for major contractors.",
+  path: "/projects/ongoing",
+});
 
 export default function OngoingProjectsPage() {
   return (

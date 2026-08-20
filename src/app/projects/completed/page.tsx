@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import InternalPageHero from "@/components/InternalPageHero";
@@ -6,7 +7,15 @@ import { Reveal } from "@/components/motion/Reveal";
 import ProjectCategoryTabs from "@/components/sections/ProjectCategoryTabs";
 import { Button } from "@/components/ui/button";
 import { completedProjects } from "@/lib/company";
+import { pageMetadata } from "@/lib/seo";
 import WriteOnScroll from "@/components/motion/WriteOnScroll";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Completed Projects",
+  description:
+    "Completed TIMC projects across solar, power, NEOM infrastructure, and industrial programmes — equipment supply and contracting delivery in Saudi Arabia.",
+  path: "/projects/completed",
+});
 
 export default function CompletedProjectsPage() {
   return (

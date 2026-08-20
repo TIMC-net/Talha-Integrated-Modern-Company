@@ -10,9 +10,10 @@ import AboutVendorsMarquee from "@/components/sections/about/AboutVendorsMarquee
 import { company } from "@/lib/company";
 
 export const metadata: Metadata = {
-  title: `About Us | ${company.shortName}`,
+  title: "About Us",
   description:
     "Learn about Talha Integrated Modern Company — a Saudi general contractor in civil infrastructure, foundation engineering, energy infrastructure and equipment rental.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

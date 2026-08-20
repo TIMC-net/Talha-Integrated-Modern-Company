@@ -154,7 +154,7 @@ export default function ServiceShowcase() {
 
               <div className="mt-8">
                 <Button asChild>
-                  <Link href={`/services#${service.slug}`}>
+                  <Link href={`/services/${service.slug}`}>
                     Read More <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>

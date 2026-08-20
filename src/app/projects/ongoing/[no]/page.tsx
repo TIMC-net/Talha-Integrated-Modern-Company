@@ -9,11 +9,17 @@ import {
   CircleDot,
   MapPin,
 } from "lucide-react";
+import JsonLd from "@/components/JsonLd";
 import InternalPageHero from "@/components/InternalPageHero";
 import { Reveal } from "@/components/motion/Reveal";
 import WriteOnScroll from "@/components/motion/WriteOnScroll";
 import { Button } from "@/components/ui/button";
-import { ongoingProjects } from "@/lib/company";
+import { company, ongoingProjects } from "@/lib/company";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  creativeWorkJsonLd,
+} from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ no: string }>;
@@ -32,11 +38,29 @@ export async function generateMetadata({
   const project = ongoingProjects.find(
     (p) => String(p.no) === no && p.details,
   );
-  if (!project?.details) return { title: "Project Not Found | TIMC" };
+  if (!project?.details) return { title: "Project Not Found" };
   const title = project.details.fullName ?? project.name;
+  const description = project.details.overview.slice(0, 160);
+  const url = absoluteUrl(`/projects/ongoing/${no}`);
+  const image = absoluteUrl(
+    project.details.heroImage || project.coverImage || "/images/og-default.jpg",
+  );
   return {
-    title: `${title} | Ongoing Project | TIMC`,
-    description: project.details.overview.slice(0, 160),
+    title,
+    description,
+    alternates: { canonical: `/projects/ongoing/${no}` },
+    openGraph: {
+      title: `${title} | ${company.shortName}`,
+      description,
+      url,
+      images: [{ url: image, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | ${company.shortName}`,
+      description,
+      images: [image],
+    },
   };
 }
 
@@ -52,10 +76,26 @@ export default async function OngoingProjectDetailPage({ params }: PageProps) {
   const titleWords = title.split(" ");
   const titleAccent = titleWords.slice(0, 2).join(" ");
   const titleRest = titleWords.slice(2).join(" ") || "Details";
+  const path = `/projects/ongoing/${project.no}`;
   const sponsorOrClient = project.sponsor || project.client;
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Ongoing Projects", path: "/projects/ongoing" },
+            { name: title, path },
+          ]),
+          creativeWorkJsonLd({
+            name: title,
+            description: details.overview,
+            path,
+            image: details.heroImage || project.coverImage,
+          }),
+        ]}
+      />
       <InternalPageHero
         crumbs={[
           { label: "Home", href: "/" },
