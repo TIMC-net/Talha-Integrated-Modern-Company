@@ -94,7 +94,7 @@ export const aboutFaqs: FaqItem[] = [
     id: "industries",
     question: "What industries does TIMC serve?",
     answer:
-      "TIMC serves the oil & gas, power, utilities, industrial, infrastructure, renewable energy, mining, commercial, and government sectors.",
+      "As a Jeddah-based contractor, TIMC serves oil & gas, power, utilities, industrial, infrastructure, renewable energy, mining, commercial, and government sectors across Saudi Arabia.",
   },
   {
     id: "operate",
@@ -106,12 +106,12 @@ export const aboutFaqs: FaqItem[] = [
     id: "services",
     question: "What services does TIMC provide?",
     answer:
-      "TIMC provides general contracting, civil infrastructure, foundation engineering, industrial maintenance, mechanical works, electrical works, heavy equipment rental, transportation, earthworks, utility infrastructure, and renewable energy support services.",
+      "TIMC provides general contracting, civil infrastructure, foundation engineering, industrial maintenance, mechanical and electrical works, heavy equipment rental in Jeddah and nationwide, transportation, earthworks, utility infrastructure, and renewable energy support.",
   },
   {
     id: "turnkey",
     question: "Does TIMC provide turnkey project solutions?",
     answer:
-      "Yes. TIMC delivers integrated engineering, construction, and equipment solutions tailored to each client's project requirements.",
+      "Yes. TIMC delivers integrated engineering, construction, and equipment rental solutions tailored to each client's project requirements in Saudi Arabia.",
   },
 ];

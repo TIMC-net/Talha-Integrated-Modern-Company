@@ -58,7 +58,7 @@ export default function ServicesPageContent() {
         titleLead="Our"
         titleAccent="Contractor"
         title="Services"
-        description="Comprehensive contractor solutions — from civil infrastructure and foundation engineering to energy infrastructure, with integrated equipment rental supporting every project phase."
+        description="Comprehensive contractor solutions from Jeddah — civil infrastructure, foundation engineering, and energy infrastructure, with integrated heavy equipment rental supporting every project phase across Saudi Arabia."
         backgroundImage="/images/services-page-hero-v3.webp"
         imageClassName="object-cover object-[center_40%]"
         connectBottom

@@ -12,7 +12,13 @@ import { company } from "@/lib/company";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Talha Integrated Modern Company — a Saudi general contractor in civil infrastructure, foundation engineering, energy infrastructure and equipment rental.",
+    "About TIMC (Talha Integrated Modern Company) — Jeddah general contractor for civil infrastructure, foundation engineering, energy infrastructure, and heavy equipment rental in Saudi Arabia.",
+  keywords: [
+    "TIMC about",
+    "Talha Integrated Modern Company Jeddah",
+    "Saudi general contractor",
+    "Jeddah construction company",
+  ],
   alternates: { canonical: "/about" },
 };
 

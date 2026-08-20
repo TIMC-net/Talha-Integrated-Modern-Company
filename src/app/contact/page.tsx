@@ -7,6 +7,12 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Contact TIMC in Jeddah for contracting, civil infrastructure, foundation engineering, energy projects, and heavy equipment rental enquiries across Saudi Arabia.",
   path: "/contact",
+  keywords: [
+    "contact TIMC Jeddah",
+    "TIMC phone",
+    "equipment rental enquiry Saudi Arabia",
+    "contractor contact Jeddah",
+  ],
 });
 
 /**

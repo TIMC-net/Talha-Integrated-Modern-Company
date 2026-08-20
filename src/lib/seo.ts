@@ -5,10 +5,29 @@ import { company } from "@/lib/company";
 /** Canonical production origin for TIMC. */
 export const SITE_URL = "https://www.trsco.net";
 
-export const DEFAULT_TITLE = "TIMC | Contractor in Saudi Arabia";
+export const DEFAULT_TITLE =
+  "TIMC | Jeddah Contractor & Equipment Rental Saudi Arabia";
 
 export const DEFAULT_DESCRIPTION =
-  "TIMC is a Jeddah-based contractor for civil infrastructure, foundation engineering, energy projects, and integrated heavy equipment rental across Saudi Arabia.";
+  "TIMC (Talha Integrated Modern Company) is a Jeddah contractor for civil infrastructure, foundation engineering, energy projects, and heavy equipment rental across Saudi Arabia.";
+
+/** Shared keyword set for search engines that still read meta keywords. */
+export const SITE_KEYWORDS = [
+  "TIMC",
+  "Talha Integrated Modern Company",
+  "TIMC Jeddah",
+  "contractor Jeddah",
+  "contractor Saudi Arabia",
+  "general contractor KSA",
+  "civil infrastructure Saudi Arabia",
+  "foundation engineering Jeddah",
+  "energy infrastructure contractor",
+  "heavy equipment rental Jeddah",
+  "equipment rental Saudi Arabia",
+  "crane rental Jeddah",
+  "construction company Jeddah",
+  "infrastructure contractor Saudi Arabia",
+];
 
 /** Default social preview image (1200×630). */
 export const DEFAULT_OG_IMAGE = "/images/og-default.jpg";
@@ -24,6 +43,7 @@ type PageMetaInput = {
   path: string;
   image?: string;
   noIndex?: boolean;
+  keywords?: string[];
 };
 
 export function pageMetadata({
@@ -32,6 +52,7 @@ export function pageMetadata({
   path,
   image = DEFAULT_OG_IMAGE,
   noIndex = false,
+  keywords,
 }: PageMetaInput): Metadata {
   const url = absoluteUrl(path);
   const ogImage = absoluteUrl(image);
@@ -39,6 +60,7 @@ export function pageMetadata({
   return {
     title,
     description,
+    ...(keywords?.length ? { keywords } : {}),
     alternates: { canonical: url },
     openGraph: {
       title: `${title} | ${company.shortName}`,

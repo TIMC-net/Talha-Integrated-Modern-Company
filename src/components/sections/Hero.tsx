@@ -10,7 +10,7 @@ import { fadeInUp } from "@/lib/gsap-config";
 const BRAND = "TIMC";
 const HEADLINE = "General Contractor for Critical Infrastructure";
 const SUBHEADING =
-  "Civil infrastructure, foundation engineering, and energy infrastructure — with integrated equipment rental supporting every project phase across Saudi Arabia.";
+  "Jeddah-based civil infrastructure, foundation engineering, and energy infrastructure — with integrated heavy equipment rental supporting every project phase across Saudi Arabia.";
 
 export default function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null);

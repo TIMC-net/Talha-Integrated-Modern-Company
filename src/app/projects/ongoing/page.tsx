@@ -13,8 +13,13 @@ import WriteOnScroll from "@/components/motion/WriteOnScroll";
 export const metadata: Metadata = pageMetadata({
   title: "Ongoing Projects",
   description:
-    "Current TIMC project delivery across Saudi Arabia — access roads, foundations, power generation support, and heavy equipment packages for major contractors.",
+    "Ongoing TIMC projects in Saudi Arabia — access roads, foundations, power generation support, and heavy equipment packages for major contractors from our Jeddah base.",
   path: "/projects/ongoing",
+  keywords: [
+    "TIMC ongoing projects",
+    "construction projects Saudi Arabia",
+    "Jeddah contractor projects",
+  ],
 });
 
 export default function OngoingProjectsPage() {

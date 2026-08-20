@@ -13,8 +13,13 @@ import WriteOnScroll from "@/components/motion/WriteOnScroll";
 export const metadata: Metadata = pageMetadata({
   title: "Completed Projects",
   description:
-    "Completed TIMC projects across solar, power, NEOM infrastructure, and industrial programmes — equipment supply and contracting delivery in Saudi Arabia.",
+    "Completed TIMC projects across solar, power, NEOM infrastructure, and industrial programmes — equipment supply and contracting delivery in Jeddah and Saudi Arabia.",
   path: "/projects/completed",
+  keywords: [
+    "TIMC completed projects",
+    "NEOM infrastructure contractor",
+    "solar power projects Saudi Arabia",
+  ],
 });
 
 export default function CompletedProjectsPage() {

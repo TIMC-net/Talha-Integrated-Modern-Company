@@ -24,13 +24,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const service = getService(slug);
   if (!service) return { title: "Service Not Found" };
 
-  const description = service.fullDescription.slice(0, 155);
+  const description =
+    `${service.name} by TIMC in Jeddah, Saudi Arabia. ${service.fullDescription}`.slice(
+      0,
+      158,
+    );
   const url = absoluteUrl(`/services/${slug}`);
   const image = absoluteUrl(service.image || DEFAULT_OG_IMAGE);
 
   return {
     title: service.name,
     description,
+    keywords: [
+      `TIMC ${service.name}`,
+      `${service.name} Jeddah`,
+      `${service.name} Saudi Arabia`,
+      "TIMC contractor",
+    ],
     alternates: { canonical: `/services/${slug}` },
     openGraph: {
       title: `${service.name} | ${company.shortName}`,
