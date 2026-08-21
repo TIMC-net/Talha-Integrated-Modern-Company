@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TIMC Old vs New Website SEO Comparison</title>
+  <style>
+    @page { size: A4; margin: 18mm 16mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #1c1c1c;
+      font-size: 11pt;
+      line-height: 1.45;
+      margin: 0;
+    }
+    h1 { font-size: 21pt; margin: 0 0 6px; letter-spacing: 0.02em; }
+    h2 {
+      font-size: 13pt;
+      margin: 22px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #ff6b35;
+      color: #111;
+    }
+    h3 { font-size: 11.5pt; margin: 14px 0 6px; color: #222; }
+    p { margin: 0 0 8px; }
+    .meta { color: #555; font-size: 10pt; margin-bottom: 16px; }
+    .banner {
+      background: #111;
+      color: #fff;
+      padding: 14px 16px;
+      margin: 12px 0 18px;
+    }
+    .banner strong { color: #ff6b35; }
+    .stats { display: flex; gap: 10px; margin: 14px 0 8px; }
+    .stat {
+      flex: 1;
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat .n { font-size: 18pt; font-weight: 700; display: block; }
+    .stat .l {
+      font-size: 8pt;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 9.3pt;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 7px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #f4f4f4;
+      font-weight: 700;
+      font-size: 8.2pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .old { background: #fde8e8; color: #9b1c1c; }
+    .neu { background: #ecfdf5; color: #065f46; }
+    .mid { background: #fff4e5; color: #9a3412; }
+    ul { margin: 6px 0 10px 18px; padding: 0; }
+    li { margin-bottom: 4px; }
+    .footer-note {
+      margin-top: 24px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+      font-size: 8.5pt;
+      color: #666;
+    }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+    .two-col { display: flex; gap: 12px; margin: 10px 0 14px; }
+    .card {
+      flex: 1;
+      border: 1px solid #ddd;
+      padding: 12px;
+    }
+    .card h3 { margin-top: 0; }
+    code { font-size: 8.5pt; }
+  </style>
+</head>
+<body>
+  <h1>TIMC Old vs New Website<br />SEO Comparison Report</h1>
+  <p class="meta">
+    Prepared for Talha Integrated Modern Company (TIMC)<br />
+    Old site source: archived PHP website (trsco.zip)<br />
+    New site: https://www.trsco.net (Next.js on Vercel)<br />
+    Report date: 20 August 2026<br />
+    Prepared by: WeRQA
+  </p>
+
+  <div class="banner">
+    <strong>Bottom line.</strong>
+    The new TIMC website is a full technical and brand upgrade over the old PHP
+    site. Search readiness moved from a thin, outdated brochure stack (empty
+    descriptions, no sitemap/robots, no Open Graph/schema, TRS naming) to a
+    modern crawlable property with unique metadata, structured data, clean URLs,
+    legacy redirects, mobile performance work, and a live Search Console sitemap
+    (38 pages discovered).
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="n">PHP</span><span class="l">Old stack</span></div>
+    <div class="stat"><span class="n">Next.js</span><span class="l">New stack</span></div>
+    <div class="stat"><span class="n">0 → 38</span><span class="l">Sitemap pages in GSC</span></div>
+    <div class="stat"><span class="n">66</span><span class="l">Legacy URL redirects</span></div>
+  </div>
+
+  <h2>1. Scope of comparison</h2>
+  <p>
+    This report compares the <strong>discarded old website</strong> (flat PHP/HTML
+    files from the TIMC archive) with the <strong>live new website</strong> at
+    https://www.trsco.net. It focuses on SEO-relevant differences: architecture,
+    brand naming, metadata, indexation, structured data, mobile/performance,
+    URL equity, and content structure — not unpaid advertising results.
+  </p>
+
+  <h2>2. Snapshot: old website vs new website</h2>
+  <div class="two-col avoid-break">
+    <div class="card">
+      <h3>Old website</h3>
+      <ul>
+        <li>Classic PHP includes (<code>header.php</code>, <code>footer.php</code>)</li>
+        <li>URLs like <code>/about-us.php</code>, <code>/our-services.php</code></li>
+        <li>Public brand mix: <strong>Talha Rental Services (TRS)</strong> + “Talha Constructions…” titles</li>
+        <li>~11–19 public PHP/HTML pages</li>
+        <li>jQuery 1.7-era scripts; IE9 fallbacks</li>
+        <li>GTM container present</li>
+        <li>No robots.txt / sitemap in archive</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>New website</h3>
+      <ul>
+        <li>Next.js App Router hosted on Vercel</li>
+        <li>Clean URLs: <code>/about</code>, <code>/services/equipment-rental</code></li>
+        <li>Public brand: <strong>TIMC / Talha Integrated Modern Company</strong></li>
+        <li>Sitemap with 38 discoverable URLs (confirmed in Search Console)</li>
+        <li>Modern responsive UI + WebP/media optimisation</li>
+        <li>GA4 + Search Console verification</li>
+        <li>robots.txt + sitemap.xml live</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>3. Side-by-side SEO difference table</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width:18%">Area</th>
+        <th style="width:36%">Old website</th>
+        <th style="width:36%">New website</th>
+        <th style="width:10%">Verdict</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Platform</td>
+        <td><span class="tag old">Old</span> Static/legacy PHP pages with includes</td>
+        <td><span class="tag neu">New</span> Next.js App Router + Vercel CDN</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Public brand</td>
+        <td>TRS / Talha Rental Services / “Talha Constructions, Power Generators &amp; Heavy Equipments”</td>
+        <td>Consistent TIMC naming in titles, schema, and UI</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>URL structure</td>
+        <td><code>.php</code> filenames; mixed duplicates possible</td>
+        <td>Clean routes; service/project detail pages</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Meta descriptions</td>
+        <td><span class="tag old">Empty</span> on homepage and most pages</td>
+        <td><span class="tag neu">Unique</span> descriptions per key route + local keywords</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Titles</td>
+        <td>Long shared brand string + page label; some mismatches (e.g. privacy titled Terms)</td>
+        <td>Shorter TIMC template; unique page titles</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Open Graph / Twitter</td>
+        <td>None found</td>
+        <td>Sitewide OG + Twitter + dedicated share image</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Canonicals</td>
+        <td>None found</td>
+        <td>Canonical URLs on pages via metadataBase</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>robots.txt</td>
+        <td>Not present in archive</td>
+        <td>Live at /robots.txt (allows site, points to sitemap)</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Sitemap</td>
+        <td>Not present in archive</td>
+        <td>Live /sitemap.xml — GSC status Success, 38 pages</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Structured data</td>
+        <td>None found</td>
+        <td>Organization/LocalBusiness, Service, Breadcrumb, CreativeWork</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>H1 strategy</td>
+        <td>Header H1 = “Talha Rental Services” on pages (brand-only, repeated)</td>
+        <td>Home H1 = TIMC + “General Contractor in Saudi Arabia”; internal heroes use page H1s</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Mobile readiness</td>
+        <td>No viewport meta in sampled head markup; older CSS grid approach</td>
+        <td>Responsive layout designed for phone + desktop</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Performance assets</td>
+        <td>Unoptimised classic image set; no modern format pipeline</td>
+        <td>WebP/AVIF pipeline; compressed hero/about videos; profile PDF ~5.4 MB</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Image accessibility</td>
+        <td>Limited/empty alt practices common in era</td>
+        <td>Descriptive alts on heroes, project cards, key sections</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Analytics</td>
+        <td>Google Tag Manager (GTM-N3WZ7VWS)</td>
+        <td>GA4 in the new app + Search Console property</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Old URL equity</td>
+        <td>N/A (those were the live URLs)</td>
+        <td>~66 exact legacy redirects (301) from old PHP paths to new routes</td>
+        <td>Upgrade</td>
+      </tr>
+      <tr>
+        <td>Content depth</td>
+        <td>Home, About, Services list, 4 service PHP pages, Clients, Contact, legal</td>
+        <td>Services with detail routes, ongoing/completed projects, portfolio, clients, contact, legal</td>
+        <td>Upgrade</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4. URL mapping: old pages → new pages</h2>
+  <p>
+    Google and users may still hold old bookmarks or indexed <code>.php</code> links.
+    The new site preserves that equity with redirects, for example:
+  </p>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Old URL</th>
+        <th>New URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>/index.php</td><td>/</td></tr>
+      <tr><td>/about-us.php</td><td>/about</td></tr>
+      <tr><td>/our-services.php</td><td>/services</td></tr>
+      <tr><td>/rental-equipment-division.php</td><td>/services/equipment-rental</td></tr>
+      <tr><td>/construction-services.php</td><td>/services/civil-infrastructure</td></tr>
+      <tr><td>/power-generation.php /maintenance-services.php</td><td>/services/energy-infrastructure</td></tr>
+      <tr><td>/our-valuable-clients.php</td><td>/clients</td></tr>
+      <tr><td>/contact-us.php</td><td>/contact</td></tr>
+      <tr><td>/privacy-policy.php</td><td>/privacy</td></tr>
+      <tr><td>/terms-conditions.php</td><td>/terms</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. What improved for search engines</h2>
+  <ol>
+    <li><strong>Discoverability</strong> — sitemap + robots give Google a clear crawl map (38 pages already discovered).</li>
+    <li><strong>Relevance</strong> — unique titles/descriptions + Jeddah/Saudi Arabia phrasing replace empty descriptions and TRS-era wording.</li>
+    <li><strong>Understanding</strong> — JSON-LD tells Google TIMC is a Jeddah LocalBusiness/contractor with services and breadcrumbs.</li>
+    <li><strong>Sharing</strong> — Open Graph previews work when links are shared on WhatsApp/LinkedIn/etc.</li>
+    <li><strong>Continuity</strong> — 301 redirects reduce “soft 404” loss from old indexed PHP URLs.</li>
+    <li><strong>Experience signals</strong> — mobile layout + lighter media support better engagement and Core Web Vitals potential.</li>
+  </ol>
+
+  <h2>6. What the old site still “had” vs what matters now</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Old-site item</th>
+        <th>New-site equivalent / note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Domain trsco.net</td>
+        <td>Kept — primary canonical is https://www.trsco.net</td>
+      </tr>
+      <tr>
+        <td>GTM tag</td>
+        <td>Replaced/supplemented by GA4 in the new app; use GA4 as source of truth</td>
+      </tr>
+      <tr>
+        <td>Keyword meta tags</td>
+        <td>Still present on new site where useful, but descriptions + content matter more</td>
+      </tr>
+      <tr>
+        <td>Basic service pages</td>
+        <td>Expanded into clearer TIMC divisions with dedicated routes and schema</td>
+      </tr>
+      <tr>
+        <td>Old GSC HTML file in archive</td>
+        <td>New verification file deployed for the current property</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>7. Business impact (plain language)</h2>
+  <ul>
+    <li>The old site looked dated and was hard for Google to understand cleanly.</li>
+    <li>The new site presents TIMC as a modern Jeddah contractor with clear services and projects.</li>
+    <li>Search Console is already receiving the new sitemap successfully.</li>
+    <li>Rankings still take time; this comparison shows <em>capability and readiness</em>, not an overnight #1 guarantee.</li>
+  </ul>
+
+  <h2>8. Recommended follow-through</h2>
+  <ol>
+    <li>Keep using the <strong>www</strong> Search Console property (already verified).</li>
+    <li>Leave the sitemap submitted; do not resubmit repeatedly.</li>
+    <li>Optionally Request indexing for Home, Services, Contact.</li>
+    <li>Monitor Performance + Pages indexing for 30 days.</li>
+    <li>Prefer sharing www.trsco.net links going forward.</li>
+  </ol>
+
+  <div class="footer-note">
+    Confidential — prepared for TIMC client review.<br />
+    Evidence basis: archived old PHP site (trsco.zip) + live inspection of https://www.trsco.net + Search Console sitemap success (38 pages).<br />
+    Developed by WeRQA · 20 August 2026 · Old vs New SEO Comparison
+  </div>
+</body>
+</html>

@@ -48,7 +48,7 @@ export default function Logo({
       <span className={blend ? "nav-blend-escape inline-flex" : "inline-flex"}>
         <Image
           src="/images/logo-mark.webp"
-          alt={markOnly ? company.shortName : ""}
+          alt={company.shortName}
           width={256}
           height={256}
           priority

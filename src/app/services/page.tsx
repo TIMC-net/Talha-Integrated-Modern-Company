@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ServicesPageContent from "@/components/sections/ServicesPageContent";
 
 export const metadata: Metadata = {
-  title: "Our Services",
+  title: "Contractor & Equipment Rental Services in Jeddah",
   description:
     "TIMC services in Jeddah & Saudi Arabia: heavy equipment rental, civil infrastructure, foundation engineering, and energy infrastructure contracting.",
   keywords: [

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Clients",
+  title: "Clients & Partners in Saudi Arabia",
   description:
     "TIMC clients and partners across contracting, engineering, and energy programmes in Jeddah and Saudi Arabia — organisations that rely on disciplined site delivery.",
   path: "/clients",

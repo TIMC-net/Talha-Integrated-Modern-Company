@@ -10,9 +10,9 @@ import AboutVendorsMarquee from "@/components/sections/about/AboutVendorsMarquee
 import { company } from "@/lib/company";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "Jeddah General Contractor Since 2010",
   description:
-    "About TIMC (Talha Integrated Modern Company) — Jeddah general contractor for civil infrastructure, foundation engineering, energy infrastructure, and heavy equipment rental in Saudi Arabia.",
+    "About TIMC — Jeddah general contractor since 2010 for civil infrastructure, foundation engineering, energy projects, and heavy equipment rental in Saudi Arabia.",
   keywords: [
     "TIMC about",
     "Talha Integrated Modern Company Jeddah",

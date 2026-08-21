@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TIMC SEO Audit — Findings &amp; Fixes</title>
+  <style>
+    @page { size: A4; margin: 16mm 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      margin: 0;
+    }
+    h1 {
+      font-size: 22pt;
+      margin: 0 0 4px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 12pt;
+      font-weight: 700;
+      margin: 0 0 10px;
+      color: #111;
+    }
+    h2 {
+      font-size: 12pt;
+      margin: 20px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #ff6b35;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    h3 { font-size: 11pt; margin: 12px 0 6px; }
+    p { margin: 0 0 8px; }
+    .meta { color: #555; font-size: 9.5pt; margin-bottom: 14px; }
+    .banner {
+      background: #111;
+      color: #fff;
+      padding: 14px 16px;
+      margin: 10px 0 16px;
+    }
+    .banner strong { color: #ff6b35; }
+    .scores {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+    .score {
+      flex: 1;
+      border: 1px solid #ddd;
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .score .n { display: block; font-size: 16pt; font-weight: 800; }
+    .score .l {
+      display: block;
+      font-size: 7.5pt;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+    .good { color: #065f46; }
+    .warn { color: #9a3412; }
+    .bad { color: #9b1c1c; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 9pt;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 7px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #f3f3f3;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    th.found { background: #fee2e2; color: #7f1d1d; }
+    th.fixed { background: #d1fae5; color: #065f46; }
+    .tag {
+      display: inline-block;
+      font-size: 7pt;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      border-radius: 2px;
+      margin-right: 4px;
+    }
+    .critical { background: #fecaca; color: #7f1d1d; }
+    .high { background: #fed7aa; color: #9a3412; }
+    .medium { background: #bfdbfe; color: #1e40af; }
+    .quick { background: #e5e7eb; color: #374151; }
+    .done { background: #a7f3d0; color: #065f46; }
+    .open { background: #fde68a; color: #92400e; }
+    .reverted { background: #e5e7eb; color: #4b5563; }
+    ul { margin: 6px 0 10px 18px; padding: 0; }
+    li { margin-bottom: 4px; }
+    .footer-note {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+      font-size: 8pt;
+      color: #666;
+    }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+    .two { display: flex; gap: 10px; margin: 10px 0 14px; }
+    .card { flex: 1; border: 1px solid #ddd; padding: 10px 12px; }
+    .card h3 { margin-top: 0; font-size: 10.5pt; }
+  </style>
+</head>
+<body>
+  <h1>SEO Audit Report</h1>
+  <p class="subtitle">TIMC — Talha Integrated Modern Company</p>
+  <p class="meta">
+    Full technical, on-page, content, and local SEO audit follow-up for
+    <strong>www.trsco.net</strong> — a Jeddah-based general contractor and heavy
+    equipment rental company serving projects across Saudi Arabia.<br /><br />
+    Site: https://www.trsco.net<br />
+    Source audit: TIMCSEOAudit.pdf (20 August 2026)<br />
+    Implementation follow-up: 21 August 2026<br />
+    Prepared by: WeRQA
+  </p>
+
+  <div class="banner">
+    <strong>Executive summary.</strong>
+    The independent audit found a solid technical build (clean URLs, sitemap,
+    robots, HTTPS, structured data) but weak commercial visibility — mainly from
+    an unclaimed Google Business Profile, a www/non-www split, thin secondary
+    titles, a truncated equipment-rental meta description, and local/off-page
+    gaps. WeRQA has now implemented the <em>developer-owned</em> fixes from that
+    audit. Items that require TIMC marketing/ops (GBP claim, reviews, Arabic
+    site) remain open and are listed clearly below.
+  </div>
+
+  <div class="scores">
+    <div class="score">
+      <span class="n good">Fixed</span>
+      <span class="l">Dev SEO items</span>
+    </div>
+    <div class="score">
+      <span class="n warn">Open</span>
+      <span class="l">Local / ops items</span>
+    </div>
+    <div class="score">
+      <span class="n good">38</span>
+      <span class="l">Sitemap pages in GSC</span>
+    </div>
+    <div class="score">
+      <span class="n good">www</span>
+      <span class="l">Canonical host enforced</span>
+    </div>
+  </div>
+
+  <h2>01 — What the audit found vs what we fixed</h2>
+  <p>
+    Same findings as the external audit, with an implementation status for each.
+  </p>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width:8%">Sev.</th>
+        <th style="width:16%">Area</th>
+        <th class="found" style="width:33%">Audit finding (before)</th>
+        <th class="fixed" style="width:33%">What WeRQA fixed / status</th>
+        <th style="width:10%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag critical">Critical</span></td>
+        <td>www / non-www</td>
+        <td>trsco.net and www.trsco.net both returned 200 — ranking signals could split</td>
+        <td>Added permanent 301 in <code>vercel.json</code>: all apex traffic → https://www.trsco.net/*</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag critical">Critical</span></td>
+        <td>Mobile LCP</td>
+        <td>Mobile homepage LCP ~6.3s; hero media flagged as main contributor</td>
+        <td>A mobile still-image LCP change was trialled, then <strong>reverted on client request</strong>. Hero video restored on all breakpoints.</td>
+        <td><span class="tag reverted">Reverted</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag critical">Critical</span></td>
+        <td>Google Business Profile</td>
+        <td>Unclaimed “Talha Rental Services” listing; NAP mismatch vs website</td>
+        <td>Requires TIMC to claim/verify GBP and align name, address, phone with the website</td>
+        <td><span class="tag open">TIMC</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag high">High</span></td>
+        <td>Equipment rental meta</td>
+        <td>Meta description cut off mid-word (“…phases. O”)</td>
+        <td>Word-boundary clipper + complete Jeddah/service descriptions on all service pages</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag high">High</span></td>
+        <td>Thin page titles</td>
+        <td>“Our Services | TIMC”, “About Us | TIMC”, “Contact Us | TIMC” too short / no location</td>
+        <td>Expanded titles with Jeddah / contractor / equipment-rental keywords (About, Services, Contact, Clients, Projects, service detail pages)</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag high">High</span></td>
+        <td>Reviews / directories</td>
+        <td>Only one GBP review; no industry directory presence</td>
+        <td>Marketing/ops action: request client reviews + list on 3–5 Saudi/GCC directories</td>
+        <td><span class="tag open">TIMC</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag high">High</span></td>
+        <td>Arabic site</td>
+        <td>English-only; no hreflang /ar content for local Arabic search</td>
+        <td>Larger content + development project — not in this code pass</td>
+        <td><span class="tag open">Future</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag medium">Medium</span></td>
+        <td>Project metas</td>
+        <td>Portfolio descriptions ~40 chars (“Supply of Equipment…”)</td>
+        <td>Templated descriptions: project + TIMC scope + client + location, Saudi Arabia</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag medium">Medium</span></td>
+        <td>Image alts</td>
+        <td>2 images missing/weak alt coverage on shared chrome</td>
+        <td>Logo alt set to TIMC; page heroes / project cards already carry descriptive alts</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag quick">Quick</span></td>
+        <td>Sitemap lastmod</td>
+        <td>All URLs shared the same “now” timestamp</td>
+        <td>Stable lastmod dates by section (site / services / portfolio / projects)</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag quick">Quick</span></td>
+        <td>Anchor text</td>
+        <td>Non-descriptive “Learn more” / vague CTA links</td>
+        <td>Replaced with “View {Service}”, “View TIMC Services”, “Contact TIMC About Your Project”</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag quick">Quick</span></td>
+        <td>Schema sameAs</td>
+        <td>Organization JSON-LD had empty sameAs array</td>
+        <td>LinkedIn company URL added to sameAs</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag quick">Quick</span></td>
+        <td>Home description length</td>
+        <td>Root meta description risked SERP truncation (~176 chars)</td>
+        <td>Shortened default description to ~142 characters</td>
+        <td><span class="tag done">Fixed</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>02 — Technical SEO (after fixes)</h2>
+  <div class="two avoid-break">
+    <div class="card">
+      <h3>Already strong (audit agreed)</h3>
+      <ul>
+        <li>robots.txt allows crawl; blocks only /api/</li>
+        <li>sitemap.xml live — GSC Success, 38 pages discovered</li>
+        <li>HTTPS + HSTS</li>
+        <li>Real HTTP 404 page</li>
+        <li>Organization / LocalBusiness JSON-LD present</li>
+        <li>Responsive layout</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Strengthened in this pass</h3>
+      <ul>
+        <li>Apex → www 301 consolidation</li>
+        <li>Meaningful sitemap lastmod values</li>
+        <li>sameAs identity link (LinkedIn)</li>
+        <li>Safer meta truncation (no mid-word cuts)</li>
+        <li>Richer service + project metadata</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>03 — On-page examples (before → after)</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Page</th>
+        <th class="found">Before (audit)</th>
+        <th class="fixed">After (implemented)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>/services</td>
+        <td>Title ~“Our Services | TIMC” (thin)</td>
+        <td>“Contractor &amp; Equipment Rental Services in Jeddah | TIMC”</td>
+      </tr>
+      <tr>
+        <td>/about</td>
+        <td>“About Us | TIMC”</td>
+        <td>“Jeddah General Contractor Since 2010 | TIMC”</td>
+      </tr>
+      <tr>
+        <td>/contact</td>
+        <td>“Contact Us | TIMC”</td>
+        <td>“Contact — Jeddah Contractor &amp; Equipment Rental | TIMC”</td>
+      </tr>
+      <tr>
+        <td>/services/equipment-rental</td>
+        <td>Meta cut off mid-word; thin title</td>
+        <td>Complete description; title “Heavy Equipment Rental in Jeddah | TIMC”</td>
+      </tr>
+      <tr>
+        <td>/portfolio/…</td>
+        <td>~40-char scope-only description</td>
+        <td>“[Project] — TIMC’s [scope] for [client] in [location], Saudi Arabia.”</td>
+      </tr>
+      <tr>
+        <td>Host URLs</td>
+        <td>Apex and www both live</td>
+        <td>Apex permanently redirects to www</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>04 — Local SEO &amp; visibility (still open)</h2>
+  <p>
+    The audit’s keyword check (20 Aug 2026) found brand visibility for
+    “TIMC / Talha Integrated Modern Company”, but not yet page-one rankings for
+    commercial terms such as “equipment rental Jeddah” or “general contractor Jeddah”.
+    That remains expected until local trust signals catch up.
+  </p>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th>Owner</th>
+        <th>Why it matters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Claim &amp; verify Google Business Profile; match website NAP exactly</td>
+        <td>TIMC Marketing / Ops</td>
+        <td>Highest-impact local-pack fix; stops wrong phone/address from ranking</td>
+      </tr>
+      <tr>
+        <td>Request reviews from recent project clients</td>
+        <td>TIMC Marketing / Ops</td>
+        <td>Competitors already outrank on review volume</td>
+      </tr>
+      <tr>
+        <td>List TIMC on 3–5 Saudi/GCC contractor / rental directories</td>
+        <td>TIMC Marketing / Ops</td>
+        <td>Backlinks + citation consistency</td>
+      </tr>
+      <tr>
+        <td>Arabic core pages (/ar/) with hreflang</td>
+        <td>TIMC + WeRQA (future sprint)</td>
+        <td>Captures Arabic local search demand</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>05 — Prioritized status vs original action plan</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Original audit action</th>
+        <th>Status after WeRQA pass</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Claim &amp; fix Google Business Profile</td><td><span class="tag open">Open — TIMC</span></td></tr>
+      <tr><td>2</td><td>301 redirect trsco.net → www.trsco.net</td><td><span class="tag done">Fixed</span></td></tr>
+      <tr><td>3</td><td>Fix mobile homepage LCP</td><td><span class="tag reverted">Tried, then reverted per TIMC</span></td></tr>
+      <tr><td>4</td><td>Rewrite titles &amp; meta descriptions</td><td><span class="tag done">Fixed</span></td></tr>
+      <tr><td>5</td><td>Reviews + directories</td><td><span class="tag open">Open — TIMC</span></td></tr>
+      <tr><td>6</td><td>Arabic site</td><td><span class="tag open">Future sprint</span></td></tr>
+      <tr><td>7</td><td>Alts, descriptive links, sameAs, sitemap lastmod</td><td><span class="tag done">Fixed</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>06 — Client takeaway</h2>
+  <div class="two avoid-break">
+    <div class="card">
+      <h3>Before this fix pass</h3>
+      <ul>
+        <li>Good site, weak host consolidation</li>
+        <li>Broken/truncated service snippet risk</li>
+        <li>Thin secondary titles</li>
+        <li>Empty schema sameAs</li>
+        <li>Weak project long-tail metas</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>After this fix pass</h3>
+      <ul>
+        <li>Single canonical host (www)</li>
+        <li>Complete, keyword-aware titles &amp; descriptions</li>
+        <li>Cleaner crawl signals in sitemap</li>
+        <li>Stronger entity markup (LinkedIn sameAs)</li>
+        <li>Remaining gap = local GBP + reviews + Arabic</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    <strong>Honest ranking note:</strong> these fixes improve crawlability,
+    snippets, and relevance signals. They do not by themselves guarantee page-one
+    rankings for competitive terms. Local pack performance still depends on GBP
+    verification, reviews, and citations.
+  </p>
+
+  <div class="footer-note">
+    Confidential — prepared for TIMC client review.<br />
+    Based on the independent TIMCSEOAudit.pdf (live crawl / PageSpeed / Maps checks, 20 August 2026)
+    plus WeRQA implementation status as of 21 August 2026.<br />
+    Companion docs: SEO Audit Report · Old vs New Comparison · Before vs After SEO Implementation.<br />
+    Developed by WeRQA
+  </div>
+</body>
+</html>

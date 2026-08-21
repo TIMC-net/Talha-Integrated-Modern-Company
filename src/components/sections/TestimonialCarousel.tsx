@@ -70,7 +70,8 @@ export default function TestimonialCarousel() {
                 className="w-full bg-navy-950 text-white hover:bg-navy-900 hover:text-white sm:w-auto"
               >
                 <Link href="/contact">
-                  Get Started Now <ArrowRight className="h-4 w-4" />
+                  Contact TIMC About Your Project{" "}
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>

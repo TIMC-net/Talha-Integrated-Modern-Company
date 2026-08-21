@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TIMC SEO Before vs After Report</title>
+  <style>
+    @page { size: A4; margin: 18mm 16mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #1c1c1c;
+      font-size: 11pt;
+      line-height: 1.45;
+      margin: 0;
+    }
+    h1 { font-size: 21pt; margin: 0 0 6px; letter-spacing: 0.02em; }
+    h2 {
+      font-size: 13pt;
+      margin: 22px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #ff6b35;
+      color: #111;
+    }
+    h3 { font-size: 11.5pt; margin: 14px 0 6px; color: #222; }
+    p { margin: 0 0 8px; }
+    .meta { color: #555; font-size: 10pt; margin-bottom: 16px; }
+    .banner {
+      background: #111;
+      color: #fff;
+      padding: 14px 16px;
+      margin: 12px 0 18px;
+    }
+    .banner strong { color: #ff6b35; }
+    .stats { display: flex; gap: 10px; margin: 14px 0 8px; }
+    .stat {
+      flex: 1;
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat .n { font-size: 18pt; font-weight: 700; display: block; }
+    .stat .l {
+      font-size: 8pt;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+      font-size: 9.3pt;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 7px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #f4f4f4;
+      font-weight: 700;
+      font-size: 8.2pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    th.before { background: #fde8e8; color: #7f1d1d; }
+    th.after { background: #d1fae5; color: #065f46; }
+    .tag {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .missing { background: #fde8e8; color: #9b1c1c; }
+    .added { background: #ecfdf5; color: #065f46; }
+    .weak { background: #fff4e5; color: #9a3412; }
+    .improved { background: #eef6ff; color: #1e40af; }
+    ul { margin: 6px 0 10px 18px; padding: 0; }
+    li { margin-bottom: 4px; }
+    .two-col { display: flex; gap: 12px; margin: 10px 0 14px; }
+    .card { flex: 1; border: 1px solid #ddd; padding: 12px; }
+    .card h3 { margin-top: 0; }
+    .card.before-card { border-top: 4px solid #dc2626; }
+    .card.after-card { border-top: 4px solid #059669; }
+    .footer-note {
+      margin-top: 24px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+      font-size: 8.5pt;
+      color: #666;
+    }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+    code { font-size: 8.5pt; }
+  </style>
+</head>
+<body>
+  <h1>TIMC SEO Implementation Report<br />Before vs After</h1>
+  <p class="meta">
+    Prepared for Talha Integrated Modern Company (TIMC)<br />
+    Domain: https://www.trsco.net<br />
+    Focus: What was missing before the SEO sprint, and what WeRQA added after<br />
+    Report date: 20 August 2026<br />
+    Prepared by: WeRQA
+  </p>
+
+  <div class="banner">
+    <strong>Purpose of this report.</strong>
+    This document shows only the SEO work on the current TIMC website:
+    the gaps that existed <em>before</em> SEO implementation, and the
+    improvements that were <em>added after</em>. It is not the old-PHP vs new-site
+    architecture comparison (that is a separate report).
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="n">Before</span><span class="l">SEO gaps on new site</span></div>
+    <div class="stat"><span class="n">After</span><span class="l">SEO items delivered</span></div>
+    <div class="stat"><span class="n">38</span><span class="l">Sitemap pages in GSC</span></div>
+    <div class="stat"><span class="n">Done</span><span class="l">Code SEO complete</span></div>
+  </div>
+
+  <h2>1. One-look summary</h2>
+  <div class="two-col avoid-break">
+    <div class="card before-card">
+      <h3>Before SEO</h3>
+      <ul>
+        <li>No robots.txt / sitemap.xml</li>
+        <li>Several pages reused homepage title/description</li>
+        <li>No Open Graph / Twitter / canonical setup</li>
+        <li>No Organization / Service / Breadcrumb schema</li>
+        <li>Weak internal links to service detail pages</li>
+        <li>~49 MB company profile PDF</li>
+        <li>Limited Jeddah / KSA keyword targeting</li>
+        <li>Home H1 brand-only (“TIMC”)</li>
+        <li>Empty alts on key heroes / project cards</li>
+        <li>Heavy hero/about videos</li>
+      </ul>
+    </div>
+    <div class="card after-card">
+      <h3>After SEO</h3>
+      <ul>
+        <li>Live robots.txt + sitemap.xml (GSC Success)</li>
+        <li>Unique titles &amp; descriptions on key routes</li>
+        <li>OG, Twitter, canonicals, share image</li>
+        <li>JSON-LD schema across site + detail pages</li>
+        <li>Real <code>/services/[slug]</code> internal links</li>
+        <li>Profile PDF compressed to ~5.4 MB</li>
+        <li>Natural local keyword pass (meta + copy)</li>
+        <li>Topical H1: TIMC + contractor in Saudi Arabia</li>
+        <li>Descriptive image alts added</li>
+        <li>Videos/images compressed for faster load</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>2. Full difference table — missing before → added after</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width:8%">#</th>
+        <th style="width:16%">Area</th>
+        <th class="before" style="width:33%">Before SEO (missing / weak)</th>
+        <th class="after" style="width:33%">After SEO (what we added)</th>
+        <th style="width:10%">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Sitemap &amp; robots</td>
+        <td><span class="tag missing">Missing</span> No crawler discovery files</td>
+        <td><span class="tag added">Added</span> <code>/robots.txt</code> + <code>/sitemap.xml</code></td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Page titles</td>
+        <td><span class="tag missing">Missing</span> Clients / Contact / Projects inherited homepage title</td>
+        <td><span class="tag added">Added</span> Unique title + description per page</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Social &amp; canonical</td>
+        <td><span class="tag missing">Missing</span> No metadataBase, OG, Twitter, canonicals</td>
+        <td><span class="tag added">Added</span> Full social meta + canonical URLs + OG image</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Structured data</td>
+        <td><span class="tag missing">Missing</span> No schema markup</td>
+        <td><span class="tag added">Added</span> Organization, Service, Breadcrumb, CreativeWork JSON-LD</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Internal linking</td>
+        <td><span class="tag weak">Weak</span> Service links were mostly hash/anchors</td>
+        <td><span class="tag added">Added</span> Footer/cards link to <code>/services/[slug]</code></td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Profile PDF</td>
+        <td><span class="tag weak">Heavy</span> ~49 MB download</td>
+        <td><span class="tag added">Added</span> Compressed to ~5.4 MB</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Canonical domain</td>
+        <td><span class="tag weak">Wrong</span> Some config still pointed at old domain idea</td>
+        <td><span class="tag added">Fixed</span> Canonical locked to https://www.trsco.net</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Title quality</td>
+        <td><span class="tag weak">Weak</span> Long / ALL-CAPS patterns</td>
+        <td><span class="tag improved">Improved</span> Shorter professional TIMC titles</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Legal copy</td>
+        <td><span class="tag weak">Weak</span> “Before public launch” disclaimers</td>
+        <td><span class="tag added">Cleaned</span> Privacy / Terms launch wording removed</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Local keywords</td>
+        <td><span class="tag weak">Weak</span> Limited Jeddah / Saudi Arabia phrasing</td>
+        <td><span class="tag added">Added</span> Keyword pass on meta, hero, services, FAQ</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>Home H1</td>
+        <td><span class="tag missing">Missing</span> H1 was brand-only (“TIMC”)</td>
+        <td><span class="tag added">Added</span> H1 = TIMC + “General Contractor in Saudi Arabia”</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Image alts</td>
+        <td><span class="tag missing">Missing</span> Empty alts on heroes / project cards</td>
+        <td><span class="tag added">Added</span> Descriptive alts on heroes, cards, showcase, 404</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td>Media weight</td>
+        <td><span class="tag weak">Heavy</span> Hero ~8 MB; about ~8.6 MB; projects hero ~927 KB</td>
+        <td><span class="tag added">Compressed</span> Hero ~3 MB; about ~6.2 MB; projects hero ~472 KB</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>14</td>
+        <td>Brand naming</td>
+        <td><span class="tag weak">Inconsistent</span> ALL-CAPS company string in places</td>
+        <td><span class="tag added">Fixed</span> Title-case TIMC legal/display name for metadata/schema</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>Search Console</td>
+        <td><span class="tag missing">Not set</span> Property / sitemap not submitted</td>
+        <td><span class="tag added">Added</span> Verified + sitemap submitted (Success, 38 pages)</td>
+        <td>Done</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. Delivery phases (how the work landed)</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>What was added</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Phase 1 — Foundation</td>
+        <td>Unique titles, metadataBase, OG/Twitter/canonicals, robots, sitemap, Search Console file</td>
+      </tr>
+      <tr>
+        <td>Phase 2 — Relevance</td>
+        <td>JSON-LD schema, service URL internal links, domain alignment to www.trsco.net</td>
+      </tr>
+      <tr>
+        <td>Phase 3 — Assets</td>
+        <td>Profile PDF compression, OG share image, legal copy cleanup</td>
+      </tr>
+      <tr>
+        <td>Phase 4 — Keywords &amp; polish</td>
+        <td>Jeddah/KSA keyword pass, topical H1, image alts, video/image compression</td>
+      </tr>
+      <tr>
+        <td>Phase 5 — Google follow-through</td>
+        <td>Sitemap submitted in Search Console → Success / 38 discovered pages</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4. Concrete examples of “before → after”</h2>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th>Example</th>
+        <th class="before">Before</th>
+        <th class="after">After</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Homepage title</td>
+        <td>Generic / less local contractor framing</td>
+        <td>TIMC | Jeddah Contractor &amp; Equipment Rental Saudi Arabia</td>
+      </tr>
+      <tr>
+        <td>Home H1</td>
+        <td>TIMC only</td>
+        <td>TIMC + General Contractor in Saudi Arabia</td>
+      </tr>
+      <tr>
+        <td>/contact metadata</td>
+        <td>Inherited homepage meta</td>
+        <td>Dedicated contact title + Jeddah enquiry description</td>
+      </tr>
+      <tr>
+        <td>Service pages</td>
+        <td>Harder for Google to treat as separate destinations</td>
+        <td>Own URLs + Service schema + localised meta</td>
+      </tr>
+      <tr>
+        <td>Company profile download</td>
+        <td>~49 MB</td>
+        <td>~5.4 MB</td>
+      </tr>
+      <tr>
+        <td>Google discovery</td>
+        <td>No sitemap for the new app</td>
+        <td>Sitemap Success — 38 pages discovered</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>5. What is left after SEO (honest)</h2>
+  <ul>
+    <li><strong>Not missing in code</strong> — technical SEO items from the audit are implemented and deployed.</li>
+    <li><strong>Ongoing (TIMC / Google)</strong> — wait for indexing to mature; optionally Request indexing on priority URLs; review Performance for 30 days.</li>
+    <li><strong>Not guaranteed by SEO alone</strong> — #1 rankings for broad terms still depend on competition, backlinks, and time.</li>
+  </ul>
+
+  <h2>6. Client takeaway</h2>
+  <p>
+    <strong>Before SEO:</strong> the new website looked modern, but Google lacked the
+    files and page signals needed to understand and discover it properly.<br />
+    <strong>After SEO:</strong> the same website is crawlable, described clearly,
+    structured with schema, faster to download key assets, and already accepted
+    in Search Console with a successful sitemap.
+  </p>
+
+  <div class="footer-note">
+    Confidential — prepared for TIMC client review.<br />
+    Companion reports: TIMC SEO Audit Report · TIMC Old vs New Website SEO Comparison.<br />
+    Developed by WeRQA · 20 August 2026 · Before vs After SEO Implementation
+  </div>
+</body>
+</html>

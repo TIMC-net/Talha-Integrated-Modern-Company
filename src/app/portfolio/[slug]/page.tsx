@@ -12,6 +12,7 @@ import { company } from "@/lib/company";
 import {
   absoluteUrl,
   breadcrumbJsonLd,
+  clipMetaDescription,
   creativeWorkJsonLd,
 } from "@/lib/seo";
 
@@ -29,20 +30,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!project) return { title: "Project Not Found" };
   const url = absoluteUrl(`/portfolio/${slug}`);
   const image = absoluteUrl(project.imageUrl);
+  const description = clipMetaDescription(
+    `${project.title} — TIMC's ${project.description} for ${project.client ?? "major clients"} in ${project.location}, Saudi Arabia.`,
+  );
   return {
     title: project.title,
-    description: project.description,
+    description,
     alternates: { canonical: `/portfolio/${slug}` },
     openGraph: {
       title: `${project.title} | ${company.shortName}`,
-      description: project.description,
+      description,
       url,
       images: [{ url: image, alt: project.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${project.title} | ${company.shortName}`,
-      description: project.description,
+      description,
       images: [image],
     },
   };
@@ -57,6 +61,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
   const words = project.title.split(" ");
   const accent = words[0] ?? "Project";
   const rest = words.slice(1).join(" ") || "Detail";
+  const seoDescription = `${project.title} — TIMC's ${project.description} for ${project.client ?? "major clients"} in ${project.location}, Saudi Arabia.`;
 
   return (
     <>
@@ -69,7 +74,7 @@ export default async function PortfolioDetailPage({ params }: PageProps) {
           ]),
           creativeWorkJsonLd({
             name: project.title,
-            description: project.description,
+            description: seoDescription,
             path: `/portfolio/${project.slug}`,
             image: project.imageUrl,
           }),

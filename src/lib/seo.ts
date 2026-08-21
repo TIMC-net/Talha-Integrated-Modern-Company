@@ -9,7 +9,7 @@ export const DEFAULT_TITLE =
   "TIMC | Jeddah Contractor & Equipment Rental Saudi Arabia";
 
 export const DEFAULT_DESCRIPTION =
-  "TIMC (Talha Integrated Modern Company) is a Jeddah contractor for civil infrastructure, foundation engineering, energy projects, and heavy equipment rental across Saudi Arabia.";
+  "TIMC is a Jeddah contractor for civil infrastructure, foundation engineering, energy projects, and heavy equipment rental across Saudi Arabia.";
 
 /** Shared keyword set for search engines that still read meta keywords. */
 export const SITE_KEYWORDS = [
@@ -31,6 +31,20 @@ export const SITE_KEYWORDS = [
 
 /** Default social preview image (1200×630). */
 export const DEFAULT_OG_IMAGE = "/images/og-default.jpg";
+
+/** LinkedIn company page — used in footer and Organization sameAs. */
+export const LINKEDIN_URL =
+  "https://www.linkedin.com/company/talha-integrated-modern-company/";
+
+/** Truncate meta descriptions on a word boundary (avoids mid-word SERP cutoffs). */
+export function clipMetaDescription(text: string, max = 155): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const sliced = clean.slice(0, max - 1);
+  const lastSpace = sliced.lastIndexOf(" ");
+  const base = (lastSpace > 60 ? sliced.slice(0, lastSpace) : sliced).trimEnd();
+  return `${base}…`;
+}
 
 export function absoluteUrl(path = "/"): string {
   if (!path || path === "/") return SITE_URL;
@@ -118,7 +132,7 @@ export function organizationJsonLd() {
       latitude: company.mapsLat,
       longitude: company.mapsLng,
     },
-    sameAs: [],
+    sameAs: [LINKEDIN_URL],
     areaServed: {
       "@type": "Country",
       name: "Saudi Arabia",

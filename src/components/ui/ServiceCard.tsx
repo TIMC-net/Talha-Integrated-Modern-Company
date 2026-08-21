@@ -10,7 +10,7 @@ export default function ServiceCard({ service }: { service: Service }) {
   return (
     <Link
       href={`/services/${service.slug}`}
-      aria-label={`Learn more about ${service.name}`}
+      aria-label={`View ${service.name} services`}
       className="group flex h-full flex-col border border-border-soft bg-white p-6 transition [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-2.5 [@media(hover:hover)_and_(pointer:fine)]:hover:shadow-[0_18px_40px_-20px_rgba(14,21,32,0.35)]"
     >
       <span
@@ -28,7 +28,7 @@ export default function ServiceCard({ service }: { service: Service }) {
       </p>
 
       <span className="inline-flex items-center gap-1.5 font-display text-[13px] font-bold tracking-wide text-accent-dark uppercase transition group-hover:gap-2.5">
-        Learn More <ArrowRight className="h-4 w-4" />
+        View {service.name} <ArrowRight className="h-4 w-4" />
       </span>
     </Link>
   );

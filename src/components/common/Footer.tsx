@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Mail, MapPin, Phone } from "lucide-react";
 import { services } from "@/data/services";
 import { company } from "@/lib/company";
+import { LINKEDIN_URL } from "@/lib/seo";
 import { cn } from "@/lib/cn";
 
 const projectLinks = [
@@ -22,7 +23,7 @@ const companyLinks = [
 const socialLinks = [
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/talha-integrated-modern-company/",
+    href: LINKEDIN_URL,
     network: "linkedin" as const,
     icon: (
       <svg viewBox="0 0 448 512" className="h-4 w-4 fill-current" aria-hidden>
@@ -254,13 +255,10 @@ export default function Footer() {
 
       <div className="relative border-t border-white/[0.08] bg-black/30">
         <div className="container-site flex flex-col gap-2.5 py-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-4 sm:pb-4">
-          <p className="text-[12px] text-white/38 sm:text-[13px]">
+          <p className="order-1 text-[12px] text-white/38 sm:text-[13px]">
             © {year} {company.shortName}. All rights reserved.
           </p>
-          <p className="text-[12px] text-white/32 sm:text-[13px]">
-            Developed by WeRQA
-          </p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-white/32 sm:text-[13px]">
+          <div className="order-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-white/32 sm:order-3 sm:text-[13px]">
             <Link href="/privacy" className="transition hover:text-accent">
               Privacy
             </Link>
@@ -268,6 +266,9 @@ export default function Footer() {
               Terms
             </Link>
           </div>
+          <p className="order-3 text-center text-[12px] text-white/32 sm:order-2 sm:text-left sm:text-[13px]">
+            Developed by WeRQA
+          </p>
         </div>
       </div>
     </footer>

@@ -131,7 +131,7 @@ export default function Hero() {
               size="lg"
               className="h-auto min-h-12 w-full justify-center whitespace-normal px-5 py-3.5 text-center text-[13px] sm:w-auto sm:whitespace-nowrap sm:px-8 sm:text-base"
             >
-              <Link href="/services">Our Services</Link>
+              <Link href="/services">View TIMC Services</Link>
             </Button>
           </div>
         </div>

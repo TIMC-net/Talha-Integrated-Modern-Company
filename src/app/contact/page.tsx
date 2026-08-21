@@ -3,9 +3,9 @@ import ContactPageClient from "./ContactPageClient";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Contact Us",
+  title: "Contact — Jeddah Contractor & Equipment Rental",
   description:
-    "Contact TIMC in Jeddah for contracting, civil infrastructure, foundation engineering, energy projects, and heavy equipment rental enquiries across Saudi Arabia.",
+    "Contact TIMC in Jeddah for contracting, foundation engineering, energy projects, and heavy equipment rental across Saudi Arabia.",
   path: "/contact",
   keywords: [
     "contact TIMC Jeddah",

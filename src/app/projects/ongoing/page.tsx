@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/seo";
 import WriteOnScroll from "@/components/motion/WriteOnScroll";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Ongoing Projects",
+  title: "Ongoing Projects Across Saudi Arabia",
   description:
     "Ongoing TIMC projects in Saudi Arabia — access roads, foundations, power generation support, and heavy equipment packages for major contractors from our Jeddah base.",
   path: "/projects/ongoing",

@@ -18,6 +18,7 @@ import { company, ongoingProjects } from "@/lib/company";
 import {
   absoluteUrl,
   breadcrumbJsonLd,
+  clipMetaDescription,
   creativeWorkJsonLd,
 } from "@/lib/seo";
 
@@ -40,7 +41,9 @@ export async function generateMetadata({
   );
   if (!project?.details) return { title: "Project Not Found" };
   const title = project.details.fullName ?? project.name;
-  const description = project.details.overview.slice(0, 160);
+  const description = clipMetaDescription(
+    `${title} — TIMC project in ${project.location}, Saudi Arabia. ${project.details.overview}`,
+  );
   const url = absoluteUrl(`/projects/ongoing/${no}`);
   const image = absoluteUrl(
     project.details.heroImage || project.coverImage || "/images/og-default.jpg",
