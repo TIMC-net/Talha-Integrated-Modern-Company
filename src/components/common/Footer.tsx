@@ -267,7 +267,15 @@ export default function Footer() {
             </Link>
           </div>
           <p className="order-3 text-center text-[12px] text-white/32 sm:order-2 sm:text-left sm:text-[13px]">
-            Developed by WeRQA
+            Developed by{" "}
+            <a
+              href="https://www.werqa.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-0.5 inline-block origin-left font-semibold text-accent underline decoration-accent/40 underline-offset-[3px] transition-[transform,color,text-shadow,text-decoration-color] duration-300 ease-out hover:scale-110 hover:text-accent hover:decoration-accent hover:underline-offset-[5px] hover:[text-shadow:0_0_12px_rgba(255,107,53,0.45)]"
+            >
+              WeRQA
+            </a>
           </p>
         </div>
       </div>
